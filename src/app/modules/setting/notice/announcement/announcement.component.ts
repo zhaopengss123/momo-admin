@@ -2,8 +2,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn.js';
 import { CustomUploadAdapterPlugin } from './fileupload.ckeditor';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 
@@ -14,7 +12,6 @@ declare const OSS;
   styleUrls: ['./announcement.component.scss']
 })
 export class AnnouncementComponent implements OnInit {
-  public Editor = ClassicEditor;
   
   config;
 
