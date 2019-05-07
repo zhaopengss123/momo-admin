@@ -1,0 +1,44 @@
+<div class="ui-header">
+
+  <div class="ui-tabs">
+    <nz-tabset [nzType]="'card'" [nzSelectedIndex]="routeActiveIndex">
+      <nz-tab *ngFor="let tab of menuList; let idx = index" [nzTitle]="titleTemplate" (nzSelect)="tabSelect(idx)">
+        <ng-template #titleTemplate>
+          <div>{{ tab.title }}<i nz-icon type="close" *ngIf="menuList.length !== 1" (click)="closeTab(idx)"></i></div>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+
+
+  <div class="ui-user-info">
+
+    <nz-dropdown nzPlacement="bottomRight">
+      <div class="ant-dropdown-link" nz-dropdown>
+        <nz-avatar nzIcon="user" nzSize="small" style="vertical-align: middle" nzSrc="./assets/images/default-boy.png">
+        </nz-avatar>
+        <span>{{ userInfo?.userName }}({{ userInfo?.roleName }})</span>
+      </div>
+      <ul class="ant-dropdown-cell" nz-menu>
+        <li nz-menu-item>
+          <a href="javascript:;" style="background: #fff; cursor: no-drop; color: #ccc;">
+            <i nz-icon type="user"></i>个人中心</a>
+        </li>
+        <li nz-menu-item>
+          <a href="javascript:;" style="background: #fff; cursor: no-drop; color: #ccc;">
+            <i nz-icon type="setting"></i>设置</a>
+        </li>
+        <li nz-menu-item>
+          <a href="javascript:;" routerLink="/home/password">
+            <i nz-icon type="edit"></i>修改密码</a>
+        </li>
+        <li nz-menu-item>
+          <a href="javascript:;" style="border-top: solid 1px #e8e8e8" (click)="signOut()">
+            <i nz-icon type="logout"></i>退出登录</a>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+  </div>
+
+</div>

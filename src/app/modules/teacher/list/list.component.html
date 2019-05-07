@@ -1,0 +1,45 @@
+<div class="container">
+  <nz-tabset [nzTabBarExtraContent]="EaBtns">
+    <nz-tab nzTitle="在职">
+      <ea-list-page-simp #listPage url="/teacher/getTeachers" [queryNode]="[]"  [paramsDefault]="{status: 1}" [tableThead]="[ '头像', '名字', '性别', '角色', '账号', '所属班级', '操作' ]"
+       (requestDataChange)="dataChange($event)" [EaTableTbodyTr]="EaTableTbodyTr">
+      </ea-list-page-simp>
+      
+      <ng-template let-data #EaTableTbodyTr>
+        <td>
+          <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom" [nzSrc]="data.photoUrl"
+            nz-tooltip [nzTitle]="titleTemplate"></nz-avatar>
+          <ng-template #titleTemplate>
+            <img [src]="data.photoUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+          </ng-template>
+        </td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.sex == 1 ? '男' : '女' }}</td>
+        <td>{{ data.roleName }}</td>
+        <td>{{ data.mobilePhone }}</td>
+        <td>{{ data.classesText }}</td>
+        <td>
+          <a (click)="update(data.id)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(data.id, deleteContent, deleteFooter)">删除</a>
+        </td>
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="离职">
+      <app-quit #quit></app-quit>
+    </nz-tab>
+  </nz-tabset>
+
+  <ng-template #EaBtns>
+    <button nz-button nzType="primary" (click)="update()">新增老师</button>
+  </ng-template>
+</div>
+
+<ng-template #deleteContent>
+  <textarea nz-input [(ngModel)]="remark" id="remark" name="remark" [nzAutosize]="{ minRows: 2, maxRows: 4 }" placeholder="请输入删除原因"></textarea>
+  <div style="color: #f5222d; margin-top: 8px;">删除后，老师的信息将从园中删除，您可以在“离职组”找到他们</div>
+</ng-template>
+<ng-template #deleteFooter>
+  <button (click)="cancel()" nz-button>取消</button>
+  <button (click)="deleteEnter()" nz-button nzType="primary">确定</button>
+</ng-template>

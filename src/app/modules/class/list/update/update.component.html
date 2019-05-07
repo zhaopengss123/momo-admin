@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="formGroup">
+  <div nz-row nzGutter="8">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>班级封面图</nz-form-label>
+        <nz-form-control>
+          <ea-upload-picture formControlName="classImage" [maxLength]="1"></ea-upload-picture>
+          <nz-form-explain *ngIf="formGroup.get('classImage').dirty && formGroup.get('classImage').hasError('required')">请上传照片！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="className">名称</nz-form-label>
+        <nz-form-control>
+          <input nz-input placeholder="请输入名称" formControlName="className" id="className">
+          <nz-form-explain *ngIf="formGroup.get('className').dirty && formGroup.get('className').hasError('required')">请输入名称！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div nz-row nzGutter="12">
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="classSlogan">班级口号</nz-form-label>
+        <nz-form-control>
+          <textarea nz-input formControlName="classSlogan" name="classSlogan" [nzAutosize]="{ minRows: 4, maxRows: 4 }" placeholder="请输入班级口号"></textarea>
+          <nz-form-explain *ngIf="formGroup.get('classSlogan').dirty && formGroup.get('classSlogan').hasError('required')">请输入班级口号！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+
+<div class="drawer-footer">
+  <button nz-button (click)="close()">取消</button>
+  <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
+</div>

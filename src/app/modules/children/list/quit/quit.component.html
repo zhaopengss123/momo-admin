@@ -1,0 +1,19 @@
+<ea-list-page-simp 
+  #listPage 
+  url="/student/listStudent" 
+  [paramsDefault]="{stuStatus: 2, sorting: 1}" 
+  [queryNode]="[]" 
+  [tableThead]="[ '名字', '小名', '出生日期', '性别', '联系方式', '离园日期', '离园原因', '更多' ]"
+  [EaTableTbodyTr]="EaTableTbodyTr">
+</ea-list-page-simp>
+
+<ng-template let-data #EaTableTbodyTr>
+  <td>{{ data.studentName }}</td>
+  <td>{{ data.nickName }}</td>
+  <td>{{ data.birthday }}</td>
+  <td>{{ data.sex == 1 ? '男' : '女' }}</td>
+  <td>{{ data.mobilePhone }}</td>
+  <td>{{ data.leaveTime }}</td>
+  <td>{{ data.leaveReason }}</td>
+  <td></td>
+</ng-template>

@@ -1,0 +1,64 @@
+<div class="container">
+  <nz-tabset [nzTabBarExtraContent]="EaBtns" [(nzSelectedIndex)]="tabIndex">
+    <nz-tab nzTitle="在校">
+      <ea-list-page-simp #listPage url="/student/listStudent" [queryNode]="[]" [paramsDefault]="{stuStatus: 1, sorting: 1}"
+        [tableThead]="[ '头像', '名字', '小名', '性别', '出生日期', '联系方式', '所属班级', '操作' ]"
+        [EaTableTbodyTr]="EaTableTbodyTr">
+      </ea-list-page-simp>
+
+      <ng-template let-data #EaTableTbodyTr>
+        <td>
+          <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom" [nzSrc]="data.headPhoto"
+            nz-tooltip [nzTitle]="titleTemplate"></nz-avatar>
+          <ng-template #titleTemplate>
+            <img [src]="data.headPhoto" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+          </ng-template>
+        </td>
+        <td>{{ data.studentName }}</td>
+        <td>{{ data.nickName }}</td>
+        <td>{{ data.sex }}</td>
+        <td>{{ data.birthday }}</td>
+        <td>{{ data.mobilePhone }}</td>
+        <td>{{ data.className }}</td>
+        <td>
+          <a (click)="update(data.id)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="delete(data.id, deleteContent, deleteFooter)">删除</a>
+        </td>
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="离园">
+      <app-quit #quit></app-quit>
+    </nz-tab>
+  </nz-tabset>
+
+  <ng-template #EaBtns>
+    <div class="buttons">
+      <button nz-button nzType="primary" (click)="update()">新增孩子</button>
+
+      <!-- <nz-dropdown>
+        <button nz-button nzType="primary" nz-dropdown>导入<i nz-icon type="down"></i></button>
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>
+            <a (click)="import()">导入文件</a>
+          </li>
+          <li nz-menu-item>
+            <a href="http://ylbb-business.oss-cn-beijing.aliyuncs.com/1546843145050students.xlsx" target="_blank">下载模板</a>
+          </li>
+        </ul>
+      </nz-dropdown> -->
+
+      <button nz-button nzType="primary" (click)="export()">导出</button>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #deleteContent>
+  <textarea nz-input [(ngModel)]="remark" id="remark" name="remark" [nzAutosize]="{ minRows: 2, maxRows: 4 }"
+    placeholder="请输入删除原因"></textarea>
+  <div style="color: #f5222d; margin-top: 8px;">删除后，孩子的信息将从园中删除，您可以在“离园组”找到他们，他们在园所期间的数据不会被删除</div>
+</ng-template>
+<ng-template #deleteFooter>
+  <button (click)="cancel()" nz-button>取消</button>
+  <button (click)="deleteEnter()" nz-button nzType="primary">确定</button>
+</ng-template>
