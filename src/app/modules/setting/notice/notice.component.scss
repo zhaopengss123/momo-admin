@@ -1,3 +1,8 @@
 ::ng-deep img {
   width: 100%;
 }
+::ng-deep .preview-content img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+}

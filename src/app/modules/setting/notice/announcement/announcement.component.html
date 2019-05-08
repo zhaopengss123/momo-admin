@@ -23,7 +23,7 @@
         <nz-form-label nzRequired>公告内容</nz-form-label>
         <nz-form-control>
           <!-- <ckeditor [editor]="Editor" formControlName="content" [style]="{height: '400px'}" [config]="config"></ckeditor> -->
-          <quill-editor formControlName="content" [style]="{height: '200px'}" [placeholder]="'请输入公告内容'"></quill-editor>
+          <quill-editor formControlName="content" [style]="{height: '400px'}" [placeholder]="'请输入公告内容'"></quill-editor>
           <nz-form-explain *ngIf="formGroup.get('content').dirty && formGroup.get('content').hasError('required')">请输入公告内容！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>

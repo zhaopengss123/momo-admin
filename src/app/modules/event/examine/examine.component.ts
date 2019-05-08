@@ -2,7 +2,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { HttpService } from './../../../ng-relax/services/http.service';
 import { QueryComponent } from './../../../ng-relax/components/query/query.component';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
   templateUrl: './examine.component.html',
   styleUrls: ['./examine.component.scss']
 })
-export class ExamineComponent implements OnInit {
+export class ExamineComponent implements OnInit, AfterViewInit {
 
   @ViewChild('eaQuery') eaQuery: QueryComponent
 
@@ -53,6 +53,22 @@ export class ExamineComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.eaQuery._queryForm.get('classId').valueChanges.subscribe(classId => {
+      if (classId) {
+        this.http.post('/message/listStuByClassId', { classId }, false).then(res => {
+          this.eaQuery.node.map(control => {
+            control.key == 'studentId' && (control.options = res.data.list);
+          })
+        })
+      } else {
+        this.eaQuery.node.map(control => control.key == 'studentId' && (control.options = []));
+      }
+      this.eaQuery._queryForm.patchValue({ studentId: null });
+    });
+  }
+
 
 
   queryParams: any = {
