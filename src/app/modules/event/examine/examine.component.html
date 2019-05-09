@@ -1,14 +1,6 @@
 <div class="container">
   <ea-query-simp #eaQuery [node]="queryNode" (onSubmit)="querySubmit($event)"></ea-query-simp>
 
-  <ng-template #contentTemplate>
-    <ul nz-menu class="popover-content">
-      <li nz-menu-item *ngFor="let item of eventList">
-        <a href="javascript:;" (click)="addEvent(item)">{{ item.eventName }}</a>
-      </li>
-    </ul>
-  </ng-template>
-
   <div [style.float]="'right'">
     <nz-button-group>
       <button (click)="operExamine()" nz-button nzType="primary" *ngIf="!showExamine">审核事件</button>
@@ -34,8 +26,8 @@
             <ng-template #nzTitle>
               <h2>
                 {{ item.eventName }}
-                <b [ngClass]="['status', item.auditStatus == 1 ? 's1' : item.auditStatus == 2 ? 's2' : 's3']">
-                  （{{ item.auditStatus == 1 ? '未审核' : item.auditStatus == 2 ? '审核通过' : '审核未通过' }}）
+                <b [ngClass]="['status', 's' + item.auditStatus]">
+                  （{{ item.auditStatus == 0 ? '无需审核' : item.auditStatus == 1 ? '未审核' : item.auditStatus == 2 ? '审核通过' : '审核未通过' }}）
                 </b>
                 <span class="name">{{ item.teacherName }} 为 {{ item.studentName }} 添加</span>
               </h2>

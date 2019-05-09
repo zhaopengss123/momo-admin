@@ -26,6 +26,9 @@ nz-list-item.active {
 .status {
   margin-right: 12px;
   font-size: 12px;
+  &.s0 {
+    color: #607D8B;
+  }
   &.s1 {
     color: #2196f3;
   }
