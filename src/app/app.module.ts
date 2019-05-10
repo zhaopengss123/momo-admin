@@ -13,11 +13,13 @@ import { reducersConfig } from './core/reducers/reducers-config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppReuseStrategy } from './core/app-reuse-strategy';
+import { StudentStatusComponent } from './commodity/student-status/student-status.component';
 
 registerLocaleData(zh);
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StudentStatusComponent
   ],
   imports: [
     BrowserModule,

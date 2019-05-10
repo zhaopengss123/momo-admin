@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   version: '0.0.0',
-  domain: 'http://39.107.232.95:6005/first_light/kindergarten',
+  domain: 'http://192.168.1.212:8855/first_light/kindergarten',//本地
+  // domain: 'http://39.107.232.95:6005/first_light/kindergarten',
   // domain: 'http://chuzg.beibeiyue.com/first_light/kindergarten'
 };
 
