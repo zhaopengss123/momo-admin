@@ -24,10 +24,11 @@ import { CacheService } from './services/cache.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { GetMobileDirective } from './directives/get-mobile.directive';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { QueryFlexComponent } from './components/query-flex/query-flex.component';
 
 
 @NgModule({
-  declarations: [QueryComponent, TableComponent, SlideComponent, TipComponent, QuoteComponent, ListPageComponent, ListPageSimpComponent, QuerySimpComponent, UploadPictureComponent, DrawerComponent, TitleComponent, MonthdiffPipe, MathPipe, GetMobileDirective, UploadFileComponent],
+  declarations: [QueryComponent, TableComponent, SlideComponent, TipComponent, QuoteComponent, ListPageComponent, ListPageSimpComponent, QuerySimpComponent, UploadPictureComponent, DrawerComponent, TitleComponent, MonthdiffPipe, MathPipe, GetMobileDirective, UploadFileComponent, QueryFlexComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -50,6 +51,7 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
     ListPageComponent,
     ListPageSimpComponent,
     QuerySimpComponent,
+    QueryFlexComponent,
     UploadPictureComponent,
     DrawerComponent,
     TitleComponent,

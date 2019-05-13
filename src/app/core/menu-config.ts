@@ -88,5 +88,12 @@ export const MenuConfig = [
         isLeaf: true
       }
     ]
-  }
+  },
+  {
+    title : '客户管理',
+    brief : '客户',
+    key   : '/home/customer',
+    icon  : 'user',
+    isLeaf: true
+  },
 ];

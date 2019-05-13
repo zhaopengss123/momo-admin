@@ -1,0 +1,69 @@
+<form nz-form [formGroup]="formGroup">
+  <ng-container *ngFor="let control of node">
+    <nz-form-item nzFlex>
+      <nz-form-label>{{ control.label }}</nz-form-label>
+      <nz-form-control>
+        <ng-container *ngIf="control.type === 'tag'">
+          <nz-tag nzMode="checkable" 
+            [ngStyle]="{'pointer-events': formGroup.controls[control.key].value !== null ? 'auto' : 'none'}"
+            [nzChecked]="formGroup.controls[control.key].value === null"
+            (nzCheckedChange)="_tagValueChange(true, control, null)">全部</nz-tag>
+          <ng-container *ngFor="let option of control.options" >
+            <nz-tag nzMode="checkable"
+              *ngIf="!option.isHide || control.optionsHide"
+              [nzChecked]="control.isRadio ? 
+                          (formGroup.controls[control.key].value === option[control.optionKey?.value]) : 
+                          (formGroup.controls[control.key].value && formGroup.controls[control.key].value.indexOf(option[control.optionKey?.value]) > -1)"
+              (nzCheckedChange)="_tagValueChange($event, control, option[control.optionKey?.value])">
+              {{ option[control.optionKey?.label] }}
+            </nz-tag>
+          </ng-container>
+          <a *ngIf="control.hasOptionsHideBtn" (click)="control.optionsHide = !control.optionsHide">{{ control.optionsHide ? '收起' : '展开' }}</a>
+        </ng-container>
+
+        <ng-container *ngIf="control.type === 'input'">
+          <nz-input-group [nzSuffix]="suffixIconButton">
+            <input [formControlName]="control.key" nz-input [placeholder]="control.placeholder || '请输入' + control.label">
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <i nz-icon type="close-circle" (click)="formGroup.controls[control.key].reset()"></i>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="control.type === 'select'">
+          <nz-select [formControlName]="control.key" nzShowSearch nzAllowClear [nzPlaceHolder]="control.placeholder || '请选择' + control.label" (ngModelChange)="submit()">
+            <nz-option *ngFor="let option of control.options" [nzLabel]="option[control.optionKey?.label]" [nzValue]="option[control.optionKey?.value]"
+              [nzDisabled]="option?.disabled"></nz-option>
+          </nz-select>
+        </ng-container>
+        
+        <ng-container *ngIf="control.type === 'radio'">
+          <nz-radio-group [formControlName]="control.key" (ngModelChange)="submit()">
+            <label nz-radio-button *ngFor="let option of control.options" [nzValue]="option[control.optionKey?.value]">{{ option[control.optionKey?.label] }}</label>
+          </nz-radio-group>
+        </ng-container>
+        
+        <ng-container *ngIf="control.type === 'between'">
+          <nz-input-group class="between-content">
+            <input type="text" class="between-one" [formControlName]="control.valueKey[0]" nz-input [placeholder]="control.placeholder ? control.placeholder[0] : '最小值'">
+            <input type="text" class="between-two" disabled nz-input placeholder="-">
+            <input type="text" class="between-three" [formControlName]="control.valueKey[1]" nz-input [placeholder]="control.placeholder ? control.placeholder[1] : '最大值'">
+          </nz-input-group>
+        </ng-container>
+        
+        <ng-container *ngIf="control.type === 'datepicker'">
+          <nz-date-picker [formControlName]="control.key" nzFormat="yyyy-MM-dd" [nzPlaceHolder]="control.placeholder || '请选择' + control.label" (ngModelChange)="submit()"></nz-date-picker>
+        </ng-container>
+        
+        <ng-container *ngIf="control.type === 'rangepicker'">
+          <nz-range-picker [formControlName]="control.key" nzAllowClear nzFormat="yyyy-MM-dd" [nzPlaceHolder]="[control.placeholder ? control.placeholder[0] : '开始日期', control.placeholder ? control.placeholder[1] :'结束日期']"></nz-range-picker>
+        </ng-container>
+
+        <ng-container *ngIf="control.type === 'monthpicker'">
+          <nz-month-picker [formControlName]="control.key" nzFormat="yyyy-MM" [nzPlaceHolder]="control.placeholder || '请选择' + control.label"></nz-month-picker>
+        </ng-container>
+        
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+</form>
