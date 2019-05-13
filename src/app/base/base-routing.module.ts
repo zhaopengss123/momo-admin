@@ -71,6 +71,11 @@ const routes: Routes = [
         loadChildren: 'src/app/modules/monitor/monitor.module#MonitorModule'
       },
       {
+        path: 'customer',
+        data: { title: '客户管理' },
+        loadChildren: 'src/app/modules/customer/customer.module#CustomerModule'
+      },
+      {
         path: 'commodity',
         data: { noReuse: true },
         children: [

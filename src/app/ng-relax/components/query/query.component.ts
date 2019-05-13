@@ -115,7 +115,7 @@ export class QueryComponent implements OnInit {
 export interface QueryNode {
   label       : string;
   key         : string;
-  type        : 'input' | 'select' | 'radio' | 'between' | 'datepicker' | 'rangepicker' | 'radio' | 'monthpicker';
+  type        : 'input' | 'select' | 'radio' | 'between' | 'datepicker' | 'rangepicker' | 'radio' | 'monthpicker' | 'tag';
   default?    : any;
   valueKey?   : string[];
   options?    : any[];
@@ -126,6 +126,9 @@ export interface QueryNode {
   isHide?     : boolean;
   isRemove?   : boolean;
   multiple?   : number;
+  isRadio?    : boolean;
+  optionsHide?: boolean;
+  hasOptionsHideBtn? : boolean;
 }
 export interface OptionsKey {
   label: string;
