@@ -70,6 +70,27 @@ const routes: Routes = [
         data: { title: '监控管理' },
         loadChildren: 'src/app/modules/monitor/monitor.module#MonitorModule'
       },
+      {
+        path: 'customer',
+        data: { title: '客户管理' },
+        loadChildren: 'src/app/modules/customer/customer.module#CustomerModule'
+      },
+      {
+        path: 'commodity',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'StudentStatus',
+            data: { title: '学籍项' },
+            loadChildren: 'src/app/modules/commodity/student-status/student-status.module#StudentStatusModule'
+          },
+          {
+            path: 'service',
+            data: { title: '服务' },
+            loadChildren: 'src/app/modules/commodity/service/service.module#ServiceModule'
+          },
+        ]
+      }
     ]
   }
 ];

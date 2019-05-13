@@ -71,4 +71,29 @@ export const MenuConfig = [
     icon  : 'desktop',
     isLeaf: true
   },
+  {
+    title : '商品管理',
+    brief : '商品',
+    key   : '/home/commodity',
+    icon  : 'shopping',
+    children : [
+      {
+        title : '学籍项',
+        key   : '/home/commodity/StudentStatus',
+        isLeaf: true
+      },
+      {
+        title : '服务',
+        key   : '/home/commodity/service',
+        isLeaf: true
+      }
+    ]
+  },
+  {
+    title : '客户管理',
+    brief : '客户',
+    key   : '/home/customer',
+    icon  : 'user',
+    isLeaf: true
+  },
 ];

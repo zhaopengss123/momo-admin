@@ -1,0 +1,22 @@
+<div class="container">
+  <nz-tabset [(nzSelectedIndex)]="customerStatusIndex">
+    <nz-tab nzTitle="全部"></nz-tab>
+    <nz-tab nzTitle="在校学员"></nz-tab>
+    <nz-tab nzTitle="离校学员"></nz-tab>
+    <nz-tab nzTitle="体验学员"></nz-tab>
+  </nz-tabset>
+
+  <div class="button-group">
+    <button nz-button nzType="primary">添加学员</button>
+    <button nz-button>预约</button>
+    <button nz-button>入学</button>
+    <button nz-button>转/升班</button>
+    <button nz-button>退园</button>
+    <button nz-button>发短信</button>
+    <button nz-button>发通知</button>
+  </div>
+
+  <div class="query">
+    <ea-query-flex [node]="queryNode"></ea-query-flex>
+  </div>
+</div>
