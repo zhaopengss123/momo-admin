@@ -52,7 +52,7 @@
         </ng-container>
         
         <ng-container *ngIf="control.type === 'datepicker'">
-          <nz-date-picker [formControlName]="control.key" nzFormat="yyyy-MM-dd" [nzPlaceHolder]="control.placeholder || '请选择' + control.label" (ngModelChange)="submit()"></nz-date-picker>
+          <nz-date-picker [formControlName]="control.key" nzFormat="yyyy-MM-dd" [nzPlaceHolder]="control.placeholder || '请选择' + control.label"></nz-date-picker>
         </ng-container>
         
         <ng-container *ngIf="control.type === 'rangepicker'">

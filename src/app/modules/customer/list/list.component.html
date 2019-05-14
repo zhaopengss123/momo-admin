@@ -7,7 +7,7 @@
   </nz-tabset>
 
   <div class="button-group">
-    <button nz-button nzType="primary">添加学员</button>
+    <button nz-button nzType="primary" (click)="update()">添加学员</button>
     <button nz-button>预约</button>
     <button nz-button>入学</button>
     <button nz-button>转/升班</button>
@@ -19,8 +19,10 @@
   <div class="query">
     <ea-query-flex [node]="queryNode" (onSubmit)="query($event)"></ea-query-flex>
 
-    <ea-table 
+    <ea-table #eaTable
       [url]="domain + '/czg/clientListQuery'"
+      [paramsDefault]="{ storeId: 1 }"
+      [isParamJson]="false"
       [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态', '操作']" 
       [EaTableTbodyTr]="EaTableTbodyTr" [checked]="true">
       <ng-template let-data #EaTableTbodyTr>

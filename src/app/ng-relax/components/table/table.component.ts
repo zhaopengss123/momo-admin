@@ -87,7 +87,13 @@ export class TableComponent implements OnInit {
   _request(isReset?: boolean): void {
     if (this._pageInfo.loading || !this.url) { return; }
     this._pageInfo.loading = true;
-    let params = Object.assign({ paramJson: JSON.stringify(Object.assign(JSON.parse(JSON.stringify(this.paramsDefault)), this._params, this.paramsInit, { pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize })) });
+    let paramJson = Object.assign(
+      JSON.parse(JSON.stringify(this.paramsDefault)),
+      this._params,
+      this.paramsInit,
+      { pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize }
+    )
+    let params = this.isParamJson ? { paramJson: JSON.stringify(paramJson) } : paramJson;
     this.paramsInit = {};
     this.http.post<any>(this.url, serialize(params), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
