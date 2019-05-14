@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="formGroup">
   <ng-container *ngFor="let control of node">
-    <nz-form-item nzFlex>
+    <nz-form-item nzFlex *ngIf="!isCollapse || !control.isHide">
       <nz-form-label>{{ control.label }}</nz-form-label>
       <nz-form-control>
         <ng-container *ngIf="control.type === 'tag'">
@@ -44,10 +44,10 @@
         </ng-container>
         
         <ng-container *ngIf="control.type === 'between'">
-          <nz-input-group class="between-content">
-            <input type="text" class="between-one" [formControlName]="control.valueKey[0]" nz-input [placeholder]="control.placeholder ? control.placeholder[0] : '最小值'">
-            <input type="text" class="between-two" disabled nz-input placeholder="-">
-            <input type="text" class="between-three" [formControlName]="control.valueKey[1]" nz-input [placeholder]="control.placeholder ? control.placeholder[1] : '最大值'">
+          <nz-input-group class="between-box" [formArrayName]="control.key">
+            <input type="text" class="between-left" [formControlName]="0" nz-input [placeholder]="control.placeholder ? control.placeholder[0] : '最小值'">
+            <input type="text" class="between-center" disabled nz-input placeholder="-">
+            <input type="text" class="between-right" [formControlName]="1" nz-input [placeholder]="control.placeholder ? control.placeholder[1] : '最大值'">
           </nz-input-group>
         </ng-container>
         
@@ -56,7 +56,7 @@
         </ng-container>
         
         <ng-container *ngIf="control.type === 'rangepicker'">
-          <nz-range-picker [formControlName]="control.key" nzAllowClear nzFormat="yyyy-MM-dd" [nzPlaceHolder]="[control.placeholder ? control.placeholder[0] : '开始日期', control.placeholder ? control.placeholder[1] :'结束日期']"></nz-range-picker>
+          <nz-range-picker [formControlName]="control.key" nzAllowClear [nzRanges]="control.ranges || null" [nzFormat]="control.format || 'yyyy-MM-dd'" [nzPlaceHolder]="[control.placeholder ? control.placeholder[0] : '开始日期', control.placeholder ? control.placeholder[1] :'结束日期']"></nz-range-picker>
         </ng-container>
 
         <ng-container *ngIf="control.type === 'monthpicker'">
@@ -66,4 +66,16 @@
       </nz-form-control>
     </nz-form-item>
   </ng-container>
+
+  <nz-form-item>
+    <nz-form-control [style.padding-left]="'80px'">
+      <button nz-button nzType="primary" (click)="submit()">查询</button>
+      <button nz-button (click)="formGroup.reset()" style="margin-left: 8px;">重置</button>
+  
+      <a style="margin-left:8px;font-size:12px;" (click)="isCollapse = !isCollapse" *ngIf="showSlideBtn">
+        {{ isCollapse ? '展开' : '收起' }}
+        <i nz-icon [type]="isCollapse ? 'down' : 'up'"></i>
+      </a>
+    </nz-form-control>
+  </nz-form-item>
 </form>

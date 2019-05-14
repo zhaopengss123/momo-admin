@@ -128,6 +128,7 @@ export interface QueryNode {
   multiple?   : number;
   isRadio?    : boolean;
   optionsHide?: boolean;
+  format?     : string;
   hasOptionsHideBtn? : boolean;
 }
 export interface OptionsKey {

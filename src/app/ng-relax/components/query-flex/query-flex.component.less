@@ -1,6 +1,33 @@
+.ant-form-item {
+  margin-bottom: 12px;
+}
 nz-form-label {
   width: 80px;
 }
 nz-form-control {
   flex: 1;
+}
+nz-date-picker,
+nz-range-picker {
+  width: 300px;
+}
+.between-box {
+  width: 300px;
+  
+  .between-left {
+    width: calc(50% - 15px);
+  }
+  .between-center {
+    width: 30px;
+    border-left: 0px; 
+    pointer-events: none; 
+    background-color: rgb(255, 255, 255);
+  }
+  .between-center::placeholder {
+    color: #333;
+  }
+  .between-right {
+    width: calc(50% - 15px);
+    border-left: 0px;
+  }
 }

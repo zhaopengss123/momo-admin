@@ -17,6 +17,36 @@
   </div>
 
   <div class="query">
-    <ea-query-flex [node]="queryNode"></ea-query-flex>
+    <ea-query-flex [node]="queryNode" (onSubmit)="query($event)"></ea-query-flex>
+
+    <ea-table 
+      [url]="domain + '/czg/clientListQuery'"
+      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态', '操作']" 
+      [EaTableTbodyTr]="EaTableTbodyTr" [checked]="true">
+      <ng-template let-data #EaTableTbodyTr>
+        <td>
+          <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+            [nzSrc]="data.headUrl" nz-tooltip [nzTitle]="titleTemplate"></nz-avatar>
+          <ng-template #titleTemplate>
+            <img [src]="data.headUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+          </ng-template>
+        </td>
+        <td>{{ data.number }}</td>
+        <td>{{ data.nick }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.sex }}</td>
+        <td>{{ data.birthday }}</td>
+        <td>{{ data.schoolRollNames }}</td>
+        <td>{{ data.gradeName }}</td>
+        <td>{{ data.sourceName }}</td>
+        <td>{{ data.sellName }}</td>
+        <td>{{ data.bookBuildingTime }}</td>
+        <td>{{ data.enrolTime }}</td>
+        <td>{{ data.expireTime }}</td>
+        <td>{{ data.residueDays }}</td>
+        <td>{{ data.status }}</td>
+        <td></td>
+      </ng-template>
+    </ea-table>
   </div>
 </div>
