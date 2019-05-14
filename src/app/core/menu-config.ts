@@ -71,4 +71,18 @@ export const MenuConfig = [
     icon  : 'desktop',
     isLeaf: true
   },
+  {
+    title : '预约管理',
+    brief : '预约',
+    key   : '/home/reserve',
+    icon  : 'desktop',
+    isLeaf: true
+  },
+  {
+    title : '预约坑位占用统计',
+    brief : '数据',
+    key   : '/home/analysis',
+    icon  : 'desktop',
+    isLeaf: true
+  },
 ];

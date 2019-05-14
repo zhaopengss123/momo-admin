@@ -71,7 +71,7 @@ export class CacheService {
   private _asyncData(observer, key, params) {
     this.http.post<any>(key, params).subscribe(res => {
       // if (res.code == 1000) { this.set(key, res.result); }
-      let result = res.code == 1000 ? res.result : null;
+      let result = res.data.list || res.data;
       observer.next(result);
       observer.complete();
     })

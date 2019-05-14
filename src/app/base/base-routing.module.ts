@@ -34,6 +34,11 @@ const routes: Routes = [
         loadChildren: 'src/app/modules/class/class.module#ClassModule'
       },
       {
+        path: 'reserve',
+        data: { title: '预约管理' },
+        loadChildren: 'src/app/modules/reserve/reserve.module#ReserveModule'
+      },
+      {
         path: 'setting',
         data: { noReuse: true },
         children: [
@@ -70,6 +75,11 @@ const routes: Routes = [
         data: { title: '监控管理' },
         loadChildren: 'src/app/modules/monitor/monitor.module#MonitorModule'
       },
+      {
+        path: 'analysis',
+        data: { title: '数据管理' },
+        loadChildren: 'src/app/modules/analysis/analysis.module#AnalysisModule'
+      }
     ]
   }
 ];
