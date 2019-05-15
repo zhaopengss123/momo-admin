@@ -1,0 +1,48 @@
+<div class="header">
+  <nz-avatar [nzShape]="'square'" [nzSrc]="memberInfo?.studentInfo.headPhoto" [nzSize]="80" [nzIcon]="'user'"></nz-avatar>
+  <div class="info">
+    <div class="name">
+      {{ memberInfo?.studentInfo.studentName }}
+      {{ memberInfo?.studentInfo.nickName ? '（' + memberInfo.studentInfo.nickName + '）' : '' }}
+      <span class="english-name">{{ memberInfo?.studentInfo.english }}</span>
+    </div>
+    
+    <nz-tag [nzColor]="'cyan'">在校学员</nz-tag>
+
+    <div class="cell">
+      <span>所属销售：</span><span>伍晓晓</span>
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>来源：</span><span>大众点评</span>
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>建档时间：</span><span>2019-08-08 23:59:59</span>
+    </div>
+    <div class="cell">
+      <span>类型：</span><span>定期学员 365天（剩余 365天）</span>
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>开卡时间：</span><span>2019-08-08</span>
+      <nz-divider nzType="vertical"></nz-divider>
+      <span>到期时间：</span><span>2019-08-08</span>
+    </div>
+
+    <div class="btns">
+      <nz-button-group>
+        <button nz-button nzType="primary" nzGhost>预约</button>
+        <button nz-button nzType="primary" nzGhost>转班</button>
+        <nz-dropdown>
+          <button nz-button nz-dropdown nzType="primary" nzGhost>更多操作<i nz-icon type="down"></i></button>
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a>退园</a>
+            </li>
+            <li nz-menu-item>
+              <a>发消息</a>
+            </li>
+            <li nz-menu-item>
+              <a>发通知</a>
+            </li>
+          </ul>
+        </nz-dropdown>
+      </nz-button-group>
+    </div>
+  </div>
+</div>

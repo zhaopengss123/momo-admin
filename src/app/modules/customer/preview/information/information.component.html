@@ -1,0 +1,34 @@
+<ea-quote>会员信息<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'">编辑</button></ea-quote>
+<div nz-row [nzGutter]="8" class="member">
+  <div class="base">
+    <div nz-col [nzSpan]="3">姓名：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.studentName || '--' }}</div>
+    <div nz-col [nzSpan]="3">昵称：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.nickName || '--' }}</div>
+    <div nz-col [nzSpan]="3">性别：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.sex || '--' }}</div>
+    <div nz-col [nzSpan]="3">生日：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.birthday || '--' }}</div>
+    <div nz-col [nzSpan]="3">国籍/民族：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.nation || '--' }}</div>
+    <div nz-col [nzSpan]="3">来源：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.sourceName || '--' }}</div>
+    <div nz-col [nzSpan]="3">收集人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recruitTeacherId || '--' }}</div>
+    <div nz-col [nzSpan]="3">推荐人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recommenderId || '--' }}</div>
+    <div nz-col [nzSpan]="3">入学身高：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.height || '--' }}</div>
+    <div nz-col [nzSpan]="3">入学体重：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.weight || '--' }}</div>
+    <div nz-col [nzSpan]="3">入学头围：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.headCircumference || '--' }}</div>
+  </div>
+  <div nz-col [nzSpan]="3">过往病史：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isCases ? memberInfo.studentInfo.cases : '无' }}</div>
+  <div nz-col [nzSpan]="3">过敏史：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isAllergyHistory ? memberInfo.studentInfo.allergyHistory : '无' }}</div>
+  <div nz-col [nzSpan]="3">需限制活动：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isLimitActivity ? memberInfo.studentInfo.limitActivity : '无' }}</div>
+  <div nz-col [nzSpan]="3">有慢性病：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isChronicDisease ? memberInfo.studentInfo.chronicDisease : '无' }}</div>
+  <div nz-col [nzSpan]="3">在接收药物治疗：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isMedication ? memberInfo.studentInfo.medication : '无' }}</div>
+</div>
+<ea-quote>家庭资料<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'">新增家长账号</button></ea-quote>
+<ea-table [dataSet]="memberInfo?.parentAccountList" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" [thead]="['姓名', '关系', '联系电话', '身份证号', '单位地址', 'APP账号状态', '默认联系人', '操作']">
+  <ng-template let-data #EaTableTbodyTr>
+    <td>{{ data.parentName }}</td>
+    <td>{{ data.relationship }}</td>
+    <td>{{ data.accountPhone }}</td>
+    <td>{{ data.idNumber }}</td>
+    <td>{{ data.workplace }}</td>
+    <td><nz-tag [nzColor]="data.isForbidden ? '#2db7f5' : ''">{{ data.isForbidden ? '正常' : '禁用' }}</nz-tag></td>
+    <td><nz-badge [nzStatus]="data.defaultStatus ? 'success' : 'default'"></nz-badge></td>
+    <td><a>{{ data.isForbidden ? '禁用' : '开启' }}</a></td>
+  </ng-template>
+</ea-table>

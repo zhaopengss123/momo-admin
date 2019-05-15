@@ -1,0 +1,21 @@
+<ea-list-page-simp
+  url="/student/getStudentAttendanceList"
+  [paramsDefault]="{ studentId: studentId }"
+  [queryNode]="[ 
+    { label: '出勤时间', type: 'rangepicker', key: 'time', valueKey: ['startTime', 'endTime'] }
+  ]"
+  [tableThead]="['日期', '到校', '接/送人', '离校', '接/送人', '状态', '班级', '老师', '备注']"
+  [EaTableTbodyTr]="EaTableTbodyTr">
+  <ng-template let-data #EaTableTbodyTr>
+    <td>{{ data.date }}</td>
+    <td>{{ data.comeTime }}</td>
+    <td>{{ data.comeName }}</td>
+    <td>{{ data.goTime }}</td>
+    <td>{{ data.goName }}</td>
+    <td>{{ data.status ? '请假' : '正常' }}</td>
+    <td>{{ data.className }}</td>
+    <td>{{ data.teacherName }}</td>
+    <td>{{ data.comment }}</td>
+  </ng-template>
+  
+</ea-list-page-simp>

@@ -100,23 +100,24 @@ export class TableComponent implements OnInit {
     }).subscribe(res => {
       this._pageInfo.loading = false;
       if (res.result == 1000) {
-        this.dataSet = res.data.list || res.data;
-        !res.data.list && (this.showPage = false);
+        if(res.data) {
+          this.dataSet = res.data.list || res.data;
+          !res.data.list && (this.showPage = false);
 
-        this._pageInfo.pageNum = res.data.pageNum;
-        this._pageInfo.totalPage = res.data.totalPage;
+          this._pageInfo.pageNum = res.data.pageNum;
+          this._pageInfo.totalPage = res.data.totalPage;
 
-        /* ------------------- 如果存在选择列表则初始数据 ------------------- */
-        if (this.checkedItems) {
-          this.dataSet.map((res: any) => res.checked = this.checkedItems.indexOf(res[this.checkedKey]) > -1);
-          this.isChecked();
+          /* ------------------- 如果存在选择列表则初始数据 ------------------- */
+          if (this.checkedItems) {
+            this.dataSet.map((res: any) => res.checked = this.checkedItems.indexOf(res[this.checkedKey]) > -1);
+            this.isChecked();
+          }
+          if (!this._readyComplate) {
+            this.ready.emit(this.dataSet);
+            this._readyComplate = true;
+          }
+          this.dataChange.emit(this.dataSet);
         }
-        if (!this._readyComplate) {
-          this.ready.emit(this.dataSet);
-          this._readyComplate = true;
-        }
-        this.dataChange.emit(this.dataSet);
-
       } else {
         this.message.warning(res.info);
       }

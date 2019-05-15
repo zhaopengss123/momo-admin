@@ -69,8 +69,11 @@ export class QueryFlexComponent implements OnInit {
       if (res.valueKey) {
         if (res.type === 'rangepicker') {
           if (queryForm[res.key] && queryForm[res.key][0]) {
-            queryForm[res.valueKey[0]] = this.format.transform(queryForm[res.key][0].getTime(), 'yyyy-MM-dd');
-            queryForm[res.valueKey[1]] = this.format.transform(queryForm[res.key][1].getTime(), 'yyyy-MM-dd');
+            queryForm[res.valueKey[0]] = this.format.transform(queryForm[res.key][0].getTime(), res.format || 'yyyy-MM-dd');
+            queryForm[res.valueKey[1]] = this.format.transform(queryForm[res.key][1].getTime(), res.format || 'yyyy-MM-dd');
+            if (res.format && res.format === 'MM-dd' && queryForm[res.valueKey[0]] === queryForm[res.valueKey[1]]) {
+              delete queryForm[res.valueKey[1]];
+            }
           }
           delete queryForm[res.key];
         }

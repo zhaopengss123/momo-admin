@@ -1,3 +1,28 @@
-<p>
-  preview works!
-</p>
+<nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 2 }" [nzLoading]="loading">
+  <app-header [memberInfo]="memberInfo"></app-header>
+</nz-skeleton>
+<nz-tabset>
+  <nz-tab nzTitle="客户信息">
+    <nz-skeleton [nzActive]="true" [nzLoading]="loading">
+      <app-information [memberInfo]="memberInfo"></app-information>
+    </nz-skeleton>
+    <nz-skeleton [nzActive]="true" [nzLoading]="loading"></nz-skeleton>
+  </nz-tab>
+  <nz-tab nzTitle="跟踪记录">
+    <ng-template nz-tab>
+      2222
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="交易记录"><ng-template nz-tab>
+    <app-transaction [studentId]="id"></app-transaction>
+  </ng-template></nz-tab>
+  <nz-tab nzTitle="出勤记录"><ng-template nz-tab>
+    <app-attendance [studentId]="id"></app-attendance>
+  </ng-template></nz-tab>
+  <nz-tab nzTitle="服务记录"><ng-template nz-tab>
+    <app-service [studentId]="id"></app-service>
+  </ng-template></nz-tab>
+  <nz-tab nzTitle="操作记录"><ng-template nz-tab>
+    <app-journal [studentId]="id"></app-journal>
+  </ng-template></nz-tab>
+</nz-tabset>
