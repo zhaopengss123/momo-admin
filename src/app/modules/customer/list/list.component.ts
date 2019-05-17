@@ -1,7 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { environment } from 'src/environments/environment';
+import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/reducers/reducers-config';
+import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
+import { UpdateComponent } from '../update/update.component';
+import { PreviewComponent } from '../preview/preview.component';
+import { PaymentComponent } from '../payment/payment.component';
+import { ClassComponent } from '../class/class.component';
+import { LeavingComponent } from '../leaving/leaving.component';
 declare var require: any;
 const endOfMonth = require('date-fns/end_of_month');
 const addDays = require('date-fns/add_days/index');
@@ -17,6 +27,8 @@ const subDays = require('date-fns/sub_days');
 })
 export class ListComponent implements OnInit {
 
+  @ViewChild('eaTable') eaTable: TableComponent;
+
   customerStatusIndex = 0;
 
   birthdayRanges = { 
@@ -29,6 +41,8 @@ export class ListComponent implements OnInit {
   };
 
   domain = environment.domainEs;
+
+  checkedItems: number[] = [];
 
   queryNode: QueryNode[] = [
     {
@@ -61,6 +75,7 @@ export class ListComponent implements OnInit {
     {
       label   : '会员生日',
       key     : 'birthday',
+      valueKey: ['startBirthDay', 'endBirthDay'],
       type    : 'rangepicker',
       format  : 'MM-dd',
       ranges  : this.birthdayRanges
@@ -86,17 +101,14 @@ export class ListComponent implements OnInit {
       key     : 'residueDays',
       type    : 'between',
       isHide  : true
-    },
-    {
-      label   : '剩余次数',
-      key     : 'residueTimes',
-      type    : 'between',
-      isHide  : true
     }
   ];
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private store: Store<AppState>,
+    private drawer: NzDrawerService,
+    private message: NzMessageService
   ) { 
     this.http.post('/student/getStudentListQueryCondition').then(res => {
       this.queryNode[1].options = res.data.memberFromList;
@@ -106,11 +118,25 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    // this.store.select('userInfoState').subscribe(userInfo => console.log(userInfo))
   }
 
   query(params) {
-    console.log(params);
+    this.eaTable.request(params);
   }
+
+  @DrawerCreate({ title: '编辑客户', content: UpdateComponent }) update: () => void;
+
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
+
+  operation(type: string) {
+    this.checkedItems.length ? this[type]({ id: this.checkedItems[0] }) : this.message.warning('请选择需要操作的学生');
+  }
+
+  @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
+
+  @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
+
+  @DrawerCreate({ content: LeavingComponent, title: '退园' }) leaving: ({id: number}) => void;
 
 }
