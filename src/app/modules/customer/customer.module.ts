@@ -17,9 +17,10 @@ import { PaymentComponent } from './payment/payment.component';
 import { ClassComponent } from './class/class.component';
 import { LeavingComponent } from './leaving/leaving.component';
 import { DetailedComponent } from './payment/detailed/detailed.component';
+import { AppointComponent } from './appoint/appoint.component';
 
 @NgModule({
-  declarations: [ListComponent, UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent],
+  declarations: [ListComponent, UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -31,6 +32,6 @@ import { DetailedComponent } from './payment/detailed/detailed.component';
     NgZorroAntdModule,
     NgRelaxModule
   ],
-  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent]
+  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent]
 })
 export class CustomerModule { }

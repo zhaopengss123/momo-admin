@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { QueryNode } from '../query/query.component';
 import { CacheService } from '../../services/cache.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'ea-query-flex',
@@ -19,7 +18,6 @@ export class QueryFlexComponent implements OnInit {
   @Output() onSubmit: EventEmitter<object> = new EventEmitter();
 
   constructor(
-    private http: HttpClient,
     private fb: FormBuilder = new FormBuilder(),
     private format: DatePipe,
     private cache: CacheService

@@ -1,3 +1,4 @@
+import { AppointComponent } from './../appoint/appoint.component';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
@@ -12,13 +13,7 @@ import { PreviewComponent } from '../preview/preview.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { ClassComponent } from '../class/class.component';
 import { LeavingComponent } from '../leaving/leaving.component';
-declare var require: any;
-const endOfMonth = require('date-fns/end_of_month');
-const addDays = require('date-fns/add_days/index');
-const getDay = require('date-fns/get_day/index');
-const addMonths = require('date-fns/add_months/index.js');
-const startOfMonth = require('date-fns/start_of_month/index.js');
-const subDays = require('date-fns/sub_days');
+import { endOfMonth, addDays, getDay, addMonths, startOfMonth, subDays } from 'date-fns';
 
 @Component({
   selector: 'app-list',
@@ -120,18 +115,24 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     // this.store.select('userInfoState').subscribe(userInfo => console.log(userInfo))
+    // this.appoint({id: 1})
   }
 
   query(params) {
     this.eaTable.request(params);
   }
 
-  @DrawerCreate({ title: '编辑客户', content: UpdateComponent }) update: () => void;
+  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: () => void;
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 
-  operation(type: string) {
-    this.checkedItems.length ? this[type]({ id: this.checkedItems[0] }) : this.message.warning('请选择需要操作的学生');
+  checkedData;
+  operation(type: string, needData?: boolean) {
+    !this.checkedItems.length ? 
+      this.message.warning('请选择需要操作的学员') : 
+    needData ? 
+      this[type]({ studentInfo: this.checkedData[0] }) : 
+      this[type]({ id: this.checkedItems[0] });
   }
 
   @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
@@ -139,5 +140,7 @@ export class ListComponent implements OnInit {
   @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
 
   @DrawerCreate({ content: LeavingComponent, title: '退园' }) leaving: ({id: number}) => void;
+
+  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }) => void;
 
 }
