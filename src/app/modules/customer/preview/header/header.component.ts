@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

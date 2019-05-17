@@ -24,7 +24,7 @@ export class TableComponent implements OnInit {
 
   @Input() isParamJson  : boolean = true;
 
-  @Input() checkedItems : any[];
+  @Input() checkedItems : any[] = [];
 
   @Input() checkedKey   : string = 'id';
 
@@ -138,22 +138,22 @@ export class TableComponent implements OnInit {
   }
 
   /* --------------------- 点击选择 --------------------- */
-  isChecked(e?, data?): void {
+  isChecked(e?: boolean /*? 是否选中 */, data?/*? 当前数据 */): void {
     if (this.isRadio && data) {
       this.checkedItems.map(_ => this.checkedItems.splice(0, 1));
       e && this.checkedItems.push(data[this.checkedKey]);
-      this.checkedItemsChange.emit(this.checkedItems);
+      this.checkedItemsChange.emit(this.dataSet.filter(data => data[this.checkedKey] === this.checkedItems[0]));
       this.dataSet.map(res => res.checked = res[this.checkedKey] != data[this.checkedKey] ? false : e);
     } else {
       let allChecked = this.dataSet.every((value: any) => value.checked === true);
       let allUnChecked = !allChecked;
       this._allChecked = allChecked;
       this._indeterminate = (!allChecked) && (!allUnChecked);
-      this._resetCheckedItems();
+      this._resetCheckedItems(!!data);
     }
   }
 
-  _resetCheckedItems(): void {
+  _resetCheckedItems(isDataChange?: boolean): void {
     this.dataSet.map((res: any) => {
       if (res.checked) {
         if (this.checkedItems.indexOf(res[this.checkedKey]) === -1) {
@@ -165,7 +165,7 @@ export class TableComponent implements OnInit {
         }
       }
     })
-    this.checkedItemsChange.emit(this.checkedItems);
+    isDataChange && this.checkedItems[0] && this.checkedItemsChange.emit(this.checkedItems);
   }
 
 }

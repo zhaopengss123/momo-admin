@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { NzDrawerRef } from 'ng-zorro-antd';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
+import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
+import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 
 @Component({
   selector: 'app-class',
@@ -7,9 +13,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClassComponent implements OnInit {
 
-  constructor() { }
+  @Input() id: number;
+
+  formGroup: FormGroup;
+
+  memberInfo: any = { studentInfo: {}, parentAccountList: [] };
+
+  loading: boolean = true;
+
+  constructor(
+    private http: HttpService,
+    private fb: FormBuilder = new FormBuilder(),
+    private drawerRef: NzDrawerRef
+  ) { }
 
   ngOnInit() {
+    this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
+      this.memberInfo = res.data;
+      this.memberInfo.hideBtn = true;
+      this.loading = false;
+    });
   }
+
+  @DrawerClose() close: () => void;
+
+  @ControlValid() valid: (key, type) => boolean;
+
+  saveLoading: boolean;
+  @DrawerSave('xxx') save: () => void;
 
 }

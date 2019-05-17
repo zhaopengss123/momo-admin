@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 /**
  * @method 动态添加抽屉组件，点击保存回调方法
  * @param requestPath 请求地址
@@ -8,10 +9,7 @@ export function DrawerSave(requestPath) {
   return function (target, propertyKey) {
     target[propertyKey] = function () {
       if (this.formGroup.invalid) {
-        for (let i in this.formGroup.controls) {
-          this.formGroup.controls[i].markAsDirty();
-          this.formGroup.controls[i].updateValueAndValidity();
-        }
+        Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
       } else {
         this.saveLoading = true;
         let params = JSON.parse(JSON.stringify(this.formGroup.value));
