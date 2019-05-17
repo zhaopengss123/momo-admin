@@ -99,6 +99,7 @@ export class ListComponent implements OnInit {
     {
       label   : '剩余天数',
       key     : 'residueDays',
+      valueKey: ['startResidueDays', 'endResidueDays'],
       type    : 'between',
       isHide  : true
     }

@@ -24,7 +24,7 @@
       <span>到期时间：</span><span>2019-08-08</span>
     </div>
 
-    <div class="btns">
+    <div class="btns" *ngIf="!memberInfo.hideBtn">
       <nz-button-group>
         <button nz-button nzType="primary" nzGhost>预约</button>
         <button nz-button nzType="primary" nzGhost>转班</button>

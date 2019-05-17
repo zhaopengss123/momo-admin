@@ -1,3 +1,52 @@
-<p>
-  payment works!
-</p>
+<nz-tabset>
+  <nz-tab nzTitle="办卡">
+    <div [style.padding-bottom]="'16px'">
+      <span>卡类型：</span>
+      <nz-tag nzMode="checkable"
+        [ngStyle]="{'pointer-events': cardTypeCategoryId ? 'auto' : 'none'}"
+        [nzChecked]="cardTypeCategoryId === null" 
+        (nzCheckedChange)="cardTypeCategoryId = null; cardTypeTable.request({cardTypeCategoryId: cardTypeCategoryId})">
+        全部</nz-tag>
+      <ng-container *ngFor="let option of cardTypeList">
+        <nz-tag nzMode="checkable" [nzChecked]="cardTypeCategoryId === option.id" 
+          (nzCheckedChange)="cardTypeCategoryId = $event ? option.id : null; cardTypeTable.request({cardTypeCategoryId: cardTypeCategoryId})">
+          {{ option.name }}
+        </nz-tag>
+      </ng-container>
+    </div>
+    <ea-table #cardTypeTable url="/commodity/card/getCardTypeList" [isRadio]="true" [checked]="true" (checkedItemsChange)="select($event, 'cardInfo')"
+      checkedKey="cardTypeId" [thead]="['卡名称', '卡类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr0">
+      <ng-template let-data #EaTableTbodyTr0>
+        <td>{{ data.cardTypeName }}</td>
+        <td>{{ data.cardTypeCategoryName }}</td>
+        <td>{{ data.lowestDiscount }}</td>
+        <td>{{ data.price }}</td>
+      </ng-template>
+    </ea-table>
+  </nz-tab>
+  <nz-tab nzTitle="服务">
+    <div [style.padding-bottom]="'16px'">
+      <span>服务类型：</span>
+      <nz-tag nzMode="checkable"
+        [ngStyle]="{'pointer-events': serviceTypeCategoryId ? 'auto' : 'none'}"
+        [nzChecked]="serviceTypeCategoryId === null" 
+        (nzCheckedChange)="serviceTypeCategoryId = null; serviceTable.request({serviceTypeCategoryId: serviceTypeCategoryId})">
+        全部</nz-tag>
+      <ng-container *ngFor="let option of serviceList">
+        <nz-tag nzMode="checkable" [nzChecked]="serviceTypeCategoryId === option.serviceTypeCategoryId" 
+          (nzCheckedChange)="serviceTypeCategoryId = $event ? option.serviceTypeCategoryId : null; serviceTable.request({serviceTypeCategoryId: serviceTypeCategoryId})">
+          {{ option.serviceTypeCategoryName }}
+        </nz-tag>
+      </ng-container>
+    </div>
+    <ea-table #serviceTable url="/commodity/service/serviceTypeList" [isRadio]="true" [checked]="true" (checkedItemsChange)="select($event, 'serviceInfo')"
+      checkedKey="serviceTypeId" [thead]="['服务名称', '服务类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr1">
+      <ng-template let-data #EaTableTbodyTr1>
+        <td>{{ data.serviceName }}</td>
+        <td>{{ data.serviceTypeCategoryName }}</td>
+        <td>{{ data.lowestDiscount }}</td>
+        <td>{{ data.price }}</td>
+      </ng-template>
+    </ea-table>
+  </nz-tab>
+</nz-tabset>

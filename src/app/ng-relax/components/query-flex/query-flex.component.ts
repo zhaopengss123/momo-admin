@@ -32,10 +32,8 @@ export class QueryFlexComponent implements OnInit {
     this.node.map((res: any, idx) => {
       if (res.isHide) { this.showSlideBtn = true; }
       if (res.type === 'between') {
-        this.formGroup.addControl(res.key, this.fb.array([
-          this.fb.control(null),
-          this.fb.control(null)
-        ]))
+        this.formGroup.addControl(res.valueKey[0], this.fb.control(res.default ? res.default[0] : null));
+        this.formGroup.addControl(res.valueKey[1], this.fb.control(res.default ? res.default[1] : null));
       } else {
         this.formGroup.addControl(res.key, this.fb.control(typeof res.default !== 'undefined' ? res.default : null));
       }

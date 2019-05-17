@@ -77,8 +77,7 @@ export class UpdateComponent implements OnInit {
   save() {
     if (this.formGroup.invalid) {
       for (let i in this.formGroup.controls) {
-        this.formGroup.controls[i].markAsDirty();
-        this.formGroup.controls[i].updateValueAndValidity();
+        Object.values(this.formGroup.controls).map(control => { control.markAsDirty(); control.updateValueAndValidity() });
       }
       for (let i in this.accountList.controls) {
         for (let j in this.accountList.controls[i]['controls']) {
