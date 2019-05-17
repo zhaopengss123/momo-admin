@@ -42,7 +42,7 @@ export class ListComponent implements AfterViewInit {
   dataSet: any[] = [];
 
   eventList: any[] = [];
-
+ 
   checkAuth: number;
 
   constructor(

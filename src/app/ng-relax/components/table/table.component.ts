@@ -119,7 +119,7 @@ export class TableComponent implements OnInit {
           this.dataChange.emit(this.dataSet);
         }
       } else {
-        this.message.warning(res.info);
+        this.message.warning(res.message);
       }
     }, err => {
       this._pageInfo.loading = false;

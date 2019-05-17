@@ -1,7 +1,6 @@
 import { BaseComponent } from './base.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from '../ng-relax/services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -32,6 +31,11 @@ const routes: Routes = [
         path: 'class',
         data: { title: '班级管理' },
         loadChildren: 'src/app/modules/class/class.module#ClassModule'
+      },
+      {
+        path: 'reserve',
+        data: { title: '预约管理' },
+        loadChildren: 'src/app/modules/reserve/reserve.module#ReserveModule'
       },
       {
         path: 'setting',
@@ -90,6 +94,11 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/commodity/service/service.module#ServiceModule'
           },
         ]
+      },
+      {
+        path: 'analysis',
+        data: { title: '数据管理' },
+        loadChildren: 'src/app/modules/analysis/analysis.module#AnalysisModule'
       }
     ]
   }
