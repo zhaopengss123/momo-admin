@@ -1,4 +1,4 @@
-<button nz-button nzType="dashed" nzBlock nzSize="large" (click)="update()"><i nz-icon type="plus"></i>新增班级</button>
+<!-- <button nz-button nzType="dashed" nzBlock nzSize="large" (click)="update()"><i nz-icon type="plus"></i>新增班级</button>
 <div nz-row nzGutter="24">
 
   <div nz-col nzSpan="6" *ngFor="let item of classList" style="margin-bottom: 24px;">
@@ -19,4 +19,43 @@
     </ng-template>
   </div>
 
-</div>
+</div> -->
+
+<div class="container">
+  <ea-list-page
+  #listPage
+  url="/classmanager/getClassList"
+  [queryNode]="queryNode"
+  [tableThead]="[ '头像', '班级名称', '班级口号' ,'月龄', '班级容纳人数', '老师接待能力人数', '老师', '学生' ,'操作' ]"
+  [EaBtns]="EaBtns"
+  [showPage]="false"
+  [EaTableTbodyTr]="EaTableTbodyTr">
+</ea-list-page>
+
+<ng-template #EaBtns>
+  <button nz-button nzType="primary" (click)="update()">新增班级</button>
+</ng-template>
+
+<ng-template let-data #EaTableTbodyTr>
+  <td>
+    <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom" [nzSrc]="data.classImage"
+      nz-tooltip [nzTitle]="titleTemplate"></nz-avatar>
+    <ng-template #titleTemplate>
+      <img [src]="data.classImage" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+    </ng-template>
+  </td>
+  <td>{{ data.className }}</td>
+  <td>{{ data.classSlogan }}</td>
+  <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
+  <td>{{ data.receptionNum }}</td>
+  <td>{{ data.teacherReceptionNum }}</td>
+  <td>{{ data.teacherTotal }}</td>
+  <td>{{ data.studentTotal }}</td>
+  <td>
+    <a (click)="update(data)">编辑</a>
+    <nz-divider nzType="vertical"></nz-divider>
+    <a  nz-popconfirm nzTitle="确定要删除吗？" (nzOnConfirm)="delete(data.id)">删除</a>
+  </td>
+</ng-template>
+
+
