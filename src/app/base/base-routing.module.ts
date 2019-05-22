@@ -51,6 +51,16 @@ const routes: Routes = [
             data: { title: '公告设置' },
             loadChildren: 'src/app/modules/setting/notice/notice.module#NoticeModule'
           },
+          {
+            path: 'account',
+            data: { title: '账号管理' },
+            loadChildren: 'src/app/modules/setting/account/account.module#AccountModule'
+          },
+          {
+            path: 'role',
+            data: { title: '角色管理' },
+            loadChildren: 'src/app/modules/setting/role/role.module#RoleModule'
+          },
         ]
       },
       {
