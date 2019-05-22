@@ -1,13 +1,11 @@
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NoticeComponent } from './notice.component';
 import { QuillModule } from 'ngx-quill';
-
 @NgModule({
   imports: [
     CommonModule,

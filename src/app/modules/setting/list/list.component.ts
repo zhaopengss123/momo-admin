@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.post('/settings/getCheckConfig', {}, false).then(res => {
+    this.http.post('/settings/notice/getCheckConfig', {}, false).then(res => {
       this.checkType = res.data.checkType;
       res.data.teachers.map(item => item && this.teacherList.push({ label: item.name, value: item.id, checked: item.checkType == 1 }));
       res.data.users.map(item => item && this.userList.push({ label: item.name, value: item.id, checked: item.checkAuth == 1 }));
@@ -66,7 +66,7 @@ export class ListComponent implements OnInit {
   }
 
   upateStatus(item) {
-    this.http.post('/settings/setEventItem', { id: item.id, status: item.eventSatus == 1 ? 2 : 1 }).then(res => this.getData());
+    this.http.post('/settings/event/setEventItem', { id: item.id, status: item.eventSatus == 1 ? 2 : 1 }).then(res => this.getData());
   }
 
   checkType: number;
@@ -93,7 +93,7 @@ export class ListComponent implements OnInit {
       params.userIds = params.userIds.join(',');
       params.eventIds = params.eventIds.join(',');
     }
-    this.http.post('/settings/setCheckConfig', params).then(res => {
+    this.http.post('/settings/notice/setCheckConfig', params).then(res => {
       this.saveSettingLoading = false;
     }).catch(err => this.saveSettingLoading = false);
   }

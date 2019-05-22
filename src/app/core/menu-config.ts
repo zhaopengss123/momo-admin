@@ -44,6 +44,21 @@ export const MenuConfig = [
         key   : '/home/setting/notice',
         isLeaf: true
       },
+      {
+        title : '角色设置',
+        key   : '/home/setting/role',
+        isLeaf: true
+      },
+      {
+        title : '账号管理',
+        key   : '/home/setting/account',
+        isLeaf: true
+      },
+      {
+        title : '基础设置',
+        key   : '/home/setting/base',
+        isLeaf: true
+      },
     ]
   },
   {

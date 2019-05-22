@@ -63,7 +63,7 @@ export class AnnouncementComponent implements OnInit {
 
   ngOnInit() {
     this.http.post('/message/getTeacherList', {}, false).then(res => this.teacherList = res.data);
-    this.http.post('/classmanager/listClassMessage', {}, false).then(res => this.classList = res.data.list);
+    this.http.post('/classmanager/class/listClassMessage', {}, false).then(res => this.classList = res.data.list);
   }
   
   @DrawerClose() close: () => void;
@@ -105,7 +105,7 @@ export class AnnouncementComponent implements OnInit {
           params.acceptPerson += acceptPerson.join(',');
         }
       }
-      this.http.post('/settings/publishNotice', { paramJson: JSON.stringify(params) }).then(res => {
+      this.http.post('/settings/notice/publishNotice', { paramJson: JSON.stringify(params) }).then(res => {
         this.saveLoading = false;
         this.drawerRef.close(true);
       }).catch(err => this.saveLoading = false);
