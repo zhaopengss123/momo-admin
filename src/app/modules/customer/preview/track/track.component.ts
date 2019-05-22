@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-track',
@@ -7,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackComponent implements OnInit {
 
-  constructor() { }
+  @Input() studentId: number;
+
+  formGroup: FormGroup;
+
+  constructor(
+    private http: HttpService,
+    private fb: FormBuilder = new FormBuilder(),
+  ) { 
+    this.formGroup = this.fb.group({
+      
+    })
+  }
 
   ngOnInit() {
   }

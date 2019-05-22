@@ -41,19 +41,34 @@ export class DetailedComponent implements OnInit {
     this.formInfo = Object.assign(this.cardInfo, this.serviceInfo);
     let controls = {
       studentId: [this.id],
+      studentName: [],
       price: [this.formInfo.price],
       discount: [, [this._lowestDiscountValidator]],
       salespersonId: [, [Validators.required]],
       comment: []
     }
-    this.formInfo.cardTypeName && Object.assign(controls, {
-      freeDay: [, [Validators.pattern(/^[1-9]\d*$/)]],
-      payMethod: [1],
-      studentNum: [, [Validators.required]]
-    }, this.formInfo.type && this.formInfo.type == 1 ? {
-      effectDate: [, [Validators.required]],
-      expireDate: [{ value: null, disabled: true }]
-    } : {});
+    if (this.formInfo.cardTypeName) {
+      Object.assign(controls, {
+        type: [this.formInfo.type],
+        cardTypeId: [this.formInfo.cardTypeId],
+        cardTypeName: [this.formInfo.cardTypeName],
+        freeDay: [, [Validators.pattern(/^[1-9]\d*$/)]],
+        payMethod: [1],
+        studentNum: [, [Validators.required]]
+      }, this.formInfo.type == 1 ? {
+        effectDate: [, [Validators.required]],
+        expireDate: [],
+        day: [this.formInfo.day]
+      } : {
+        month: [this.formInfo.month]
+      })
+    } else {
+      Object.assign(controls, {
+        serviceTypeId: [this.formInfo.serviceTypeId],
+        serviceTypeName: [this.formInfo.serviceTypeName]
+      })
+    }
+    
     this.formGroup = this.fb.group(controls);
 
     this.formGroup.get('discount').valueChanges.subscribe(val => {
@@ -63,9 +78,10 @@ export class DetailedComponent implements OnInit {
 
     this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
       this.studentInfo = res.data.studentInfo;
+      this.formInfo.cardTypeName && this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
       if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
         let [y, m, d] = this.studentInfo.birthday.split('-');
-        let expireDate = `${Number(y) + 3}-${Number(m) < 10 ? '0' + m : m}-${m == 2 && d == 29 ? 28 : d}`;
+        let expireDate = `${Number(y) + 3}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;
         this.formGroup.patchValue({ expireDate });
       }
     });

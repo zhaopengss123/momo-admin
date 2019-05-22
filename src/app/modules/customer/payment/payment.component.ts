@@ -43,7 +43,7 @@ export class PaymentComponent implements OnInit {
         nzBodyStyle: { 'padding-bottom': '40px' },
         nzContent: DetailedComponent,
         nzContentParams: params
-      }).afterClose.subscribe(res => this.drawerRef.close(res))
+      }).afterClose.subscribe(res => res && this.drawerRef.close(res))
     }
   }
 

@@ -1,5 +1,5 @@
 <div class="container">
-  <nz-tabset [(nzSelectedIndex)]="customerStatusIndex">
+  <nz-tabset [(nzSelectedIndex)]="customerStatusIndex" (nzSelectChange)="tabsetSelectChange()">
     <nz-tab nzTitle="全部"></nz-tab>
     <nz-tab nzTitle="在校学员"></nz-tab>
     <nz-tab nzTitle="离校学员"></nz-tab>
@@ -8,10 +8,10 @@
 
   <div class="button-group">
     <button nz-button nzType="primary" (click)="update()">添加学员</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('appoint', true)">预约</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('payment')">缴费</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('class')">转/升班</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('leaving')">退园</button>
+    <button nz-button nzType="primary" nzGhost (click)="operation('appoint', {needData: true, type: 'isReserve'})" *ngIf="customerStatusIndex < 2">预约</button>
+    <button nz-button nzType="primary" nzGhost (click)="operation('payment', {type: 'isPay'})">缴费</button>
+    <button nz-button nzType="primary" nzGhost (click)="operation('class', {type: 'isAdjustClass'})" *ngIf="customerStatusIndex < 2">转/升班</button>
+    <button nz-button nzType="primary" nzGhost (click)="operation('leaving')" *ngIf="customerStatusIndex < 2">退园</button>
   </div>
 
   <div class="query">
@@ -19,36 +19,52 @@
 
     <ea-table #eaTable
       [url]="domain + '/czg/clientListQuery'"
-      [paramsDefault]="{ storeId: 1 }"
+      [paramsDefault]="paramsDefault"
       [isParamJson]="false"
       [isRadio]="true"
       [checkedItems]="checkedItems"
       (checkedItemsChange)="checkedData = $event"
-      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态', '操作']" 
+      (dataChange)="dataChange($event)"
+      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
       [EaTableTbodyTr]="EaTableTbodyTr" [checked]="true">
       <ng-template let-data #EaTableTbodyTr>
         <td>
           <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
-            [nzSrc]="data.headUrl" nz-tooltip [nzTitle]="titleTemplate"></nz-avatar>
+            [nzSrc]="data.headUrl" nz-tooltip [nzTitle]="data.headUrl ? titleTemplate : null"></nz-avatar>
           <ng-template #titleTemplate>
             <img [src]="data.headUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
           </ng-template>
         </td>
-        <td>{{ data.number }}</td>
+        <td>{{ data.number || '-' }}</td>
         <td><a (click)="preview({ id: data.id })">{{ data.nick }}</a></td>
         <td><a (click)="preview({ id: data.id })">{{ data.name }}</a></td>
-        <td>{{ data.sex }}</td>
-        <td>{{ data.birthday }}</td>
-        <td>{{ data.schoolRollNames }}</td>
-        <td>{{ data.gradeName }}</td>
-        <td>{{ data.sourceName }}</td>
-        <td>{{ data.sellName }}</td>
-        <td>{{ data.bookBuildingTime }}</td>
-        <td>{{ data.enrolTime }}</td>
-        <td>{{ data.expireTime }}</td>
-        <td>{{ data.residueDays }}</td>
-        <td>{{ data.status }}</td>
-        <td></td>
+        <td>{{ data.sex || '-' }}</td>
+        <td>{{ data.birthday || '-' }}</td>
+        <td>{{ data.schoolRollName || '-' }}</td>
+        <td>{{ data.gradeName || '-' }}</td>
+        <td>{{ data.sourceName || '-' }}</td>
+        <td>{{ data.sellName || '-' }}</td>
+        <td>{{ data.bookBuildingTime || '-' }}</td>
+        <td>{{ data.enrolTime || '-' }}</td>
+        <td>{{ data.expireTime || '-' }}</td>
+        <td>{{ data.residueDays || '-' }}</td>
+        <td>
+          <ng-container [ngSwitch]="data.statusId">
+            <ng-container *ngSwitchCase="0">未体验</ng-container>
+            <ng-container *ngSwitchCase="1">体验未办卡</ng-container>
+            <ng-container *ngSwitchCase="2">已办卡</ng-container>
+            <ng-container *ngSwitchCase="3">已过期</ng-container>
+            <ng-container *ngSwitchCase="4">已退学</ng-container>
+            <ng-container *ngSwitchDefault>-</ng-container>
+          </ng-container>
+        </td>
+        <td>{{ data.monitoringStatus ? '开启' : '关闭' }}</td>
+        <td>
+          <ng-container *ngIf="data.statusId == 1">
+            <a (click)="lookChange(data.id, data.monitoringStatus)">{{ data.monitoringStatus ? '关闭' : '开启' }}监控</a>
+            <nz-divider nzType="vertical"></nz-divider>
+          </ng-container>
+        </td>
       </ng-template>
     </ea-table>
   </div>

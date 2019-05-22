@@ -99,7 +99,33 @@ const routes: Routes = [
         path: 'analysis',
         data: { title: '数据管理' },
         loadChildren: 'src/app/modules/analysis/analysis.module#AnalysisModule'
-      }
+      },
+      {
+        path: 'visit',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'clue',
+            data: { title: '线索回访' },
+            loadChildren: 'src/app/modules/visit/clue/clue.module#ClueModule'
+          },
+          {
+            path: 'nocard',
+            data: { title: '未办卡回访' },
+            loadChildren: 'src/app/modules/visit/nocard/nocard.module#NocardModule'
+          },
+          {
+            path: 'member',
+            data: { title: '会员回访' },
+            loadChildren: 'src/app/modules/visit/member/member.module#MemberModule'
+          },
+          {
+            path: 'distribution',
+            data: { title: '线索分配' },
+            loadChildren: 'src/app/modules/visit/distribution/distribution.module#DistributionModule'
+          }
+        ]
+      },
     ]
   }
 ];

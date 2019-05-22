@@ -6,9 +6,9 @@
     <div nz-col [nzSpan]="3">性别：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.sex || '--' }}</div>
     <div nz-col [nzSpan]="3">生日：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.birthday || '--' }}</div>
     <div nz-col [nzSpan]="3">国籍/民族：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.nation || '--' }}</div>
-    <div nz-col [nzSpan]="3">来源：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.sourceName || '--' }}</div>
-    <div nz-col [nzSpan]="3">收集人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recruitTeacherId || '--' }}</div>
-    <div nz-col [nzSpan]="3">推荐人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recommenderId || '--' }}</div>
+    <div nz-col [nzSpan]="3">来源：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.memberFromName || '--' }}</div>
+    <div nz-col [nzSpan]="3">收集人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recruitTeacherName || '--' }}</div>
+    <div nz-col [nzSpan]="3">推荐人：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.recommenderName || '--' }}</div>
     <div nz-col [nzSpan]="3">入学身高：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.height || '--' }}</div>
     <div nz-col [nzSpan]="3">入学体重：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.weight || '--' }}</div>
     <div nz-col [nzSpan]="3">入学头围：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.headCircumference || '--' }}</div>
@@ -22,7 +22,7 @@
 <ea-quote>家庭资料<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'">新增家长账号</button></ea-quote>
 <ea-table [dataSet]="memberInfo?.parentAccountList" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" [thead]="['姓名', '关系', '联系电话', '身份证号', '单位地址', 'APP账号状态', '默认联系人', '操作']">
   <ng-template let-data #EaTableTbodyTr>
-    <td>{{ data.parentName }}</td>
+    <td>{{ data.accountName }}</td>
     <td>{{ data.relationship }}</td>
     <td>{{ data.accountPhone }}</td>
     <td>{{ data.idNumber }}</td>

@@ -7,38 +7,47 @@
       <span class="english-name">{{ memberInfo?.studentInfo.english }}</span>
     </div>
     
-    <nz-tag [nzColor]="'cyan'">在校学员</nz-tag>
+    <nz-tag [nzColor]="'cyan'">{{ memberInfo?.studentInfo.status < 2 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
 
     <div class="cell">
-      <span>所属销售：</span><span>伍晓晓</span>
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>来源：</span><span>大众点评</span>
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>建档时间：</span><span>2019-08-08 23:59:59</span>
+      <div class="dib">
+        <span>所属销售：</span><span>{{ memberInfo?.studentInfo.salespersonName || '-' }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib">
+        <span>来源：</span><span>{{ memberInfo?.studentInfo.memberFromName || '-' }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib">
+        <span>建档时间：</span><span>{{ memberInfo?.studentInfo.createTime }}</span>
+      </div>
     </div>
     <div class="cell">
-      <span>类型：</span><span>定期学员 365天（剩余 365天）</span>
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>开卡时间：</span><span>2019-08-08</span>
-      <nz-divider nzType="vertical"></nz-divider>
-      <span>到期时间：</span><span>2019-08-08</span>
+      <div class="dib">
+        <span>类型：</span><span>{{ memberInfo?.studentInfo.type == 1 ? '日托学员（剩余 ' + memberInfo?.studentInfo.times + '天）' : memberInfo?.studentInfo.type == 2 ? '定期学员' : '未办卡'  }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib">
+        <span>开卡时间：</span><span>{{ memberInfo?.studentInfo.effectDate || '-' }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib">
+        <span>到期时间：</span><span>{{ memberInfo?.studentInfo.expireDate || '-' }}</span>
+      </div>
     </div>
 
     <div class="btns" *ngIf="!memberInfo.hideBtn">
       <nz-button-group>
-        <button nz-button nzType="primary" nzGhost>预约</button>
-        <button nz-button nzType="primary" nzGhost>转班</button>
-        <nz-dropdown>
+        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3">预约</button>
+        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3">缴费</button>
+        <nz-dropdown *ngIf="memberInfo.studentInfo.status == 2">
           <button nz-button nz-dropdown nzType="primary" nzGhost>更多操作<i nz-icon type="down"></i></button>
           <ul nz-menu>
             <li nz-menu-item>
+              <a>转班</a>
+            </li>
+            <li nz-menu-item>
               <a>退园</a>
-            </li>
-            <li nz-menu-item>
-              <a>发消息</a>
-            </li>
-            <li nz-menu-item>
-              <a>发通知</a>
             </li>
           </ul>
         </nz-dropdown>

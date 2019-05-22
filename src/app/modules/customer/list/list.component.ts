@@ -1,4 +1,4 @@
-import { AppointComponent } from './../appoint/appoint.component';
+import { AppointComponent } from '../appoint/appoint.component';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
@@ -22,7 +22,7 @@ import { endOfMonth, addDays, getDay, addMonths, startOfMonth, subDays } from 'd
 })
 export class ListComponent implements OnInit {
 
-  @ViewChild('eaTable') eaTable: TableComponent;
+  @ViewChild('eaTable') table: TableComponent;
 
   customerStatusIndex = 0;
 
@@ -100,6 +100,12 @@ export class ListComponent implements OnInit {
     }
   ];
 
+  queryItems = {
+    memberFromList: {},
+    classList: {},
+    cardList: {},
+    teacherList: {}
+  }
   constructor(
     private http: HttpService,
     private store: Store<AppState>,
@@ -110,37 +116,81 @@ export class ListComponent implements OnInit {
       this.queryNode[1].options = res.data.memberFromList;
       this.queryNode[2].options = res.data.classList;
       this.queryNode[3].options = res.data.cardList;
+      res.data.memberFromList.map(item => this.queryItems.memberFromList[item.memberFromId] = item.fromName);
+      res.data.classList.map(item => this.queryItems.classList[item.classId] = item.className);
+      res.data.cardList.map(item => this.queryItems.cardList[item.id] = item.name);
+      res.data.teacherList.map(item => this.queryItems.teacherList[item.teacherId] = item.teacherName);
+      this.dataChange();
     })
   }
 
   ngOnInit() {
     // this.store.select('userInfoState').subscribe(userInfo => console.log(userInfo))
-    // this.appoint({id: 1})
   }
 
   query(params) {
-    this.eaTable.request(params);
+    this.table.request(params);
   }
 
-  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: () => void;
+  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number, type: string }?) => void;
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 
   checkedData;
-  operation(type: string, needData?: boolean) {
-    !this.checkedItems.length ? 
-      this.message.warning('请选择需要操作的学员') : 
-    needData ? 
-      this[type]({ studentInfo: this.checkedData[0] }) : 
-      this[type]({ id: this.checkedItems[0] });
+  operation(type: string, option: buttonAsyncValid =  {}) {
+    if (this.checkedItems.length) {
+      if (option.type) {
+        this.http.post('/student/studentInfoIsComplete', {
+          paramJson: JSON.stringify({
+            studentId: this.checkedItems[0], buttonName: option.type
+          }),
+        }).then(res => {
+          if (res.result == 1000) {
+            this[type](option.needData ? { studentInfo: this.checkedData[0] } : { id: this.checkedItems[0] })
+          } else {
+            this.message.warning(res.message);
+            res.result != 1999 && this.update({ id: this.checkedItems[0], type: option.type })
+          }
+        })
+      } else {
+        this.checkedData[0].statusId == 2 ? this[type]({ id: this.checkedItems[0] }) : this.message.warning('只有在校学员才可转升班或退园');
+      }
+    } else {
+      this.message.warning('请选择需要操作的学员')
+    }
   }
 
   @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
 
   @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
 
-  @DrawerCreate({ content: LeavingComponent, title: '退园' }) leaving: ({id: number}) => void;
+  @DrawerCreate({ content: LeavingComponent, title: '退园', width: 460 }) leaving: ({id: number}) => void;
 
-  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }) => void;
+  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }?) => void;
 
+  paramsDefault = { storeId: 1, schoolRollId: null }
+  tabsetSelectChange() {
+    this.paramsDefault.schoolRollId = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "3,4" : "0,1";
+    this.table._request();
+  }
+
+  dataChange() {
+    this.table.dataSet.length && this.queryNode[3].options.length && this.table.dataSet.map(data => {
+      data.schoolRollName = this.queryItems.cardList[data.schoolRollId] || '-';
+      data.gradeName = this.queryItems.classList[data.gradeId] || '-';
+      data.sourceName = this.queryItems.memberFromList[data.sourceId] || '-';
+      data.sellName = this.queryItems.teacherList[data.sellId] || '-';
+      return data;
+    })
+  }
+
+  lookChange(studentId, isLook) {
+    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook })}, true).then(res => this.table._request());
+  }
+
+}
+
+interface buttonAsyncValid {
+  needData?: boolean;
+  type?: 'isReserve' | 'isPay';
 }

@@ -6,12 +6,12 @@
       {{ studentInfo.nickName ? '（' + studentInfo.nickName + '）' : '' }}
       <span class="english-name">{{ studentInfo.english }}</span>
     </div>
-    <nz-tag [nzColor]="'cyan'">在校学员</nz-tag>
+    <nz-tag [nzColor]="'cyan'">{{ studentInfo.status < 2 ? '体验学员' : studentInfo.status == 2 ? '在校学员' : studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
     <div class="cell">
-      <span>所属销售：</span><span>伍晓晓</span>
+      <span>所属销售：</span><span>{{ studentInfo.salespersonName || '-' }}</span>
     </div>
     <div class="cell">
-      <span>类型：</span><span>定期学员 365天（剩余 365天）</span>
+      <span>类型：</span><span>{{ studentInfo.type == 1 ? '日托学员（剩余 ' + studentInfo.times + '天）' : studentInfo == 2 ? '定期学员' : '未办卡'  }}</span>
     </div>
   </div>
 </div>
@@ -62,7 +62,7 @@
       <nz-form-item>
         <nz-form-label nzSpan="5">退学时间</nz-form-label>
         <nz-form-control nzSpan="19">
-          <nz-date-picker formControlName="expireDate"></nz-date-picker>
+          <input nz-input formControlName="expireDate" readonly placeholder="退学时间">
         </nz-form-control>
       </nz-form-item>
     </ng-container>
@@ -102,5 +102,5 @@
 </form>
 
 <div class="footer">
-  <button nz-button nzType="primary" nzSize="large" nzBlock (click)="save()">收款：{{ (formInfo.price - preferential) | currency: '￥' }}</button>
+  <button nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading" (click)="save()">收款：{{ (formInfo.price - preferential) | currency: '￥' }}</button>
 </div>

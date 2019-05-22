@@ -1,6 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { NzDrawerRef } from 'ng-zorro-antd';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
@@ -12,24 +13,38 @@ import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 })
 export class UpdateComponent implements OnInit {
 
+  @Input() id: number;
+
+  @Input() type: string;
+
   formGroup: FormGroup;
 
   saveLoading: boolean;
 
+  optionItem = { classList: [], memberFromList: [] };
+
+  peopleItem = { recommender: [], collectorList: [] };
+
   constructor(
     private http: HttpService,
     private drawerRef: NzDrawerRef,
-    private fb: FormBuilder = new FormBuilder()
-  ) { }
+    private fb: FormBuilder = new FormBuilder(),
+    private format: DatePipe
+  ) { 
+    this.http.post('/student/getStudentListQueryCondition').then(res => this.optionItem = res.data);
+    this.http.post('/student/getCollectorAndRecommender').then(res => this.peopleItem = res.data);
+  }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
+      studentId: [],
       studentName: [, [Validators.required]],
       sex: ['男'],
       nickName: [, [Validators.required]],
       englishName: [],
       birthday: [, [Validators.required]],
       nation: [],
+      classId: [, this.type && this.type === 'isReserve' ? [Validators.required] : []],
       memberFromId: [, [Validators.required]],
       recruitTeacherId: [],
       height: [],
@@ -37,7 +52,7 @@ export class UpdateComponent implements OnInit {
       headCircumference: [],
       headPhoto: [],
       isCases: [0],
-      isAllergyHistory: [0],
+      isAllergyHistory: [, this.type == 'isPay' ? [Validators.required] : []],
       isChronicDisease: [0],
       isMedication: [0],
       isLimitActivity: [0],
@@ -51,19 +66,25 @@ export class UpdateComponent implements OnInit {
     this.formGroup.controls['isChronicDisease'].valueChanges.subscribe(val => val ? this.formGroup.addControl('chronicDisease', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('chronicDisease'));
     this.formGroup.controls['isMedication'].valueChanges.subscribe(val => val ? this.formGroup.addControl('medication', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('medication'));
     this.formGroup.controls['isLimitActivity'].valueChanges.subscribe(val => val ? this.formGroup.addControl('limitActivity', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('limitActivity'));
+
+
+    this.id && this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
+      res.data.studentInfo.accountList = res.data.parentAccountList;
+      this.formGroup.patchValue(res.data.studentInfo);
+    })
   }
 
   get accountList() { return this.formGroup.controls['accountList'] as FormArray; }
 
   @ControlValid() valid: (key: string, type?: string) => boolean;
 
-  @DrawerClose() close: () => void;
+  @DrawerClose() close: (bool?) => void;
 
   addAccount() {
     this.accountList.push(this.fb.group({
       accountName: [, [Validators.required]],
       accountPhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
-      relationship: [],
+      relationship: [, [Validators.required]],
       workplace: [],
       idNumber: [],
       defaultStatus: [!this.accountList.length]
@@ -75,6 +96,7 @@ export class UpdateComponent implements OnInit {
   }
 
   save() {
+    console.log(this.formGroup)
     if (this.formGroup.invalid) {
       for (let i in this.formGroup.controls) {
         Object.values(this.formGroup.controls).map(control => { control.markAsDirty(); control.updateValueAndValidity() });
@@ -86,9 +108,9 @@ export class UpdateComponent implements OnInit {
         }
       }
     } else {
-      this.http.post('/student/newSaveStudent', { paramJson: JSON.stringify(this.formGroup.value) }).then(res => {
-        console.log(res)
-      })
+      this.formGroup.value.birthday = this.format.transform(this.formGroup.value.birthday, 'yyyy-MM-dd');
+      let url = this.formGroup.value.studentId ? 'updateStudentInfo' : 'newSaveStudent'
+      this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(true))
     }
   }
 

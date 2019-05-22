@@ -111,6 +111,7 @@
         }
       }
       .tbody {
+        min-height: 60px;
         position: relative;
         padding-left: 126px;
         &:not(:last-child) {
@@ -151,6 +152,7 @@
             border-radius: 5px;
             border: dashed 1px #cdd7e1;
             cursor: pointer;
+            position: relative;
             &:not(:last-child) {
               margin-right: 6px;
             }
@@ -158,21 +160,79 @@
               border: 0;
               background: @yzy;
             }
+            &.next {
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+              &::before {
+                content: '';
+                display: block;
+                width: 6px;
+                height: 100%;
+                background: inherit;
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin-right: -6px;
+              }
+              & + li {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+              }
+            }
+            & > div {
+              width: 24px;
+              height: 100%;
+              pointer-events: none;
+              position: absolute;
+              transition: all .2s;
+              top: 0;
+              right: 0;
+              margin-right: -12px;
+              opacity: 0;
+              &.next {
+                opacity: 1;
+                background: @yzy;
+              }
+              &.check-next {
+                opacity: 1;
+                background: @checked;
+              }
+            }
             &.ccnl {
-              border: 0;
-              background: @ccnl;
+              &::after { background: @ccnl; }
             }
             &.yzcc {
-              border: 0;
-              background: @yzcc;
+              &::after { background: @yzcc; }
             }
             &.tyzcc {
-              border: 0;
-              background: @tyzcc;
+              &::after { background: @tyzcc; }
             }
             &.checked {
+              &::after { background: @checked; }
+            }
+            &::after { 
+              transition: all .2s;
+              content: '';
+              display: block;
+              border-radius: 5px;
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+            }
+            &.ccnl,
+            &.yzcc,
+            &.tyzcc,
+            &.checked {
               border: 0;
-              background: @checked !important;
+              &::after {
+                opacity: 1;
+              }
+              &::before {
+                background: @yzy;
+              }
             }
           }
         }

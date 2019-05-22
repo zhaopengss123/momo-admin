@@ -12,12 +12,12 @@ export function DrawerSave(requestPath) {
         Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
       } else {
         this.saveLoading = true;
-        let params = JSON.parse(JSON.stringify(this.formGroup.value));
-        Object.keys(params).map(res => {
-          if (params[res] instanceof Date) {
-            params[res] = formatTime(params[res]);
+        Object.keys(this.formGroup.value).map(res => {
+          if (this.formGroup.value[res] instanceof Date) {
+            this.formGroup.value[res] = formatTime(this.formGroup.value[res]);
           }
         });
+        let params = JSON.parse(JSON.stringify(this.formGroup.value));
         this.http.post(requestPath, {
           paramJson: JSON.stringify(params)
         }, true).then(res => {

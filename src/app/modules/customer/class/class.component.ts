@@ -1,5 +1,5 @@
 import { NzDrawerRef } from 'ng-zorro-antd';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
@@ -33,6 +33,12 @@ export class ClassComponent implements OnInit {
       this.memberInfo.hideBtn = true;
       this.loading = false;
     });
+    this.formGroup = this.fb.group({
+      studentId: [this.id],
+      classId: [, [Validators.required]],
+      teacherId: [, [Validators.required]],
+      reason: [, [Validators.required]],
+    })
   }
 
   @DrawerClose() close: () => void;
@@ -40,6 +46,6 @@ export class ClassComponent implements OnInit {
   @ControlValid() valid: (key, type) => boolean;
 
   saveLoading: boolean;
-  @DrawerSave('xxx') save: () => void;
+  @DrawerSave('/student/adjustClass') save: () => void;
 
 }

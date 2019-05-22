@@ -94,6 +94,7 @@ export const MenuConfig = [
     brief : '客户',
     key   : '/home/customer',
     icon  : 'user',
+    isLeaf: true
   },
   {
     title : '预约管理',
@@ -108,5 +109,33 @@ export const MenuConfig = [
     key   : '/home/analysis',
     icon  : 'desktop',
     isLeaf: true
+  },
+  {
+    title : '回访管理',
+    brief : '回访',
+    key   : '/home/visit',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '线索回访',
+        key   : '/home/visit/clue',
+        isLeaf: true
+      },
+      {
+        title : '未办卡回访',
+        key   : '/home/visit/nocard',
+        isLeaf: true
+      },
+      {
+        title : '会员回访',
+        key   : '/home/visit/member',
+        isLeaf: true
+      },
+      {
+        title : '线索分配',
+        key   : '/home/visit/distribution',
+        isLeaf: true
+      }
+    ]
   },
 ];
