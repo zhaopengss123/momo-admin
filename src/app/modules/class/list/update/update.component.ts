@@ -48,7 +48,7 @@ export class UpdateComponent implements OnInit {
     } else {
       this.saveLoading = true;
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
-      this.http.post(`/classmanager/${this.classInfo.classId ? 'update' : 'save'}ClassMessage`, { paramJson: JSON.stringify(params) }).then(res => {
+      this.http.post(`/classmanager/saveClass`, { paramJson: JSON.stringify(params) }).then(res => {
         this.saveLoading = false;
         this.drawerRef.close(true);
       }).catch(err => this.saveLoading = false);

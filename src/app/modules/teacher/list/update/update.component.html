@@ -81,8 +81,8 @@
                     <nz-form-label nzRequired>是否是主管</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="isGovernor" nzPlaceHolder="请选择是否是主管">
-                            <nz-option nzLabel="是" nzValue="1"></nz-option>
-                            <nz-option nzLabel="否" nzValue="0"></nz-option>
+                            <nz-option nzLabel="是" [nzValue]="1"></nz-option>
+                            <nz-option nzLabel="否" [nzValue]="0"></nz-option>
                         </nz-select>
                         <nz-form-explain *ngIf="formGroup.get('isGovernor').dirty && formGroup.get('isGovernor').hasError('required')">请选择是否是主管！</nz-form-explain>
                     </nz-form-control>
@@ -127,7 +127,8 @@
                 <nz-form-item>
                     <nz-form-label>Email</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入身份证号" formControlName="email" id="email">
+                        <input nz-input placeholder="请输入邮箱地址" formControlName="eMail" id="eMail">
+                        <nz-form-explain *ngIf="formGroup.get('eMail').dirty && formGroup.get('eMail').hasError('required')">请选择生日！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -139,7 +140,7 @@
                 <nz-form-item>
                     <nz-form-label nzRequired>家庭住址</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入家庭住址" formControlName="homeAddress" id="email">
+                        <input nz-input placeholder="请输入家庭住址" formControlName="homeAddress" id="homeAddress">
                         <nz-form-explain *ngIf="formGroup.get('homeAddress').dirty && formGroup.get('homeAddress').hasError('required')">请输入家庭住址！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
