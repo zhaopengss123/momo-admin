@@ -41,21 +41,21 @@ export class ListComponent implements OnInit {
 
   queryNode: QueryNode[] = [
     {
-      label   : '会员性别',
+      label   : '学员性别',
       key     : 'sex',
       type    : 'tag',
-      options : [{ name: '男孩', id: 1}, { name: '女孩', id: 2}],
+      options : [{ name: '男孩', id: '男'}, { name: '女孩', id: '女'}],
       isRadio : true
     },
     {
-      label   : '会员来源',
+      label   : '学员来源',
       key     : 'sourceId',
       type    : 'tag',
       optionKey: { label: 'fromName', value: 'memberFromId' },
       options: []
     },
     {
-      label   : '会员班级',
+      label   : '学员班级',
       key     : 'gradeId',
       type    : 'tag',
       optionKey: { label: 'className', value: 'classId' },
@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
       options: []
     },
     {
-      label   : '会员生日',
+      label   : '学员生日',
       key     : 'birthday',
       valueKey: ['startBirthDay', 'endBirthDay'],
       type    : 'rangepicker',

@@ -110,8 +110,8 @@ export const MenuConfig = [
     ]
   },
   {
-    title : '客户管理',
-    brief : '客户',
+    title : '学员管理',
+    brief : '学员',
     key   : '/home/customer',
     icon  : 'user',
     isLeaf: true
