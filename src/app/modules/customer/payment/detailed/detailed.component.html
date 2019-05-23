@@ -80,7 +80,7 @@
       <nz-form-label nzSpan="5" nzRequired>学号</nz-form-label>
       <nz-form-control nzSpan="19">
         <input nz-input formControlName="studentNum" placeholder="请输入学号">
-        <nz-form-explain *ngIf="valid('studentNum')">请输入学号</nz-form-explain>
+        <nz-form-explain *ngIf="valid('studentNum','required')">请输入学号</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
   </ng-container>
@@ -90,7 +90,7 @@
       <nz-select formControlName="salespersonId" nzPlaceHolder="请选择所属销售">
         <nz-option *ngFor="let item of teacherList" [nzLabel]="item.teacherName" [nzValue]="item.teacherId"></nz-option>
       </nz-select>
-      <nz-form-explain *ngIf="valid('salespersonId')">请选择所属销售</nz-form-explain>
+      <nz-form-explain *ngIf="valid('salespersonId','required')">请选择所属销售</nz-form-explain>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
