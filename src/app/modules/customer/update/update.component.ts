@@ -47,6 +47,7 @@ export class UpdateComponent implements OnInit {
       classId: [, this.type && this.type === 'isReserve' ? [Validators.required] : []],
       memberFromId: [, [Validators.required]],
       recruitTeacherId: [],
+      recommenderId: [],
       height: [],
       weight: [],
       headCircumference: [],

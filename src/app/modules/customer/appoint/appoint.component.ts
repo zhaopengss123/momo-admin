@@ -129,7 +129,8 @@ export class AppointComponent implements OnInit {
 
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
     let classInfo = await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.gradeId });
-    classInfo.data.list = classInfo.data.list || [];
+    /* 如查询不到做兼容处理 */
+    classInfo.data.list = classInfo.data.list.length ? classInfo.data.list : [{ className: this.studentInfo.gradeName, teachers: [], receptionNum: 0}];
     let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
     this.dataSet[type === 'up' ? 'unshift' : 'push']({ key: month, value: classInfo.data.list, days: new Array(this._monthOfDays(month)) });
     

@@ -90,7 +90,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="5">推荐人</nz-form-label>
         <nz-form-control [nzSpan]="19">
-          <nz-select formControlName="recruitTeacherId" nzAllowClear nzPlaceHolder="请选择推荐人">
+          <nz-select formControlName="recommenderId" nzAllowClear nzPlaceHolder="请选择推荐人">
             <nz-option [nzLabel]="option.studentName" [nzValue]="option.studentId" *ngFor="let option of peopleItem.recommender"></nz-option>
           </nz-select>
         </nz-form-control>
