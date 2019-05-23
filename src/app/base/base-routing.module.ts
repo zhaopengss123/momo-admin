@@ -61,6 +61,11 @@ const routes: Routes = [
             data: { title: '角色管理' },
             loadChildren: 'src/app/modules/setting/role/role.module#RoleModule'
           },
+          {
+            path: 'config',
+            data: { title: '基础设置' },
+            loadChildren: 'src/app/modules/setting/config/config.module#ConfigModule'
+          }
         ]
       },
       {
