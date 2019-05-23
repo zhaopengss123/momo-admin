@@ -30,6 +30,32 @@
       </nz-form-item>
     </div>
   </div>
+
+  <div nz-row nzGutter="12">
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="receptionNum">班级容纳人数</nz-form-label>
+        <nz-form-control>
+          <input nz-input placeholder="请输入容纳人数" formControlName="receptionNum" >
+          <nz-form-explain *ngIf="formGroup.get('receptionNum').dirty && formGroup.get('receptionNum').hasError('required')">请输入容纳人数！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzGutter="12">
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="startMonth">月龄设置</nz-form-label>
+        <nz-form-control>
+          <input nz-input placeholder="请输入容纳人数" style="width:100px;" formControlName="startMonth" > — <input nz-input style="width:100px;" placeholder="请输入容纳人数" formControlName="endMonth" >
+          <nz-form-explain *ngIf="formGroup.get('startMonth').dirty && formGroup.get('startMonth').hasError('required') && formGroup.get('endMonth').dirty && formGroup.get('startMonth').hasError('endMonth')">请输入容纳人数！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+
 </form>
 
 <div class="drawer-footer">

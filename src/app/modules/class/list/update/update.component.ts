@@ -24,7 +24,10 @@ export class UpdateComponent implements OnInit {
       classId: [],
       classImage: [, [Validators.required]],
       className: [, [Validators.required]],
-      classSlogan: [, [Validators.required]]
+      classSlogan: [, [Validators.required]],
+      receptionNum: [, [Validators.required]],
+      startMonth: [, [Validators.required]],
+      endMonth: [, [Validators.required]],
     });
   }
 
