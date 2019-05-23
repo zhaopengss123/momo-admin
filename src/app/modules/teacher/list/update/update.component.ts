@@ -46,7 +46,7 @@ export class UpdateComponent implements OnInit {
       receptionNum: [, [Validators.required]],
       idCard:[, [Validators.required]],
       birthday:[,[Validators.required]],
-      email: [],
+      eMail: [],
       homeAddress: [],
       entryTime: [, [Validators.required]],
       quitTime: [],
