@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { StudentStatusComponent } from './student-status.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
+import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 
 @NgModule({
   declarations: [StudentStatusComponent],
@@ -17,7 +19,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       }
     ]),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgRelaxModule,
+    QuillModule.forRoot(),
   ]
 })
 export class StudentStatusModule { }
