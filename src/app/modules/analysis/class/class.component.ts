@@ -47,13 +47,12 @@ export class ClassComponent implements OnInit {
   }
 
   generate() {
-    let time = this.listPage.eaQuery._queryForm.value.time;
-    if (time[0]) {
-      let params = { startDate: this.format.transform(time[0], 'yyyy-MM-dd'), endDate:this.format.transform(time[1], 'yyyy-MM-dd') };
+    let value = this.listPage.eaQuery._queryForm.value;
+    if (value.time || value.startDate) {
+      let params = { startDate: value.startDate || this.format.transform(value.time[0], 'yyyy-MM-dd'), endDate: value.endDate || this.format.transform(value.time[1], 'yyyy-MM-dd') };
       this.http.post('/reserve/generateReserveStatistics',params, true).then(res => {
         this.listPage.eaQuery._submit();
       })
-    
     } else {
       this.message.warning('请选查询条件');
     }

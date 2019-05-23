@@ -8,14 +8,16 @@
 
   <div class="query">
     <ea-query-flex [node]="queryNode" (onSubmit)="query($event)"></ea-query-flex>
-<nz-divider></nz-divider>
-  <div class="button-group">
-    <button nz-button nzType="primary" (click)="update()">添加学员</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('appoint', {needData: true, type: 'isReserve'})" *ngIf="customerStatusIndex < 2">预约</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('payment', {type: 'isPay'})">缴费</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('class', {type: 'isAdjustClass'})" *ngIf="customerStatusIndex < 2">转/升班</button>
-    <button nz-button nzType="primary" nzGhost (click)="operation('leaving')" *ngIf="customerStatusIndex < 2">退园</button>
-  </div>
+
+    <nz-divider></nz-divider>
+    
+    <div class="button-group">
+      <button nz-button nzType="primary" (click)="update()">添加学员</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('appoint', {needData: true, type: 'isReserve'})" *ngIf="customerStatusIndex < 2">预约</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('payment', {type: 'isPay'})">缴费</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('class', {type: 'isAdjustClass'})" *ngIf="customerStatusIndex < 2">转/升班</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('leaving')" *ngIf="customerStatusIndex < 2">退园</button>
+    </div>
 
     <ea-table #eaTable
       [url]="domain + '/czg/clientListQuery'"
@@ -39,7 +41,7 @@
         <td><a (click)="preview({ id: data.id })">{{ data.nick }}</a></td>
         <td><a (click)="preview({ id: data.id })">{{ data.name }}</a></td>
         <td>{{ data.sex || '-' }}</td>
-        <td>{{ data.birthday || '-' }}</td>
+        <td>{{ data.birthday || data.birthday >= 0 ? data.birthday : '-' }}</td>
         <td>{{ data.schoolRollId == 1 ? '日托' : data.schoolRollId == 2 ? '定期' : '-' }}</td>
         <td>{{ data.gradeName || '-' }}</td>
         <td>{{ data.sourceName || '-' }}</td>
