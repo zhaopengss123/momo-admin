@@ -52,7 +52,7 @@
      <nz-form-item>
       <nz-form-label [nzSpan]="6" [nzRequired]="true">角色性质</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <nz-select formControlName="roleCode" nzPlaceHolder="角色性质" class="wide" [(ngModel)]="defaultValue">
+        <nz-select formControlName="roleCode" nzPlaceHolder="角色性质" class="wide">
           <nz-option *ngFor="let data of roleListType" [nzLabel]="data.roleName"
                      [nzValue]="data.roleCode"></nz-option>
          </nz-select>

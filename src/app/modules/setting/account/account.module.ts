@@ -5,10 +5,9 @@ import { DistributionComponent } from './distribution/distribution.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountComponent } from './account.component';
-import { PasswordComponent } from '../../password/password.component';
 
 @NgModule({
-  declarations: [AccountComponent, DistributionComponent,PasswordComponent],
+  declarations: [AccountComponent, DistributionComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -20,6 +19,6 @@ import { PasswordComponent } from '../../password/password.component';
     NgRelaxModule,
     NgZorroAntdModule
   ],
-  entryComponents: [DistributionComponent,PasswordComponent]
+  entryComponents: [DistributionComponent]
 })
 export class AccountModule { }

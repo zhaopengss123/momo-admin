@@ -7,7 +7,7 @@
       <span class="english-name">{{ memberInfo?.studentInfo.english }}</span>
     </div>
     
-    <nz-tag [nzColor]="'cyan'">{{ memberInfo?.studentInfo.status < 2 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
+    <nz-tag [nzColor]="memberInfo?.studentInfo.status < 2 ? '#87d068' : memberInfo?.studentInfo.status == 2 ? '#2db7f5' : memberInfo?.studentInfo.status == 3 ? '#f50' : ''">{{ memberInfo?.studentInfo.status < 2 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
 
     <div class="cell">
       <div class="dib">
@@ -38,16 +38,16 @@
 
     <div class="btns" *ngIf="!memberInfo.hideBtn">
       <nz-button-group>
-        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3">预约</button>
-        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3">缴费</button>
+        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3 && showReserverBtn" (click)="appoint({studentInfo: memberInfo.studentInfo})">预约</button>
+        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3" (click)="payment({id: memberInfo?.studentInfo.studentId})">缴费</button>
         <nz-dropdown *ngIf="memberInfo.studentInfo.status == 2">
           <button nz-button nz-dropdown nzType="primary" nzGhost>更多操作<i nz-icon type="down"></i></button>
           <ul nz-menu>
             <li nz-menu-item>
-              <a>转班</a>
+              <a (click)="class({id: memberInfo?.studentInfo.studentId})">转班</a>
             </li>
             <li nz-menu-item>
-              <a>退园</a>
+              <a (click)="leaving({id: memberInfo?.studentInfo.studentId})">退园</a>
             </li>
           </ul>
         </nz-dropdown>

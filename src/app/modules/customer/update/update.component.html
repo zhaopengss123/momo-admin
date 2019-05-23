@@ -50,10 +50,28 @@
     </div>
     <div nz-col nzSpan="12">
       <nz-form-item>
+        <nz-form-label [nzSpan]="5">民族/国籍</nz-form-label>
+        <nz-form-control [nzSpan]="19">
+          <input nz-input placeholder="请输入民族/国籍" formControlName="nation">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
         <nz-form-label nzRequired [nzSpan]="5">宝宝生日</nz-form-label>
         <nz-form-control [nzSpan]="19">
           <nz-date-picker formControlName="birthday" nzPlaceHolder="请选择宝宝生日" [nzDisabledDate]="_disabledDate"></nz-date-picker>
           <nz-form-explain *ngIf="valid('birthday')">请选择宝宝生日！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">收集人</nz-form-label>
+        <nz-form-control [nzSpan]="19">
+          <nz-select formControlName="recruitTeacherId" nzAllowClear nzPlaceHolder="请选择收集人">
+            <nz-option [nzLabel]="option.teacherName" [nzValue]="option.teacherId" *ngFor="let option of peopleItem.collectorList"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -65,24 +83,6 @@
             <nz-option [nzLabel]="option.className" [nzValue]="option.classId" *ngFor="let option of optionItem.classList"></nz-option>
           </nz-select>
           <nz-form-explain *ngIf="valid('classId')">请选择班级！</nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col nzSpan="12">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="5">民族/国籍</nz-form-label>
-        <nz-form-control [nzSpan]="19">
-          <input nz-input placeholder="请输入民族/国籍" formControlName="nation">
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <div nz-col nzSpan="12">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="5">收集人</nz-form-label>
-        <nz-form-control [nzSpan]="19">
-          <nz-select formControlName="recruitTeacherId" nzAllowClear nzPlaceHolder="请选择收集人">
-            <nz-option [nzLabel]="option.teacherName" [nzValue]="option.teacherId" *ngFor="let option of peopleItem.collectorList"></nz-option>
-          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>

@@ -43,7 +43,7 @@ export class ClassComponent implements OnInit {
 
   @DrawerClose() close: () => void;
 
-  @ControlValid() valid: (key, type) => boolean;
+  @ControlValid() valid: (key, type?) => boolean;
 
   saveLoading: boolean;
   @DrawerSave('/student/adjustClass') save: () => void;

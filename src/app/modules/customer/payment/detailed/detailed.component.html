@@ -6,7 +6,7 @@
       {{ studentInfo.nickName ? '（' + studentInfo.nickName + '）' : '' }}
       <span class="english-name">{{ studentInfo.english }}</span>
     </div>
-    <nz-tag [nzColor]="'cyan'">{{ studentInfo.status < 2 ? '体验学员' : studentInfo.status == 2 ? '在校学员' : studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
+    <nz-tag [nzColor]="studentInfo.status < 2 ? '#87d068' : studentInfo.status == 2 ? '#2db7f5' : studentInfo.status == 3 ? '#f50' : ''">{{ studentInfo.status < 2 ? '体验学员' : studentInfo.status == 2 ? '在校学员' : studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
     <div class="cell">
       <span>所属销售：</span><span>{{ studentInfo.salespersonName || '-' }}</span>
     </div>

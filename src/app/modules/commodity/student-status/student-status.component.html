@@ -64,7 +64,7 @@
         <nz-form-label [nzSm]="2" [nzXs]="24">学籍类型</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <nz-radio-group [(ngModel)]="radioValue" [ngModelOptions]="{standalone: true}" formArrayName="studentStatus" [nzButtonStyle]="'solid'" [nzSize]="'small'">
-              <label (click)="tabSieves(i+1)" *ngFor="let item of validateForm.get('studentStatus').controls; let i = index;" nz-radio-button [nzValue]="i+1">{{item.value}}</label>
+              <label (click)="tabSieves(i+1)" *ngFor="let item of validateForm.get('studentStatus')['controls']; let i = index;" nz-radio-button [nzValue]="i+1">{{item.value}}</label>
             </nz-radio-group>
           </nz-form-control>
       </nz-form-item>
@@ -72,7 +72,7 @@
         <nz-form-label  [nzSm]="2" [nzXs]="24" nzFor="password">总销量</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24">
           <div nz-col nzSpan="4">
-            <input (blur)="loseFocus(validateForm.get('salesVolume').controls.salesMinNumber.value)" formControlName="salesMinNumber" nz-input placeholder="最小值" />
+            <input (blur)="loseFocus(validateForm.get('salesVolume')['controls'].salesMinNumber.value)" formControlName="salesMinNumber" nz-input placeholder="最小值" />
           </div>
           <div nz-col nzSpan="1">
             <span style="display: block;text-align: center;">至</span>
@@ -82,7 +82,7 @@
           </div>
           <nz-form-explain 
             style="color: red;" 
-            *ngIf="validateForm.get('salesVolume').controls.salesMinNumber.value-1+1 > validateForm.get('salesVolume').controls.salesMaxNumber.value-1+1"
+            *ngIf="validateForm.get('salesVolume')['controls'].salesMinNumber.value-1+1 > validateForm.get('salesVolume')['controls'].salesMaxNumber.value-1+1"
             >总销量最小值不能大于最大值</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
@@ -110,7 +110,7 @@
             </div>
           <nz-form-explain
             style="color: red;"
-            *ngIf="validateForm.get('price').controls.priceMinNumber.value-1+1 > validateForm.get('price').controls.priceMaxNumber.value-1+1"
+            *ngIf="validateForm.get('price')['controls'].priceMinNumber.value-1+1 > validateForm.get('price')['controls'].priceMaxNumber.value-1+1"
           >
           售价最小值不能大于最大值
           </nz-form-explain>

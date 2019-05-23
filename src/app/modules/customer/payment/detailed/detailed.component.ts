@@ -87,7 +87,7 @@ export class DetailedComponent implements OnInit {
     });
   }
 
-  @ControlValid() valid: (key, type) => boolean;
+  @ControlValid() valid: (key, type?) => boolean;
 
   saveLoading: boolean;
   save() {

@@ -1,4 +1,4 @@
-<ea-quote>会员信息<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'">编辑</button></ea-quote>
+<ea-quote>会员信息<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'" (click)="update({ id: memberInfo?.studentInfo.studentId })">编辑</button></ea-quote>
 <div nz-row [nzGutter]="8" class="member">
   <div class="base">
     <div nz-col [nzSpan]="3">姓名：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.studentName || '--' }}</div>
@@ -19,7 +19,7 @@
   <div nz-col [nzSpan]="3">有慢性病：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isChronicDisease ? memberInfo.studentInfo.chronicDisease : '无' }}</div>
   <div nz-col [nzSpan]="3">在接收药物治疗：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isMedication ? memberInfo.studentInfo.medication : '无' }}</div>
 </div>
-<ea-quote>家庭资料<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'">新增家长账号</button></ea-quote>
+<ea-quote>家庭资料<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'" (click)="update({ id: memberInfo?.studentInfo.studentId })">新增家长账号</button></ea-quote>
 <ea-table [dataSet]="memberInfo?.parentAccountList" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" [thead]="['姓名', '关系', '联系电话', '身份证号', '单位地址', 'APP账号状态', '默认联系人', '操作']">
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.accountName }}</td>

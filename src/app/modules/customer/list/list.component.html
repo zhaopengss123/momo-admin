@@ -24,12 +24,12 @@
       [isRadio]="true"
       [checkedItems]="checkedItems"
       (checkedItemsChange)="checkedData = $event"
-      (dataChange)="dataChange($event)"
+      (dataChange)="dataChange()"
       [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
       [EaTableTbodyTr]="EaTableTbodyTr" [checked]="true">
       <ng-template let-data #EaTableTbodyTr>
         <td>
-          <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+          <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
             [nzSrc]="data.headUrl" nz-tooltip [nzTitle]="data.headUrl ? titleTemplate : null"></nz-avatar>
           <ng-template #titleTemplate>
             <img [src]="data.headUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
@@ -40,14 +40,14 @@
         <td><a (click)="preview({ id: data.id })">{{ data.name }}</a></td>
         <td>{{ data.sex || '-' }}</td>
         <td>{{ data.birthday || '-' }}</td>
-        <td>{{ data.schoolRollName || '-' }}</td>
+        <td>{{ data.schoolRollId == 1 ? '日托' : data.schoolRollId == 2 ? '定期' : '-' }}</td>
         <td>{{ data.gradeName || '-' }}</td>
         <td>{{ data.sourceName || '-' }}</td>
         <td>{{ data.sellName || '-' }}</td>
         <td>{{ data.bookBuildingTime || '-' }}</td>
         <td>{{ data.enrolTime || '-' }}</td>
         <td>{{ data.expireTime || '-' }}</td>
-        <td>{{ data.residueDays || '-' }}</td>
+        <td>{{ data.residueDays }}</td>
         <td>
           <ng-container [ngSwitch]="data.statusId">
             <ng-container *ngSwitchCase="0">未体验</ng-container>

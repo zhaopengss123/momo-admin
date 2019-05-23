@@ -19,6 +19,7 @@ export function DrawerCreate(options: DrawerCreateOption) {
         if (options.close) {
           options.close(res);
         } else if (res) {
+          this.drawerRef && this.drawerRef.close(true);
           this.listPage && this.listPage.eaTable._request();
           this.table && this.table._request();
         }
