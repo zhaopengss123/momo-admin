@@ -17,7 +17,7 @@ export class UpdateComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  @GetList('/teacher/getRoles') roleList: any;
+   roleList: any;
   classList: any[] = [];
   @GetList('/teacher/getMenus') menuList: any;
 
@@ -32,7 +32,7 @@ export class UpdateComponent implements OnInit {
     typeof this.roleList === 'function' && this.roleList();
     typeof this.menuList === 'function' && this.menuList();
     this.http.post('/message/getClasses', {}, false).then(res => this.classList = res.data);
-
+    this.http.post('/teacher/getRoleList', {}, false).then(res => this.roleList = res.data);
     this.formGroup = this.fb.group({
       id: [this.id],
       userId: [],
@@ -42,7 +42,16 @@ export class UpdateComponent implements OnInit {
       sex: ['1'],
       roleId: [, [Validators.required]],
       classIds: [],
-      menuIds: []
+      menuIds: [],
+      receptionNum: [, [Validators.required]],
+      idCard:[, [Validators.required]],
+      birthday:[],
+      email: [],
+      homeAddress: [],
+      entryTime: [, [Validators.required]],
+      quit_time: [],
+      status: [, [Validators.required]],
+      isGovernor: [, [Validators.required]],
     });
     this.formGroup.get('roleId').valueChanges.subscribe(roleId => {
       if (roleId) {

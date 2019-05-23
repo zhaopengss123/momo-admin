@@ -21,8 +21,45 @@ export class ListComponent implements OnInit {
       key: 'status',
       type: 'select',
       options: [ {name: '在校', id: 1 }, { name: '离职', id: 2 } ]
+    },
+    {
+      label: '老师名称',
+      key: 'name',
+      type: 'input'
+    },
+    {
+      label: '手机号',
+      key: 'mobilePhone',
+      type: 'input'     
     }
   ];
+
+  // queryNode: QueryNode[] = [
+  //   {
+  //     label       : '通道名',
+  //     key         : 'placeName',
+  //     type        : 'input'
+  //   },
+  //   {
+  //     label       : '设备号',
+  //     key         : 'serialNum',
+  //     type        : 'input'
+  //   },
+  //   {
+  //     label       : '区域属性',
+  //     key         : 'publicPlaceFlag',
+  //     type        : 'select',
+  //     options     : [ { name: '公共区', id: 1 }, { name: '非公共区', id: 0 } ]
+  //   },
+  //   {
+  //     label       : '班级',
+  //     key         : 'classId',
+  //     type        : 'select',
+  //     optionKey   : { label: 'className', value: 'id' },
+  //     optionsUrl  : '/message/listClassMessage'
+  //   }
+  // ];
+
 
   constructor(
     private http: HttpService,
