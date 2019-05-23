@@ -64,13 +64,12 @@ export class ListComponent implements OnInit {
   }
 
   preview(info) {
-    const drawer = this.drawer.create({
+    this.drawer.create({
       nzWidth: 720,
       nzTitle: info.className,
       nzContent: PreviewComponent,
       nzContentParams: { id: info.id }
-    });
-    drawer.afterClose.subscribe(res => res && this.getData());
+    }).afterClose.subscribe(res => res && this.getData());
   }
 
 }

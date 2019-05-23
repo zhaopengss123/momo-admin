@@ -40,16 +40,14 @@ export class StudentStatusComponent implements OnInit {
       key         : 'salesVolume',
       type        : 'between',
       valueKey    : ['minCount','maxCount'],
-      placeholder : ['最小值','最大值'],
-      isHide      : true
+      placeholder : ['最小值','最大值']
     },
     {
       label       : '售价',
       key         : 'price',
       type        : 'between',
       valueKey    : ['minPrice','maxPrice'],
-      placeholder : ['最小值','最大值'],
-      isHide      : true
+      placeholder : ['最小值','最大值']
     }
   ]
 

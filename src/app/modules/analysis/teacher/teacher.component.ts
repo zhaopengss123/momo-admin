@@ -50,8 +50,8 @@ export class TeacherComponent implements OnInit {
     let time = this.listPage.eaQuery._queryForm.value.time;
     if (time[0]) {
       let params = { startDate: this.format.transform(time[0], 'yyyy-MM-dd'), endDate:this.format.transform(time[1], 'yyyy-MM-dd') };
-      this.http.post('/reserve/generateReserveStatistics',params).then(res => {
-        this.listPage.eaTable._request();
+      this.http.post('/reserve/generateReserveStatistics',params, true).then(res => {
+        this.listPage.eaQuery._submit();
       })
     
     } else {

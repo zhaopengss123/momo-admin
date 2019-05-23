@@ -1,36 +1,12 @@
-<!-- <button nz-button nzType="dashed" nzBlock nzSize="large" (click)="update()"><i nz-icon type="plus"></i>新增班级</button>
-<div nz-row nzGutter="24">
-
-  <div nz-col nzSpan="6" *ngFor="let item of classList" style="margin-bottom: 24px;">
-    <nz-card [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-      <nz-card-meta [nzTitle]="item.className" [nzDescription]="item.classSlogan"></nz-card-meta>
-    </nz-card>
-    <ng-template #coverTemplate>
-      <img alt="example" class="head-img" [src]="item.classImage" />
-    </ng-template>
-    <ng-template #actionSetting>
-      <i nz-icon type="home" (click)="preview(item)"></i>
-    </ng-template>
-    <ng-template #actionEdit>
-      <i nz-icon type="edit" (click)="update(item)"></i>
-    </ng-template>
-    <ng-template #actionEllipsis>
-      <i nz-icon type="delete" nz-popconfirm nzTitle="确定要删除吗？" (nzOnConfirm)="delete(item.id)"></i>
-    </ng-template>
-  </div>
-
-</div> -->
-
 <div class="container">
-  <ea-list-page
+  <ea-list-page-simp
   #listPage
   url="/classmanager/getClassList"
   [queryNode]="queryNode"
   [tableThead]="[ '头像', '班级名称', '班级口号' ,'月龄', '班级容纳人数', '老师接待能力人数', '老师', '学生' ,'操作' ]"
   [EaBtns]="EaBtns"
-  [showPage]="false"
   [EaTableTbodyTr]="EaTableTbodyTr">
-</ea-list-page>
+</ea-list-page-simp>
 
 <ng-template #EaBtns>
   <button nz-button nzType="primary" (click)="update()">新增班级</button>
@@ -44,7 +20,7 @@
       <img [src]="data.classImage" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
     </ng-template>
   </td>
-  <td>{{ data.className }}</td>
+  <td><a (click)="preview(data)">{{ data.className }}</a></td>
   <td>{{ data.classSlogan }}</td>
   <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
   <td>{{ data.receptionNum }}</td>

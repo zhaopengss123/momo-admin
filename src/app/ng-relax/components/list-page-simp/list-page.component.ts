@@ -9,8 +9,8 @@ import { TableComponent } from '../table/table.component';
 })
 export class ListPageSimpComponent implements OnInit {
 
-  @ViewChild('EaQuery') eaQuery: QueryComponent;
-  @ViewChild('EaTable') eaTable: TableComponent;
+  @ViewChild('eaQuery') eaQuery: QueryComponent;
+  @ViewChild('eaTable') eaTable: TableComponent;
 
   @Input() type: 'default' | 'simpify' = 'default';
 

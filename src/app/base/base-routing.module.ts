@@ -99,7 +99,7 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
-            path: 'StudentStatus',
+            path: 'studentstatus',
             data: { title: '学籍项' },
             loadChildren: 'src/app/modules/commodity/student-status/student-status.module#StudentStatusModule'
           },

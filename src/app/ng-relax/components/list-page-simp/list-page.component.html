@@ -1,11 +1,11 @@
-<ea-query-simp #eaQuery [node]="queryNode" (onSubmit)="EaTable.request($event)" *ngIf="queryNode.length"></ea-query-simp>
+<ea-query-simp #eaQuery [node]="queryNode" (onSubmit)="eaTable.request($event)" *ngIf="queryNode.length"></ea-query-simp>
 
 <div class="ea-btns" *ngIf="EaBtns">
   <ng-container *ngTemplateOutlet="EaBtns"></ng-container>
 </div>
 
 <ea-table 
-  #EaTable
+  #eaTable
   [url]="url"
   [thead]="tableThead" 
   [allowSpace]="allowSpace"

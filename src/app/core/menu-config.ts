@@ -99,7 +99,7 @@ export const MenuConfig = [
     children : [
       {
         title : '学籍项',
-        key   : '/home/commodity/StudentStatus',
+        key   : '/home/commodity/studentstatus',
         isLeaf: true
       },
       {
