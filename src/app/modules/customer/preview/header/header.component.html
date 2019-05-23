@@ -7,7 +7,7 @@
       <span class="english-name">{{ memberInfo?.studentInfo.english }}</span>
     </div>
     
-    <nz-tag [nzColor]="memberInfo?.studentInfo.status < 2 ? '#87d068' : memberInfo?.studentInfo.status == 2 ? '#2db7f5' : memberInfo?.studentInfo.status == 3 ? '#f50' : ''">{{ memberInfo?.studentInfo.status < 2 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
+    <nz-tag [nzColor]="memberInfo?.studentInfo.status < 2 ? '#87d068' : memberInfo?.studentInfo.status == 2 ? '#2db7f5' : memberInfo?.studentInfo.status == 3 ? '#f50' : ''">{{ memberInfo?.studentInfo.status == 0 ? '未体验学员' : memberInfo?.studentInfo.status == 1 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
 
     <div class="cell">
       <div class="dib">

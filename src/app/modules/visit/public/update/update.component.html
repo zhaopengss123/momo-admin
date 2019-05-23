@@ -4,8 +4,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>宝宝名称</nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="nick" placeholder="请输入宝宝名称">
-          <nz-form-explain *ngIf="valid('nick')">请输入宝宝名称</nz-form-explain>
+          <input nz-input formControlName="studentName" placeholder="请输入宝宝名称">
+          <nz-form-explain *ngIf="valid('studentName')">请输入宝宝名称</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -15,8 +15,6 @@
         <nz-form-control>
           <input nz-input formControlName="mobilePhone" placeholder="请输入家长电话" maxlength="11">
           <nz-form-explain *ngIf="valid('mobilePhone') || valid('mobilePhone', 'pattern')">请输入正确的家长电话</nz-form-explain>
-          <nz-form-explain *ngIf="valid('mobilePhone', 'duplicated')">该手机号码已存在</nz-form-explain>
-          <nz-form-explain *ngIf="formGroup.get('mobilePhone').dirty && formGroup.get('mobilePhone').pending"><i nz-icon nzType="loading"></i>正在校验手机号码是否存在...</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>
