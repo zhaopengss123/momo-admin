@@ -121,9 +121,9 @@ export class RoleComponent implements OnInit {
             } else {
               this.loading = true;
               console.log(componentInstance);
-              http.post('/settings/role/insertRoleMenu', {
+              http.post('/settings/role/updateRoleMenu', {
                 roleId: componentInstance.roleId,
-                menuId: componentInstance.menuIds
+                menuUrls: componentInstance.checkedNodes.join(',')
               }).then(res => {
                 modal.close();
               }, err => {
