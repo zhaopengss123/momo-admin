@@ -19,7 +19,7 @@
     [nzPagination]="pagination"
     [nzRenderItem]="item">
     <ng-template #item let-item>
-      <nz-list-item *ngIf="!showExamine || (showExamine && item.auditStatus == 1)" [nzActions]="[editAction]">
+      <nz-list-item *ngIf="!showExamine || (showExamine && item.auditStatus == 1)" [nzActions]="item.auditStatus != 2 ? [editAction] : null">
         <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="item.loading">
           <ng-template #editAction>
             <ng-container *ngIf="showExamine; else elseTemplate">

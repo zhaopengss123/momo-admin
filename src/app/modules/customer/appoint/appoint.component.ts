@@ -13,6 +13,8 @@ export class AppointComponent implements OnInit {
 
   @Input() studentInfo: any = {};
 
+  @Input() classId: string; /* ? 如果为回访页面打开，则值为：回访时选择的班级 */
+
   dataSet: AppointData[] = [];
 
   constructor(
@@ -25,7 +27,7 @@ export class AppointComponent implements OnInit {
 
   ngOnInit() {
     this.studentInfo.id = this.studentInfo.id || this.studentInfo.studentId;
-    this.studentInfo.classId = this.studentInfo.classId || this.studentInfo.gradeId;
+    this.studentInfo.classId = this.classId || this.studentInfo.classId || this.studentInfo.gradeId;
     /* 如果是日托， 则获取最大选择天数 */
     this.studentInfo.schoolRollId == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
     this.getData();
@@ -78,57 +80,65 @@ export class AppointComponent implements OnInit {
         reserveDate, 
         teacherId: Number(teacherId), 
         pitNum: Number(pitNum),
+        classId: this.studentInfo.classId,
         reserveType: this.studentInfo.schoolRollId === null ? 3 : this.studentInfo.schoolRollId === 1 ? 1 : this.studentInfo.schoolRollId === 2 ? 0 : 2
       });
-    })
-    this.http.post('/reserve/checkReserveRecord', { 
-      paramJson: JSON.stringify( checkedParams ) 
-    }).then(res => this.modal[res.result == 1000 ? 'success' : res.result == 1001 ? 'error' : 'warning']({
-      nzMaskClosable: true,
-      nzTitle: res.message,
-      nzContent: res.data && res.data.list ? res.data.list.join('、') : `确定预约吗`,
-      nzOkText: res.result == 1001 ? null : '确定预约',
-      nzOnOk: () => {
-        this.getCheckedItemLoading = true;
-        let url = this.studentInfo.schoolRollId == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
-        let [startDate, teacherId, pitNum] = this.checkedList[0].split('|');
-        let endDate = this.checkedList[this.checkedList.length - 1].split('|')[0];
-        let params = this.studentInfo.schoolRollId == 2 ? {
-          pitNum: pitNum,
-          studentId: this.studentInfo.id,
-          reserveType: 0,
-          teacherId: teacherId,
-          classId: this.studentInfo.classId,
-          startDate,
-          endDate
-        } : checkedParams
-        this.http.post(url, {
-          paramJson: JSON.stringify(params)
-        }, true).then(res => {
-          if (this.studentInfo.schoolRollId == 2) {
-            this.http.post('/student/updateCardInfoByReserve', {
-              paramJson: JSON.stringify({
-                effectDate: startDate,
-                expireDate: endDate,
-                classId: this.studentInfo.classId,
-                teacherId,
-                studentId: this.studentInfo.id
-              }) }).then(res => {
-              this.getCheckedItemLoading = true;
+    });
+    if (this.classId) {
+      this.drawerRef.close(checkedParams[0]);
+    } else {
+      this.saveLoading = true;
+      this.http.post('/reserve/checkReserveRecord', { 
+        paramJson: JSON.stringify( checkedParams ) 
+      }).then(res => this.modal[res.result == 1000 ? 'success' : res.result == 1001 ? 'error' : 'warning']({
+        nzMaskClosable: true,
+        nzTitle: res.message,
+        nzContent: res.data && res.data.list ? res.data.list.join('、') : `确定预约吗`,
+        nzOkText: res.result == 1001 ? null : '确定预约',
+        nzOnOk: () => {
+          this.getCheckedItemLoading = true;
+          let url = this.studentInfo.schoolRollId == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
+          let [startDate, teacherId, pitNum] = this.checkedList[0].split('|');
+          let endDate = this.checkedList[this.checkedList.length - 1].split('|')[0];
+          let params = this.studentInfo.schoolRollId == 2 ? {
+            pitNum: pitNum,
+            studentId: this.studentInfo.id,
+            reserveType: 0,
+            teacherId: teacherId,
+            classId: this.studentInfo.classId,
+            startDate,
+            endDate
+          } : checkedParams
+          this.http.post(url, {
+            paramJson: JSON.stringify(params)
+          }, true).then(res => {
+            if (this.studentInfo.schoolRollId == 2) {
+              this.http.post('/student/updateCardInfoByReserve', {
+                paramJson: JSON.stringify({
+                  effectDate: startDate,
+                  expireDate: endDate,
+                  classId: this.studentInfo.classId,
+                  teacherId,
+                  studentId: this.studentInfo.id
+                }) }).then(res => {
+                this.getCheckedItemLoading = true;
+                this.saveLoading = false;
+                this.close(true);
+              })
+            } else {
+              this.saveLoading = false;
               this.close(true);
-            })
-          } else {
-            this.close(true);
-          }
-        });
-      },
-      nzCancelText: '取消预约',
-      nzOnCancel: () => { console.log('取消预约') }
-    }));
+            }
+          });
+        },
+        nzCancelText: '取消预约',
+        nzOnCancel: () => { this.saveLoading = false }
+      }));
+    }
   }
 
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
-    let classInfo = await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.gradeId });
+    let classInfo = await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
     /* 如查询不到做兼容处理 */
     classInfo.data.list = classInfo.data.list.length ? classInfo.data.list : [{ className: this.studentInfo.gradeName, teachers: [], receptionNum: 0}];
     let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');

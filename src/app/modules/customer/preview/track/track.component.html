@@ -73,9 +73,19 @@
         <nz-form-item>
           <nz-form-control>
             <nz-select formControlName="reserveClassId" nzPlaceHolder="请选择预约班级">
-              <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.className"></nz-option>
+              <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.classId"></nz-option>
             </nz-select>
             <nz-form-explain *ngIf="valid('reserveClassId')">请选择预约班级</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="4" *ngIf="formGroup.get('reserveClassId').value">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group [nzSuffixIcon]="'calendar'">
+              <input type="text" nz-input placeholder="请选择预约时间" formControlName="reserveDate" readonly (click)="selectAppoint()" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="valid('reserveDate')">请选择预约时间</nz-form-explain>
           </nz-form-control>
         </nz-form-item>
       </div>

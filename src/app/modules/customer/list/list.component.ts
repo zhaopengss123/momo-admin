@@ -78,7 +78,8 @@ export class ListComponent implements OnInit {
       label   : '所属销售',
       key     : 'sellId',
       type    : 'select',
-      optionsUrl: '/student/getTeacherListByRoleId'
+      options : [],
+      optionKey: { label: 'teacherName', value: 'teacherId' }
     },
     {
       label   : '学员生日',
@@ -135,7 +136,8 @@ export class ListComponent implements OnInit {
       res.data.cardList.map(item => this.queryItems.cardList[item.id] = item.name);
       res.data.teacherList.map(item => this.queryItems.teacherList[item.teacherId] = item.teacherName);
       this.dataChange();
-    })
+    });
+    this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[5].options = res.data.list);
   }
 
   ngOnInit() {
@@ -174,7 +176,6 @@ export class ListComponent implements OnInit {
     }
   }
 
-  // @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
   payment(params) {
     this.drawer.create({
       nzTitle: null,

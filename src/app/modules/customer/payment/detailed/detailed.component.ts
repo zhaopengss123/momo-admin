@@ -78,7 +78,7 @@ export class DetailedComponent implements OnInit {
 
     this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
       this.studentInfo = res.data.studentInfo;
-      this.formInfo.cardTypeName && this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
+      this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
       if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
         let [y, m, d] = this.studentInfo.birthday.split('-');
         let expireDate = `${Number(y) + 3}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;

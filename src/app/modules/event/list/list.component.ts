@@ -1,15 +1,14 @@
 import { UpdateComponent } from './update/update.component';
 import { AddComponent } from './add/add.component';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
-import { HttpService } from './../../../ng-relax/services/http.service';
-import { QueryComponent } from './../../../ng-relax/components/query/query.component';
-import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { QueryNode, QueryComponent } from 'src/app/ng-relax/components/query/query.component';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.less']
 })
 export class ListComponent implements AfterViewInit {
 
