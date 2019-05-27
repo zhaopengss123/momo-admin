@@ -1,9 +1,13 @@
 <div class="container">
   <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
 
-  <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">新增客户线索</button>
+  <ea-tip [isShow]="checkedItems.length" type="info">
+    选择
+    <a href="javascript: void(0)">{{ checkedItems.length }}条</a> 相关记录
+    <a href="javascript:;" (click)="gainClue()">捞取</a>
+  </ea-tip>
 
-  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="{storeId: 1}" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
+  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="{storeId: 1}" [checked]="true" [checkedItems]="checkedItems" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id})">{{ data.nick }}</a></td>
       <td><a (click)="preview({id: data.id})">{{ data.name }}</a></td>

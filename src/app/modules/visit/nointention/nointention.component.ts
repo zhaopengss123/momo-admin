@@ -1,22 +1,19 @@
-import { UpdateComponent } from './../public/update/update.component';
-import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
-import { PreviewComponent } from './../public/preview/preview.component';
-import { NzDrawerService } from 'ng-zorro-antd';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
+import { PreviewComponent } from '../public/preview/preview.component';
+import { NzDrawerService } from 'ng-zorro-antd';
 import { environment } from 'src/environments/environment';
+import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 
 @Component({
-  selector: 'app-clue',
-  templateUrl: './clue.component.html',
-  styleUrls: ['./clue.component.less']
+  selector: 'app-nointention',
+  templateUrl: './nointention.component.html',
+  styleUrls: ['./nointention.component.less']
 })
-export class ClueComponent implements OnInit {
+export class NointentionComponent implements OnInit {
 
   domainEs = environment.domainEs;
-
-  @ViewChild('EaTable') table;
 
   queryNode: QueryNode[] = [
     {
@@ -76,18 +73,27 @@ export class ClueComponent implements OnInit {
       optionsUrl: '/membermanage/returnVisit/getFollowTeachers'
     },
   ];
-  
+
   tableNode = ['宝宝昵称', '宝宝姓名', '宝宝生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
 
+  checkedItems: any[] = [];
+
+  @ViewChild('EaTable') table;
+
   constructor(
+    private http    : HttpService,
     private drawer: NzDrawerService
   ) { }
 
   ngOnInit() {
   }
-  
-  @DrawerCreate({ content: PreviewComponent, width: 860, closable: false, params: { followStageId: 2 } }) preview: ({id: number}) => void;
 
-  @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
+  @DrawerCreate({ content: PreviewComponent, width: 860, closable: false, params: { followStageId: 2 } }) preview: ({ id: number }) => void;
 
+  gainClue(): void {
+    this.http.post('/membermanage/returnVisit/gainMemberClue', { ids: JSON.stringify(this.checkedItems)  }).then(res => {
+      this.checkedItems = [];
+      this.table._request();
+    })
+  }
 }

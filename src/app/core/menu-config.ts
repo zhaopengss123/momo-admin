@@ -152,6 +152,11 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
+        title : '无意向客户',
+        key   : '/home/visit/nointention',
+        isLeaf: true
+      },
+      {
         title : '线索分配',
         key   : '/home/visit/distribution',
         isLeaf: true
