@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, AbstractControl, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-student-status',
@@ -63,8 +64,9 @@ export class StudentStatusComponent implements OnInit {
   salesMaxValue:number; //总销量最大值
   priceMinValue:number; //售价最小值
   priceMaxValue:number; //售价最大值
-  flag = 1;             //切换flag值
+  flag = '1';           //切换flag值
   dataList = [];        //编辑回显数据存储用于提交ID
+  openIsSelect = false; //是否可以切换
   contentList = [
     {id:1, name:1},
     {id:2, name:2},
@@ -111,7 +113,6 @@ export class StudentStatusComponent implements OnInit {
   };
 
   loadData(pi: number): void {
-    console.log(pi);
     this.queryParams.pageNo = pi;
   }
 
@@ -122,31 +123,65 @@ export class StudentStatusComponent implements OnInit {
   vegetables = ['asparagus', 'bamboo', 'potato', 'carrot', 'cilantro', 'potato', 'eggplant'];
 
   open(data = null): void {
+    if (data) {
+      this.openIsSelect = false;
+    } else {
+      this.openIsSelect = true;
+    }
+    //重置表单
+    for (let i in this.monthFormModel['controls']) {
+      this.monthFormModel['controls'][i].reset();
+      this.monthFormModel['controls'][i].updateValueAndValidity();
+    }
+    for (let i in this.drawerFormModel['controls']) {
+      this.drawerFormModel['controls'][i].reset();
+      this.drawerFormModel['controls'][i].updateValueAndValidity();
+    }
+
+    //是否是编辑
     if(!data){
       this.drawerFormModel.patchValue({
         studentStatusType : '1', //卡类型
-        selectedValue     : 1,   //月数
         name              : '',  //卡名称
         days              : '',  //天数
         price             : '',  //售价
         discount          : '',  //最低折扣
         introduce         : ''   //卡描述
       });
+      this.monthFormModel.patchValue({
+        studentStatusType : '1', //卡类型
+        name              : '',  //卡名称
+        selectedValue     : 1,   //月数
+        price             : '',  //售价
+        discount          : '',  //最低折扣
+        introduce         : ''   //卡描述
+      })
     }
     if(data){
+      this.flag = data.type+'';
       var month = parseInt(data.month);
-      //编辑功能回显
-      this.drawerFormModel.patchValue({
-        studentStatusType : data.type + '',      //卡类型
-        name              : data.cardTypeName,   //卡名称
-        selectedValue     : month,               //月数
-        days              : data.day,            //天数
-        price             : data.price,          //售价
-        discount          : data.lowestDiscount, //最低折扣
-        introduce         : data.cardDesc        //卡描述
-      })
+      if (this.flag == '1') {
+        //编辑功能回显
+        this.drawerFormModel.patchValue({
+          studentStatusType : data.type + '',      //卡类型
+          name              : data.cardTypeName,   //卡名称
+          days              : data.day,            //天数
+          price             : data.price,          //售价
+          discount          : data.lowestDiscount, //最低折扣
+          introduce         : data.cardDesc        //卡描述
+        })
+      } else if (this.flag == '2') {
+        //编辑功能回显
+        this.monthFormModel.patchValue({
+          studentStatusType : data.type + '',      //卡类型
+          name              : data.cardTypeName,   //卡名称
+          selectedValue     : month || 1,          //月数
+          price             : data.price,          //售价
+          discount          : data.lowestDiscount, //最低折扣
+          introduce         : data.cardDesc        //卡描述
+        })
+      }
       this.dataList = data;
-      this.flag = data.type;
     }
     this.visible = true;
   }
@@ -165,28 +200,29 @@ export class StudentStatusComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpService
+    private http: HttpService,
+    private message: NzMessageService
   ){
   }
 
   ngOnInit(): void {
     /*-------------- 有限次学籍 --------------*/
     this.drawerFormModel = this.fb.group({
-      studentStatusType : [''],                      //学籍类型
-      name              : [, [Validators.required]], //名称
-      days              : [, [Validators.required]], //天数(有限次)
-      price             : [, [Validators.required]], //售价
-      discount          : [, [Validators.required]], //允许最低折扣
-      introduce         : [, [Validators.required]]  //学籍项介绍
+      studentStatusType : [''],                       //学籍类型
+      name              : [, [Validators.required]],  //名称
+      days              : [, [Validators.required]],  //天数(有限次)
+      price             : [, [Validators.required]],  //售价
+      discount          : [, [Validators.required,this.discountValidator]], //允许最低折扣
+      introduce         : [, [Validators.required]]   //学籍项介绍
     })
     /*-------------- 不限次学籍 --------------*/
     this.monthFormModel = this.fb.group({
-      studentStatusType : [''],                      //学籍类型
-      selectedValue     : [1],                       //内容(不限次)
-      name              : [, [Validators.required]], //名称
-      price             : [, [Validators.required]], //售价
-      discount          : [, [Validators.required]], //允许最低折扣
-      introduce         : [, [Validators.required]]  //学籍项介绍
+      studentStatusType : [''],                       //学籍类型
+      selectedValue     : [1],                        //内容(不限次)
+      name              : [, [Validators.required]],  //名称
+      price             : [, [Validators.required]],  //售价
+      discount          : [, [Validators.required,this.discountValidator]], //允许最低折扣
+      introduce         : [, [Validators.required]]   //学籍项介绍
     })
     //动态显示查询条件
     this.http.post('/commodity/card/getCardTypeCategory').then( res => {
@@ -223,76 +259,106 @@ export class StudentStatusComponent implements OnInit {
   }
 
   /*-------------- 删除 --------------*/
-  delete(id) {
+  delete(data) {
+    if (data.count != 0) {
+      this.message.create('warning', '该学籍已被使用，不可删除！');
+      return;
+    }
     var paramJson = {
-      "cardTypeId" : id
+      "cardTypeId" : data.cardTypeId
     }
     this.http.post('/commodity/card/deleteCardType', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      this.table._request();
+      if (res.result == 1000) {
+        this.message.create('success', '删除成功');
+        this.table._request();
+      }
     })
   }
 
   /*-------------- 提交按钮 --------------*/
   drawerSubmit(type) {
 
-    //有限次学籍
-    if(this.flag == 1){
-      if(this.drawerFormModel['invalid']){
-        for (let i in this.drawerFormModel['controls']) {
-          this.drawerFormModel['controls'][i].markAsDirty();
-          this.drawerFormModel['controls'][i].updateValueAndValidity();
-        }
-      }else{
-        //有限次学籍
-        var str = this.drawerFormModel.value['introduce'];
-        str = str.substr(3,str.length-7);
-        var param = {
-          "cardDesc"       :  str,                                           //卡描述
-          "cardTypeName"   :  this.drawerFormModel.value['name'],            //卡名称
-          "lowestDiscount" :  this.drawerFormModel.value['discount'],        //最低折扣
-          "price"          :  this.drawerFormModel.value['price'],           //售价
-          "isOnline"       :  type || this.drawerFormModel['isOnline'] || 0, //是否上线
-          "type"           :  1,                                             //卡类型 1卡次
-          "cardTypeId"     :  this.dataList['cardTypeId'],                   //Id
-          "day"            :  this.drawerFormModel.value['days']             //天数
-        }
-        console.log('左边',param);
-        this.http.post('/commodity/card/saveCard', {paramJson : JSON.stringify(param)}).then( res => {
-          console.log(res);
-          this.visible = false;
-          this.table._request();
-        })
-      }
-    }
+    var cardTypeCategoryId; //cardTypeCategoryId
 
-    //不限次学籍
-    if(this.flag == 2){
-      if(this.monthFormModel['invalid']){
-        for (let i in this.monthFormModel['controls']) {
-          this.monthFormModel['controls'][i].markAsDirty();
-          this.monthFormModel['controls'][i].updateValueAndValidity();
+    //调取接口学籍类型列表
+    this.http.post('/commodity/card/getCardTypeCategory').then(res => {
+
+      //有限次学籍
+      if(this.flag == '1'){
+        if(this.drawerFormModel['invalid']){
+          for (let i in this.drawerFormModel['controls']) {
+            this.drawerFormModel['controls'][i].markAsDirty();
+            this.drawerFormModel['controls'][i].updateValueAndValidity();
+          }
+        }else{
+          //有限次学籍(次卡)
+          for (let item of res.data.list) {
+            if (item.name == '次卡') {
+              cardTypeCategoryId = item.id;
+            }
+          }
+          var str = this.drawerFormModel.value['introduce'];
+          str = str.substr(3,str.length-7);
+          var param = {
+            "cardDesc"           :  str,                                           //卡描述
+            "cardTypeName"       :  this.drawerFormModel.value['name'],            //卡名称
+            "lowestDiscount"     :  this.drawerFormModel.value['discount'],        //最低折扣
+            "price"              :  this.drawerFormModel.value['price'],           //售价
+            "isOnline"           :  type || this.drawerFormModel['isOnline'] || 0, //是否上线
+            "type"               :  1,                                             //卡类型 1卡次
+            "cardTypeId"         :  this.dataList['cardTypeId'],                   //Id
+            "day"                :  this.drawerFormModel.value['days'],            //天数
+            "cardTypeCategoryId" :  cardTypeCategoryId                             //另一个卡类型ID
+          }
+          this.http.post('/commodity/card/saveCard', {paramJson : JSON.stringify(param)}).then( res => {
+            if (res.result == 1000) {
+              this.message.create('success', '操作成功');
+              this.visible = false;
+              this.table._request();
+            }
+          })
         }
-      }else{
-        var str = this.monthFormModel.value['introduce'];
-        str = str.substr(3,str.length-7);
-        var paramJson = {
-          "cardDesc"       :  str,                                           //卡描述
-          "cardTypeName"   :  this.monthFormModel.value['name'],            //卡名称
-          "lowestDiscount" :  this.monthFormModel.value['discount'],        //最低折扣
-          "price"          :  this.monthFormModel.value['price'],           //售价
-          "isOnline"       :  type || this.monthFormModel['isOnline'] || 0, //是否上线
-          "type"           :  2,                                             //卡类型 2天类型
-          "cardTypeId"     :  this.dataList['cardTypeId'],                   //Id
-          "month"          :  this.monthFormModel.value['selectedValue']    //内容(月数)
-        }
-        console.log('右边',paramJson);
-        this.http.post('/commodity/card/saveCard', {paramJson : JSON.stringify(paramJson)}).then( res => {
-          console.log(res);
-          this.visible = false;
-          this.table._request();
-        })
       }
-    }
+
+      //不限次学籍
+      if(this.flag == '2'){
+        if(this.monthFormModel['invalid']){
+          for (let i in this.monthFormModel['controls']) {
+            this.monthFormModel['controls'][i].markAsDirty();
+            this.monthFormModel['controls'][i].updateValueAndValidity();
+          }
+        }else{
+          //不限次学籍(月卡)
+          for (let item of res.data.list) {
+            if (item.name == '月卡') {
+              cardTypeCategoryId = item.id;
+            }
+          }
+          var str = this.monthFormModel.value['introduce'];
+          str = str.substr(3,str.length-7);
+          var paramJson = {
+            "cardDesc"           :  str,                                          //卡描述
+            "cardTypeName"       :  this.monthFormModel.value['name'],            //卡名称
+            "lowestDiscount"     :  this.monthFormModel.value['discount'],        //最低折扣
+            "price"              :  this.monthFormModel.value['price'],           //售价
+            "isOnline"           :  type || this.monthFormModel['isOnline'] || 0, //是否上线
+            "type"               :  2,                                            //卡类型 2天类型
+            "cardTypeId"         :  this.dataList['cardTypeId'],                  //Id
+            "month"              :  this.monthFormModel.value['selectedValue'],    //内容(月数)
+            "cardTypeCategoryId" :  cardTypeCategoryId                            //另一个卡类型ID
+          }
+          this.http.post('/commodity/card/saveCard', {paramJson : JSON.stringify(paramJson)}).then( res => {
+            if (res.result == 1000) {
+              this.message.create('success', '操作成功');
+              this.visible = false;
+              this.table._request();
+            }
+          })
+        }
+      }
+
+    })
+    
   }
 
   /*-------------- 上架 --------------*/
@@ -302,7 +368,10 @@ export class StudentStatusComponent implements OnInit {
       "cardTypeId" : id //卡类型id
     }
     this.http.post('/commodity/card/updateCardTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      this.table._request();
+      if (res.result == 1000) {
+        this.message.create('success', '已上架');
+        this.table._request();
+      }
     })
   }
 
@@ -313,19 +382,69 @@ export class StudentStatusComponent implements OnInit {
       "cardTypeId" : id //卡类型id
     }
     this.http.post('/commodity/card/updateCardTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      this.table._request();
+      if (res.result == 1000) {
+        this.message.create('success', '已下架');
+        this.table._request();
+      }
     })
   }
 
   /*-------------- 切换学籍类型 --------------*/
   switchFlag(flag) {
-    this.flag = flag;
-    this.drawerFormModel.patchValue({
-      studentStatusType : flag+''
-    })
-    this.monthFormModel.patchValue({
-      studentStatusType : flag+''
-    })
+    if (this.openIsSelect) {
+      //将数据存起来
+      var drawerFormModelTemp = {
+        name              : this.drawerFormModel.get('name').value,     //名称
+        days              : this.drawerFormModel.get('days').value,     //天数(有限次)
+        price             : this.drawerFormModel.get('price').value,    //售价
+        discount          : this.drawerFormModel.get('discount').value, //允许最低折扣
+        introduce         : this.drawerFormModel.get('introduce').value //学籍项介绍
+      }
+      
+      var monthFormModelTemp = {
+        selectedValue     : this.monthFormModel.get('selectedValue').value || 1, //内容(不限次)
+        name              : this.monthFormModel.get('name').value,               //名称
+        price             : this.monthFormModel.get('price').value,              //售价
+        discount          : this.monthFormModel.get('discount').value,           //允许最低折扣
+        introduce         : this.monthFormModel.get('introduce').value           //学籍项介绍
+      }
+      //重置数据
+      for (let i in this.monthFormModel['controls']) {
+        this.monthFormModel['controls'][i].reset();
+        this.monthFormModel['controls'][i].updateValueAndValidity();
+      }
+      for (let i in this.drawerFormModel['controls']) {
+        this.drawerFormModel['controls'][i].reset();
+        this.drawerFormModel['controls'][i].updateValueAndValidity();
+      }
+      //还原数据并切换tab(解决表单内容不填切换后文本框变红bug)
+      this.flag = flag+'';
+      this.drawerFormModel.patchValue({
+        studentStatusType : this.flag+'',
+        name              : drawerFormModelTemp.name,      //名称
+        days              : drawerFormModelTemp.days,      //天数(有限次)
+        price             : drawerFormModelTemp.price,     //售价
+        discount          : drawerFormModelTemp.discount,  //允许最低折扣
+        introduce         : drawerFormModelTemp.introduce, //学籍项介绍
+      })
+      this.monthFormModel.patchValue({
+        studentStatusType : this.flag+'',
+        selectedValue     : monthFormModelTemp.selectedValue,  //名称
+        name              : monthFormModelTemp.name,           //天数(有限次)
+        price             : monthFormModelTemp.price,          //售价
+        discount          : monthFormModelTemp.discount,       //允许最低折扣
+        introduce         : monthFormModelTemp.introduce,      //学籍项介绍
+      })
+    }
+  }
+
+  /*-------------- 不允许折扣大于1小于0 --------------*/
+  discountValidator (num: FormControl):any {
+    var valid;
+    if (num.value > 0 && num.value <= 1 ) {
+      valid = true;
+    }
+    return valid ? null : {num:true}
   }
 
 }

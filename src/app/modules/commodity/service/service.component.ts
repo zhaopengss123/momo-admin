@@ -2,8 +2,8 @@ import { QueryNode } from '../../../ng-relax/components/query/query.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { isTemplateRef } from 'ng-zorro-antd';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-service',
@@ -69,14 +69,15 @@ export class ServiceComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-    private fb: FormBuilder = new FormBuilder()
+    private fb: FormBuilder = new FormBuilder(),
+    private message: NzMessageService
     ){
       this.formModel = this.fb.group({
         selectedVal    : [1],
         name           : [, [Validators.required]],
         price          : [, [Validators.required]],
-        lowestDiscount : [, [Validators.required]],
-        description    : [, [Validators.required]]
+        lowestDiscount : [, [Validators.required, this.discountValidator]],
+        introduce      : [, [Validators.required]]
       }) 
     }
 
@@ -104,7 +105,10 @@ export class ServiceComponent implements OnInit {
       "isOnline"      : 1   //是否上架 1为上架
     }
     this.http.post('/commodity/service/updateServiceTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      this.table._request();
+      if (res.result == 1000) {
+        this.message.create('success', '已上架');
+        this.table._request();
+      }
     })
   }
 
@@ -115,23 +119,30 @@ export class ServiceComponent implements OnInit {
       "isOnline"      : 0   //是否上架 1为上架
     }
     this.http.post('/commodity/service/updateServiceTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      this.table._request();
+      if (res.result == 1000) {
+        this.message.create('success', '已下架');
+        this.table._request();
+      }
     })
   }
 
   /*-------------- 删除功能 --------------*/
-  delete(id) {
+  delete(data) {
+    if (data.count != 0) {
+      this.message.create('warning', '该服务已被使用，不可删除！');
+      return;
+    }
     var paramJson = {
-      "serviceTypeId" : id
+      "serviceTypeId" : data.serviceTypeId
     }
-    var flag;
-    flag = confirm('您确定要删除该服务吗？')
-    if(flag){
-      //删除
-      this.http.post('/commodity/service/deleteServiceType', {paramJson : JSON.stringify(paramJson)}).then( res => {
+    //删除
+    this.http.post('/commodity/service/deleteServiceType', {paramJson : JSON.stringify(paramJson)}).then( res => {
+      if (res.result == 1000) {
+        this.message.create('success', '删除成功');
         this.table._request();
-      })
-    }
+      }
+    })
+    
   }
 
   /*-------------- 添加服务提交按钮 --------------*/
@@ -142,7 +153,7 @@ export class ServiceComponent implements OnInit {
         this.formModel['controls'][i].updateValueAndValidity();
       }
     }else{
-      var str = this.formModel.value['description'];
+      var str = this.formModel.value['introduce'];
       str = str.substr(3,str.length-7);
       var paramJson = {
         "isOnline"              : type || this.drawerData['isOnline'] || 0, //是否上线
@@ -155,21 +166,31 @@ export class ServiceComponent implements OnInit {
       }
       if(!paramJson.serviceTypeId){delete paramJson.serviceTypeId};
       this.http.post('/commodity/service/saveService', {paramJson : JSON.stringify(paramJson)}).then( res => {
-        this.visible = false;
-        this.table._request();
+        if (res.result == 1000) {
+          this.message.create('success', '操作成功');
+          this.visible = false;
+          this.table._request();
+        }
       })
     }
   }
-
+  
   /*-------------- 抽屉的那些方法 --------------*/
   open(data = null): void {
+    
+    //重置表单
+    for (let i in this.formModel['controls']) {
+      this.formModel['controls'][i].reset();
+      this.formModel['controls'][i].updateValueAndValidity();
+    }
+
     if(!data){
       this.formModel.patchValue({
         selectedVal    : 1,
         name           : '',
         price          : '',
         lowestDiscount : '',
-        description    : ''
+        introduce      : ''
       });
       this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
         this.optionList = res.data.list;
@@ -182,7 +203,7 @@ export class ServiceComponent implements OnInit {
         name: this.drawerData['serviceName'],
         price: this.drawerData['price'],
         lowestDiscount: this.drawerData['lowestDiscount'],
-        description: this.drawerData['description']
+        introduce: this.drawerData['introduce']
       });
       //列表信息展示
       this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
@@ -209,6 +230,15 @@ export class ServiceComponent implements OnInit {
 
   closeChildren(): void {
     this.childrenVisible = false;
+  }
+
+  /*-------------- 不允许折扣大于1小于0 --------------*/
+  discountValidator (num: FormControl):any {
+    var valid;
+    if (num.value > 0 && num.value <= 10 ) {
+      valid = true;
+    }
+    return valid ? null : {num:true}
   }
 
 }
