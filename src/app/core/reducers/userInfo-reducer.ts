@@ -10,7 +10,7 @@ export function userInfoReducer (state: UserInfoState, action: Action) {
     case 'setUserInfo':
       try {
         let roleAllowPath = [];
-        action['payload'].menuList.map(menu => roleAllowPath.push(menu.beforePathUrl) );
+        action['payload'].roleList.map(menu => roleAllowPath.push(menu.beforePathUrl) );
         action['payload']['roleAllowPath'] = roleAllowPath.join(',');
         window.localStorage.setItem('userInfo', JSON.stringify(action['payload']));
         return action['payload'];
@@ -23,6 +23,7 @@ export function userInfoReducer (state: UserInfoState, action: Action) {
   }
 }
 export interface UserInfoState {
+  kindergartenId: number;
   name    : string;
   email?  : string;
   id      : number;

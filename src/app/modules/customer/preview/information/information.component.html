@@ -29,6 +29,6 @@
     <td>{{ data.workplace }}</td>
     <td><nz-tag [nzColor]="data.isForbidden ? '#2db7f5' : ''">{{ data.isForbidden ? '正常' : '禁用' }}</nz-tag></td>
     <td><nz-badge [nzStatus]="data.defaultStatus ? 'success' : 'default'"></nz-badge></td>
-    <td><a>{{ data.isForbidden ? '禁用' : '开启' }}</a></td>
+    <td><a (click)="updateLook(data)">{{ data.isForbidden ? '禁用' : '开启' }}</a></td>
   </ng-template>
 </ea-table>

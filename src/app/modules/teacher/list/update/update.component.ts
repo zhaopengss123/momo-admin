@@ -17,7 +17,7 @@ export class UpdateComponent implements OnInit {
 
   formGroup: FormGroup;
 
-   roleList: any;
+  roleList: any;
   classList: any[] = [];
   @GetList('/teacher/getMenus') menuList: any;
 

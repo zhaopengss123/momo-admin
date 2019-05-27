@@ -1,3 +1,120 @@
-<p>
-  track works!
-</p>
+<form nz-form [formGroup]="formGroup">
+  <nz-form-item>
+    <nz-form-control>
+      <textarea nz-input formControlName="content" [nzAutosize]="{ minRows: 3, maxRows: 6 }" placeholder="请输入跟进记录......"></textarea>
+      <nz-form-explain *ngIf="valid('content')">请输入跟进记录！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="tags-content" *ngIf="labelList.length">
+    <nz-tag nzColor="blue" (click)="formGroup.patchValue({content: (formGroup.get('content').value || '') + '#'+ item.name +'#'})" *ngFor="let item of labelList">#{{ item.name }}#</nz-tag>
+  </div>
+  <div nz-row nzGutter="8">
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select formControlName="visitStatusId" nzPlaceHolder="客户状态">
+            <nz-option *ngFor="let item of memberStatusList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('visitStatusId')">请选择客户状态</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select formControlName="followType" nzPlaceHolder="跟进方式">
+            <nz-option *ngFor="let item of followTypeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('followType')">请选择跟进方式</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select formControlName="teacherId" nzPlaceHolder="跟进老师">
+            <nz-option *ngFor="let item of teacherList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('teacherId')">请选择跟进老师</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-date-picker formControlName="nextFollowTime" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
+            [nzDisabledDate]="_disabledDate"></nz-date-picker>
+          <nz-form-explain *ngIf="valid('nextFollowTime')">请选择下次跟进时间</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-radio-group formControlName="status" [nzButtonStyle]="'solid'">
+            <label nz-radio-button [nzValue]="0">未预约</label>
+            <label nz-radio-button [nzValue]="1">已预约</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <ng-container *ngIf="formGroup.get('status').value">
+      <div nz-col nzSpan="4">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select formControlName="activityId" nzPlaceHolder="请选择活动">
+              <nz-option *ngFor="let item of activityList" [nzLabel]="item.activityName" [nzValue]="item.id"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="valid('activityId')">请选择活动</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="4">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-select formControlName="reserveClassId" nzPlaceHolder="请选择预约班级">
+              <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.className"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="valid('reserveClassId')">请选择预约班级</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </ng-container>
+    
+    <button (click)="save()" [style.margin-top]="'4px'" nz-button nzType="primary" [nzLoading]="saveLoading">发布</button>
+  </div>
+</form>
+<ea-quote>跟踪记录</ea-quote>
+<nz-skeleton [nzLoading]="getFollowRecordsLoading" [nzActive]="true">
+  <nz-empty *ngIf="!followRecordList.length"></nz-empty>
+  <div class="record-list">
+    <nz-timeline>
+      <nz-timeline-item *ngFor="let item of followRecordList; let idx = index">
+        <nz-card [nzTitle]="'第' + (followRecordList.length - idx) + '次跟进'" [nzExtra]="extraTemplate">
+          <ng-template #extraTemplate><a (click)="updateFollowRecord(item)">编辑</a></ng-template>
+          <div class="record-card-title">
+            <div><label>跟进时间：</label><span>{{ item.createTime }}</span></div>
+            <div><label>客户状态：</label><span>{{ item.memberStatusName }}</span></div>
+            <div><label>跟进方式：</label><span>{{ item.followTypeName }}</span></div>
+            <div><label>跟进家长：</label><span>{{ item.parentName }}</span></div>
+            <div>
+              <label>跟进老师：</label>
+              <nz-tag nzColor="#108ee9">{{ item.staffName }}</nz-tag>
+              <ng-container *ngIf="item.status > 0; else elseTemplate">
+                <nz-tag nzColor="#2db7f5">
+                  已预约到店-{{ item.status == 1 ? '体验' : item.status == 2 ? '未体验' : '未到店' }}</nz-tag>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <nz-tag nzColor="#ccc">未预约到店</nz-tag>
+              </ng-template>
+            </div>
+            <div *ngIf="item.reserveDate">
+              <label>预约时间：</label><span>{{ item.reserveDate + ' ' + item.reserveHour + ':' + item.reserveMinute }}</span>
+            </div>
+          </div>
+          <div class="card-main" [innerHTML]="item.contentLabel"></div>
+        </nz-card>
+      </nz-timeline-item>
+    </nz-timeline>
+  </div>
+</nz-skeleton>

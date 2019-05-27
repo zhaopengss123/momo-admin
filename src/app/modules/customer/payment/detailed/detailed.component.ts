@@ -65,7 +65,7 @@ export class DetailedComponent implements OnInit {
     } else {
       Object.assign(controls, {
         serviceTypeId: [this.formInfo.serviceTypeId],
-        serviceTypeName: [this.formInfo.serviceTypeName]
+        serviceTypeName: [this.formInfo.serviceName]
       })
     }
     
@@ -98,7 +98,7 @@ export class DetailedComponent implements OnInit {
       this.saveLoading = true;
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
       params.effectDate && (params.effectDate = this.format.transform(params.effectDate, 'yyyy-MM-dd'));
-      this.http.post(url, { paramJson: JSON.stringify(params) }, true).then(res => this.drawerRef.close(true));
+      this.http.post(url, { paramJson: JSON.stringify(params) }, true).then(res => this.drawerRef.close(params.serviceTypeId ? true : { isPaymentCard: true })).catch(err => this.saveLoading = false);
     }
   }
 

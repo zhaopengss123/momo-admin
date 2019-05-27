@@ -102,5 +102,5 @@
 </form>
 
 <div class="footer">
-  <button nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading" (click)="save()">收款：{{ (formInfo.price - preferential) | currency: '￥' }}</button>
+  <button nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="save()" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading">收款：{{ (formInfo.price - preferential) | currency: '￥' }}</button>
 </div>

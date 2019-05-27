@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
         while (route.firstChild) route = route.firstChild;
         return route;
       },
-        filter((route: any) => route.outlet === 'primary'))
+      filter((route: any) => route.outlet === 'primary'))
     ).subscribe((event) => {
       let pathArray = [];
       event.pathFromRoot.map(res => {

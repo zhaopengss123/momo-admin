@@ -7,6 +7,7 @@ import { ClassComponent } from '../../class/class.component';
 import { LeavingComponent } from '../../leaving/leaving.component';
 import { AppointComponent } from '../../appoint/appoint.component';
 import { NzDrawerService, NzDrawerRef } from 'ng-zorro-antd';
+import { ModifyData } from 'src/app/ng-relax/decorators/list/modify.decorator';
 
 @Component({
   selector: 'app-header',
@@ -45,5 +46,7 @@ export class HeaderComponent implements OnInit {
   @DrawerCreate({ content: LeavingComponent, title: '退园', width: 460 }) leaving: ({ id: number }) => void;
 
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }) => void;
+
+  @ModifyData('/membermanage/returnVisit/setNoIntention') nointention: (id: number) => void;
 
 }

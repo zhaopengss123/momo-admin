@@ -4,7 +4,7 @@
     <div class="name">
       {{ memberInfo?.studentInfo.studentName }}
       {{ memberInfo?.studentInfo.nickName ? '（' + memberInfo.studentInfo.nickName + '）' : '' }}
-      <span class="english-name">{{ memberInfo?.studentInfo.english }}</span>
+      <span class="english-name">{{ memberInfo?.studentInfo.englishName }}</span>
     </div>
     
     <nz-tag [nzColor]="memberInfo?.studentInfo.status < 2 ? '#87d068' : memberInfo?.studentInfo.status == 2 ? '#2db7f5' : memberInfo?.studentInfo.status == 3 ? '#f50' : ''">{{ memberInfo?.studentInfo.status == 0 ? '未体验学员' : memberInfo?.studentInfo.status == 1 ? '体验学员' : memberInfo?.studentInfo.status == 2 ? '在校学员' : memberInfo?.studentInfo.status == 3 ? '过期学员' : '离校学员' }}</nz-tag>
@@ -44,6 +44,7 @@
           <button nz-button nzType="primary" nzGhost (click)="class({id: memberInfo?.studentInfo.studentId})">转班</button>
           <button nz-button nzType="primary" nzGhost (click)="leaving({id: memberInfo?.studentInfo.studentId})">退园</button>
         </ng-container>
+        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status != 2" nz-popconfirm nzTitle="确定要移到无意向客户嘛?" (nzOnConfirm)="nointention(memberInfo.studentInfo.studentId)">移到无意向客户</button>
       </nz-button-group>
     </div>
   </div>

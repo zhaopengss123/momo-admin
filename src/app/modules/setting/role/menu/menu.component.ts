@@ -2,7 +2,6 @@ import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { MenuConfig } from '../../../../core/menu-config';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NzTreeNode, NzTreeComponent } from 'ng-zorro-antd';
-import { CheckMenu } from '../checkMenu';
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
@@ -18,8 +17,6 @@ export class MenuComponent implements OnInit{
     checkedNodes: string[] = ['/home'];
 
     menuIds: number[]=[];
-
-    checkMenus:CheckMenu[]=[];
 
     roleInfoId: number;
 

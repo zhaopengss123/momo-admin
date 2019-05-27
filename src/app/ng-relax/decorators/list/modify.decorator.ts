@@ -8,6 +8,7 @@ export function ModifyData(requestPath) {
       this.http.post(requestPath, { id }, true).then(res => {
         this.listPage && this.listPage.eaTable._request();
         this.table && this.table._request();
+        this.drawerRef && this.drawerRef.close(true);
       })
     }
   }

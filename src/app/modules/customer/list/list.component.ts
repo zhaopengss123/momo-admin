@@ -1,5 +1,5 @@
 import { AppointComponent } from '../appoint/appoint.component';
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
+import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -68,6 +68,19 @@ export class ListComponent implements OnInit {
       options: []
     },
     {
+      label   : '监控状态',
+      key     : 'monitoringStatus',
+      type    : 'tag',
+      options : [{ name: '开启', id: 1}, { name: '关闭', id: 0}],
+      isRadio : true
+    },
+    {
+      label   : '所属销售',
+      key     : 'sellId',
+      type    : 'select',
+      optionsUrl: '/student/getTeacherListByRoleId'
+    },
+    {
       label   : '学员生日',
       key     : 'birthday',
       valueKey: ['startBirthDay', 'endBirthDay'],
@@ -110,7 +123,8 @@ export class ListComponent implements OnInit {
     private http: HttpService,
     private store: Store<AppState>,
     private drawer: NzDrawerService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modal: NzModalService
   ) { 
     this.http.post('/student/getStudentListQueryCondition').then(res => {
       this.queryNode[1].options = res.data.memberFromList;
@@ -125,7 +139,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.select('userInfoState').subscribe(userInfo => console.log(userInfo))
+    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
   query(params) {
@@ -160,7 +174,24 @@ export class ListComponent implements OnInit {
     }
   }
 
-  @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
+  // @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({id: number}) => void;
+  payment(params) {
+    this.drawer.create({
+      nzTitle: null,
+      nzWidth: 960,
+      nzClosable: false,
+      nzContent: PaymentComponent,
+      nzContentParams: { id: params.id }
+    }).afterClose.subscribe(res => {
+      if (res && res.isPaymentCard) {
+        if (this.checkedData[0].gradeId) {
+          this.appoint(params);
+        } else {
+          this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
+        }
+      }
+    });
+  }
 
   @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
 
@@ -168,7 +199,7 @@ export class ListComponent implements OnInit {
 
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }?) => void;
 
-  paramsDefault = { storeId: 1, schoolRollId: null }
+  paramsDefault = { storeId: null, schoolRollId: null }
   tabsetSelectChange() {
     this.paramsDefault.schoolRollId = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "3,4" : "0,1";
     this.table._request();
