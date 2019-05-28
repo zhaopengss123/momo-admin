@@ -136,7 +136,7 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
               <nz-form-explain
-                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors"
+                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors"
               >
               名称不能为空
               </nz-form-explain>
@@ -152,7 +152,7 @@
                 </nz-input-group>
               </div>
               <nz-form-explain
-                *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors"
+                *ngIf="monthFormModel.get('price')?.dirty && monthFormModel.get('price')?.errors"
               >
               售价不能为空
               </nz-form-explain>
@@ -168,7 +168,7 @@
                 </nz-input-group>
               </div>
               <nz-form-explain
-                *ngIf="drawerFormModel.get('discount')?.dirty && drawerFormModel.get('discount')?.errors"
+                *ngIf="monthFormModel.get('discount')?.dirty && monthFormModel.get('discount')?.errors"
               >
               最低折扣不能为空且必须大于0小于1
               </nz-form-explain>
@@ -180,7 +180,7 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <quill-editor formControlName="introduce" [style]="{height: '200px'}" [placeholder]="'请输入该卡的介绍、使用/售卖须知，100字以内'"></quill-editor>
               <nz-form-explain
-                *ngIf="drawerFormModel.get('introduce')?.dirty && drawerFormModel.get('introduce')?.errors"
+                *ngIf="monthFormModel.get('introduce')?.dirty && monthFormModel.get('introduce')?.errors"
                 style="margin-top: 10px;"
               >
               学籍项介绍不能为空

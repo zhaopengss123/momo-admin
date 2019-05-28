@@ -84,6 +84,10 @@ export class ServiceComponent implements OnInit {
   ngOnInit() {
     this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
       this.queryNode[1].options = res.data.list;
+      // this.queryNode[1].options[0].name = res.data.list[0].serviceTypeCategoryName;
+      // this.queryNode[1].options[0].id = res.data.list[0].serviceTypeCategoryId;
+      // this.queryNode[1].options[1].name = res.data.list[1].serviceTypeCategoryName;
+      // this.queryNode[1].options[1].id = res.data.list[1].serviceTypeCategoryId;
     })
   }
 
@@ -203,7 +207,7 @@ export class ServiceComponent implements OnInit {
         name: this.drawerData['serviceName'],
         price: this.drawerData['price'],
         lowestDiscount: this.drawerData['lowestDiscount'],
-        introduce: this.drawerData['introduce']
+        introduce: this.drawerData['serviceDesc']
       });
       //列表信息展示
       this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
