@@ -61,22 +61,7 @@
                 </nz-form-item>
             </div>
 
-
-
-
-            <div nz-col nzSpan="12">
-                <nz-form-item>
-                    <nz-form-label>负责班级</nz-form-label>
-                    <nz-form-control>
-                        <nz-select formControlName="classId" nzPlaceHolder="请选择负责班级">
-                            <nz-option *ngFor="let option of classList" [nzLabel]="option.className" [nzValue]="option.id"></nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-        </div>
-        <div nz-row nzGutter="8">
-            <div nz-col nzSpan="12">
+            <div nz-col nzSpan="12" *ngIf="formGroup.value.roleId == 2">
                 <nz-form-item>
                     <nz-form-label nzRequired>是否是主管</nz-form-label>
                     <nz-form-control>
@@ -89,7 +74,20 @@
                 </nz-form-item>
             </div>
         </div>
-        <div nz-row nzGutter="8">
+
+        <div nz-row nzGutter="8" *ngIf="formGroup.value.roleId == 2">
+
+            <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label>负责班级</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="classId" nzPlaceHolder="请选择负责班级">
+                            <nz-option *ngFor="let option of classList" [nzLabel]="option.className" [nzValue]="option.id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>接待能力</nz-form-label>
@@ -99,6 +97,9 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+        </div>
+
+        <div nz-row nzGutter="8">
 
             <div nz-col nzSpan="12">
                 <nz-form-item>
@@ -110,9 +111,6 @@
                 </nz-form-item>
             </div>
 
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>生日</nz-form-label>
@@ -122,20 +120,19 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+        </div>
 
+        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label>Email</nz-form-label>
                     <nz-form-control>
                         <input nz-input placeholder="请输入邮箱地址" formControlName="eMail" id="eMail">
-                        <nz-form-explain *ngIf="formGroup.get('eMail').dirty && formGroup.get('eMail').hasError('required')">请选择生日！</nz-form-explain>
+                        <nz-form-explain *ngIf="formGroup.get('eMail').dirty && formGroup.get('eMail').hasError('required')">请输入邮箱地址！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>家庭住址</nz-form-label>
@@ -145,7 +142,9 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+        </div>
 
+        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label>入职时间</nz-form-label>
@@ -156,9 +155,6 @@
                 </nz-form-item>
             </div>
 
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label>离职时间</nz-form-label>
@@ -168,7 +164,9 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+        </div>
 
+        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label>老师状态</nz-form-label>
