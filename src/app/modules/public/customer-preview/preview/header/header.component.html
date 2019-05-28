@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="btns" *ngIf="!memberInfo.hideBtn">
+    <div class="btns" *ngIf="!memberInfo?.hideBtn">
       <nz-button-group>
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3 && showReserverBtn" (click)="appoint({studentInfo: memberInfo.studentInfo})">预约</button>
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status < 3" (click)="payment({id: memberInfo?.studentInfo.studentId})">缴费</button>

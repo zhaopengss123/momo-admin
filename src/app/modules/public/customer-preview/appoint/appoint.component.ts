@@ -21,7 +21,9 @@ export class AppointComponent implements OnInit {
     private http: HttpService,
     private drawerRef: NzDrawerRef,
     private modal: NzModalService
-  ) { }
+  ) { 
+    this.http.post('/message/getStudentIdNameList').then(res => this.studentList = res.data);
+  }
 
   maxChecked = 0;       /* ? 最大选择天数 */
 
@@ -137,13 +139,16 @@ export class AppointComponent implements OnInit {
     }
   }
 
+  private _classInfo;
+  private _getDataNum = 0;
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
-    let classInfo = await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
+    let classInfo = this._classInfo || await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
+    this._classInfo = classInfo;
     /* 如查询不到做兼容处理 */
     classInfo.data.list = classInfo.data.list.length ? classInfo.data.list : [{ className: this.studentInfo.gradeName, teachers: [], receptionNum: 0}];
     let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
     this.dataSet[type === 'up' ? 'unshift' : 'push']({ key: month, value: classInfo.data.list, days: new Array(this._monthOfDays(month)) });
-    
+
     this.dataSet[type === 'up' ? 0 : this.dataSet.length - 1].value.map(classes => {
       classes.teacherReceptionNum = 0;
       classes.teachers.map(teacher => {
@@ -152,7 +157,6 @@ export class AppointComponent implements OnInit {
           teacher.list = Object.values(res.data.list)[0] ? Object.values(res.data.list)[0] : [];
           teacher.list.map(arr => teacher.list[ 'arr' + arr.pitNum] = arr);
           teacher.pit = new Array(teacher.receptionNum);
-          console.log(this.dataSet)
         })
       })
     });
@@ -172,6 +176,13 @@ export class AppointComponent implements OnInit {
   private _weekList = ['天', '一', '二', '三', '四', '五', '六'];
   getDate(day) {
     return `周${this._weekList[getDay(new Date(day))]}`
+  }
+
+  studentList: {name:string, id: number}[] = [];
+  getStudentName(students: {id, type}[]) {
+    let names = [];
+    this.studentList.map(std => students.map(s => s.id === std.id && names.push(std.name)));
+    return names.join('、')
   }
 
 

@@ -1,0 +1,16 @@
+<input nz-input placeholder="请输入搜索内容" [value]="searchText" #searchInput (input)="$searchSubject.next(searchInput.value)">
+
+<nz-divider></nz-divider>
+
+
+<nz-skeleton [nzLoading]="loading">
+  <ea-table [thead]="['学号', '姓名', '小名', '家长姓名', '手机号']" [dataSet]="dataSet" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" (clickData)="clickData($event)">
+    <ng-template let-data #EaTableTbodyTr>
+      <td>{{ data.number }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.nick }}</td>
+      <td>{{ data.parentName }}</td>
+      <td>{{ data.mobile }}</td>
+    </ng-template>
+  </ea-table>
+</nz-skeleton>

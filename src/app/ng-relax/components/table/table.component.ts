@@ -40,6 +40,8 @@ export class TableComponent implements OnInit {
 
   @Output() checkedItemsChange: EventEmitter<any[]> = new EventEmitter();
 
+  @Output() clickData   : EventEmitter<any[]> = new EventEmitter();
+
   @Output() ready       : EventEmitter<any> = new EventEmitter();
   private _readyComplate: boolean;
 

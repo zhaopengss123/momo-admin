@@ -50,14 +50,15 @@
                   [nzTitle]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? '学生详情' : null"
                   [nzContent]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? studentList : null">
                   <ng-template #studentList>
-                    学生详情
+                    {{ getStudentName(teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + '']) }}
                   </ng-template>
   
                   <ng-container
                     *ngIf="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
                     <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + '']">
+                      <div class="knxk" *ngIf="j.type == 2"></div>
                       <ng-container *ngFor="let m of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
-                        <div [ngClass]="{ 'next': j.id === m.id && j.type == 0 }"></div>
+                        <div [ngClass]="{ 'next': j.id === m.id && j.type == 0 && m.type == 0 }"></div>
                       </ng-container>
                     </ng-container>
                   </ng-container>

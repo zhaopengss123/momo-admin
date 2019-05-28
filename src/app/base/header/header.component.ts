@@ -1,15 +1,17 @@
+import { MemberComponent } from './member/member.component';
 import { AppReuseStrategy } from 'src/app/core/app-reuse-strategy';
 import { Component, OnInit, Input } from '@angular/core';
 import { UserInfoState } from 'src/app/core/reducers/userInfo-reducer';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { NzDrawerService } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-head',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.less']
 })
-export class HeaderComponent implements OnInit {
+export class HeadComponent implements OnInit {
 
   @Input() userInfo: UserInfoState;
 
@@ -17,7 +19,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private drawer: NzDrawerService
   ) {
     this.router.events.pipe(
       filter(event => { return event instanceof NavigationEnd }),
@@ -64,6 +67,18 @@ export class HeaderComponent implements OnInit {
   signOut(): void {
     window.localStorage.removeItem('userInfo');
     this.router.navigateByUrl('/login');
+  }
+
+
+  childrenVisible: boolean;
+  search(searchText) {
+    this.drawer.create({
+      nzTitle: '快捷操作',
+      nzWidth: 720,
+      nzContent: MemberComponent,
+      nzContentParams: { searchText }
+    })
+
   }
 
 
