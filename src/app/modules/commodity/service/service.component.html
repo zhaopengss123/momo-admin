@@ -26,7 +26,14 @@
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
             <nz-form-control [nzSm]="8" [nzXs]="24">
               <input formControlName="name" nz-input placeholder="长度为2-30个字" />
-              <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name').hasError('required')">名称不能为空</nz-form-explain>
+              <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value == ''"
+              >
+              名称不能为空
+              </nz-form-explain>
+              <nz-form-explain *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value != ''"
+              >
+              名称长度必须为2-30
+              </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
 
@@ -34,7 +41,7 @@
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
             <nz-form-control [nzSm]="8" [nzXs]="24">
               <nz-input-group nzAddOnAfter="元">
-                <input formControlName="price" nz-input />
+                <input formControlName="price" nz-input placeholder="请输入售价" />
               </nz-input-group>
               <nz-form-explain *ngIf="formModel.get('price').dirty && formModel.get('price').hasError('required')">售价不能为空</nz-form-explain>
             </nz-form-control>

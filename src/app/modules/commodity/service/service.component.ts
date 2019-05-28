@@ -35,7 +35,7 @@ export class ServiceComponent implements OnInit {
     },
     {
       label   : '服务类型',
-      key     : 'serviceType',
+      key     : 'serviceTypeCategoryId',
       type    : 'tag',
       isRadio : true,
       options : [
@@ -74,7 +74,7 @@ export class ServiceComponent implements OnInit {
     ){
       this.formModel = this.fb.group({
         selectedVal    : [1],
-        name           : [, [Validators.required]],
+        name           : [, [Validators.required, this.nameLengthValidator]],
         price          : [, [Validators.required]],
         lowestDiscount : [, [Validators.required, this.discountValidator]],
         introduce      : [, [Validators.required]]
@@ -84,10 +84,6 @@ export class ServiceComponent implements OnInit {
   ngOnInit() {
     this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
       this.queryNode[1].options = res.data.list;
-      // this.queryNode[1].options[0].name = res.data.list[0].serviceTypeCategoryName;
-      // this.queryNode[1].options[0].id = res.data.list[0].serviceTypeCategoryId;
-      // this.queryNode[1].options[1].name = res.data.list[1].serviceTypeCategoryName;
-      // this.queryNode[1].options[1].id = res.data.list[1].serviceTypeCategoryId;
     })
   }
 
@@ -236,7 +232,19 @@ export class ServiceComponent implements OnInit {
     this.childrenVisible = false;
   }
 
-  /*-------------- 不允许折扣大于1小于0 --------------*/
+  /*-------------- 长度必须大于2小于等于30(名称) --------------*/
+  nameLengthValidator(val: FormControl) {
+    var valid;
+    if (val.value != '') {
+      var str = String(val.value);
+      if (str.length >= 2 && str.length <= 30) {
+        valid = true;
+      }
+    }
+    return valid ? null : {info:'名称长度必须为2-30个字符'}
+  }
+
+  /*-------------- 不允许折扣大于1小于0(最低折扣) --------------*/
   discountValidator (num: FormControl):any {
     var valid;
     if (num.value > 0 && num.value <= 10 ) {

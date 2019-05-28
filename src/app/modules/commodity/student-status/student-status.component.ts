@@ -208,21 +208,21 @@ export class StudentStatusComponent implements OnInit {
   ngOnInit(): void {
     /*-------------- 有限次学籍 --------------*/
     this.drawerFormModel = this.fb.group({
-      studentStatusType : [''],                       //学籍类型
-      name              : [, [Validators.required]],  //名称
-      days              : [, [Validators.required]],  //天数(有限次)
-      price             : [, [Validators.required]],  //售价
-      discount          : [, [Validators.required,this.discountValidator]], //允许最低折扣
-      introduce         : [, [Validators.required]]   //学籍项介绍
+      studentStatusType : [''],                                                 //学籍类型
+      name              : [, [Validators.required, this.nameLengthValidator]],  //名称
+      days              : [, [Validators.required, this.positiveInteger]],      //天数(有限次)
+      price             : [, [Validators.required]],                            //售价
+      discount          : [, [Validators.required]],                            //允许最低折扣
+      introduce         : [, [Validators.required]]                             //学籍项介绍
     })
     /*-------------- 不限次学籍 --------------*/
     this.monthFormModel = this.fb.group({
-      studentStatusType : [''],                       //学籍类型
-      selectedValue     : [1],                        //内容(不限次)
-      name              : [, [Validators.required]],  //名称
-      price             : [, [Validators.required]],  //售价
-      discount          : [, [Validators.required,this.discountValidator]], //允许最低折扣
-      introduce         : [, [Validators.required]]   //学籍项介绍
+      studentStatusType : [''],                                                 //学籍类型
+      selectedValue     : [1],                                                  //内容(不限次)
+      name              : [, [Validators.required, this.nameLengthValidator]],  //名称
+      price             : [, [Validators.required]],                            //售价
+      discount          : [, [Validators.required, this.discountValidator]],    //允许最低折扣
+      introduce         : [, [Validators.required]]                             //学籍项介绍
     })
     //动态显示查询条件
     this.http.post('/commodity/card/getCardTypeCategory').then( res => {
@@ -434,8 +434,28 @@ export class StudentStatusComponent implements OnInit {
     }
   }
 
-  /*-------------- 不允许折扣大于1小于0 --------------*/
-  discountValidator (num: FormControl):any {
+  /*-------------- 大于0的正整数(天数) --------------*/
+  positiveInteger(num: FormControl) {
+    var valid;
+    var reg = /^[1-9]+\d*$/;
+    valid = reg.test(num.value);
+    return valid ? null : {info:'请输入正确的天数'}
+  }
+
+  /*-------------- 长度必须大于2小于等于30(名称) --------------*/
+  nameLengthValidator(val: FormControl) {
+    var valid;
+    if (val.value != '') {
+      var str = String(val.value);
+      if (str.length >= 2 && str.length <= 30) {
+        valid = true;
+      }
+    }
+    return valid ? null : {info:'名称长度必须为2-30个字符'}
+  }
+
+  /*-------------- 不允许折扣大于1小于0(最低折扣) --------------*/
+  discountValidator(num: FormControl):any {
     var valid;
     if (num.value > 0 && num.value <= 1 ) {
       valid = true;

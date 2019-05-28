@@ -36,9 +36,14 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
               <nz-form-explain
-                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors"
+                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value == ''"
               >
               名称不能为空
+              </nz-form-explain>
+              <nz-form-explain
+                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value != ''"
+              >
+              名称长度必须为2-30
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -46,11 +51,20 @@
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>天数</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
-              <input nz-input formControlName="days" placeholder="请输入数字" />
+              <div nz-col nzSpan="8">
+                <nz-input-group nzAddOnAfter="天">
+                  <input nz-input formControlName="days" placeholder="请输入天数" />
+                </nz-input-group>
+              </div>
               <nz-form-explain
-                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1"
+                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value == ''"
               >
               天数不能为空
+              </nz-form-explain>
+              <nz-form-explain
+                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value != ''"
+              >
+              {{ drawerFormModel.get('days').errors.info }}
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -60,7 +74,7 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <div nz-col nzSpan="8">
                 <nz-input-group nzAddOnAfter="元">
-                  <input formControlName='price' nz-input />
+                  <input formControlName='price' nz-input placeholder="请输入售价" />
                 </nz-input-group>
               </div>
               <nz-form-explain
@@ -136,9 +150,14 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
               <nz-form-explain
-                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors"
+                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value == ''"
               >
               名称不能为空
+              </nz-form-explain>
+              <nz-form-explain
+                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value != ''"
+              >
+              名称长度必须为2-30
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -148,7 +167,7 @@
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <div nz-col nzSpan="8">
                 <nz-input-group nzAddOnAfter="元">
-                  <input formControlName='price' nz-input />
+                  <input formControlName='price' nz-input placeholder="请输入售价" />
                 </nz-input-group>
               </div>
               <nz-form-explain
