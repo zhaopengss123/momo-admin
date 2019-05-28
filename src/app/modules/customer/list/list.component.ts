@@ -111,7 +111,13 @@ export class ListComponent implements OnInit {
       valueKey: ['startResidueDays', 'endResidueDays'],
       type    : 'between',
       isHide  : true
-    }
+    },
+    {
+      label   : '远程数据',
+      key     : 'suibian',
+      type    : 'search',
+      searchUrl: `${this.domain}/czg/fullQuery`
+    },
   ];
 
   queryItems = {

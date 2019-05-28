@@ -17,6 +17,7 @@ export class TrackComponent implements OnInit {
   @Input() studentInfo: any = {};
 
   formGroup: FormGroup;
+  updateFormGroup: FormGroup;
 
   followRecordList: any[] = [];
 
@@ -45,7 +46,8 @@ export class TrackComponent implements OnInit {
   ngOnInit() {
     this.getFollowRecords();
 
-    this.formGroup = this.fb.group({
+    let controls = {
+      id: [],
       studentId: [this.studentInfo.studentId],
       content: [, [Validators.required]],
       visitStatusId: [, [Validators.required]],
@@ -53,22 +55,28 @@ export class TrackComponent implements OnInit {
       teacherId: [, [Validators.required]],
       nextFollowTime: [, [Validators.required]],
       status: [0]
-    });
-    this.formGroup.controls.status.valueChanges.subscribe(status => {
-      if (status) {
-        this.formGroup.addControl('activityId', this.fb.control(null, [Validators.required]));
-        this.formGroup.addControl('reserveClassId', this.fb.control(this.studentInfo.classId, [Validators.required]));
-        this.formGroup.addControl('reserveTeacherId', this.fb.control(null, [Validators.required]));
-        this.formGroup.addControl('reserveDate', this.fb.control(null, [Validators.required]));
-        this.formGroup.addControl('pitNum', this.fb.control(null, [Validators.required]));
-      } else {
-        this.formGroup.removeControl('activityId');
-        this.formGroup.removeControl('reserveClassId');
-        this.formGroup.removeControl('reserveTeacherId');
-        this.formGroup.removeControl('reserveDate');
-        this.formGroup.removeControl('pitNum');
-      }
-    });
+    }
+    this.formGroup = this.fb.group(controls);
+    this.updateFormGroup = this.fb.group(controls);
+
+    this.formGroup.controls.status.valueChanges.subscribe(status => this.statusChange(status, 'formGroup'));
+    this.updateFormGroup.controls.status.valueChanges.subscribe(status => this.statusChange(status, 'updateFormGroup'));
+  }
+
+  statusChange(status, group) {
+    if (status) {
+      this[group].addControl('activityId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.activityId : null, [Validators.required]));
+      this[group].addControl('reserveClassId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveClassId : this.studentInfo.classId, [Validators.required]));
+      this[group].addControl('reserveTeacherId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveTeacherId : null, [Validators.required]));
+      this[group].addControl('reserveDate', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveDate : null, [Validators.required]));
+      this[group].addControl('pitNum', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.pitNum : null, [Validators.required]));
+    } else {
+      this[group].removeControl('activityId');
+      this[group].removeControl('reserveClassId');
+      this[group].removeControl('reserveTeacherId');
+      this[group].removeControl('reserveDate');
+      this[group].removeControl('pitNum');
+    }
   }
 
   getFollowRecordsLoading: boolean;
@@ -76,47 +84,70 @@ export class TrackComponent implements OnInit {
     this.getFollowRecordsLoading = true;
     this.http.post('/membermanage/returnVisit/getFollowRecords', { paramJson: JSON.stringify({ studentId: this.studentInfo.studentId }) }).then(res => {
       this.followRecordList = res.data;
+      this.followRecordList.map(item => item.contentLabel = this._resetFollowRecordContent(item.content));
       this.getFollowRecordsLoading = false;
     });
   }
 
   @ControlValid() valid: (key, type?) => boolean;
 
+  validUpdateControl(key, type = 'required') {
+    return this.updateFormGroup.controls[key].dirty && this.updateFormGroup.controls[key].hasError(type);
+  }
+
   _disabledDate(current: Date): boolean {
     return current && current.getTime() < Date.now() - 1000 * 60 * 60 * 24;
   }
 
   saveLoading: boolean;
-  save() {
-    console.log(this.formGroup, this.formGroup.errors)
-    if (this.formGroup.invalid) {
-      Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
+  save(group) {
+    if (this[group].invalid) {
+      Object.values(this[group].controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {
       this.saveLoading = true;
-      this.formGroup.value.nextFollowTime = this.format.transform(this.formGroup.value.nextFollowTime, 'yyyy-MM-dd');
+      this[group].value.nextFollowTime = this.format.transform(this[group].value.nextFollowTime, 'yyyy-MM-dd');
       this.http.post('/membermanage/returnVisit/saveClubFollowRecord', {
-        paramJson: JSON.stringify(this.formGroup.value)
+        paramJson: JSON.stringify(this[group].value)
       }, true).then(res => {
         this.saveLoading = false;
         this.getFollowRecords();
+        this.showUpdateRecord = false;
       }).catch(err => this.saveLoading = false);
     }
   }
-  updateFollowRecord() {}
+
+  showUpdateRecord: boolean;
+  updateFollowRecordData;
+  updateFollowRecord(data) {
+    this.updateFollowRecordData = data;
+    this.updateFormGroup.patchValue(data);
+    this.showUpdateRecord = true;
+  }
 
 
-  selectAppoint() {
+  selectAppoint(group) {
     this.drawer.create({
       nzTitle: null,
       nzWidth: 1148, 
       nzClosable: false,
       nzContent: AppointComponent,
-      nzContentParams: { studentInfo: this.studentInfo, classId: this.formGroup.controls['reserveClassId'].value }
+      nzContentParams: { studentInfo: this.studentInfo, classId: this[group].controls['reserveClassId'].value }
     }).afterClose.subscribe(res => {
       if (res) {
-        this.formGroup.patchValue({ reserveDate: res.reserveDate, pitNum: res.pitNum, reserveTeacherId: res.teacherId });
+        this[group].patchValue({ reserveDate: res.reserveDate, pitNum: res.pitNum, reserveTeacherId: res.teacherId });
       }
     })
+  }
+
+  /* -------------------- 设置跟进记录内容标签展示 -------------------- */
+  private _resetFollowRecordContent(content: string): string {
+    let matchArray = content.match(/#(.*?)#/g);
+    if (matchArray) {
+      matchArray.map(res => {
+        content = content.replace(new RegExp(res, 'g'), `<a href="javascript:;">${res}</a>`);
+      })
+    }
+    return content;
   }
 
 }

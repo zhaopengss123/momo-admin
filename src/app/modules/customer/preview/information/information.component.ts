@@ -25,9 +25,9 @@ export class InformationComponent implements OnInit {
   @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number }) => void;
 
   updateLook(data) {
-    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({
-      studentId: this.memberInfo.studentInfo.studentId,
-      isLook: data.isForbidden
+    this.http.post('/student/updateParentAccountStatus', { paramJson: JSON.stringify({
+      accountId: data.accountId,
+      isForbidden: data.isForbidden
     }) }, true).then(res => data.isForbidden = data.isForbidden ? 0 : 1);
   }
 

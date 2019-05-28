@@ -103,6 +103,7 @@
           <nz-input-group nzAddOnAfter="cm">
             <input nz-input placeholder="请输入身高" formControlName="height">
           </nz-input-group>
+          <nz-form-explain *ngIf="valid('height', 'pattern')">请输入正确的身高！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -113,6 +114,7 @@
           <nz-input-group nzAddOnAfter="kg">
             <input nz-input placeholder="请输入体重" formControlName="weight">
           </nz-input-group>
+          <nz-form-explain *ngIf="valid('weight', 'pattern')">请输正确的体重！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -131,6 +133,7 @@
           <nz-input-group nzAddOnAfter="cm">
             <input nz-input placeholder="请输入头围" formControlName="headCircumference">
           </nz-input-group>
+          <nz-form-explain *ngIf="valid('headCircumference', 'pattern')">请输正确的头围！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>

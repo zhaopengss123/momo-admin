@@ -5,6 +5,58 @@
     margin-bottom: 8px;
   }
 }
-:host ::ng-deep .ant-input-suffix {
-  color: rgba(0, 0, 0, .25);
+:host ::ng-deep {
+  nz-card {
+    .ant-card-head {
+      min-height: 38px;
+    }
+    .ant-card-body {
+      padding: 14px;
+    }
+    .ant-card-head-title,
+    .ant-card-extra {
+      padding: 8px 0;
+    }
+  }
+  .ant-input-suffix {
+    color: rgba(0, 0, 0, .25);
+  }
+}
+
+.record-list {
+  padding: 0 20px;
+  .not-found {
+    padding: 60px 0 30px;
+    color: #ccc;
+    font-size: 12px;
+    text-align: center;
+    i {
+      font-size: 48px;
+    }
+  }
+}
+.tags-content {
+  margin-bottom: 8px;
+  nz-tag {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+}
+.record-card-title {
+    margin-bottom: 20px;
+    overflow: hidden;
+    & > div {
+      width: 50%;
+      float: left;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+}
+.record-status {
+    list-style: none;
+    margin-left: -40px;
+    margin-bottom: -1px;
+}
+.card-main {
+    clear: both;
 }

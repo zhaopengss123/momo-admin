@@ -36,6 +36,30 @@
               [nzDisabled]="option?.disabled"></nz-option>
           </nz-select>
         </ng-container>
+
+        <ng-container *ngIf="control.type === 'search'">
+          <nz-select
+            nzShowSearch
+            nzServerSearch
+            nzAllowClear
+            [nzPlaceHolder]="control.placeholder || '请选择' + control.label"
+            [nzShowArrow]="false"
+            [formControlName]="control.key"
+            (nzOnSearch)="control.$subject.next($event)">
+            <nz-option 
+              nzCustomContent
+              *ngFor="let option of control.options"
+              [nzLabel]="option.name"
+              [nzValue]="option.id">
+              <div class="search-result">
+                <div [innerHTML]="option.name"></div>
+                <div>{{ option.nick || '-' }}</div>
+                <div>{{ option.parentName || '-' }}</div>
+                <div>{{ option.mobile || '-' }}</div>
+              </div>
+            </nz-option>
+          </nz-select>
+        </ng-container>
         
         <ng-container *ngIf="control.type === 'radio'">
           <nz-radio-group [formControlName]="control.key" (ngModelChange)="submit()">

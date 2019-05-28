@@ -1,5 +1,4 @@
 import { ImportComponent } from './import/import.component';
-import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
@@ -7,6 +6,8 @@ import { PreviewComponent } from '../public/preview/preview.component';
 import { UpdateComponent } from '../public/update/update.component';
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-distribution',
@@ -17,7 +18,7 @@ export class DistributionComponent implements OnInit {
 
   domainEs = environment.domainEs;
 
-  @ViewChild('EaTable') table;
+  @ViewChild('EaTable') table: TableComponent;
 
   queryNode: QueryNode[] = [
     {
@@ -103,7 +104,10 @@ export class DistributionComponent implements OnInit {
 
   distribution() {
     if (this.teacherId) {
-
+      this.http.post('/membermanage/returnVisit/setFollower', { studentIds: JSON.stringify(this.checkedItems), followerId: this.teacherId }, true).then(res => {
+        this.table._request();
+        this.checkedItems = [];
+      })
     } else {
       this.message.warning('请选择老师');
     }

@@ -1,8 +1,13 @@
+import { AppState } from 'src/app/core/reducers/reducers-config';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CacheService } from '../../services/cache.service';
+import { Subject } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ea-query',
@@ -34,11 +39,15 @@ export class QueryComponent implements OnInit {
   constructor(
     private http     : HttpClient,
     private datePipe : DatePipe,
-    private cache    : CacheService
+    private cache    : CacheService,
+    private httpservice: HttpService,
+    private store: Store<AppState>
   ) {
   }
 
+  storeId: number;
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo.kindergartenId);
     this._queryForm = new FormGroup({});
     this.node.map((res: any, idx) => {
       if (res.isHide) { this._showSlideBtn = true; }
@@ -61,6 +70,18 @@ export class QueryComponent implements OnInit {
             res.optionsResult && res.optionsResult(res.options);
           })
         }
+      }
+
+      if (res.type === 'search') {
+        res.$subject = new Subject();
+        res.$subject.pipe(debounceTime(500), filter((txt: string) => !!txt)).subscribe(condition => {
+          this.httpservice.post(res.searchUrl, {
+            storeId: this.storeId,
+            condition,
+            pageNum: 1,
+            pageSize: 10
+          }).then(result => result.data && (res.options = result.data.list))
+        })
       }
       return res;
     });
@@ -115,11 +136,12 @@ export class QueryComponent implements OnInit {
 export interface QueryNode {
   label       : string;
   key         : string;
-  type        : 'input' | 'select' | 'radio' | 'between' | 'datepicker' | 'rangepicker' | 'radio' | 'monthpicker' | 'tag';
+  type        : 'input' | 'select' | 'radio' | 'between' | 'datepicker' | 'rangepicker' | 'radio' | 'monthpicker' | 'tag' | 'search';
   default?    : any;
   valueKey?   : string[];
   options?    : any[];
   optionsUrl? : string;
+  searchUrl?  : string;
   optionKey?  : OptionsKey;
   ranges?     : Object;
   placeholder?: string | string[];
@@ -130,6 +152,7 @@ export interface QueryNode {
   optionsHide?: boolean;
   format?     : string;
   hasOptionsHideBtn? : boolean;
+  readonly $subject?: Subject<string>;
 }
 export interface OptionsKey {
   label: string;

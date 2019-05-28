@@ -1,9 +1,14 @@
+import { AppState } from './../../../core/reducers/reducers-config';
+import { HttpService } from './../../services/http.service';
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { QueryNode } from '../query/query.component';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CacheService } from '../../services/cache.service';
+import { Subject } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ea-query-simp',
@@ -30,11 +35,15 @@ export class QuerySimpComponent implements OnInit {
   constructor(
     private http     : HttpClient,
     private datePipe : DatePipe,
-    private cache    : CacheService
+    private cache    : CacheService,
+    private httpservice: HttpService,
+    private store: Store<AppState>
   ) {
   }
 
+  storeId: number;
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo.kindergartenId);
     this._queryForm = new FormGroup({});
     this.node.map((res: any, idx) => {
       if (res.isHide) { this._showSlideBtn = true; }
@@ -57,6 +66,18 @@ export class QuerySimpComponent implements OnInit {
             res.optionsResult && res.optionsResult(res.options);
           })
         }
+      }
+
+      if (res.type === 'search') {
+        res.$subject = new Subject();
+        res.$subject.pipe(debounceTime(500), filter((txt: string) => !!txt)).subscribe(condition => {
+          this.httpservice.post(res.searchUrl, {
+            storeId: this.storeId,
+            condition,
+            pageNum: 1,
+            pageSize: 10
+          }).then(result => result.data && (res.options = result.data.list))
+        })
       }
       return res;
     });
