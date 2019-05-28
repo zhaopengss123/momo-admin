@@ -33,9 +33,9 @@ export class MenuComponent implements OnInit{
         });
         this.http.post('/settings/role/listMenuListByRoleId', { roleId: this.roleId }, false).then(res => {
           this.loading = false;
-          if (res.code == 1000 && res.result) {
-            if(res.data.menuUrl){
-              this.checkedNodes = res.data.menuUrl.split(',');
+          if (res.result == 1000) {
+            if(res.data.beforeUrl){
+              this.checkedNodes = res.data.beforeUrl.split(',');
             }
             this.roleInfoId = res.data.roleId;
           }
