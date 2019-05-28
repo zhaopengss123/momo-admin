@@ -17,7 +17,7 @@ export class UpdateComponent implements OnInit {
 
   formGroup: FormGroup;
 
-   roleList: any;
+  roleList: any;
   classList: any[] = [];
   @GetList('/teacher/getMenus') menuList: any;
 
@@ -41,15 +41,15 @@ export class UpdateComponent implements OnInit {
       name: [, [Validators.required]],
       sex: ['1'],
       roleId: [, [Validators.required]],
-      classIds: [],
-      menuIds: [],
+      classId: [],
+      //menuIds: [],
       receptionNum: [, [Validators.required]],
       idCard:[, [Validators.required]],
-      birthday:[],
-      email: [],
+      birthday:[,[Validators.required]],
+      eMail: [],
       homeAddress: [],
       entryTime: [, [Validators.required]],
-      quit_time: [],
+      quitTime: [],
       status: [, [Validators.required]],
       isGovernor: [, [Validators.required]],
     });
@@ -72,14 +72,14 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id && this.http.post('/teacher/getTeacherDetail', { id: this.id }, false).then(res => {
+    this.id && this.http.post('/teacher/getTeacherInfo', { id: this.id }, false).then(res => {
       let teacherInfo = res.data;
-      this.password = teacherInfo.realPassword;
-      teacherInfo.enterPassword = teacherInfo.realPassword;
-      teacherInfo.classIds = [];
-      teacherInfo.classes.map(res => teacherInfo.classIds.push(res.id));
-      teacherInfo.menuIds = [];
-      teacherInfo.menus.map(res => teacherInfo.menuIds.push(res.id));
+      //this.password = teacherInfo.realPassword;
+      //teacherInfo.enterPassword = teacherInfo.realPassword;
+      //teacherInfo.classIds = [];
+      //teacherInfo.classes.map(res => teacherInfo.classIds.push(res.id));
+      //teacherInfo.menuIds = [];
+      //teacherInfo.menus.map(res => teacherInfo.menuIds.push(res.id));
       this.formGroup.patchValue(teacherInfo);
     });
   }
@@ -96,7 +96,7 @@ export class UpdateComponent implements OnInit {
       }
     } else {
       this.saveLoading = true;
-      this.http.post('/teacher/saveTeacher', { paramJson: JSON.stringify(params) }).then(res => {
+      this.http.post('/teacher/saveTeacherInfo', { paramJson: JSON.stringify(params) }).then(res => {
         this.drawerRef.close(true);
       }).catch(err => this.saveLoading = false);
     }
@@ -113,7 +113,7 @@ export class UpdateComponent implements OnInit {
         id: this.formGroup.get('id').value,
         mobilePhone: control.value
       };
-      this.http.post('/teacher/checkPhoneNum', { paramJson: JSON.stringify(params) }, false).then(res => {
+      this.http.post('/teacher/checkEmployeePhoneNum', { paramJson: JSON.stringify(params) }, false).then(res => {
         observer.next(res.data ? null : { error: true, duplicated: true });
         observer.complete();
       }, err => {

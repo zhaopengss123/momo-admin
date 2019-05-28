@@ -36,6 +36,8 @@ export class TableComponent implements OnInit {
 
   @Input() size         : 'default' | 'small' | 'middle';
 
+  @Input() timeout      : number;
+
   @Output() checkedItemsChange: EventEmitter<any[]> = new EventEmitter();
 
   @Output() ready       : EventEmitter<any> = new EventEmitter();
@@ -95,12 +97,20 @@ export class TableComponent implements OnInit {
     )
     let params = this.isParamJson ? { paramJson: JSON.stringify(paramJson) } : paramJson;
     this.paramsInit = {};
+    this.timeout ? setTimeout(_ => this._getData(params), this.timeout) : this._getData(params);
+  }
+  request(params): void {
+    this._params = params;
+    this._request(true);
+  }
+
+  private _getData(params) {
     this.http.post<any>(this.url, serialize(params), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     }).subscribe(res => {
       this._pageInfo.loading = false;
       if (res.result == 1000) {
-        if(res.data) {
+        if (res.data) {
           this.dataSet = res.data.list || res.data;
           !res.data.list && (this.showPage = false);
 
@@ -124,11 +134,7 @@ export class TableComponent implements OnInit {
     }, err => {
       this._pageInfo.loading = false;
     });
-  }
-  request(params): void {
-    this._params = params;
-    this._request(true);
-  }
+  } 
 
 
   /* --------------------- 点击全选 --------------------- */

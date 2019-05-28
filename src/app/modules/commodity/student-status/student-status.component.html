@@ -14,7 +14,7 @@
         >
 
         <!--有限次学籍-->
-        <ng-form *ngIf="flag == 1" nz-form [formGroup]="drawerFormModel">
+        <ng-form *ngIf="flag == '1'" nz-form [formGroup]="drawerFormModel">
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -57,7 +57,11 @@
                 </nz-input-group>
               </div>
               <nz-form-explain
+<<<<<<< HEAD
                 *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value == ''"
+=======
+                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1'"
+>>>>>>> dev
               >
               天数不能为空
               </nz-form-explain>
@@ -117,7 +121,7 @@
         <!--有限次学籍end-->
 
         <!--不限次学籍-->
-        <ng-form *ngIf="flag == 2" nz-form [formGroup]="monthFormModel">
+        <ng-form *ngIf="flag == '2'" nz-form [formGroup]="monthFormModel">
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">

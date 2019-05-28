@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { NzDrawerRef, NzMessageService, NzModalService, NzDrawerService } from 'ng-zorro-antd';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GetList } from 'src/app/ng-relax/decorators/getList.decorator';
 
 @Component({
   selector: 'app-preview',

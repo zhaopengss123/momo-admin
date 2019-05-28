@@ -91,7 +91,7 @@ const routes: Routes = [
       },
       {
         path: 'customer',
-        data: { title: '客户管理' },
+        data: { title: '学员管理' },
         loadChildren: 'src/app/modules/customer/customer.module#CustomerModule'
       },
       {
@@ -133,6 +133,11 @@ const routes: Routes = [
             path: 'member',
             data: { title: '会员回访' },
             loadChildren: 'src/app/modules/visit/member/member.module#MemberModule'
+          },
+          {
+            path: 'nointention',
+            data: { title: '无意向客户' },
+            loadChildren: 'src/app/modules/visit/nointention/nointention.module#NointentionModule'
           },
           {
             path: 'distribution',

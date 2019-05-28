@@ -2,7 +2,6 @@ import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { MenuConfig } from '../../../../core/menu-config';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NzTreeNode, NzTreeComponent } from 'ng-zorro-antd';
-import { CheckMenu } from '../checkMenu';
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
@@ -11,15 +10,13 @@ import { CheckMenu } from '../checkMenu';
 export class MenuComponent implements OnInit{
     @ViewChild('NzTree') nzTree: NzTreeComponent;
 
-    @Input() roleId: string;
+    @Input() roleId: number;
 
     nodes: NzTreeNode[] = [];
 
     checkedNodes: string[] = ['/home'];
 
     menuIds: number[]=[];
-
-    checkMenus:CheckMenu[]=[];
 
     roleInfoId: number;
 
@@ -34,22 +31,31 @@ export class MenuComponent implements OnInit{
         this.menuConfig.map(res => {
           this.nodes.push(new NzTreeNode(res));
         });
-        //根据role的menuId进行回显
         this.http.post('/settings/role/listMenuListByRoleId', { roleId: this.roleId }, false).then(res => {
-            this.loading = false;
-            let beforePath:String;
-            if (res.result == 1000) {
-              if(res.data.menuList){
-                res.data.menuList.forEach(path => {
-                  beforePath = beforePath+","+path.beforePathUrl;
-                });
-              }
-              if(beforePath){
-                this.checkedNodes = beforePath.split(",");
-              }
-               this.roleInfoId = res.data.roleId;
+          this.loading = false;
+          if (res.result == 1000) {
+            if(res.data.beforeUrl){
+              this.checkedNodes = res.data.beforeUrl.split(',');
             }
-          })
+            this.roleInfoId = res.data.roleId;
+          }
+        })
+        //根据role的menuId进行回显
+        // this.http.post('/settings/role/listMenuListByRoleId', { roleId: this.roleId }, false).then(res => {
+        //     this.loading = false;
+        //     let beforePath:String;
+        //     if (res.result == 1000) {
+        //       if(res.data.menuList){
+        //         res.data.menuList.forEach(path => {
+        //           beforePath = beforePath+","+path.beforePathUrl;
+        //         });
+        //       }
+        //       if(beforePath){
+        //         this.checkedNodes = beforePath.split(",");
+        //       }
+        //        this.roleInfoId = res.data.roleId;
+        //     }
+        //   })
       }
     constructor(
         private http: HttpService
@@ -75,35 +81,35 @@ export class MenuComponent implements OnInit{
           }
         });
         //获取到根据beforePathUrl得到menuId
-        if(this.checkedNodes && this.checkedNodes.length){
-          //进行双重for循环 获取菜单回显的menuId
-          this.menuIds = [];
-          let nodeLength = this.checkedNodes.length;
-          let menuLength = this.checkMenus.length;
-          for (let index = 0; index < nodeLength; index++) {
-            const element1 = this.checkedNodes[index];
-            for (let index = 0; index < menuLength; index++) {
-              const element2 = this.checkMenus[index];
-              if(element1 === element2.beforePath){
-                this.menuIds.push(element2.id);
-                break;
-              }
-            }
-          }
-        }
+        // if(this.checkedNodes && this.checkedNodes.length){
+        //   //进行双重for循环 获取菜单回显的menuId
+        //   this.menuIds = [];
+        //   let nodeLength = this.checkedNodes.length;
+        //   let menuLength = this.checkMenus.length;
+        //   for (let index = 0; index < nodeLength; index++) {
+        //     const element1 = this.checkedNodes[index];
+        //     for (let index = 0; index < menuLength; index++) {
+        //       const element2 = this.checkMenus[index];
+        //       if(element1 === element2.beforePath){
+        //         this.menuIds.push(element2.id);
+        //         break;
+        //       }
+        //     }
+        //   }
+        // }
             //得到最全的menuId
-          this.http.post('/settings/role/listMenuList', {}, false).then(res => {
-            this.loading = false;
-            if (res.result == 1000) {
-              if(null != res.data){
-                res.data.forEach(path => {
-                  let checkMenuTem :any = {};
-                  checkMenuTem.id = path.id;
-                  checkMenuTem.beforePath = path.beforePathUrl;
-                  this.checkMenus.push(checkMenuTem);
-                });
-              }
-            }
-          })
+          // this.http.post('/settings/role/listMenuList', {}, false).then(res => {
+          //   this.loading = false;
+          //   if (res.result == 1000) {
+          //     if(null != res.data){
+          //       res.data.forEach(path => {
+          //         let checkMenuTem :any = {};
+          //         checkMenuTem.id = path.id;
+          //         checkMenuTem.beforePath = path.beforePathUrl;
+          //         this.checkMenus.push(checkMenuTem);
+          //       });
+          //     }
+          //   }
+          // })
       }       
 }

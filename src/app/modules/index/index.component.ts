@@ -1,8 +1,6 @@
-import { AppState } from './../../core/reducers/reducers-config';
-import { HttpService } from './../../ng-relax/services/http.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-index',

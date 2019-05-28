@@ -1,8 +1,13 @@
+import { AppState } from 'src/app/core/reducers/reducers-config';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { QueryNode } from '../query/query.component';
 import { CacheService } from '../../services/cache.service';
+import { debounceTime, filter } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ea-query-flex',
@@ -20,13 +25,18 @@ export class QueryFlexComponent implements OnInit {
   constructor(
     private fb: FormBuilder = new FormBuilder(),
     private format: DatePipe,
-    private cache: CacheService
+    private cache: CacheService,
+    private http: HttpService,
+    private store: Store<AppState>
   ) { }
 
   showSlideBtn: boolean;
   isCollapse: boolean = true;
+  
 
+  storeId: number;
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo.kindergartenId);
     this.node.map((res: any, idx) => {
       if (res.isHide) { this.showSlideBtn = true; }
       if (res.type === 'between') {
@@ -45,6 +55,19 @@ export class QueryFlexComponent implements OnInit {
         }
         res.options.map(option => option.isHide && (res.hasOptionsHideBtn = true) );
       }
+
+      if (res.type === 'search') {
+        res.$subject = new Subject();
+        res.$subject.pipe(debounceTime(500), filter((txt: string) => !!txt)).subscribe(condition => {
+          this.http.post(res.searchUrl, {
+            storeId: this.storeId,
+            condition,
+            pageNum: 1,
+            pageSize: 10 
+          }).then(result => result.data && (res.options = result.data.list))
+        })
+      }
+
       return res;
     });
   }
@@ -99,5 +122,4 @@ export class QueryFlexComponent implements OnInit {
       this.formGroup.patchValue(resetParams);
     }
   }
-
 }

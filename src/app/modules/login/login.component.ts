@@ -87,6 +87,7 @@ export class LoginComponent implements OnInit {
       if (res.result == 1000) {
         /* ------------------ 存储用户名密码及用户信息 ------------------ */
         window.localStorage.setItem('userInfo', JSON.stringify(res.data));
+        this.store.dispatch({ type: 'setUserInfo', payload: res.data });
         if (params.remember) {
           window.localStorage.setItem('userName', JSON.stringify(this.loginForm.value));
         }

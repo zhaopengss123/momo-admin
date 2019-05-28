@@ -8,7 +8,7 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 @Component({
   selector: 'app-examine',
   templateUrl: './examine.component.html',
-  styleUrls: ['./examine.component.scss']
+  styleUrls: ['./examine.component.less']
 })
 export class ExamineComponent implements OnInit, AfterViewInit {
 
