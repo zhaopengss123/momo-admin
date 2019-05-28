@@ -20,7 +20,7 @@
 
 <div class="detail">
   <ea-title>{{ formInfo.cardTypeName || formInfo.serviceName }}</ea-title>
-  <div>{{ formInfo.cardDesc || formInfo.serviceDesc }}</div>
+  <div [innerHtml]="formInfo.cardDesc || formInfo.serviceDesc"></div>
 </div>
 
 <form nz-form [formGroup]="formGroup">

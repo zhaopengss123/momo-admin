@@ -282,7 +282,6 @@ export class StudentStatusComponent implements OnInit {
 
     //调取接口学籍类型列表
     this.http.post('/commodity/card/getCardTypeCategory').then(res => {
-
       //有限次学籍
       if(this.flag == '1'){
         if(this.drawerFormModel['invalid']){
@@ -318,10 +317,7 @@ export class StudentStatusComponent implements OnInit {
             }
           })
         }
-      }
-
-      //不限次学籍
-      if(this.flag == '2'){
+      }else if(this.flag == '2'){
         if(this.monthFormModel['invalid']){
           for (let i in this.monthFormModel['controls']) {
             this.monthFormModel['controls'][i].markAsDirty();
