@@ -213,9 +213,9 @@ export class ServiceComponent implements OnInit {
       this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
         this.optionList = res.data.list;
         for(let item of this.optionList){
-          if(item.serviceTypeCategoryName == data.serviceTypeCategoryName){
+          if(item.name == data.serviceTypeCategoryName){
             this.formModel.patchValue({
-              selectedVal : item.serviceTypeCategoryId
+              selectedVal : parseInt(item.id)
             })
           } 
         }

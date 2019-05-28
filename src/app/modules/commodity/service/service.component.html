@@ -17,7 +17,7 @@
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务类型</nz-form-label>
             <nz-form-control [nzSm]="8" [nzXs]="24">
                 <nz-select style="width: 183px;" formControlName="selectedVal" nzAllowClear nzPlaceHolder="Choose">
-                  <nz-option *ngFor="let list of optionList" [nzValue]="list.serviceTypeCategoryId" [nzLabel]="list.serviceTypeCategoryName"></nz-option>
+                  <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
                 </nz-select>
             </nz-form-control>
           </nz-form-item>
