@@ -4,6 +4,7 @@ import { NgRelaxModule } from './../../../ng-relax/ng-relax.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NointentionComponent } from './nointention.component';
+import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
   declarations: [NointentionComponent],
@@ -14,7 +15,8 @@ import { NointentionComponent } from './nointention.component';
     RouterModule.forChild([{
       path: '',
       component: NointentionComponent
-    }])
+    }]),
+    CustomerPreviewModule,
   ]
 })
 export class NointentionModule { }

@@ -1,7 +1,7 @@
 import { NzDrawerRef, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { addMonths, subMonths, format, addDays } from 'date-fns';
+import { addMonths, subMonths, format, addDays, getDay } from 'date-fns';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 
 @Component({
@@ -152,6 +152,7 @@ export class AppointComponent implements OnInit {
           teacher.list = Object.values(res.data.list)[0] ? Object.values(res.data.list)[0] : [];
           teacher.list.map(arr => teacher.list[ 'arr' + arr.pitNum] = arr);
           teacher.pit = new Array(teacher.receptionNum);
+          console.log(this.dataSet)
         })
       })
     });
@@ -165,6 +166,12 @@ export class AppointComponent implements OnInit {
     let m31 = ['01', '03', '05', '07', '08', '10', '12'];
     let m30 = ['04', '06', '09', '11'];
     return m31.includes(m) ? 31 : m30.includes(m) ? 30 : Number(y % 4) === 0 ? 29 : 28;
+  }
+
+
+  private _weekList = ['天', '一', '二', '三', '四', '五', '六'];
+  getDate(day) {
+    return `周${this._weekList[getDay(new Date(day))]}`
   }
 
 

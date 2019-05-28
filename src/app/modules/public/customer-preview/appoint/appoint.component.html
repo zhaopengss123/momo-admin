@@ -26,7 +26,10 @@
             <div class="thead">
               <nz-tag [nzColor]="'#2db7f5'">{{ month.key }}</nz-tag>
               <ol>
-                <li *ngFor="let d of month.days; let dayIndex = index;">{{ dayIndex + 1 }}</li>
+                <li *ngFor="let d of month.days; let dayIndex = index;">
+                  <div>{{ dayIndex + 1 }}</div>
+                  <p>{{ getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) }}</p>
+                </li>
               </ol>
             </div>
             <div class="tbody" *ngFor="let teacher of month.value[0].teachers">
@@ -46,13 +49,6 @@
                   }" nz-popover
                   [nzTitle]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? '学生详情' : null"
                   [nzContent]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? studentList : null">
-  
-                  <p class="name" *ngIf="
-                    teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] &&
-                    !teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx) + ''] &&
-                    !teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']
-                  ">随便写</p>
-  
                   <ng-template #studentList>
                     学生详情
                   </ng-template>

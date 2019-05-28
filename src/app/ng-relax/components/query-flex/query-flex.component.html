@@ -31,7 +31,7 @@
         </ng-container>
 
         <ng-container *ngIf="control.type === 'select'">
-          <nz-select [formControlName]="control.key" nzShowSearch nzAllowClear [nzPlaceHolder]="control.placeholder || '请选择' + control.label" (ngModelChange)="submit()">
+          <nz-select [formControlName]="control.key" nzShowSearch nzAllowClear [nzPlaceHolder]="control.placeholder || '请选择' + control.label">
             <nz-option *ngFor="let option of control.options" [nzLabel]="option[control.optionKey?.label]" [nzValue]="option[control.optionKey?.value]"
               [nzDisabled]="option?.disabled"></nz-option>
           </nz-select>

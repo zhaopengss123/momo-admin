@@ -25,12 +25,12 @@ export class ImportComponent implements OnInit {
       this.uploadResult = [];
     }
     if (e.type === 'success') {
-      this.message.create(e.file.response.code == 1000 ? 'success' : 'warning', e.file.response.info);
-      if (e.file.response.code == 1000) {
-        this.message.success(e.file.response.info);
+      this.message.create(e.file.response.result == 1000 ? 'success' : 'warning', e.file.response.message);
+      if (e.file.response.result == 1000) {
+        this.message.success(e.file.response.message);
       } else {
-        this.uploadResult = e.file.response.result;
-        this.uploadInfo = `本次上传结果（${e.file.response.info}）`;
+        this.uploadResult = e.file.response.data.errorClues;
+        this.uploadInfo = `本次上传结果（${e.file.response.message}）`;
       }
     }
   }

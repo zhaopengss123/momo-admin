@@ -2,12 +2,12 @@ import { ImportComponent } from './import/import.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
-import { PreviewComponent } from '../public/preview/preview.component';
 import { UpdateComponent } from '../public/update/update.component';
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 
 @Component({
   selector: 'app-distribution',
@@ -104,7 +104,7 @@ export class DistributionComponent implements OnInit {
 
   distribution() {
     if (this.teacherId) {
-      this.http.post('/membermanage/returnVisit/setFollower', { studentIds: JSON.stringify(this.checkedItems), followerId: this.teacherId }, true).then(res => {
+      this.http.post('/membermanage/returnVisit/setFollower', { studentIds: this.checkedItems.join(','), followerId: this.teacherId }, true).then(res => {
         this.table._request();
         this.checkedItems = [];
       })
@@ -113,7 +113,7 @@ export class DistributionComponent implements OnInit {
     }
    }
 
-  @DrawerCreate({ content: PreviewComponent, width: 860, closable: false, params: { followStageId: 2 } }) preview: ({ id: number }) => void;
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
 

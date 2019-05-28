@@ -1,11 +1,11 @@
 import { UpdateComponent } from './../public/update/update.component';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
-import { PreviewComponent } from './../public/preview/preview.component';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { environment } from 'src/environments/environment';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 
 @Component({
   selector: 'app-clue',
@@ -86,7 +86,7 @@ export class ClueComponent implements OnInit {
   ngOnInit() {
   }
   
-  @DrawerCreate({ content: PreviewComponent, width: 860, closable: false, params: { followStageId: 2 } }) preview: ({id: number}) => void;
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
 

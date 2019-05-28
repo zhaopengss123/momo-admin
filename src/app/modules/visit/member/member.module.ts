@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MemberComponent } from './member.component';
 import { RouterModule } from '@angular/router';
+import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
   declarations: [MemberComponent],
@@ -16,7 +17,8 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([{
       path: '',
       component: MemberComponent
-    }])
+    }]),
+    CustomerPreviewModule,
   ]
 })
 export class MemberModule { }

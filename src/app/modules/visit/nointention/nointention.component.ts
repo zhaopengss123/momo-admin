@@ -1,10 +1,10 @@
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
-import { PreviewComponent } from '../public/preview/preview.component';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 
 @Component({
   selector: 'app-nointention',
@@ -88,10 +88,10 @@ export class NointentionComponent implements OnInit {
   ngOnInit() {
   }
 
-  @DrawerCreate({ content: PreviewComponent, width: 860, closable: false, params: { followStageId: 2 } }) preview: ({ id: number }) => void;
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
 
   gainClue(): void {
-    this.http.post('/membermanage/returnVisit/gainMemberClue', { ids: JSON.stringify(this.checkedItems)  }).then(res => {
+    this.http.post('/membermanage/returnVisit/gainMemberClue', { ids: this.checkedItems.join(',')  }, true).then(res => {
       this.checkedItems = [];
       this.table._request();
     })

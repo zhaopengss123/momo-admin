@@ -2,7 +2,7 @@
 
 <nz-upload
   nzType="drag"
-  [nzName]="'excelFile'"
+  [nzName]="'filename'"
   nzAction="/membermanage/clue/batchImportClues"
   [nzWithCredentials]="true"
   (nzChange)="uploadComplate($event)">
@@ -28,9 +28,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of smallTable.data">
-      <td>{{ data.name }}</td>
-      <td>{{ data.mobile }}</td>
-      <td>{{ data.reason }}</td>
+      <td>{{ data.studentName }}</td>
+      <td>{{ data.mobilePhone }}</td>
+      <td>{{ data.errCause }}</td>
     </tr>
   </tbody>
 </nz-table>

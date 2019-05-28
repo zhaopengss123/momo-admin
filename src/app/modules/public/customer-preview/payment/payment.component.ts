@@ -1,8 +1,8 @@
 import { DetailedComponent } from './detailed/detailed.component';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
-import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-payment',

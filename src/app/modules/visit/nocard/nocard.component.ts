@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PreviewComponent } from '../public/preview/preview.component';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { DatePipe } from '@angular/common';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 @Component({
   selector: 'app-nocard',
   templateUrl: './nocard.component.html',
@@ -84,5 +84,5 @@ export class NocardComponent implements OnInit {
   ngOnInit() {
   }
 
-  @DrawerCreate({ width: 860, closable: false,  content: PreviewComponent, params: { followStageId: 3 } }) preview: ({ id: number} ) => void;
+  @DrawerCreate({ width: 960, closable: false,  content: PreviewComponent }) preview: ({ id: number} ) => void;
 }

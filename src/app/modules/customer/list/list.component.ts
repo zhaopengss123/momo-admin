@@ -1,4 +1,3 @@
-import { AppointComponent } from '../appoint/appoint.component';
 import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
@@ -8,12 +7,13 @@ import { TableComponent } from 'src/app/ng-relax/components/table/table.componen
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/reducers/reducers-config';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
-import { UpdateComponent } from '../update/update.component';
-import { PreviewComponent } from '../preview/preview.component';
-import { PaymentComponent } from '../payment/payment.component';
-import { ClassComponent } from '../class/class.component';
-import { LeavingComponent } from '../leaving/leaving.component';
 import { endOfMonth, addDays, getDay, addMonths, startOfMonth, subDays } from 'date-fns';
+import { UpdateComponent } from '../../public/customer-preview/update/update.component';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { PaymentComponent } from '../../public/customer-preview/payment/payment.component';
+import { ClassComponent } from '../../public/customer-preview/class/class.component';
+import { LeavingComponent } from '../../public/customer-preview/leaving/leaving.component';
+import { AppointComponent } from '../../public/customer-preview/appoint/appoint.component';
 
 @Component({
   selector: 'app-list',

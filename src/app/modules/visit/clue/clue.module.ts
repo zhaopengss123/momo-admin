@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ClueComponent } from './clue.component';
 import { VisitModule } from '../visit.module';
 import { RouterModule } from '@angular/router';
+import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
   declarations: [ClueComponent],
@@ -16,7 +17,8 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([{
       path: '',
       component: ClueComponent
-    }])
+    }]),
+    CustomerPreviewModule,
   ]
 })
 export class ClueModule { }

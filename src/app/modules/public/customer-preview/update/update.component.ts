@@ -61,18 +61,18 @@ export class UpdateComponent implements OnInit {
       address: [],
       accountList: this.fb.array([])
     });
-    this.addAccount();
+    
     this.formGroup.controls['isCases'].valueChanges.subscribe(val => val ? this.formGroup.addControl('cases', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('cases'));
     this.formGroup.controls['isAllergyHistory'].valueChanges.subscribe(val => val ? this.formGroup.addControl('allergyHistory', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('allergyHistory'));
     this.formGroup.controls['isChronicDisease'].valueChanges.subscribe(val => val ? this.formGroup.addControl('chronicDisease', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('chronicDisease'));
     this.formGroup.controls['isMedication'].valueChanges.subscribe(val => val ? this.formGroup.addControl('medication', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('medication'));
     this.formGroup.controls['isLimitActivity'].valueChanges.subscribe(val => val ? this.formGroup.addControl('limitActivity', this.fb.control(null, [Validators.required])) : this.formGroup.removeControl('limitActivity'));
 
-
-    this.id && this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
+    this.id ? this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
+      res.data.parentAccountList.map(res => this.addAccount())
       res.data.studentInfo.accountList = res.data.parentAccountList;
       this.formGroup.patchValue(res.data.studentInfo);
-    })
+    }) : this.addAccount();
   }
 
   get accountList() { return this.formGroup.controls['accountList'] as FormArray; }
