@@ -13,7 +13,7 @@
     <td>{{ data.effectDate }}</td>
     <td>{{ data.expireDate }}</td>
     <td>{{ data.teacherName }}</td>
-    <td>{{ data.payMethod ? '全款' : '分期' }}</td>
+    <td>{{ data.payMethod == 1 ? '全款' : '分期' }}</td>
     <td>{{ data.comment }}</td>
   </ng-template>
 </ea-table>

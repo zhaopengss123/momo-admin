@@ -8,6 +8,8 @@ import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/reducers/reducers-config';
 
 @Component({
   selector: 'app-distribution',
@@ -22,10 +24,9 @@ export class DistributionComponent implements OnInit {
 
   queryNode: QueryNode[] = [
     {
-      label: '学员信息',
+      label: '学员昵称',
       key: 'nick',
-      type: 'input',
-      placeholder: '姓名、昵称、手机号或学号'
+      type: 'input'
     },
     {
       label: '分配给',
@@ -90,7 +91,8 @@ export class DistributionComponent implements OnInit {
   constructor(
     private drawer: NzDrawerService,
     private http: HttpService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private store: Store<AppState>
   ) { 
     this.http.post('/membermanage/returnVisit/getFollowTeachers').then(res => {
       this.teacherList = res.data;
@@ -99,7 +101,9 @@ export class DistributionComponent implements OnInit {
     })
   }
 
+  paramsDefault: any = {};
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
   distribution() {

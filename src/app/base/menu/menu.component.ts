@@ -18,12 +18,19 @@ export class MenuComponent implements OnInit {
 
   menuConfig: any[] = MenuConfig;
 
+  roleAllowPath: string;
+
   constructor(
     private store: Store<AppState>
   ) { }
 
   ngOnInit() {
     this.store.select('routerState').subscribe(res => this.routerState = res);
+
+    this.store.select('userInfoState').subscribe(res => {
+      this.roleAllowPath = res.menuUrls;
+    });
+
   }
 
 }

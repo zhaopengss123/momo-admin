@@ -8,13 +8,6 @@ export const MenuConfig = [
     isLeaf: true
   },
   {
-    title : '孩子管理',
-    brief : '孩子',
-    key   : '/home/children',
-    icon  : 'team',
-    isLeaf: true
-  },
-  {
     title : '老师管理',
     brief : '老师',
     key   : '/home/teacher',
@@ -52,11 +45,6 @@ export const MenuConfig = [
       {
         title : '账号管理',
         key   : '/home/setting/account',
-        isLeaf: true
-      },
-      {
-        title : '基础设置',
-        key   : '/home/setting/base',
         isLeaf: true
       },
       {

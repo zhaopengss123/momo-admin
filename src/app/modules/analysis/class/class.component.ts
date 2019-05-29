@@ -62,8 +62,7 @@ export class ClassComponent implements OnInit {
     e.map(res => this.http.post('/message/getTeacherListByClass', { classId: res.id }).then(teachers => {
       res.teachers = [];
       teachers.data.map(tc => res.teachers.push(tc.name));
-      res.teahcers = res.teahcers.split(',');
-      return res;
+      res.teachers = res.teachers.join(',');
     }));
   }
 }

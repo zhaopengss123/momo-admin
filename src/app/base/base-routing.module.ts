@@ -18,11 +18,6 @@ const routes: Routes = [
         loadChildren: 'src/app/modules/password/password.module#PasswordModule'
       },
       {
-        path: 'children',
-        data: { title: '孩子管理' },
-        loadChildren: 'src/app/modules/children/children.module#ChildrenModule'
-      },
-      {
         path: 'teacher',
         data: { title: '老师管理' },
         loadChildren: 'src/app/modules/teacher/teacher.module#TeacherModule'
