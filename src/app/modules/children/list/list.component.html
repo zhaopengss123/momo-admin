@@ -2,7 +2,7 @@
   <nz-tabset [nzTabBarExtraContent]="EaBtns" [(nzSelectedIndex)]="tabIndex">
     <nz-tab nzTitle="在校">
       <ea-list-page-simp #listPage url="/student/listStudent" [queryNode]="[]" [paramsDefault]="{stuStatus: 1, sorting: 1}"
-        [tableThead]="[ '头像', '名字', '小名', '性别', '出生日期', '联系方式', '所属班级', '操作' ]"
+        [tableThead]="[ '头像', '名字', '昵称', '性别', '出生日期', '联系方式', '所属班级', '操作' ]"
         [EaTableTbodyTr]="EaTableTbodyTr">
       </ea-list-page-simp>
 

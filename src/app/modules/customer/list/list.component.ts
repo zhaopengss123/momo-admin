@@ -2,7 +2,6 @@ import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { environment } from 'src/environments/environment';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/reducers/reducers-config';
@@ -34,8 +33,6 @@ export class ListComponent implements OnInit {
     '本月': [new Date(), endOfMonth(new Date())],
     '下个月': [startOfMonth(addMonths(new Date(), 1)), endOfMonth(addMonths(new Date(), 1))]
   };
-
-  domain = environment.domainEs;
 
   checkedItems: number[] = [];
 
@@ -135,13 +132,12 @@ export class ListComponent implements OnInit {
       res.data.classList.map(item => this.queryItems.classList[item.classId] = item.className);
       res.data.cardList.map(item => this.queryItems.cardList[item.id] = item.name);
       res.data.teacherList.map(item => this.queryItems.teacherList[item.teacherId] = item.teacherName);
-      this.dataChange();
     });
     this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[5].options = res.data.list);
   }
 
   ngOnInit() {
-    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
+    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.kindergartenId = userInfo.kindergartenId);
   }
 
   query(params) {
@@ -185,7 +181,9 @@ export class ListComponent implements OnInit {
       nzContentParams: { id: params.id }
     }).afterClose.subscribe(res => {
       if (res && res.isPaymentCard) {
-        if (this.checkedData[0].gradeId) {
+        if (this.checkedData[0].classId) {
+          this.checkedData[0].cardType = 2;
+          this.table._request();
           this.appoint({ studentInfo: this.checkedData[0] });
         } else {
           this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
@@ -200,20 +198,10 @@ export class ListComponent implements OnInit {
 
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }?) => void;
 
-  paramsDefault = { storeId: null, schoolRollId: null }
+  paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
-    this.paramsDefault.schoolRollId = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "3,4" : "0,1";
+    this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "3,4" : "0,1";
     this.table._request();
-  }
-
-  dataChange() {
-    this.table.dataSet.length && this.queryNode[3].options.length && this.table.dataSet.map(data => {
-      data.schoolRollName = this.queryItems.cardList[data.schoolRollId] || '-';
-      data.gradeName = this.queryItems.classList[data.gradeId] || '-';
-      data.sourceName = this.queryItems.memberFromList[data.sourceId] || '-';
-      data.sellName = this.queryItems.teacherList[data.sellId] || '-';
-      return data;
-    })
   }
 
   lookChange(studentId, isLook) {

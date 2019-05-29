@@ -93,4 +93,8 @@ export class ClueComponent implements OnInit {
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
 
+  dataChange(dataset) {
+    console.log(dataset)
+  }
+
 }

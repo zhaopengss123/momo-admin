@@ -80,7 +80,12 @@ export class QueryComponent implements OnInit {
             condition,
             pageNum: 1,
             pageSize: 10
-          }).then(result => result.data && (res.options = result.data.list))
+          }).then(result => {
+            if (result.data) {
+              result.data.list.map(d => d.text = d.name.replace(/<\/?[^>]*>/g, ''));
+              res.options = result.data.list;
+            }
+          });
         })
       }
       return res;

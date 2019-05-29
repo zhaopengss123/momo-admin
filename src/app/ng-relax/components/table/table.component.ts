@@ -97,6 +97,7 @@ export class TableComponent implements OnInit {
       this.paramsInit,
       { pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize }
     )
+    Object.keys(paramJson).map(key => { if (paramJson[key] === '' || paramJson[key] === null) { delete paramJson[key] } });
     let params = this.isParamJson ? { paramJson: JSON.stringify(paramJson) } : paramJson;
     this.paramsInit = {};
     this.timeout ? setTimeout(_ => this._getData(params), this.timeout) : this._getData(params);

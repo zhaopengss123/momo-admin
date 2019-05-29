@@ -186,7 +186,7 @@
       <nz-form-label nzRequired [nzSpan]="3">慢性病史</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('chronicDisease') && valid('chronicDisease')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isChronicDisease" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
+          <nz-select formControlName="isChronicDisease" nzPlaceHolder="有无慢性病史" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
@@ -199,7 +199,7 @@
       <nz-form-label nzRequired [nzSpan]="3">药物治疗</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('medication') && valid('medication')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isMedication" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
+          <nz-select formControlName="isMedication" nzPlaceHolder="有无药物治疗" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
@@ -212,7 +212,7 @@
       <nz-form-label nzRequired [nzSpan]="3">限制活动</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('limitActivity') && valid('limitActivity')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isLimitActivity" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
+          <nz-select formControlName="isLimitActivity" nzPlaceHolder="有无限制活动" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>

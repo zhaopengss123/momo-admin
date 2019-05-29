@@ -3,7 +3,7 @@
 
   <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">新增客户线索</button>
 
-  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="paramsDefault" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
+  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="paramsDefault" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'" (dataChange)="dataChange($event)">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id})">{{ data.nick }}</a></td>
       <td><a (click)="preview({id: data.id})">{{ data.name }}</a></td>
@@ -19,8 +19,8 @@
       <td>{{ data.threadClientStatusName }}</td>
       <td>{{ data.threadFollowStatusName }}</td>
       <td>{{ data.collectorId || '--' }}</td>
-      <td>{{ data.xxx || '-' }}</td>
-      <td>{{ data.xxx || '-' }}</td>
+      <td>{{ data.acitivityId || '-' }}</td>
+      <td>{{ data.teacherId || '-' }}</td>
     </ng-template>
   </ea-table>
 </div>

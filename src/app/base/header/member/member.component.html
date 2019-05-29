@@ -2,15 +2,14 @@
 
 <nz-divider></nz-divider>
 
-
 <nz-skeleton [nzLoading]="loading">
-  <ea-table [thead]="['学号', '姓名', '小名', '家长姓名', '手机号']" [dataSet]="dataSet" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" (clickData)="clickData($event)">
+  <ea-table [thead]="['学号', '姓名', '昵称', '家长姓名', '手机号']" [dataSet]="dataSet" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" (clickData)="clickData($event)">
     <ng-template let-data #EaTableTbodyTr>
-      <td>{{ data.number }}</td>
-      <td>{{ data.name }}</td>
-      <td>{{ data.nick }}</td>
-      <td>{{ data.parentName }}</td>
-      <td>{{ data.mobile }}</td>
+      <td [innerHTML]="data.number"></td>
+      <td [innerHTML]="data.name"></td>
+      <td [innerHTML]="data.nick"></td>
+      <td [innerHTML]="data.parentName"></td>
+      <td [innerHTML]="data.mobile"></td>
     </ng-template>
   </ea-table>
 </nz-skeleton>

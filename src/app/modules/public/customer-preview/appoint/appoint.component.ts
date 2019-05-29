@@ -29,9 +29,9 @@ export class AppointComponent implements OnInit {
 
   ngOnInit() {
     this.studentInfo.id = this.studentInfo.id || this.studentInfo.studentId;
-    this.studentInfo.classId = this.classId || this.studentInfo.classId || this.studentInfo.gradeId;
+    this.studentInfo.classId = this.classId || this.studentInfo.classId;
     /* 如果是日托， 则获取最大选择天数 */
-    this.studentInfo.schoolRollId == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
+    this.studentInfo.cardType == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
     this.getData();
   }
 
@@ -40,15 +40,7 @@ export class AppointComponent implements OnInit {
   getCheckedItemLoading: boolean;
 
   checkedChange(day: string/* reserveDate | teacherId | rowIdx */) {
-    if (this.studentInfo.schoolRollId == null) {
-      /* -------------------- 体验 -------------------- */
-      this.checkedList = this.checkedList.includes(day) ? [] : [day];
-    } else if (this.studentInfo.schoolRollId == 1) {
-      /* -------------------- 日托 -------------------- */
-      if (this.checkedList.length < this.maxChecked) {
-        this.checkedList.includes(day) ? this.checkedList.splice(this.checkedList.indexOf(day), 1) : this.checkedList.push(day);
-      }
-    } else {
+    if (this.studentInfo.cardType == 2) {
       /* -------------------- 定期 -------------------- */
       if (this.checkedList.includes(day)) {
         this.checkedList = [];
@@ -56,9 +48,11 @@ export class AppointComponent implements OnInit {
         this.getCheckedItemLoading = true;
 
         let [startTime, teacherId, rowIndx] = day.split('|');
-        this.http.post('/student/getReserveEndTime', { paramJson: JSON.stringify({ 
-          studentId: this.studentInfo.id,
-          startTime }) 
+        this.http.post('/student/getReserveEndTime', {
+          paramJson: JSON.stringify({
+            studentId: this.studentInfo.id,
+            startTime
+          })
         }).then(res => {
           this.checkedList = [];
           for (let idx = 0; idx < res.data.days; idx++) {
@@ -67,6 +61,14 @@ export class AppointComponent implements OnInit {
           this.getCheckedItemLoading = false;
         })
       }
+    } else if (this.studentInfo.cardType == 1) {
+      /* -------------------- 日托 -------------------- */
+      if (this.checkedList.length < this.maxChecked) {
+        this.checkedList.includes(day) ? this.checkedList.splice(this.checkedList.indexOf(day), 1) : this.checkedList.push(day);
+      }
+    } else {
+      /* -------------------- 体验 -------------------- */
+      this.checkedList = this.checkedList.includes(day) ? [] : [day];
     }
   }
 
@@ -83,7 +85,7 @@ export class AppointComponent implements OnInit {
         teacherId: Number(teacherId), 
         pitNum: Number(pitNum),
         classId: this.studentInfo.classId,
-        reserveType: this.studentInfo.schoolRollId === null ? 3 : this.studentInfo.schoolRollId === 1 ? 1 : this.studentInfo.schoolRollId === 2 ? 0 : 2
+        reserveType: this.studentInfo.cardType === 1 ? 1 : this.studentInfo.cardType === 2 ? 0 : 3
       });
     });
     if (this.classId) {
@@ -99,10 +101,10 @@ export class AppointComponent implements OnInit {
         nzOkText: res.result == 1001 ? null : '确定预约',
         nzOnOk: () => {
           this.getCheckedItemLoading = true;
-          let url = this.studentInfo.schoolRollId == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
+          let url = this.studentInfo.cardType == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
           let [startDate, teacherId, pitNum] = this.checkedList[0].split('|');
           let endDate = this.checkedList[this.checkedList.length - 1].split('|')[0];
-          let params = this.studentInfo.schoolRollId == 2 ? {
+          let params = this.studentInfo.cardType == 2 ? {
             pitNum: pitNum,
             studentId: this.studentInfo.id,
             reserveType: 0,
@@ -114,7 +116,7 @@ export class AppointComponent implements OnInit {
           this.http.post(url, {
             paramJson: JSON.stringify(params)
           }, true).then(res => {
-            if (this.studentInfo.schoolRollId == 2) {
+            if (this.studentInfo.cardType == 2) {
               this.http.post('/student/updateCardInfoByReserve', {
                 paramJson: JSON.stringify({
                   effectDate: startDate,

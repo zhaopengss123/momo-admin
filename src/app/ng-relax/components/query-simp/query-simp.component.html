@@ -33,13 +33,12 @@
           <nz-option 
             nzCustomContent
             *ngFor="let option of control.options"
-            [nzLabel]="option.name"
+            [nzLabel]="option.text"
             [nzValue]="option.id">
             <div class="search-result">
               <div [innerHTML]="option.name"></div>
-              <div>{{ option.nick || '-' }}</div>
-              <div>{{ option.parentName || '-' }}</div>
-              <div>{{ option.mobile || '-' }}</div>
+              <div [innerHTML]="option.nick || '-'"></div>
+              <div [innerHTML]="option.mobile || '-'"></div>
             </div>
           </nz-option>
         </nz-select>

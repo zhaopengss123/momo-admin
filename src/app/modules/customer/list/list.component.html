@@ -20,52 +20,41 @@
     </div>
 
     <ea-table #eaTable
-      [timeout]="1000"
-      [url]="domain + '/czg/clientListQuery'"
+      url="/student/getStudentList"
       [paramsDefault]="paramsDefault"
-      [isParamJson]="false"
       [isRadio]="true"
       [checkedItems]="checkedItems"
       (checkedItemsChange)="checkedData = $event"
-      (dataChange)="dataChange()"
       [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
-      [EaTableTbodyTr]="EaTableTbodyTr" [checked]="true">
+      [EaTableTbodyTr]="EaTableTbodyTr" 
+      [checkedKey]="'studentId'"
+      [checked]="true">
       <ng-template let-data #EaTableTbodyTr>
         <td>
           <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
-            [nzSrc]="data.headUrl" nz-tooltip [nzTitle]="data.headUrl ? titleTemplate : null"></nz-avatar>
+            [nzSrc]="data.headPhoto" nz-tooltip [nzTitle]="data.headPhoto ? titleTemplate : null"></nz-avatar>
           <ng-template #titleTemplate>
-            <img [src]="data.headUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+            <img [src]="data.headPhoto" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
           </ng-template>
         </td>
-        <td>{{ data.number || '-' }}</td>
-        <td><a (click)="preview({ id: data.id })">{{ data.nick }}</a></td>
-        <td><a (click)="preview({ id: data.id })">{{ data.name }}</a></td>
+        <td>{{ data.studentNum || '-' }}</td>
+        <td><a (click)="preview({ id: data.studentId })">{{ data.nickName }}</a></td>
+        <td><a (click)="preview({ id: data.studentId })">{{ data.studentName }}</a></td>
         <td>{{ data.sex || '-' }}</td>
-        <td>{{ data.birthday || data.birthday >= 0 ? data.birthday : '-' }}</td>
-        <td>{{ data.schoolRollId == 1 ? '日托' : data.schoolRollId == 2 ? '定期' : '-' }}</td>
-        <td>{{ data.gradeName || '-' }}</td>
-        <td>{{ data.sourceName || '-' }}</td>
-        <td>{{ data.sellName || '-' }}</td>
-        <td>{{ data.bookBuildingTime || '-' }}</td>
-        <td>{{ data.enrolTime || '-' }}</td>
-        <td>{{ data.expireTime || '-' }}</td>
-        <td>{{ data.residueDays }}</td>
-        <td>
-          <ng-container [ngSwitch]="data.statusId">
-            <ng-container *ngSwitchCase="0">未体验</ng-container>
-            <ng-container *ngSwitchCase="1">体验未办卡</ng-container>
-            <ng-container *ngSwitchCase="2">已办卡</ng-container>
-            <ng-container *ngSwitchCase="3">已过期</ng-container>
-            <ng-container *ngSwitchCase="4">已退学</ng-container>
-            <ng-container *ngSwitchDefault>-</ng-container>
-          </ng-container>
-        </td>
-        <td>{{ data.monitoringStatus ? '开启' : '关闭' }}</td>
+        <td>{{ data.age || '-' }}</td>
+        <td>{{ data.cardTypeName || '-' }}</td>
+        <td>{{ data.className || '-' }}</td>
+        <td>{{ data.memberFromName || '-' }}</td>
+        <td>{{ data.salespersonName || '-' }}</td>
+        <td>{{ data.createTime }}</td>
+        <td>{{ data.effectDate || '-' }}</td>
+        <td>{{ data.expireDate || '-' }}</td>
+        <td>{{ data.times }}</td>
+        <td>{{ data.studentStatus }}</td>
+        <td>{{ data.isLook ? '开启' : '关闭' }}</td>
         <td>
           <ng-container *ngIf="data.statusId == 1">
-            <a (click)="lookChange(data.id, data.monitoringStatus)">{{ data.monitoringStatus ? '关闭' : '开启' }}监控</a>
-            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="lookChange(data.studentId, data.isLook)">{{ data.isLook ? '关闭' : '开启' }}监控</a>
           </ng-container>
         </td>
       </ng-template>
