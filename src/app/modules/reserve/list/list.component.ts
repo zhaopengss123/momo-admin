@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-page.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-reserve',
@@ -15,11 +16,15 @@ export class ReserveComponent implements OnInit {
 
   @ViewChild('listPage') listPage: ListPageComponent;
 
+  domain = environment.domainEs;
+
   queryNode: QueryNode[] = [
     {
-      label       : '学员',
-      key         : 'studentId',
-      type        : 'input'
+      label   : '学员',
+      key     : 'studentId',
+      type    : 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      searchUrl: `${this.domain}/czg/fullQuery`
     },
     {
       label       : '预约时间',
@@ -42,7 +47,7 @@ export class ReserveComponent implements OnInit {
       optionsUrl  : '/message/getTeacherList'
     },
     {
-      label       : '会员类型',
+      label       : '学员类型',
       key         : 'reserveType',
       type        : 'select',
       options     : [ { name: '长期', id: 0 }, { name: '日托', id: 1 }, { name: '体验', id: 3 } ]

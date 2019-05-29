@@ -4,6 +4,8 @@ import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorato
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/reducers/reducers-config';
 
 @Component({
   selector: 'app-member',
@@ -18,10 +20,9 @@ export class MemberComponent implements OnInit {
 
   queryNode: QueryNode[] = [
     {
-      label: '学员信息',
+      label: '学员昵称',
       key: 'nick',
-      type: 'input',
-      placeholder: '姓名、昵称、手机号或学号'
+      type: 'input'
     },
     {
       label: '分配给',
@@ -77,9 +78,13 @@ export class MemberComponent implements OnInit {
   tableNode = ['学号', '学员类型', '总天数', '剩余天数', '宝宝昵称', '宝宝姓名', '宝宝生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '参与活动', '分配到'];
 
   constructor(
-    private drawer: NzDrawerService
+    private drawer: NzDrawerService,
+    private store: Store<AppState>
   ) { }
+
+  paramsDefault: any = { giveUp: 0, threadStatus: 2 };
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
   @DrawerCreate({ width: 960, closable: false, content: PreviewComponent }) preview: ({ id: number }) => void;

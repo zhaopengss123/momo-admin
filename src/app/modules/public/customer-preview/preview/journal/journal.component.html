@@ -3,7 +3,7 @@
   [paramsDefault]="{ studentId: studentId }"
   [queryNode]="[ 
     { label: '操作时间', type: 'rangepicker', key: 'time', valueKey: ['startTime', 'endTime'] },
-    { label: '角色', type: 'select', key: 'operationRoleId', options: [] }
+    { label: '角色', type: 'select', key: 'operationRoleId', optionsUrl: '/student/getRoleIdAndNameList' }
   ]"
   [tableThead]="['操作时间', '姓名', '角色', '操作模块', '操作记录']"
   [EaTableTbodyTr]="EaTableTbodyTr">

@@ -57,14 +57,22 @@
                 </nz-input-group>
               </div>
               <nz-form-explain
+<<<<<<< HEAD
                 *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value == ''"
+=======
+                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value == ''"
+>>>>>>> dev
               >
               天数不能为空
               </nz-form-explain>
               <nz-form-explain
-                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value != ''"
+                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value != ''"
               >
+<<<<<<< HEAD
               请输入正确的天数
+=======
+              {{ drawerFormModel.get('days').errors['info'] }}
+>>>>>>> dev
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>

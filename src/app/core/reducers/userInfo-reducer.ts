@@ -9,9 +9,6 @@ export function userInfoReducer (state: UserInfoState, action: Action) {
   switch (action.type) {
     case 'setUserInfo':
       try {
-        let roleAllowPath = [];
-        action['payload'].roleList.map(menu => roleAllowPath.push(menu.beforePathUrl) );
-        action['payload']['roleAllowPath'] = roleAllowPath.join(',');
         window.localStorage.setItem('userInfo', JSON.stringify(action['payload']));
         return action['payload'];
       } catch (error) {
@@ -33,4 +30,5 @@ export interface UserInfoState {
   roleName: string;
   userName: string;
   roleAllowPath?: string;
+  menuUrls: string;
 }

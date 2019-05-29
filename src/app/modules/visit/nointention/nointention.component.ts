@@ -5,6 +5,8 @@ import { NzDrawerService } from 'ng-zorro-antd';
 import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/reducers/reducers-config';
 
 @Component({
   selector: 'app-nointention',
@@ -17,10 +19,9 @@ export class NointentionComponent implements OnInit {
 
   queryNode: QueryNode[] = [
     {
-      label: '学员信息',
+      label: '学员昵称',
       key: 'nick',
-      type: 'input',
-      placeholder: '姓名、昵称、手机号或学号'
+      type: 'input'
     },
     {
       label: '分配给',
@@ -82,10 +83,13 @@ export class NointentionComponent implements OnInit {
 
   constructor(
     private http    : HttpService,
-    private drawer: NzDrawerService
+    private drawer: NzDrawerService,
+    private store: Store<AppState>
   ) { }
 
+  paramsDefault: any = { giveUp: 1 };
   ngOnInit() {
+    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;

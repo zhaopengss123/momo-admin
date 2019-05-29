@@ -22,6 +22,8 @@ export class ListPageSimpComponent implements OnInit {
 
   @Input() url: string;
 
+  @Input() showPage: boolean = true;
+
   @Input() paramsDefault: any = {};
 
   @Input() paramsInit: any = {};

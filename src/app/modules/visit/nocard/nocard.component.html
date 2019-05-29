@@ -1,7 +1,7 @@
 <div class="container">
   <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
 
-  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="{storeId: 1}" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
+  <ea-table #EaTable [thead]="tableNode" [paramsDefault]="paramsDefault" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id})">{{ data.nick }}</a></td>
       <td><a (click)="preview({id: data.id})">{{ data.name }}</a></td>
@@ -9,7 +9,7 @@
       <td>{{ data.sex }}</td>
       <td>{{ data.monthAge }}</td>
       <td>{{ data.parentName }}</td>
-      <td>{{ data.mobilePhone }}</td>
+      <td>{{ data.mobile }}</td>
       <td>{{ data.threadCreateTime }}</td>
       <td>{{ data.nextFollowTime || '--' }}</td>
       <td>{{ data.lastFollowTime || '--' }}</td>

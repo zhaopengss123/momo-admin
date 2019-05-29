@@ -111,13 +111,7 @@ export class ListComponent implements OnInit {
       valueKey: ['startResidueDays', 'endResidueDays'],
       type    : 'between',
       isHide  : true
-    },
-    {
-      label   : '远程数据',
-      key     : 'suibian',
-      type    : 'search',
-      searchUrl: `${this.domain}/czg/fullQuery`
-    },
+    }
   ];
 
   queryItems = {
@@ -192,7 +186,7 @@ export class ListComponent implements OnInit {
     }).afterClose.subscribe(res => {
       if (res && res.isPaymentCard) {
         if (this.checkedData[0].gradeId) {
-          this.appoint(params);
+          this.appoint({ studentInfo: this.checkedData[0] });
         } else {
           this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
         }
