@@ -87,7 +87,7 @@
     </ng-form>
     <div class="footer">
       <button type="button" (click)="addSubmit(0)" class="ant-btn ant-btn-primary" style="margin-right: 8px;"><span>提交</span></button>
-      <button type="button" (click)="addSubmit(1)" class="ant-btn"><span>提交并上架</span></button>
+      <!-- <button type="button" (click)="addSubmit(1)" class="ant-btn"><span>提交并上架</span></button> -->
     </div>
     <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
       <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
