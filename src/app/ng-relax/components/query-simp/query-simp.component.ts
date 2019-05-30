@@ -71,12 +71,12 @@ export class QuerySimpComponent implements OnInit {
       if (res.type === 'search') {
         res.$subject = new Subject();
         res.$subject.pipe(debounceTime(500), filter((txt: string) => !!txt)).subscribe(condition => {
-          this.httpservice.post(res.searchUrl, {
+          this.httpservice.post(res.searchUrl, Object.assign({
             storeId: this.storeId,
             condition,
             pageNum: 1,
             pageSize: 10
-          }).then(result => {
+          }, res.params || {})).then(result => {
             if (result.data) {
               result.data.list.map(d => d.text = d.name.replace(/<\/?[^>]*>/g, ''));
               res.options = result.data.list;

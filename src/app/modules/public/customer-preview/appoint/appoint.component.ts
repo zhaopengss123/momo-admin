@@ -116,7 +116,7 @@ export class AppointComponent implements OnInit {
           this.http.post(url, {
             paramJson: JSON.stringify(params)
           }, true).then(res => {
-            if (this.studentInfo.cardType == 2) {
+            if (this.studentInfo.cardType == 2 || this.studentInfo.cardType == 0) {
               this.http.post('/student/updateCardInfoByReserve', {
                 paramJson: JSON.stringify({
                   effectDate: startDate,

@@ -9,6 +9,9 @@ export function userInfoReducer (state: UserInfoState, action: Action) {
   switch (action.type) {
     case 'setUserInfo':
       try {
+        let roleName = [];
+        action['payload'].roleList.map(role => roleName.push(role.roleName));
+        action['payload'].roleName = roleName;
         window.localStorage.setItem('userInfo', JSON.stringify(action['payload']));
         return action['payload'];
       } catch (error) {

@@ -24,7 +24,7 @@
     </div>
     <div class="cell">
       <div class="dib">
-        <span>类型：</span><span>{{ memberInfo?.studentInfo.type == 1 ? '日托学员（剩余 ' + memberInfo?.studentInfo.times + '天）' : memberInfo?.studentInfo.type == 2 ? '定期学员' : '未办卡'  }}</span>
+        <span>类型：</span><span>{{ memberInfo?.studentInfo.cardType == 1 ? '日托学员（剩余 ' + memberInfo?.studentInfo.times + '天）' : memberInfo?.studentInfo.cardType == 2 ? '定期学员' : '未办卡'  }}</span>
         <nz-divider nzType="vertical"></nz-divider>
       </div>
       <div class="dib">
@@ -36,14 +36,14 @@
       </div>
     </div>
 
-    <div class="btns" *ngIf="!memberInfo?.hideBtn">
-      <nz-button-group>
+    <div class="btns">
+      <nz-button-group *ngIf="!memberInfo?.hideBtn">
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status !=4" (click)="appointValid()">预约</button>
         <button nz-button nzType="primary" nzGhost (click)="paymentValid()">缴费</button>
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status == 2" (click)="classValid()">转班</button>
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status == 2" (click)="leaving({id: memberInfo?.studentInfo.studentId})">退园</button>
-        <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status != 2" nz-popconfirm nzTitle="确定要移到无意向客户嘛?" (nzOnConfirm)="nointention(memberInfo.studentInfo.studentId)">移到无意向客户</button>
       </nz-button-group>
+      <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status != 2 && memberInfo.hideBtn === 'visit'" nz-popconfirm nzTitle="确定要移到无意向客户嘛?" (nzOnConfirm)="nointention(memberInfo.studentInfo.studentId)">移到无意向客户</button>
     </div>
   </div>
 </div>

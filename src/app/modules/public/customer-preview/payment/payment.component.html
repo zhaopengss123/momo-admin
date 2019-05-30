@@ -15,7 +15,7 @@
       </ng-container>
     </div>
     <ea-table #cardTypeTable url="/commodity/card/getCardTypeList" [isRadio]="true" [checked]="true" (checkedItemsChange)="select($event, 'cardInfo')"
-      checkedKey="cardTypeId" [thead]="['卡名称', '卡类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr0">
+      checkedKey="cardTypeId" [paramsDefault]="{ isOnline: true}" [thead]="['卡名称', '卡类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr0">
       <ng-template let-data #EaTableTbodyTr0>
         <td>{{ data.cardTypeName }}</td>
         <td>{{ data.cardTypeCategoryName }}</td>
@@ -40,7 +40,7 @@
       </ng-container>
     </div>
     <ea-table #serviceTable url="/commodity/service/serviceTypeList" [isRadio]="true" [checked]="true" (checkedItemsChange)="select($event, 'serviceInfo')"
-      checkedKey="serviceTypeId" [thead]="['服务名称', '服务类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr1">
+      checkedKey="serviceTypeId" [paramsDefault]="{ isOnline: true}" [thead]="['服务名称', '服务类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr1">
       <ng-template let-data #EaTableTbodyTr1>
         <td>{{ data.serviceName }}</td>
         <td>{{ data.serviceTypeCategoryName }}</td>

@@ -17,11 +17,16 @@ export class NointentionComponent implements OnInit {
 
   domainEs = environment.domainEs;
 
+  paramsDefault: any = { giveUp: 1 };
+
   queryNode: QueryNode[] = [
     {
-      label: '学员昵称',
-      key: 'nick',
-      type: 'input'
+      label: '学员',
+      key: 'studentId',
+      type: 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      params: this.paramsDefault,
+      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label: '分配给',
@@ -37,13 +42,13 @@ export class NointentionComponent implements OnInit {
       optionKey: { label: 'fromName', value: 'id' }
     },
     {
-      label: '宝宝性别',
+      label: '学员性别',
       key: 'sex',
       type: 'select',
       options: [{ name: '男', id: '男' }, { name: '女', id: '女' }]
     },
     {
-      label: '宝宝生日',
+      label: '学员生日',
       key: 'birthday',
       type: 'rangepicker',
       valueKey: ['startBirthDay', 'endBirthDay']
@@ -75,24 +80,22 @@ export class NointentionComponent implements OnInit {
     },
   ];
 
-  tableNode = ['宝宝昵称', '宝宝姓名', '宝宝生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
+  tableNode = ['学员昵称', '学员姓名', '学员生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
 
   checkedItems: any[] = [];
 
   @ViewChild('EaTable') table;
-
   constructor(
-    private http    : HttpService,
     private drawer: NzDrawerService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private http: HttpService
   ) { }
 
-  paramsDefault: any = { giveUp: 1 };
   ngOnInit() {
     this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
-  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
   gainClue(): void {
     this.http.post('/membermanage/returnVisit/gainMemberClue', { ids: this.checkedItems.join(',')  }, true).then(res => {

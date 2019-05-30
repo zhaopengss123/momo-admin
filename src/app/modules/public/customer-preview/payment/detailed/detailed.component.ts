@@ -81,7 +81,7 @@ export class DetailedComponent implements OnInit {
       this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
       if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
         let [y, m, d] = this.studentInfo.birthday.split('-');
-        let expireDate = `${Number(y) + 3}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;
+        let expireDate = `${Number(y) + 4}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;
         this.formGroup.patchValue({ expireDate });
       }
     });

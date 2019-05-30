@@ -19,14 +19,17 @@ import { AppState } from 'src/app/core/reducers/reducers-config';
 export class DistributionComponent implements OnInit {
 
   domainEs = environment.domainEs;
+  paramsDefault: any = {};
 
   @ViewChild('EaTable') table: TableComponent;
 
   queryNode: QueryNode[] = [
     {
-      label: '学员昵称',
-      key: 'nick',
-      type: 'input'
+      label: '学员',
+      key: 'studentId',
+      type: 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label: '分配给',
@@ -42,13 +45,13 @@ export class DistributionComponent implements OnInit {
       optionKey: { label: 'fromName', value: 'id' }
     },
     {
-      label: '宝宝性别',
+      label: '学员性别',
       key: 'sex',
       type: 'select',
       options: [{ name: '男', id: '男' }, { name: '女', id: '女' }]
     },
     {
-      label: '宝宝生日',
+      label: '学员生日',
       key: 'birthday',
       type: 'rangepicker',
       valueKey: ['startBirthDay', 'endBirthDay']
@@ -80,13 +83,13 @@ export class DistributionComponent implements OnInit {
     },
   ];
 
-  tableNode = ['宝宝昵称', '宝宝姓名', '宝宝生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
+  tableNode = ['学员昵称', '学员姓名', '学员生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
 
   checkedItems: any[] = [];
 
-  teacherId: number;
-
   teacherList: any[] = [];
+
+  teacherId: number;
 
   constructor(
     private drawer: NzDrawerService,
@@ -101,7 +104,6 @@ export class DistributionComponent implements OnInit {
     })
   }
 
-  paramsDefault: any = {};
   ngOnInit() {
     this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
@@ -117,7 +119,7 @@ export class DistributionComponent implements OnInit {
     }
    }
 
-  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
 

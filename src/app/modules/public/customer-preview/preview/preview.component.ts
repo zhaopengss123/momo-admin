@@ -9,6 +9,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PreviewComponent implements OnInit {
 
   @Input() id: number;
+
+  @Input() source: string;
   
   memberInfo: any = { studentInfo: {}, parentAccountList: [] };
 
@@ -21,6 +23,7 @@ export class PreviewComponent implements OnInit {
   ngOnInit() {
     this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
       this.memberInfo = res.data;
+      this.source && (this.memberInfo.hideBtn = this.source);
       this.loading = false;
     })
   }

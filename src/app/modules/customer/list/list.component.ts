@@ -1,6 +1,6 @@
 import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { QueryNode, QueryComponent } from 'src/app/ng-relax/components/query/query.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,9 @@ import { AppointComponent } from '../../public/customer-preview/appoint/appoint.
 })
 export class ListComponent implements OnInit {
 
-  @ViewChild('eaTable') table: TableComponent;
+  @ViewChild('eaTable') eaTable: TableComponent;
+
+  @ViewChild('eaQuery') eaQuery: QueryComponent;
 
   customerStatusIndex = 0;
 
@@ -141,10 +143,10 @@ export class ListComponent implements OnInit {
   }
 
   query(params) {
-    this.table.request(params);
+    this.eaTable.request(params);
   }
 
-  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number, type: string }?) => void;
+  @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number, type: string }?) => void;
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 
@@ -168,7 +170,7 @@ export class ListComponent implements OnInit {
       if (res && res.isPaymentCard) {
         if (this.checkedData[0].classId) {
           this.checkedData[0].cardType = 2;
-          this.table._request();
+          this.eaTable._request();
           this.appoint({ studentInfo: this.checkedData[0] });
         } else {
           this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
@@ -186,11 +188,11 @@ export class ListComponent implements OnInit {
   paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
     this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "0,1" : "3,4";
-    this.table._request();
+    this.eaQuery['submit']();
   }
 
   lookChange(studentId, isLook) {
-    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook })}, true).then(res => this.table._request());
+    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook })}, true).then(res => this.eaTable._request());
   }
 
 
@@ -233,9 +235,4 @@ export class ListComponent implements OnInit {
     this.checkedData[0].status != 4 ? this.leaving({ id: this.checkedItems[0] }) : this.message.warning('已退园学员不可再次退园');
   }
 
-}
-
-interface buttonAsyncValid {
-  needData?: boolean;
-  type?: 'isReserve' | 'isPay';
 }

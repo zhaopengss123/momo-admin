@@ -7,7 +7,7 @@
   </nz-tabset>
 
   <div class="query">
-    <ea-query-flex [node]="queryNode" (onSubmit)="query($event)"></ea-query-flex>
+    <ea-query-flex #eaQuery [node]="queryNode" (onSubmit)="query($event)"></ea-query-flex>
 
     <nz-divider></nz-divider>
     

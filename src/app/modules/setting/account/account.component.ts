@@ -95,11 +95,7 @@ export class AccountComponent implements OnInit {
   resetPassword(id) {
     this.http.post('/settings/account/resetPassword', { paramJson: JSON.stringify({ id, password: '123456' }) }).then(res => {
       this.modifyLoading = false;
-      if (res.result == 1000) {
-        //window.localStorage.removeItem('userInfo');
-        //this.router.navigateByUrl('/login');
-      }
-      this.message.create(res.result == 1000 ? 'success' : 'warning', res.result == 1000 ? '修改密码成功，请重新登录' : res.message);
+      this.message.create(res.result == 1000 ? 'success' : 'warning', res.result == 1000 ? '密码重置成功，密码为123456' : res.message);
     })
   }
 

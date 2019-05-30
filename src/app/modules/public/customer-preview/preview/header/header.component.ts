@@ -29,7 +29,6 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
   }
 
 
@@ -67,7 +66,7 @@ export class HeaderComponent implements OnInit {
     }).then(res => res.result == 1000 ? this.class({ id: this.memberInfo.studentInfo.studentId }) : this.message.warning(res.message));
   }
 
-  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number, type: string }) => void;
+  @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number, type: string }) => void;
 
   @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({ id: number }) => void;
 
@@ -78,5 +77,6 @@ export class HeaderComponent implements OnInit {
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }) => void;
 
   @ModifyData('/membermanage/returnVisit/setNoIntention') nointention: (id: number) => void;
+
 
 }

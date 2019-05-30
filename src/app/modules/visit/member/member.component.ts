@@ -16,13 +16,18 @@ export class MemberComponent implements OnInit {
 
   domainEs = environment.domainEs;
 
+  paramsDefault: any = { giveUp: 0, statusId: 2 };
+
   @ViewChild('EaTable') table;
 
   queryNode: QueryNode[] = [
     {
-      label: '学员昵称',
-      key: 'nick',
-      type: 'input'
+      label: '学员',
+      key: 'studentId',
+      type: 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      params: this.paramsDefault,
+      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label: '分配给',
@@ -76,17 +81,16 @@ export class MemberComponent implements OnInit {
     },
   ];
   tableNode = ['学号', '学员类型', '总天数', '剩余天数', '宝宝昵称', '宝宝姓名', '宝宝生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '参与活动', '分配到'];
-
+  
   constructor(
     private drawer: NzDrawerService,
     private store: Store<AppState>
   ) { }
 
-  paramsDefault: any = { giveUp: 0, threadStatus: 2 };
   ngOnInit() {
     this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
-  @DrawerCreate({ width: 960, closable: false, content: PreviewComponent }) preview: ({ id: number }) => void;
+  @DrawerCreate({ width: 960, closable: false, content: PreviewComponent }) preview: ({ id: number, source: string }) => void;
 
 }
