@@ -78,7 +78,8 @@ export class ListComponent implements OnInit {
       key     : 'salespersonId',
       type    : 'select',
       options : [],
-      optionKey: { label: 'teacherName', value: 'teacherId' }
+      optionKey: { label: 'teacherName', value: 'teacherId' },
+      isHide  : true
     },
     {
       label   : '学员生日',
@@ -86,17 +87,20 @@ export class ListComponent implements OnInit {
       valueKey: ['startBirthday', 'endBirthday'],
       type    : 'rangepicker',
       format  : 'MM-dd',
-      ranges  : this.birthdayRanges
+      ranges  : this.birthdayRanges,
+      isHide  : true
     },
     {
       label   : '建档时间',
       key     : 'createTime',
-      type    : 'datepicker'
+      type    : 'datepicker',
+      isHide  : true
     },
     {
       label   : '入学时间',
       key     : 'effectDate',
-      type    : 'datepicker'
+      type    : 'datepicker',
+      isHide  : true
     },
     {
       label   : '到期时间',

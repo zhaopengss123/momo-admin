@@ -10,7 +10,7 @@
                 <input [formControlName]="control.key" nz-input [placeholder]="control.placeholder || '请输入' + control.label">
               </nz-input-group>
               <ng-template #suffixIconButton>
-                <i nz-icon type="close-circle" (click)="_clearControlValue(control.key)"></i>
+                <i nz-icon type="close-circle" *ngIf="_queryForm.get(control.key) && _queryForm.get(control.key).value" (click)="_clearControlValue(control.key)"></i>
               </ng-template>
             </ng-container>
 

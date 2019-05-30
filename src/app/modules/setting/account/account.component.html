@@ -2,7 +2,7 @@
   <ng-template #EaBtns>
     <button nz-button nzType="primary" (click)="openCreate()">新增账号</button>
   </ng-template>
-  <ea-list-page 
+  <ea-list-page-simp 
     #EaListPage
     url="/settings/account/listUserAccount" 
     [queryNode]="queryNode" 
@@ -15,7 +15,7 @@
       <td>{{ data.email || '--' }}</td>
       <td>{{ data.remark || '--' }}</td>
       <td>{{ data.createTime }}</td>
-      <td><nz-tag [nzColor]="data.enableStatus == 0 ? '#2db7f5' : ''">{{ data.enableStatus == 1 ? '启用' : '停用' }}</nz-tag></td>
+      <td><nz-tag [nzColor]="data.enableStatus == 1 ? '#2db7f5' : ''">{{ data.enableStatus == 1 ? '启用' : '停用' }}</nz-tag></td>
       <td>
         <ng-container >
           <a href="javascript:;" (click)="editAccount(data)">编辑</a>
@@ -37,7 +37,7 @@
         </ng-container>
       </td>
     </ng-template>
-  </ea-list-page>
+  </ea-list-page-simp>
 </div>
 
 <nz-modal [(nzVisible)]="showCreateAccount" nzTitle="用户信息" [nzFooter]="modalFooter" (nzOnCancel)="showCreateAccount = false">

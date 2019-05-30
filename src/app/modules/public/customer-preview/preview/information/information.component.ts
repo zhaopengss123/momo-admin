@@ -22,13 +22,13 @@ export class InformationComponent implements OnInit {
   ngOnInit() {
   }
 
-  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number }) => void;
+  @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number }) => void;
 
   updateLook(data) {
     this.http.post('/student/updateParentAccountStatus', { paramJson: JSON.stringify({
       accountId: data.accountId,
       studentId: this.memberInfo.studentInfo.studentId,
-      isForbidden: data.isForbidden
+      isForbidden: data.isForbidden ? 0 : 1
     }) }, true).then(res => data.isForbidden = data.isForbidden ? 0 : 1);
   }
 

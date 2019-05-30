@@ -23,7 +23,7 @@ export class MemberComponent implements OnInit {
   queryNode: QueryNode[] = [
     {
       label: '学员',
-      key: 'studentId',
+      key: 'id',
       type: 'search',
       placeholder: '根据学号、姓名、手机号查询',
       params: this.paramsDefault,
@@ -31,7 +31,7 @@ export class MemberComponent implements OnInit {
     },
     {
       label: '分配给',
-      key: 'teacherId',
+      key: 'followerId',
       type: 'select',
       optionsUrl: '/membermanage/returnVisit/getFollowTeachers'
     },

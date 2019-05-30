@@ -26,14 +26,14 @@ export class DistributionComponent implements OnInit {
   queryNode: QueryNode[] = [
     {
       label: '学员',
-      key: 'studentId',
+      key: 'id',
       type: 'search',
       placeholder: '根据学号、姓名、手机号查询',
       searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label: '分配给',
-      key: 'teacherId',
+      key: 'followerId',
       type: 'select',
       options: []
     },
@@ -110,7 +110,9 @@ export class DistributionComponent implements OnInit {
 
   distribution() {
     if (this.teacherId) {
-      this.http.post('/membermanage/returnVisit/setFollower', { studentIds: this.checkedItems.join(','), followerId: this.teacherId }, true).then(res => {
+      let followerName;
+      this.teacherList.map(t => t.id === this.teacherId && (followerName = t.name))
+      this.http.post('/membermanage/returnVisit/setFollower', { studentIds: this.checkedItems.join(','), followerId: this.teacherId, followerName }, true).then(res => {
         this.table._request();
         this.checkedItems = [];
       })

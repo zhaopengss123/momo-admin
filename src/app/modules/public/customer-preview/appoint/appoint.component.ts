@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { NzDrawerRef, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -20,10 +21,12 @@ export class AppointComponent implements OnInit {
   constructor(
     private http: HttpService,
     private drawerRef: NzDrawerRef,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private format: DatePipe
   ) { 
-    this.http.post('/message/getStudentIdNameList').then(res => this.studentList = res.data);
   }
+
+  today = this.format.transform(new Date, 'yyyy-MM-dd');
 
   maxChecked = 0;       /* ? 最大选择天数 */
 
@@ -116,23 +119,18 @@ export class AppointComponent implements OnInit {
           this.http.post(url, {
             paramJson: JSON.stringify(params)
           }, true).then(res => {
-            if (this.studentInfo.cardType == 2 || this.studentInfo.cardType == 0) {
-              this.http.post('/student/updateCardInfoByReserve', {
-                paramJson: JSON.stringify({
-                  effectDate: startDate,
-                  expireDate: endDate,
-                  classId: this.studentInfo.classId,
-                  teacherId,
-                  studentId: this.studentInfo.id
-                }) }).then(res => {
-                this.getCheckedItemLoading = true;
-                this.saveLoading = false;
-                this.close(true);
-              })
-            } else {
+            this.http.post('/student/updateCardInfoByReserve', {
+              paramJson: JSON.stringify({
+                effectDate: startDate,
+                expireDate: endDate,
+                classId: this.studentInfo.classId,
+                teacherId,
+                studentId: this.studentInfo.id
+            }) }).then(res => {
+              this.getCheckedItemLoading = true;
               this.saveLoading = false;
               this.close(true);
-            }
+            })
           });
         },
         nzCancelText: '取消预约',
@@ -174,16 +172,38 @@ export class AppointComponent implements OnInit {
   }
 
 
-  private _weekList = ['天', '一', '二', '三', '四', '五', '六'];
+  private _weekList = ['日', '一', '二', '三', '四', '五', '六'];
   getDate(day) {
-    return `周${this._weekList[getDay(new Date(day))]}`
+    return `${this._weekList[getDay(new Date(day))]}`
   }
 
-  studentList: {name:string, id: number}[] = [];
-  getStudentName(students: {id, type}[]) {
-    let names = [];
-    this.studentList.map(std => students.map(s => s.id === std.id && names.push(std.name)));
-    return names.join('、')
+  getReserveLoading: boolean;
+  getReserveInfo(students: { id, type }[], reserveDate) {
+    if (!this.getReserveLoading) {
+      this.getReserveLoading = true;
+      let studentIds = [];
+      students.map(s => studentIds.push(s.id))
+      studentIds = Array.from(new Set([...studentIds]));
+      this.http.post('/student/showStudentCardInfo', { paramJson: JSON.stringify({ studentIds: studentIds.join(',') }) }).then(res => {
+        let innerHTML = [];
+        res.data.list.map(student => {
+          innerHTML.push(`<li>
+            <div><label>姓名:</label><span>${student.studentName}</span></div>
+            <div><label>类型:</label><span>${student.type == 2 ? '定期' : student.type == 1 ? '日托' : '体验'}</span></div>
+            ${student.type == 2 ? `
+              <div><label>开始时间:</label><span>${student.effectDate}</span></div>
+              <div><label>结束时间:</label><span>${student.expireDate}</span></div>
+            ` : `
+              <div><label>时间:</label><span>${reserveDate}</span></div>
+            `}
+          </li>`)
+        })
+        students['innerHTML'] = `<ul>${innerHTML.join('')}</ul>`;
+        setTimeout(() => {
+          this.getReserveLoading = false;
+        });
+      })
+    }
   }
 
 
