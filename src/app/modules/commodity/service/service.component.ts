@@ -73,7 +73,7 @@ export class ServiceComponent implements OnInit {
     private message: NzMessageService
     ){
       this.formModel = this.fb.group({
-        selectedVal    : [1],
+        selectedVal    : [1, Validators.required],
         name           : [, [Validators.required, this.nameLengthValidator]],
         price          : [, [Validators.required, this.priceValidator]],      //售价
         lowestDiscount : [, [Validators.required, this.discountValidator]],   //最低折扣
