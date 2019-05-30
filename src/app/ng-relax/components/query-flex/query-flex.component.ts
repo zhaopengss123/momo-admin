@@ -80,6 +80,11 @@ export class QueryFlexComponent implements OnInit {
   submit() {
     let queryForm = this.formGroup.value;
     this.node.map((res: any) => {
+      if (res.type === 'tag') {
+        if (queryForm[res.key] && typeof queryForm[res.key] === 'object') {
+          queryForm[res.key] = queryForm[res.key].join(',');
+        }
+      }
       if (res.type === 'datepicker') {
         if (queryForm[res.key]) {
           queryForm[res.key] = this.format.transform(queryForm[res.key].getTime(), 'yyyy-MM-dd');

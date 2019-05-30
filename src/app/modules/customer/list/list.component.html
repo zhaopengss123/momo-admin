@@ -2,8 +2,8 @@
   <nz-tabset [(nzSelectedIndex)]="customerStatusIndex" (nzSelectChange)="tabsetSelectChange()">
     <nz-tab nzTitle="全部"></nz-tab>
     <nz-tab nzTitle="在校学员"></nz-tab>
-    <nz-tab nzTitle="离校学员"></nz-tab>
     <nz-tab nzTitle="体验学员"></nz-tab>
+    <nz-tab nzTitle="离校学员"></nz-tab>
   </nz-tabset>
 
   <div class="query">
@@ -13,10 +13,10 @@
     
     <div class="button-group">
       <button nz-button nzType="primary" (click)="update()">添加学员</button>
-      <button nz-button nzType="primary" nzGhost (click)="operation('appoint', {needData: true, type: 'isReserve'})" *ngIf="customerStatusIndex < 2">预约</button>
-      <button nz-button nzType="primary" nzGhost (click)="operation('payment', {type: 'isPay'})">缴费</button>
-      <button nz-button nzType="primary" nzGhost (click)="operation('class', {type: 'isAdjustClass'})" *ngIf="customerStatusIndex < 2">转/升班</button>
-      <button nz-button nzType="primary" nzGhost (click)="operation('leaving')" *ngIf="customerStatusIndex < 2">退园</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('appointValid')" *ngIf="customerStatusIndex != 3">预约</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('paymentValid')">缴费</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('classValid')" *ngIf="customerStatusIndex < 2">转/升班</button>
+      <button nz-button nzType="primary" nzGhost (click)="operation('leavingValid')" *ngIf="customerStatusIndex < 2">退园</button>
     </div>
 
     <ea-table #eaTable
@@ -51,10 +51,10 @@
         <td>{{ data.expireDate || '-' }}</td>
         <td>{{ data.times }}</td>
         <td>{{ data.studentStatus }}</td>
-        <td>{{ data.isLook ? '开启' : '关闭' }}</td>
+        <td>{{ data.isLook ? '关闭' : '开启' }}</td>
         <td>
           <ng-container *ngIf="data.statusId == 1">
-            <a (click)="lookChange(data.studentId, data.isLook)">{{ data.isLook ? '关闭' : '开启' }}监控</a>
+            <a (click)="lookChange(data.studentId, data.isLook)">{{ data.isLook ? '开启' : '关闭' }}监控</a>
           </ng-container>
         </td>
       </ng-template>

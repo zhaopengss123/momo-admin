@@ -41,9 +41,10 @@ export class UpdateComponent implements OnInit {
       name: [, [Validators.required]],
       sex: ['1'],
       roleId: [, [Validators.required]],
+      code: [],
       classId: [],
       //menuIds: [],
-      receptionNum: [, [Validators.required]],
+      receptionNum: [],
       idCard:[, [Validators.required]],
       birthday:[,[Validators.required]],
       eMail: [],
@@ -51,9 +52,11 @@ export class UpdateComponent implements OnInit {
       entryTime: [, [Validators.required]],
       quitTime: [],
       status: [, [Validators.required]],
-      isGovernor: [, [Validators.required]],
+      isGovernor: [],
     });
+    console.log(this.formGroup.value.roleId );
     this.formGroup.get('roleId').valueChanges.subscribe(roleId => {
+
       if (roleId) {
         this.roleList.map(role => {
           if (role.id === roleId) {

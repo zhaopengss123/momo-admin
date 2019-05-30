@@ -46,14 +46,14 @@ export class ListComponent implements OnInit {
     },
     {
       label   : '学员来源',
-      key     : 'sourceId',
+      key     : 'memberFromid',
       type    : 'tag',
       optionKey: { label: 'fromName', value: 'memberFromId' },
       options: []
     },
     {
       label   : '学员班级',
-      key     : 'gradeId',
+      key     : 'classIds',
       type    : 'tag',
       optionKey: { label: 'className', value: 'classId' },
       options: []
@@ -66,14 +66,14 @@ export class ListComponent implements OnInit {
     },
     {
       label   : '监控状态',
-      key     : 'monitoringStatus',
+      key     : 'isLook',
       type    : 'tag',
-      options : [{ name: '开启', id: 1}, { name: '关闭', id: 0}],
+      options : [{ name: '开启', id: 0}, { name: '关闭', id: 1}],
       isRadio : true
     },
     {
       label   : '所属销售',
-      key     : 'sellId',
+      key     : 'salespersonId',
       type    : 'select',
       options : [],
       optionKey: { label: 'teacherName', value: 'teacherId' }
@@ -81,31 +81,31 @@ export class ListComponent implements OnInit {
     {
       label   : '学员生日',
       key     : 'birthday',
-      valueKey: ['startBirthDay', 'endBirthDay'],
+      valueKey: ['startBirthday', 'endBirthday'],
       type    : 'rangepicker',
       format  : 'MM-dd',
       ranges  : this.birthdayRanges
     },
     {
       label   : '建档时间',
-      key     : 'bookBuildingTime',
+      key     : 'createTime',
       type    : 'datepicker'
     },
     {
       label   : '入学时间',
-      key     : 'enrolTime',
+      key     : 'effectDate',
       type    : 'datepicker'
     },
     {
       label   : '到期时间',
-      key     : 'expireTime',
+      key     : 'expireDate',
       type    : 'datepicker',
       isHide  : true
     },
     {
       label   : '剩余天数',
-      key     : 'residueDays',
-      valueKey: ['startResidueDays', 'endResidueDays'],
+      key     : 'times',
+      valueKey: ['minTimes', 'maxTimes'],
       type    : 'between',
       isHide  : true
     }
@@ -149,24 +149,9 @@ export class ListComponent implements OnInit {
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 
   checkedData;
-  operation(type: string, option: buttonAsyncValid =  {}) {
+  operation(type: string) {
     if (this.checkedItems.length) {
-      if (option.type) {
-        this.http.post('/student/studentInfoIsComplete', {
-          paramJson: JSON.stringify({
-            studentId: this.checkedItems[0], buttonName: option.type
-          }),
-        }).then(res => {
-          if (res.result == 1000) {
-            this[type](option.needData ? { studentInfo: this.checkedData[0] } : { id: this.checkedItems[0] })
-          } else {
-            this.message.warning(res.message);
-            res.result != 1999 && this.update({ id: this.checkedItems[0], type: option.type })
-          }
-        })
-      } else {
-        this.checkedData[0].statusId == 2 ? this[type]({ id: this.checkedItems[0] }) : this.message.warning('只有在校学员才可转升班或退园');
-      }
+      this[type]();
     } else {
       this.message.warning('请选择需要操作的学员')
     }
@@ -200,12 +185,52 @@ export class ListComponent implements OnInit {
 
   paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
-    this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "3,4" : "0,1";
+    this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "0,1" : "3,4";
     this.table._request();
   }
 
   lookChange(studentId, isLook) {
     this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook })}, true).then(res => this.table._request());
+  }
+
+
+  /* -------------- 点击预约校验 -------------- */
+  appointValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.checkedItems[0], buttonName: 'isReserve'
+      }),
+    }).then(res => {
+      if (res.result == 1000) {
+        this.appoint({ studentInfo: this.checkedData[0] })
+      } else {
+        this.message.warning(res.message);
+        res.result != 1999 && this.update({ id: this.checkedItems[0], type: 'isReserve' })
+      }
+    })
+  }
+
+  /* -------------- 点击缴费校验 -------------- */
+  paymentValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.checkedItems[0], buttonName: 'isPay'
+      }),
+    }).then(res => res.result == 1000 ? this.payment({ id: this.checkedItems[0] }) : this.message.warning(res.message));
+  }
+
+  /* -------------- 点击转班校验 -------------- */
+  classValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.checkedItems[0], buttonName: 'isAdjustClass'
+      }),
+    }).then(res => res.result == 1000 ? this.class({ id: this.checkedItems[0] }) : this.message.warning(res.message));
+  }
+
+  /* -------------- 点击退园校验 -------------- */
+  leavingValid() {
+    this.checkedData[0].status != 4 ? this.leaving({ id: this.checkedItems[0] }) : this.message.warning('已退园学员不可再次退园');
   }
 
 }
