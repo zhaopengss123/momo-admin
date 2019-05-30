@@ -57,22 +57,14 @@
                 </nz-input-group>
               </div>
               <nz-form-explain
-<<<<<<< HEAD
-                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == 1 && drawerFormModel.get('days').value == ''"
-=======
                 *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value == ''"
->>>>>>> dev
               >
               天数不能为空
               </nz-form-explain>
               <nz-form-explain
                 *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value != ''"
               >
-<<<<<<< HEAD
-              请输入正确的天数
-=======
               {{ drawerFormModel.get('days').errors['info'] }}
->>>>>>> dev
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -237,9 +229,9 @@
         </ng-form>
         <!--不限次学籍end-->
 
-        <div class="footer" style="text-align: center;">
+        <div class="footer" style="text-align: right;margin-right: 113px;">
           <button type="button" (click)="drawerSubmit(0)" class="ant-btn ant-btn-primary" style="margin-right: 16px;"><span>提交</span></button>
-          <button type="button" (click)="drawerSubmit(1)" class="ant-btn"><span>提交并上架</span></button>
+          <!-- <button type="button" (click)="drawerSubmit(1)" class="ant-btn"><span>提交并上架</span></button> -->
         </div>
         <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
           <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
