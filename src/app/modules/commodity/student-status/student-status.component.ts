@@ -221,7 +221,7 @@ export class StudentStatusComponent implements OnInit {
     /*-------------- 不限次学籍 --------------*/
     this.monthFormModel = this.fb.group({
       studentStatusType : [''],                                                 //学籍类型
-      selectedValue     : [1],                                                  //内容(不限次)
+      selectedValue     : [1, [Validators.required]],                           //内容(不限次)
       name              : [, [Validators.required, this.nameLengthValidator]],  //名称
       price             : [, [Validators.required, this.priceValidator]],       //售价
       discount          : [, [Validators.required, this.discountValidator]],    //允许最低折扣
