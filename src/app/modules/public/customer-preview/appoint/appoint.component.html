@@ -27,8 +27,8 @@
               <nz-tag [nzColor]="'#2db7f5'">{{ month.key }}</nz-tag>
               <ol>
                 <li *ngFor="let d of month.days; let dayIndex = index;">
-                  <div>{{ dayIndex + 1 }}</div>
-                  <p>{{ getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) }}</p>
+                  <div [ngClass]="{'today': month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1) === today}">{{ dayIndex + 1 }}</div>
+                  <p [ngStyle]="{ 'color': getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) == '日' || getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) == '六' ? '#ff5722' : '' }">{{ getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) }}</p>
                 </li>
               </ol>
             </div>

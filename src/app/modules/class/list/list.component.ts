@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
       key         : 'yueling',
       valueKey    : ['startMonthAge', 'endMonthAge'],
       type        : 'between',
+      placeholder: ['月龄最小值', '月龄最大值']
     }
   ];
   loading: boolean;

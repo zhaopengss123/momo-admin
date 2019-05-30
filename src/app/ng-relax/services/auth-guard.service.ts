@@ -13,20 +13,14 @@ export class AuthGuardService implements CanActivate, CanLoad {
           : state.url.indexOf('?') > -1 ? state.url.split('?')[0]
             : state.url;
         let userInfo = res || JSON.parse(window.localStorage.getItem('userInfo'));
-        if (!res) {
-          let roleAllowPath = [];
-          userInfo.roles.map(role => {
-            role.roleJsonInfo && (roleAllowPath = roleAllowPath.concat(role.roleJsonInfo.split(',')));
-          });
-          userInfo['roleAllowPath'] = Array.from(new Set(roleAllowPath)).join(',');
-        }
-        if (userInfo.roleAllowPath.indexOf('**') > -1) {
+        userInfo.menuUrlList = userInfo.menuUrls.split(',');
+        if (userInfo.menuUrlList.indexOf('**') > -1) {
           observer.next(true);
           observer.complete();
-        } else if (userInfo.roleAllowPath.indexOf(stateUrl) === -1) {
+        } else if (userInfo.menuUrlList.indexOf(stateUrl) === -1) {
           this.router.navigateByUrl('/system/error/403');
         }
-        observer.next(userInfo.roleAllowPath.indexOf(stateUrl) > -1);
+        observer.next(userInfo.menuUrlList.indexOf(stateUrl) > -1);
         observer.complete();
       })
     })
@@ -36,20 +30,13 @@ export class AuthGuardService implements CanActivate, CanLoad {
     return new Observable(observer => {
       this.store.select('userInfoState').subscribe(res => {
         let userInfo = res || JSON.parse(window.localStorage.getItem('userInfo'));
-        if (!res) {
-          let roleAllowPath = [];
-          userInfo.roles.map(role => {
-            role.roleJsonInfo && (roleAllowPath = roleAllowPath.concat(role.roleJsonInfo.split(',')));
-          });
-          userInfo['roleAllowPath'] = Array.from(new Set(roleAllowPath)).join(',');
-        }
-        if (userInfo.roleAllowPath.indexOf('**') > -1) {
+        if (userInfo.menuUrls.indexOf('**') > -1) {
           observer.next(true);
           observer.complete();
-        } else if (userInfo.roleAllowPath.indexOf(`/${route.path}`) === -1) {
+        } else if (userInfo.menuUrls.indexOf(`/${route.path}`) === -1) {
           this.router.navigateByUrl('/system/error/403');
         }
-        observer.next(userInfo.roleAllowPath.indexOf(`/${route.path}`) > -1);
+        observer.next(userInfo.menuUrls.indexOf(`/${route.path}`) > -1);
         observer.complete();
       })
     })

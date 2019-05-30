@@ -2,7 +2,7 @@
   <ng-template #EaBtns>
     <button nz-button nzType="primary" (click)="openCreate()">新增账号</button>
   </ng-template>
-  <ea-list-page 
+  <ea-list-page-simp 
     #EaListPage
     url="/settings/account/listUserAccount" 
     [queryNode]="queryNode" 
@@ -37,7 +37,7 @@
         </ng-container>
       </td>
     </ng-template>
-  </ea-list-page>
+  </ea-list-page-simp>
 </div>
 
 <nz-modal [(nzVisible)]="showCreateAccount" nzTitle="用户信息" [nzFooter]="modalFooter" (nzOnCancel)="showCreateAccount = false">

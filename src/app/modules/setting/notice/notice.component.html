@@ -1,5 +1,5 @@
 <nz-card nzTitle="公告设置">
-  <button (click)="announcement()" nz-button nzType="primary">发布公告</button>
+  <button (click)="announcement()" nz-button nzType="primary" style="margin-bottom: 12px;">发布公告</button>
 
   <ea-list-page-simp #listPage url="/settings/notice/listNoticeRecord" [queryNode]="[]"
     [tableThead]="[ '日期', '内容', '推送群体', '发送人' ]" [EaTableTbodyTr]="EaTableTbodyTr">

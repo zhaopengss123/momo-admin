@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { NzDrawerRef, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -20,9 +21,12 @@ export class AppointComponent implements OnInit {
   constructor(
     private http: HttpService,
     private drawerRef: NzDrawerRef,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private format: DatePipe
   ) { 
   }
+
+  today = this.format.transform(new Date, 'yyyy-MM-dd');
 
   maxChecked = 0;       /* ? 最大选择天数 */
 
@@ -168,9 +172,9 @@ export class AppointComponent implements OnInit {
   }
 
 
-  private _weekList = ['天', '一', '二', '三', '四', '五', '六'];
+  private _weekList = ['日', '一', '二', '三', '四', '五', '六'];
   getDate(day) {
-    return `周${this._weekList[getDay(new Date(day))]}`
+    return `${this._weekList[getDay(new Date(day))]}`
   }
 
   getReserveLoading: boolean;

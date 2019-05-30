@@ -1,264 +1,234 @@
 <div class="container">
-
-  <div nz-row>
-    <div nz-col nzSpan="8">
-        <button nz-button nzType="primary" (click)="open()">添加学籍项</button>
-        <!--添加卡项-->
-        <nz-drawer
-          [nzClosable]="false"
-          [nzOffsetX]="childrenVisible ? 180 : 0"
-          [nzWidth]="820"
-          [nzVisible]="visible"
-          nzTitle="添加卡项"
-          (nzOnClose)="close()"
-        >
-
-        <!--有限次学籍-->
-        <ng-form *ngIf="flag == '1'" nz-form [formGroup]="drawerFormModel">
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <nz-radio-group formControlName="studentStatusType">
-                <label (click)='switchFlag(1)' class="nz_select_button" nz-radio-button nzValue="1">
-                  <p>有限次学籍</p>
-                  <p>支持创建多个服务集合有限次数的次学籍</p>
-                </label>
-                <label (click)='switchFlag(2)' class="nz_select_button" nz-radio-button nzValue="2" [nzDisabled]="!openIsSelect">
-                  <p>不限次学籍</p>
-                  <p>支持创建多个服务集合不限次数的学籍：月、年等</p>
-                </label>
-              </nz-radio-group>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value == ''"
-              >
+    <!--添加卡项-->
+    <nz-drawer [nzClosable]="false" [nzOffsetX]="childrenVisible ? 180 : 0" [nzWidth]="820" [nzVisible]="visible"
+      nzTitle="添加卡项" (nzOnClose)="close()">
+    
+      <!--有限次学籍-->
+      <ng-form *ngIf="flag == '1'" nz-form [formGroup]="drawerFormModel">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-radio-group formControlName="studentStatusType">
+              <label (click)='switchFlag(1)' class="nz_select_button" nz-radio-button nzValue="1">
+                <p>有限次学籍</p>
+                <p>支持创建多个服务集合有限次数的次学籍</p>
+              </label>
+              <label (click)='switchFlag(2)' class="nz_select_button" nz-radio-button nzValue="2"
+                [nzDisabled]="!openIsSelect">
+                <p>不限次学籍</p>
+                <p>支持创建多个服务集合不限次数的学籍：月、年等</p>
+              </label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value == ''">
               名称不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value != ''"
-              >
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('name')?.dirty && drawerFormModel.get('name')?.errors && drawerFormModel.get('name').value != ''">
               名称长度必须为2-30
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>天数</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <div nz-col nzSpan="8">
-                <nz-input-group nzAddOnAfter="天">
-                  <input nz-input formControlName="days" placeholder="请输入天数" />
-                </nz-input-group>
-              </div>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value == ''"
-              >
-              天数不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value != ''"
-              >
-              请输入正确的天数
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <div nz-col nzSpan="8">
-                <nz-input-group nzAddOnAfter="元">
-                  <input formControlName='price' nz-input placeholder="请输入售价" />
-                </nz-input-group>
-              </div>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value == ''"
-              >
-              售价不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value != ''"
-              >
-              请输入正确的售价
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <div nz-col nzSpan="8">
-                <nz-input-group nzAddOnAfter="折">
-                  <input formControlName='discount' nz-input placeholder="请输入0-10" />
-                </nz-input-group>
-              </div>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('discount')?.dirty && drawerFormModel.get('discount')?.errors && drawerFormModel.get('discount').value == ''"
-              >
-              最低折扣不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('discount')?.dirty && drawerFormModel.get('discount')?.errors && drawerFormModel.get('discount').value != ''"
-              >
-              请输入正确的折扣
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍项介绍</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <quill-editor formControlName="introduce" [style]="{height: '200px'}" [placeholder]="'请输入该卡的介绍、使用/售卖须知，100字以内'"></quill-editor>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('introduce')?.dirty && drawerFormModel.get('introduce')?.errors"
-                style="margin-top: 10px;"
-              >
-              学籍项介绍不能为空
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-        </ng-form>
-        <!--有限次学籍end-->
-
-        <!--不限次学籍-->
-        <ng-form *ngIf="flag == '2'" nz-form [formGroup]="monthFormModel">
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <nz-radio-group formControlName="studentStatusType">
-                <label (click)='switchFlag(1)' class="nz_select_button" nz-radio-button nzValue="1" [nzDisabled]="!openIsSelect">
-                  <p>有限次学籍</p>
-                  <p>支持创建多个服务集合有限次数的次学籍</p>
-                </label>
-                <label (click)='switchFlag(2)' class="nz_select_button" nz-radio-button nzValue="2">
-                  <p>不限次学籍</p>
-                  <p>支持创建多个服务集合不限次数的学籍：月、年等</p>
-                </label>
-              </nz-radio-group>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>内容</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <nz-input-group nzAddOnAfter="月">
-                <nz-select formControlName="selectedValue" style="width: 120px;" nzAllowClear nzPlaceHolder="请选择月数">
-                  <nz-option *ngFor="let list of contentList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
-                </nz-select>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>天数</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <div nz-col nzSpan="8">
+              <nz-input-group nzAddOnAfter="天">
+                <input nz-input formControlName="days" placeholder="请输入天数" />
               </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
-              <nz-form-explain
-                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value == ''"
-              >
-              名称不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value != ''"
-              >
-              名称长度必须为2-30
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <div nz-col nzSpan="8">
-                <nz-input-group nzAddOnAfter="元">
-                  <input formControlName='price' nz-input placeholder="请输入售价" />
-                </nz-input-group>
-              </div>
-              <nz-form-explain
-                *ngIf="monthFormModel.get('price')?.dirty && monthFormModel.get('price')?.errors && drawerFormModel.get('price').value == ''"
-              >
+            </div>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value == ''">
+              天数不能为空
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('days')?.dirty && drawerFormModel.get('days')?.errors && flag == '1' && drawerFormModel.get('days').value != ''">
+              请输入正确的天数
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <div nz-col nzSpan="8">
+              <nz-input-group nzAddOnAfter="元">
+                <input formControlName='price' nz-input placeholder="请输入售价" />
+              </nz-input-group>
+            </div>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value == ''">
               售价不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value != ''"
-              >
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value != ''">
               请输入正确的售价
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <div nz-col nzSpan="8">
-                <nz-input-group nzAddOnAfter="折">
-                  <input formControlName='discount' nz-input placeholder="请输入0-10" />
-                </nz-input-group>
-              </div>
-              <nz-form-explain
-                *ngIf="monthFormModel.get('discount')?.dirty && monthFormModel.get('discount')?.errors && monthFormModel.get('discount').value == ''"
-              >
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <div nz-col nzSpan="8">
+              <nz-input-group nzAddOnAfter="折">
+                <input formControlName='discount' nz-input placeholder="请输入0-10" />
+              </nz-input-group>
+            </div>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('discount')?.dirty && drawerFormModel.get('discount')?.errors && drawerFormModel.get('discount').value == ''">
               最低折扣不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="monthFormModel.get('discount')?.dirty && monthFormModel.get('discount')?.errors && monthFormModel.get('discount').value != ''"
-              >
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('discount')?.dirty && drawerFormModel.get('discount')?.errors && drawerFormModel.get('discount').value != ''">
               请输入正确的折扣
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍项介绍</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <quill-editor formControlName="introduce" [style]="{height: '200px'}" [placeholder]="'请输入该卡的介绍、使用/售卖须知，100字以内'"></quill-editor>
-              <nz-form-explain
-                *ngIf="monthFormModel.get('introduce')?.dirty && monthFormModel.get('introduce')?.errors"
-                style="margin-top: 10px;"
-              >
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍项介绍</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <quill-editor formControlName="introduce" [style]="{height: '200px'}" [placeholder]="'请输入该卡的介绍、使用/售卖须知，100字以内'">
+            </quill-editor>
+            <nz-form-explain *ngIf="drawerFormModel.get('introduce')?.dirty && drawerFormModel.get('introduce')?.errors"
+              style="margin-top: 10px;">
               学籍项介绍不能为空
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-        </ng-form>
-        <!--不限次学籍end-->
-
-        <div class="footer" style="text-align: right;margin-right: 113px;">
-          <button type="button" (click)="drawerSubmit(0)" class="ant-btn ant-btn-primary" style="margin-right: 16px;"><span>提交</span></button>
-          <!-- <button type="button" (click)="drawerSubmit(1)" class="ant-btn"><span>提交并上架</span></button> -->
-        </div>
-        <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
-          <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
-            <ng-template #item let-item>
-              <nz-list-item [nzContent]="item"></nz-list-item>
-            </ng-template>
-          </nz-list>
-        </nz-drawer>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-form>
+      <!--有限次学籍end-->
+    
+      <!--不限次学籍-->
+      <ng-form *ngIf="flag == '2'" nz-form [formGroup]="monthFormModel">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-radio-group formControlName="studentStatusType">
+              <label (click)='switchFlag(1)' class="nz_select_button" nz-radio-button nzValue="1"
+                [nzDisabled]="!openIsSelect">
+                <p>有限次学籍</p>
+                <p>支持创建多个服务集合有限次数的次学籍</p>
+              </label>
+              <label (click)='switchFlag(2)' class="nz_select_button" nz-radio-button nzValue="2">
+                <p>不限次学籍</p>
+                <p>支持创建多个服务集合不限次数的学籍：月、年等</p>
+              </label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>内容</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-input-group nzAddOnAfter="月">
+              <nz-select formControlName="selectedValue" style="width: 120px;" nzAllowClear nzPlaceHolder="请选择月数">
+                <nz-option *ngFor="let list of contentList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
+            <nz-form-explain
+              *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value == ''">
+              名称不能为空
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value != ''">
+              名称长度必须为2-30
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <div nz-col nzSpan="8">
+              <nz-input-group nzAddOnAfter="元">
+                <input formControlName='price' nz-input placeholder="请输入售价" />
+              </nz-input-group>
+            </div>
+            <nz-form-explain
+              *ngIf="monthFormModel.get('price')?.dirty && monthFormModel.get('price')?.errors && drawerFormModel.get('price').value == ''">
+              售价不能为空
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="drawerFormModel.get('price')?.dirty && drawerFormModel.get('price')?.errors && drawerFormModel.get('price').value != ''">
+              请输入正确的售价
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <div nz-col nzSpan="8">
+              <nz-input-group nzAddOnAfter="折">
+                <input formControlName='discount' nz-input placeholder="请输入0-10" />
+              </nz-input-group>
+            </div>
+            <nz-form-explain
+              *ngIf="monthFormModel.get('discount')?.dirty && monthFormModel.get('discount')?.errors && monthFormModel.get('discount').value == ''">
+              最低折扣不能为空
+            </nz-form-explain>
+            <nz-form-explain
+              *ngIf="monthFormModel.get('discount')?.dirty && monthFormModel.get('discount')?.errors && monthFormModel.get('discount').value != ''">
+              请输入正确的折扣
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+    
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍项介绍</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <quill-editor formControlName="introduce" [style]="{height: '200px'}" [placeholder]="'请输入该卡的介绍、使用/售卖须知，100字以内'">
+            </quill-editor>
+            <nz-form-explain *ngIf="monthFormModel.get('introduce')?.dirty && monthFormModel.get('introduce')?.errors"
+              style="margin-top: 10px;">
+              学籍项介绍不能为空
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-form>
+      <!--不限次学籍end-->
+    
+      <div class="footer" style="text-align: right;margin-right: 113px;">
+        <button type="button" (click)="drawerSubmit(0)" class="ant-btn ant-btn-primary"
+          style="margin-right: 16px;"><span>提交</span></button>
+        <!-- <button type="button" (click)="drawerSubmit(1)" class="ant-btn"><span>提交并上架</span></button> -->
+      </div>
+      <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
+        <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
+          <ng-template #item let-item>
+            <nz-list-item [nzContent]="item"></nz-list-item>
+          </ng-template>
+        </nz-list>
       </nz-drawer>
-      <!--添加卡项end-->
-    </div>
-  </div>
+    </nz-drawer>
+    <!--添加卡项end-->
 
-  <nz-card style="margin-top: 10px;">
-    <div class="query">
-      <ea-query-flex [node]="queryNode" (onSubmit)="table.request($event)"></ea-query-flex> 
-    </div>
-  </nz-card>
+  <ea-query-flex [node]="queryNode" (onSubmit)="table.request($event)"></ea-query-flex>
 
-  <div style="margin-top: 10px;"></div>
-  <ea-table 
-    #table 
-    url="/commodity/card/getCardTypeList"
-    [thead]="['名称','学籍类型','最低折扣','创建人','创建时间','售价','销量','状态','操作']"
-    [EaTableTbodyTr]="EaTableTbodyTr"
-    [allowSpace]="false"
-    >
+  <nz-divider></nz-divider>
+
+
+  <button nz-button nzType="primary" (click)="open()" style="margin-bottom: 16px;">添加学籍项</button>
+
+  <ea-table #table url="/commodity/card/getCardTypeList" [thead]="['名称','学籍类型','最低折扣','创建人','创建时间','售价','销量','状态','操作']"
+    [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false">
     <ng-template let-data #EaTableTbodyTr>
       <td>{{ data.cardTypeName }}</td>
       <td>{{ data.type == 1 ? '次卡' : '月卡' }}</td>
