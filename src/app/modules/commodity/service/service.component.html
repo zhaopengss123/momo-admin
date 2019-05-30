@@ -43,7 +43,16 @@
               <nz-input-group nzAddOnAfter="元">
                 <input formControlName="price" nz-input placeholder="请输入售价" />
               </nz-input-group>
-              <nz-form-explain *ngIf="formModel.get('price').dirty && formModel.get('price').hasError('required')">售价不能为空</nz-form-explain>
+              <nz-form-explain 
+                *ngIf="formModel.get('price').dirty && formModel.get('price')?.errors && formModel.get('price').value == ''"
+              >
+              售价不能为空
+              </nz-form-explain>
+              <nz-form-explain
+                *ngIf="formModel.get('price')?.dirty && formModel.get('price')?.errors && formModel.get('price').value != ''"
+              >
+              请输入正确的售价
+              </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
 
@@ -54,9 +63,14 @@
                 <input formControlName="lowestDiscount" nz-input placeholder="请输入0.1-1" />
               </nz-input-group>
               <nz-form-explain
-                *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors"
+                *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value == ''"
               >
-              最低折扣不能为空且必须大于0小于1
+              最低折扣不能为空
+              </nz-form-explain>
+              <nz-form-explain
+                *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value != ''"
+              >
+              请输入正确的折扣
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -101,7 +115,7 @@
     <ng-template let-data #EaTableTbodyTr>
       <td>{{ data.serviceName }}</td>
       <td>{{ data.serviceTypeCategoryName }}</td>
-      <td>{{ data.lowestDiscount }}</td>
+      <td>{{ data.lowestDiscount*10 }}</td>
       <td>{{ data.name }}</td>
       <td>{{ data.createTime }}</td>
       <td>{{ data.price }}</td>
