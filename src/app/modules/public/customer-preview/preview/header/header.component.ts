@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
 
   @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number, type: string }) => void;
 
-  @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({ id: number }) => void;
+  @DrawerCreate({ content: PaymentComponent, width: 1060, closable: false }) payment: ({ id: number }) => void;
 
   @DrawerCreate({ content: ClassComponent, title: '转/升班' }) class: ({ id: number }) => void;
 

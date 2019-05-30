@@ -118,6 +118,7 @@ export class UpdateComponent implements OnInit {
     } else {
       this.formGroup.value.birthday = this.format.transform(this.formGroup.value.birthday, 'yyyy-MM-dd');
       let url = this.formGroup.value.studentId ? 'updateStudentInfo' : 'newSaveStudent'
+      this.optionItem.memberFromList.map(m => m.memberFromId === this.formGroup.value.memberFromId && (this.formGroup.value.memberFromName = m.fromName));
       this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(true))
     }
   }

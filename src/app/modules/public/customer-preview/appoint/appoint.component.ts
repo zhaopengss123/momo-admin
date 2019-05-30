@@ -54,7 +54,8 @@ export class AppointComponent implements OnInit {
         this.http.post('/student/getReserveEndTime', {
           paramJson: JSON.stringify({
             studentId: this.studentInfo.id,
-            startTime
+            startTime,
+            isAdjust: !!this.classId
           })
         }).then(res => {
           this.checkedList = [];
@@ -183,7 +184,7 @@ export class AppointComponent implements OnInit {
 
   private _weekList = ['日', '一', '二', '三', '四', '五', '六'];
   getDate(day) {
-    return `${this._weekList[getDay(new Date(day))]}`
+    return this._weekList[getDay(new Date(day))] || '';
   }
 
   getReserveLoading: boolean;

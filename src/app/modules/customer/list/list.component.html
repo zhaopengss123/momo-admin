@@ -53,7 +53,7 @@
         <td>{{ data.studentStatus }}</td>
         <td>{{ data.isLook ? '关闭' : '开启' }}</td>
         <td>
-          <ng-container *ngIf="data.statusId == 1">
+          <ng-container *ngIf="data.status != 2">
             <a (click)="lookChange(data.studentId, data.isLook)">{{ data.isLook ? '开启' : '关闭' }}监控</a>
           </ng-container>
         </td>
