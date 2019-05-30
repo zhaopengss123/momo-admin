@@ -1,4 +1,3 @@
-import { ImportComponent } from './import/import.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
@@ -124,7 +123,5 @@ export class DistributionComponent implements OnInit {
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
-
-  @DrawerCreate({ title: '导入客户', content: ImportComponent }) import: () => void;
 
 }

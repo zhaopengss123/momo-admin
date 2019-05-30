@@ -1,4 +1,3 @@
-import { HttpService } from './../../../ng-relax/services/http.service';
 import { AppState } from 'src/app/core/reducers/reducers-config';
 import { UpdateComponent } from './../public/update/update.component';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
@@ -8,6 +7,7 @@ import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorato
 import { environment } from 'src/environments/environment';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 import { Store } from '@ngrx/store';
+import { ImportComponent } from './import/import.component';
 
 @Component({
   selector: 'app-clue',
@@ -97,5 +97,7 @@ export class ClueComponent implements OnInit {
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number, source: string}) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
+
+  @DrawerCreate({ title: '导入客户', content: ImportComponent }) import: () => void;
 
 }

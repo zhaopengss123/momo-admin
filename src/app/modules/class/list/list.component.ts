@@ -61,7 +61,7 @@ export class ListComponent implements OnInit {
   }
 
   delete(classId) {
-    this.http.post('/classmanager/deleteClassById', { classId }).then(res => this.getData())
+    this.http.post('/classmanager/deleteClassById', { classId }, true).then(res => this.getData())
   }
 
   preview(info) {

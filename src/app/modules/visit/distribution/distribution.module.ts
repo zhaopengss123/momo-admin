@@ -5,11 +5,10 @@ import { DistributionComponent } from './distribution.component';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { RouterModule } from '@angular/router';
-import { ImportComponent } from './import/import.component';
 import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
-  declarations: [DistributionComponent, ImportComponent],
+  declarations: [DistributionComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
@@ -20,7 +19,6 @@ import { CustomerPreviewModule } from '../../public/customer-preview/customer-pr
       component: DistributionComponent
     }]),
     CustomerPreviewModule,
-  ],
-  entryComponents: [ImportComponent]
+  ]
 })
 export class DistributionModule { }
