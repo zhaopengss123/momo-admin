@@ -6,13 +6,13 @@
     #EaListPage 
     url="/settings/role/listRole" 
     [queryNode]="queryNode" 
-    [tableThead]="['角色名称', '创建日期', '备注', '状态', '操作']" 
+    [tableThead]="['角色名称', '角色性质', '创建日期', '备注', '状态', '操作']" 
     [allowSpace]="false" 
     [EaTableTbodyTr]="EaTableTbodyTr"
     [EaBtns]="EaBtns">
     <ng-template #EaTableTbodyTr let-data>
       <td>{{ data.roleName }}</td>
-      <!-- <td>{{ data.roleCode }}</td> -->
+      <td>{{ data.roleType }}</td>
       <td>{{ data.createDate }}</td>
       <td>{{ data.remark }}</td>
       <td><nz-tag [nzColor]="data.enable == 0 ? '#2db7f5' : ''">{{ data.enable == 0 ? '启用' : '禁用' }}</nz-tag></td>
