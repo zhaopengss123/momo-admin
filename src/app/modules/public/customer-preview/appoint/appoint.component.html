@@ -41,7 +41,7 @@
                 <li *ngFor="let day of month.days; let dayIdx = index;"
                   (click)="checkedChange(month.key + '-' + (dayIdx + 1 < 10 ? '0' + (dayIdx + 1) : (dayIdx + 1)) + '|' + teacher.id + '|' + rowIdx)"
                   [ngClass]="{
-                    'yzy': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''],
+                    'yzy': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length,
                     'ccnl': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 2,
                     'yzcc': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 3,
                     'tyzcc': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 4,

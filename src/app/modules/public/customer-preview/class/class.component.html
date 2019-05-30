@@ -9,22 +9,19 @@
       <nz-form-control>
         <nz-input-group [nzAddOnAfter]="'当前班级：' + (memberInfo.studentInfo.className || '-')">
           <nz-select formControlName="classId" nzPlaceHolder="请选择预约班级">
-            <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.classId"></nz-option>
+            <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.classId" [nzDisabled]="item.disabled"></nz-option>
           </nz-select>
         </nz-input-group>
         <nz-form-explain *ngIf="valid('classId')">请选择转/升班级！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
+    <nz-form-item *ngIf="formGroup.get('classId').value && formGroup.get('teacherName')">
       <nz-form-label nzRequired>负责老师</nz-form-label>
       <nz-form-control>
         <nz-input-group [nzAddOnAfter]="'当前负责老师：' + (memberInfo.studentInfo.teacherName || '-')">
-          <!-- <nz-select formControlName="teacherId" nzPlaceHolder="请选择负责老师">
-            <nz-option *ngFor="let item of teacherList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
-          </nz-select> -->
-          <input nz-input placeholder="选择负责老师及排期" readonly (click)="selectAppoint()">
+          <input nz-input placeholder="选择负责老师及排期" formControlName="teacherName" readonly (click)="selectAppoint()">
         </nz-input-group>
-        <nz-form-explain *ngIf="valid('teacherId')">请选择负责老师！</nz-form-explain>
+        <nz-form-explain *ngIf="valid('teacherName')">请选择负责老师！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

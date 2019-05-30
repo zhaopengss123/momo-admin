@@ -30,7 +30,6 @@ export class AppointComponent implements OnInit {
   ngOnInit() {
     this.studentInfo.id = this.studentInfo.id || this.studentInfo.studentId;
     this.studentInfo.classId = this.classId || this.studentInfo.classId;
-    console.log(this.studentInfo)
     /* 如果是日托， 则获取最大选择天数 */
     this.studentInfo.cardType == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
     this.getData();

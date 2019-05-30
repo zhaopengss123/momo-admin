@@ -98,6 +98,7 @@ export class DetailedComponent implements OnInit {
       this.saveLoading = true;
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
       params.effectDate && (params.effectDate = this.format.transform(params.effectDate, 'yyyy-MM-dd'));
+      Object.keys(params).map(key => { if (params[key] === null || params[key] === '') { delete params[key]; } });
       this.http.post(url, { paramJson: JSON.stringify(params) }, true).then(res => this.drawerRef.close(params.serviceTypeId ? true : { isPaymentCard: true })).catch(err => this.saveLoading = false);
     }
   }

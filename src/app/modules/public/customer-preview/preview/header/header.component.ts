@@ -6,8 +6,9 @@ import { PaymentComponent } from '../../payment/payment.component';
 import { ClassComponent } from '../../class/class.component';
 import { LeavingComponent } from '../../leaving/leaving.component';
 import { AppointComponent } from '../../appoint/appoint.component';
-import { NzDrawerService, NzDrawerRef } from 'ng-zorro-antd';
+import { NzDrawerService, NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 import { ModifyData } from 'src/app/ng-relax/decorators/list/modify.decorator';
+import { UpdateComponent } from '../../update/update.component';
 
 @Component({
   selector: 'app-header',
@@ -23,21 +24,50 @@ export class HeaderComponent implements OnInit {
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
-    private drawerRef: NzDrawerRef
+    private drawerRef: NzDrawerRef,
+    private message: NzMessageService
   ) { }
 
   ngOnInit() {
-    this.memberInfo.schoolRollId = this.memberInfo.type ? this.memberInfo.type : null;
-    this.memberInfo.type == 2 &&
-      this.http.post('/student/studentInfoIsComplete', {
-        paramJson: JSON.stringify({
-          studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isReserve'
-        }),
-      }).then(res => {
-        this.showReserverBtn = res.result != 1999;
-      })
+    
   }
 
+
+  appointValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isReserve'
+      }),
+    }).then(res => {
+      if (res.result == 1000) {
+        this.appoint({ studentInfo: this.memberInfo.studentInfo })
+      } else {
+        this.message.warning(res.message);
+        /* ? 1999 => 定期已经预约过 */
+        res.result != 1999 && this.update({ id: this.memberInfo.studentInfo.studentId, type: 'isReserve' })
+      }
+    })
+  }
+
+  /* -------------- 点击缴费校验 -------------- */
+  paymentValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isPay'
+      }),
+    }).then(res => res.result == 1000 ? this.payment({ id: this.memberInfo.studentInfo.studentId }) : this.message.warning(res.message));
+  }
+
+  /* -------------- 点击转班校验 -------------- */
+  classValid() {
+    this.http.post('/student/studentInfoIsComplete', {
+      paramJson: JSON.stringify({
+        studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isAdjustClass'
+      }),
+    }).then(res => res.result == 1000 ? this.class({ id: this.memberInfo.studentInfo.studentId }) : this.message.warning(res.message));
+  }
+
+  @DrawerCreate({ title: '编辑学员', content: UpdateComponent }) update: ({ id: number, type: string }) => void;
 
   @DrawerCreate({ content: PaymentComponent, closable: false }) payment: ({ id: number }) => void;
 

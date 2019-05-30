@@ -71,7 +71,7 @@ export class UpdateComponent implements OnInit {
     this.formGroup.controls['isLimitActivity'].valueChanges.subscribe(val => val ? this.formGroup.addControl('limitActivity', this.fb.control(this._studentInfo.limitActivity || null, [Validators.required])) : this.formGroup.removeControl('limitActivity'));
 
     this.id ? this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
-      res.data.parentAccountList.map(res => this.addAccount())
+      res.data.parentAccountList && res.data.parentAccountList.length ? res.data.parentAccountList.map(res => this.addAccount()) : this.addAccount();
       res.data.studentInfo.accountList = res.data.parentAccountList;
       this._studentInfo = res.data.studentInfo;
       this.formGroup.patchValue(res.data.studentInfo);
@@ -100,7 +100,6 @@ export class UpdateComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formGroup)
     if (this.formGroup.invalid) {
       for (let i in this.formGroup.controls) {
         Object.values(this.formGroup.controls).map(control => { control.markAsDirty(); control.updateValueAndValidity() });
