@@ -19,7 +19,7 @@ import { AppState } from 'src/app/core/reducers/reducers-config';
 export class DistributionComponent implements OnInit {
 
   domainEs = environment.domainEs;
-  paramsDefault: any = {};
+  paramsDefault: any = { giveUp: 0 };
 
   @ViewChild('EaTable') table: TableComponent;
 

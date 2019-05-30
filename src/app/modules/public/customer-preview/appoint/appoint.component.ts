@@ -140,6 +140,7 @@ export class AppointComponent implements OnInit {
   }
 
   private _classInfo;
+  private _getDataNum = 0;
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
     let classInfo = this._classInfo || await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
     this._classInfo = classInfo;
@@ -148,6 +149,14 @@ export class AppointComponent implements OnInit {
     let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
     this.dataSet[type === 'up' ? 'unshift' : 'push']({ key: month, value: JSON.parse(JSON.stringify(classInfo.data.list)), days: new Array(this._monthOfDays(month)) });
 
+    if (this._getDataNum < 2) {
+      this._getDataNum = this._getDataNum + 1;
+      setTimeout(() => {
+        this.getData(type || 'down');
+      }, 2000);
+    } else {
+      this._getDataNum = 0;
+    }
     this.dataSet[type === 'up' ? 0 : this.dataSet.length - 1].value.map(classes => {
       classes.teacherReceptionNum = 0;
       classes.teachers.map(teacher => {

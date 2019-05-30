@@ -156,15 +156,16 @@
 
   <div nz-row nzGutter="8" style="border-bottom: 1px dashed #ebedf0; padding-top: 14px;">
     <nz-form-item>
-      <nz-form-label nzRequired [nzSpan]="3">过往病史</nz-form-label>
+      <nz-form-label [nzRequired]="type === 'isPay'" [nzSpan]="3">过往病史</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('cases') && valid('cases')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isCases" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
+          <nz-select nzAllowClear formControlName="isCases" nzPlaceHolder="有无过往病史" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
           <input nz-input *ngIf="formGroup.get('cases')" placeholder="请输入过往病史" formControlName="cases" [style.width]="'460px'">
         </nz-input-group>
+        <nz-form-explain *ngIf="valid('isCases')">请选择有无过往病史！</nz-form-explain>
         <nz-form-explain *ngIf="formGroup.get('cases') && valid('cases')" [style.text-indent]="'120px'">请输入过往病史！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
@@ -172,7 +173,7 @@
       <nz-form-label [nzRequired]="type === 'isPay'" [nzSpan]="3">过敏史</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': valid('isAllergyHistory') || (formGroup.get('allergyHistory') && valid('allergyHistory'))}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isAllergyHistory" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
+          <nz-select nzAllowClear formControlName="isAllergyHistory" nzPlaceHolder="有无过敏史" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
@@ -183,41 +184,44 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzRequired [nzSpan]="3">慢性病史</nz-form-label>
+      <nz-form-label [nzRequired]="type === 'isPay'" [nzSpan]="3">慢性病史</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('chronicDisease') && valid('chronicDisease')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isChronicDisease" nzPlaceHolder="有无慢性病史" [style.width]="'120px'">
+          <nz-select nzAllowClear formControlName="isChronicDisease" nzPlaceHolder="有无慢性病史" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
           <input nz-input *ngIf="formGroup.get('chronicDisease')" placeholder="请输入慢性病史" formControlName="chronicDisease" [style.width]="'460px'">
         </nz-input-group>
+        <nz-form-explain *ngIf="valid('isChronicDisease')">请选择有无慢性病史！</nz-form-explain>
         <nz-form-explain *ngIf="formGroup.get('chronicDisease') && valid('chronicDisease')" [style.text-indent]="'120px'">请输入慢性病史！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzRequired [nzSpan]="3">药物治疗</nz-form-label>
+      <nz-form-label [nzRequired]="type === 'isPay'" [nzSpan]="3">药物治疗</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('medication') && valid('medication')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isMedication" nzPlaceHolder="有无药物治疗" [style.width]="'120px'">
+          <nz-select nzAllowClear formControlName="isMedication" nzPlaceHolder="有无药物治疗" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
           <input nz-input *ngIf="formGroup.get('medication')" placeholder="请输入药物治疗" formControlName="medication" [style.width]="'460px'">
         </nz-input-group>
+        <nz-form-explain *ngIf="valid('isMedication')">请选择有无药物治疗！</nz-form-explain>
         <nz-form-explain *ngIf="formGroup.get('medication') && valid('medication')" [style.text-indent]="'120px'">请输入药物治疗！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzRequired [nzSpan]="3">限制活动</nz-form-label>
+      <nz-form-label [nzRequired]="type === 'isPay'" [nzSpan]="3">限制活动</nz-form-label>
       <nz-form-control [nzSpan]="21" [ngClass]="{ 'has-error': formGroup.get('limitActivity') && valid('limitActivity')}">
         <nz-input-group nzCompact>
-          <nz-select formControlName="isLimitActivity" nzPlaceHolder="有无限制活动" [style.width]="'120px'">
+          <nz-select nzAllowClear formControlName="isLimitActivity" nzPlaceHolder="有无限制活动" [style.width]="'120px'">
             <nz-option nzLabel="无" [nzValue]="0"></nz-option>
             <nz-option nzLabel="有" [nzValue]="1"></nz-option>
           </nz-select>
           <input nz-input *ngIf="formGroup.get('limitActivity')" placeholder="请输入限制活动" formControlName="limitActivity" [style.width]="'460px'">
         </nz-input-group>
+        <nz-form-explain *ngIf="valid('isLimitActivity')">请选择有无限制活动！</nz-form-explain>
         <nz-form-explain *ngIf="formGroup.get('limitActivity') && valid('limitActivity')" [style.text-indent]="'120px'">请输入限制活动！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>

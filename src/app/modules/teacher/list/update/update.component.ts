@@ -43,7 +43,6 @@ export class UpdateComponent implements OnInit {
       roleId: [, [Validators.required]],
       code: [],
       classId: [],
-      //menuIds: [],
       receptionNum: [],
       idCard:[, [Validators.required]],
       birthday:[,[Validators.required]],
@@ -54,7 +53,6 @@ export class UpdateComponent implements OnInit {
       status: [, [Validators.required]],
       isGovernor: [],
     });
-    console.log(this.formGroup.value.roleId );
     this.formGroup.get('roleId').valueChanges.subscribe(roleId => {
 
       if (roleId) {
@@ -77,12 +75,6 @@ export class UpdateComponent implements OnInit {
   ngOnInit() {
     this.id && this.http.post('/teacher/getTeacherInfo', { id: this.id }, false).then(res => {
       let teacherInfo = res.data;
-      //this.password = teacherInfo.realPassword;
-      //teacherInfo.enterPassword = teacherInfo.realPassword;
-      //teacherInfo.classIds = [];
-      //teacherInfo.classes.map(res => teacherInfo.classIds.push(res.id));
-      //teacherInfo.menuIds = [];
-      //teacherInfo.menus.map(res => teacherInfo.menuIds.push(res.id));
       this.formGroup.patchValue(teacherInfo);
     });
   }

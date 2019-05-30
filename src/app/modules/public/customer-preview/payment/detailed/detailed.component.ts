@@ -18,7 +18,7 @@ export class DetailedComponent implements OnInit {
 
   @Input() serviceInfo: any = {};
 
-  studentInfo: any = {};
+  @Input() studentInfo: any = {};
 
   formInfo: any = {};
 
@@ -76,15 +76,12 @@ export class DetailedComponent implements OnInit {
       this.preferential = this.formInfo.price - this.formInfo.price * discount;
     })
 
-    this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
-      this.studentInfo = res.data.studentInfo;
-      this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
-      if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
-        let [y, m, d] = this.studentInfo.birthday.split('-');
-        let expireDate = `${Number(y) + 4}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;
-        this.formGroup.patchValue({ expireDate });
-      }
-    });
+    this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
+    if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
+      let [y, m, d] = this.studentInfo.birthday.split('-');
+      let expireDate = `${Number(y) + 4}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;
+      this.formGroup.patchValue({ expireDate });
+    }
   }
 
   @ControlValid() valid: (key, type?) => boolean;

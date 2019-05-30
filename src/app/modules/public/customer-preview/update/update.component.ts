@@ -54,11 +54,11 @@ export class UpdateComponent implements OnInit {
       weight: [, [Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       headCircumference: [, [Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       headPhoto: [],
-      isCases: [0],
+      isCases: [, this.type == 'isPay' ? [Validators.required] : []],
       isAllergyHistory: [, this.type == 'isPay' ? [Validators.required] : []],
-      isChronicDisease: [0],
-      isMedication: [0],
-      isLimitActivity: [0],
+      isChronicDisease: [, this.type == 'isPay' ? [Validators.required] : []],
+      isMedication: [, this.type == 'isPay' ? [Validators.required] : []],
+      isLimitActivity: [, this.type == 'isPay' ? [Validators.required] : []],
       email: [],
       address: [],
       accountList: this.fb.array([])
@@ -71,7 +71,11 @@ export class UpdateComponent implements OnInit {
     this.formGroup.controls['isLimitActivity'].valueChanges.subscribe(val => val ? this.formGroup.addControl('limitActivity', this.fb.control(this._studentInfo.limitActivity || null, [Validators.required])) : this.formGroup.removeControl('limitActivity'));
 
     this.id ? this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
-      res.data.parentAccountList && res.data.parentAccountList.length ? res.data.parentAccountList.map(res => this.addAccount()) : this.addAccount();
+      if (res.data.parentAccountList && res.data.parentAccountList.length) {
+        res.data.parentAccountList.map(res => this.addAccount())
+      } else { 
+        this.addAccount(res.data.studentInfo.mobilePhone);
+      }
       res.data.studentInfo.accountList = res.data.parentAccountList;
       this._studentInfo = res.data.studentInfo;
       this.formGroup.patchValue(res.data.studentInfo);
@@ -84,11 +88,11 @@ export class UpdateComponent implements OnInit {
 
   @DrawerClose() close: (bool?) => void;
 
-  addAccount() {
+  addAccount(accountPhone = null) {
     this.accountList.push(this.fb.group({
       accountId: [],
       accountName: [, [Validators.required]],
-      accountPhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
+      accountPhone: [accountPhone, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
       relationship: [, [Validators.required]],
       workplace: [],
       idNumber: [],

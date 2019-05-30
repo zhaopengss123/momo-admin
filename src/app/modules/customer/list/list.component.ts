@@ -13,6 +13,7 @@ import { PaymentComponent } from '../../public/customer-preview/payment/payment.
 import { ClassComponent } from '../../public/customer-preview/class/class.component';
 import { LeavingComponent } from '../../public/customer-preview/leaving/leaving.component';
 import { AppointComponent } from '../../public/customer-preview/appoint/appoint.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-list',
@@ -38,6 +39,8 @@ export class ListComponent implements OnInit {
 
   checkedItems: number[] = [];
 
+  domainEs = environment.domainEs;
+
   queryNode: QueryNode[] = [
     {
       label   : '学员性别',
@@ -62,7 +65,7 @@ export class ListComponent implements OnInit {
     },
     {
       label   : '学籍类型',
-      key     : 'schoolRollId',
+      key     : 'cardTypeCategoryIds',
       type    : 'tag',
       options: []
     },
@@ -72,6 +75,14 @@ export class ListComponent implements OnInit {
       type    : 'tag',
       options : [{ name: '开启', id: 0}, { name: '关闭', id: 1}],
       isRadio : true
+    },
+    {
+      label   : '学员',
+      key     : 'studentId',
+      type    : 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      searchUrl: `${this.domainEs}/czg/fullQuery`,
+      isHide  : true
     },
     {
       label   : '所属销售',
@@ -166,7 +177,7 @@ export class ListComponent implements OnInit {
   payment(params) {
     this.drawer.create({
       nzTitle: null,
-      nzWidth: 960,
+      nzWidth: 1060,
       nzClosable: false,
       nzContent: PaymentComponent,
       nzContentParams: { id: params.id }
@@ -222,7 +233,14 @@ export class ListComponent implements OnInit {
       paramJson: JSON.stringify({
         studentId: this.checkedItems[0], buttonName: 'isPay'
       }),
-    }).then(res => res.result == 1000 ? this.payment({ id: this.checkedItems[0] }) : this.message.warning(res.message));
+    }).then(res => {
+      if (res.result == 1000) {
+        this.payment({ id: this.checkedItems[0] });
+      } else {
+        this.message.warning(res.message);
+        this.update({ id: this.checkedItems[0], type: 'isPay' });
+      }
+    });
   }
 
   /* -------------- 点击转班校验 -------------- */

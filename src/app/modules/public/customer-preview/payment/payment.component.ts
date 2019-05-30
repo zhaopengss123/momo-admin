@@ -3,6 +3,7 @@ import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 
 @Component({
   selector: 'app-payment',
@@ -30,21 +31,27 @@ export class PaymentComponent implements OnInit {
     this.http.post('/commodity/service/showServiceTypeCategory').then(res => this.serviceList = res.data.list)
   }
 
+  studentInfo: any = {};
   ngOnInit() {
+    this.http.post('/student/getNewStudent', { id: this.id }).then(res => this.studentInfo = res.data.studentInfo);
   }
 
+  showPayment: boolean;
+
+  isInit = true;
+  cardInfo = {};
+  serviceInfo = {};
   select(e, type) {
-    if (e[0]) {
-      let params = { id: this.id };
-      params[type] = e[0];
-      this.drawer.create({
-        nzTitle: '结算清单',
-        nzWidth: 420,
-        nzBodyStyle: { 'padding-bottom': '40px' },
-        nzContent: DetailedComponent,
-        nzContentParams: params
-      }).afterClose.subscribe(res => res && this.drawerRef.close(res))
-    }
+    this.showPayment = false;
+    this.cardInfo = {};
+    this.serviceInfo = {};
+    setTimeout(() => {
+      this.isInit = false;
+      this.showPayment = true;
+      this[type] = e;
+    }, 300);
   }
+
+  @DrawerClose() close: (bool?) => void;
 
 }

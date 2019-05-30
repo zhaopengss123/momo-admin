@@ -65,6 +65,12 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/setting/role/role.module#RoleModule'
           },
           {
+            path: 'monitor',
+            data: { title: '监控管理' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/setting/monitor/monitor.module#MonitorModule'
+          },
+          {
             path: 'config',
             data: { title: '基础设置' },
             canLoad: [AuthGuardService],
@@ -89,12 +95,6 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/event/examine/examine.module#ExamineModule'
           },
         ]
-      },
-      {
-        path: 'monitor',
-        data: { title: '监控管理' },
-        canLoad: [AuthGuardService],
-        loadChildren: 'src/app/modules/monitor/monitor.module#MonitorModule'
       },
       {
         path: 'customer',

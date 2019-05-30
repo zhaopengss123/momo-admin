@@ -147,7 +147,7 @@
         <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
-                    <nz-form-label>入职时间</nz-form-label>
+                    <nz-form-label nzRequired>入职时间</nz-form-label>
                     <nz-form-control>
                         <nz-date-picker placeholder="请选择入职时间" formControlName="entryTime"></nz-date-picker>
                         <nz-form-explain *ngIf="formGroup.get('entryTime').dirty && formGroup.get('entryTime').hasError('required')">请选择入职时间！</nz-form-explain>
@@ -169,7 +169,7 @@
         <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
-                    <nz-form-label>老师状态</nz-form-label>
+                    <nz-form-label nzRequired>老师状态</nz-form-label>
                     <nz-form-control>
                         <nz-select formControlName="status" nzPlaceHolder="请选择老师状态">
                             <nz-option nzLabel="在职" [nzValue]="1"></nz-option>

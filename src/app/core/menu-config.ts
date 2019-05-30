@@ -124,7 +124,7 @@ export const MenuConfig = [
       },
       {
         title : '监控管理',
-        key   : '/home/monitor',
+        key   : '/home/setting/monitor',
         isLeaf: true
       },
       {

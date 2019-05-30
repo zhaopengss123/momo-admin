@@ -24,6 +24,8 @@ export class ListPageSimpComponent implements OnInit {
 
   @Input() showPage: boolean = true;
 
+  @Input() isParamJson: boolean = true;
+
   @Input() paramsDefault: any = {};
 
   @Input() paramsInit: any = {};
