@@ -122,6 +122,7 @@ export class AddComponent implements OnInit {
       studentIds = studentIds.join(',');
       this.http.post('/event_record/saveEventRecord', { paramJson: JSON.stringify({
         eventId: this.eventInfo.id,
+        eventCode: this.eventInfo.eventCode,
         classId: this.classId,
         studentIds,
         startTime,
