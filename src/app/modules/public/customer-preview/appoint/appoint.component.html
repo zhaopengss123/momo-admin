@@ -47,19 +47,26 @@
                     'tyzcc': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 4,
                     'checked': checkedList.includes(month.key + '-' + (dayIdx + 1 < 10 ? '0' + (dayIdx + 1) : (dayIdx + 1)) + '|' + teacher.id + '|' + rowIdx)
                   }" nz-popover
-                  [nzTitle]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? '学生详情' : null"
-                  [nzContent]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] ? studentList : null">
+                  [nzTitle]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length ? '预约信息' : null"
+                  [nzContent]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length ? studentList : null">
                   <ng-template #studentList>
-                    {{ getStudentName(teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + '']) }}
+                    <nz-skeleton [style.width]="'300px'" [nzLoading]="getReserveLoading && !teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].innerHTML">
+                      <div class="preview" [innerHTML]="teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].innerHTML || getReserveInfo(teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''], month.key + '-' + (dayIdx + 1 < 10 ? '0' + (dayIdx + 1) : (dayIdx + 1)))"></div>
+                    </nz-skeleton>
                   </ng-template>
   
-                  <ng-container
-                    *ngIf="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
-                    <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + '']">
-                      <div class="knxk" *ngIf="j.type == 2"></div>
-                      <ng-container *ngFor="let m of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
-                        <div [ngClass]="{ 'next': j.id === m.id && j.type == 0 && m.type == 0 }"></div>
+                  <ng-container *ngIf="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length">
+                    
+                    <ng-container *ngIf="teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
+                      <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''];">
+                        <ng-container *ngFor="let m of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
+                          <div [ngClass]="{ 'next': j.id === m.id && j.type == 0 && j.type == 0 && m.type == 0 }"></div>
+                        </ng-container>
                       </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''];">
+                      <div class="knxk" *ngIf="j.type == 2"></div>
                     </ng-container>
                   </ng-container>
   

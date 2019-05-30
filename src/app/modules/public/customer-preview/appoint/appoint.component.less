@@ -254,3 +254,27 @@
 :host ::ng-deep nz-empty img {
   width: auto;
 }
+::ng-deep .preview {
+  width: 300px;
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    background: #eee;
+    border-radius: 5px;
+    padding: 8px 12px;
+    overflow: hidden;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+    & > div {
+      float: left;
+      width: 50%;
+      line-height: 26px;
+      label {
+        color: #999;
+      }
+    }
+  }
+}

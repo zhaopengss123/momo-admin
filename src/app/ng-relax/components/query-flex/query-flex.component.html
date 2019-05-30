@@ -26,7 +26,7 @@
             <input [formControlName]="control.key" nz-input [placeholder]="control.placeholder || '请输入' + control.label">
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <i nz-icon type="close-circle" (click)="formGroup.controls[control.key].reset()"></i>
+            <i nz-icon type="close-circle" *ngIf="formGroup.get(control.key) && formGroup.get(control.key).value" (click)="formGroup.controls[control.key].reset()"></i>
           </ng-template>
         </ng-container>
 

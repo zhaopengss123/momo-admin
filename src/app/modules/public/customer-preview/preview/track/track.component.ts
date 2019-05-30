@@ -106,6 +106,7 @@ export class TrackComponent implements OnInit {
     } else {
       this.saveLoading = true;
       this[group].value.nextFollowTime = this.format.transform(this[group].value.nextFollowTime, 'yyyy-MM-dd');
+      this.activityList.map(a => a.id === this[group].value.activityId && (this[group].value.activityName = a.activityName))
       this.http.post('/membermanage/returnVisit/saveClubFollowRecord', {
         paramJson: JSON.stringify(this[group].value)
       }, true).then(res => {

@@ -22,6 +22,7 @@ export function DrawerCreate(options: DrawerCreateOption) {
           this.drawerRef && this.drawerRef.close(true);
           this.listPage && this.listPage.eaTable._request();
           this.table && this.table._request();
+          this.eaTable && this.eaTable._request();
         }
       });
     }
