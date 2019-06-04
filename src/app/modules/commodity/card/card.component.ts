@@ -57,7 +57,7 @@ export class CardComponent implements OnInit {
   }
 
   change(cardTypeId, isOnline) {
-    this.http.post('/commodity/card/updateCardTypeStatus', { paramJson: JSON.stringify({ cardTypeId, isOnline }) }).then(res => this.table._request())
+    this.http.post('/commodity/card/updateCardTypeStatus', { paramJson: JSON.stringify({ cardTypeId, isOnline }) }, true).then(res => this.table._request())
   }
 
 }
