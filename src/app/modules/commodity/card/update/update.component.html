@@ -6,10 +6,12 @@
         <nz-form-label nzRequired>学籍类型</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="type" [nzButtonStyle]="'solid'" [nzDisabled]="!!cardTypeInfo">
-            <label nz-radio-button [nzValue]="1"><p>有限次学籍</p>
-            <p>支持创建多个服务集合有限次数的次学籍</p></label>
-            <label nz-radio-button [nzValue]="2"><p>不限次学籍</p>
-            <p>支持创建多个服务集合不限次数的学籍：月、年等</p></label>
+            <label nz-radio-button [nzValue]="1">
+              <p style="margin: 5px 0 0; font-size: 16px">日托</p><p style="margin-bottom: 4px;">支持创建多个服务集合有限次数的次学籍</p>
+            </label>
+            <label nz-radio-button [nzValue]="2">
+              <p style="margin: 5px 0 0; font-size: 16px">月托</p><p style="margin-bottom: 4px;">支持创建多个服务集合不限次数的学籍：月、年等</p>
+            </label>
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -40,10 +42,11 @@
         <nz-form-label nzRequired>期限</nz-form-label>
         <nz-form-control>
           <nz-input-group nzAddOnAfter="月">
-            <input nz-input formControlName="month" placeholder="请输入期限">
+            <nz-select formControlName="month" nzPlaceHolder="请选择期限" [style.width]="'100%'">
+              <nz-option *ngFor="let item of monthList" [nzLabel]="item" [nzValue]="item"></nz-option>
+            </nz-select>
           </nz-input-group>
-          <nz-form-explain *ngIf="valid('month')">请输入期限！</nz-form-explain>
-          <nz-form-explain *ngIf="valid('month', 'pattern')">请输入正确的期限！</nz-form-explain>
+          <nz-form-explain *ngIf="valid('month')">请选择期限！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>

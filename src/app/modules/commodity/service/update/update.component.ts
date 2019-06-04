@@ -14,35 +14,31 @@ import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator'
 })
 export class UpdateComponent implements OnInit {
 
-  @Input() cardTypeInfo;
+  @Input() cardTypeInfo: any = {};
   
   formGroup: FormGroup
 
-  optionList = []
+  optionList = [];
 
   constructor(
     private fb: FormBuilder = new FormBuilder(),
     private http: HttpService,
     private drawerRef: NzDrawerRef
-  ) { }
+  ) { 
+    this.http.post('/commodity/service/showServiceTypeCategory').then(res => this.optionList = res.data.list)
+  }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       serviceTypeId          : [],
       serviceTypeCategoryId  : [, Validators.required],
-      serviceName            : [, [Validators.required, this.nameLengthValidator]],
-      price                  : [, [Validators.required, this.priceValidator]],      //售价
-      lowestDiscount         : [, [Validators.required, this.discountValidator]],   //最低折扣
+      serviceName            : [, [Validators.required]],
+      price                  : [, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],      //售价
+      lowestDiscount         : [, [Validators.required, this._lowestDiscountValidator]],   //最低折扣
       serviceDesc            : [, [Validators.required]],
       isOnline: [1]                                                                 //默认上架
     }) 
-    //获取服务类型列表
-    this.http.post('/commodity/service/showServiceTypeCategory').then(res => {
-      if (res.result == 1000) {
-        this.optionList = res.data.list;
-      }
-    })
-    this.formGroup.patchValue(this.cardTypeInfo || { type: 1});
+    this.formGroup.patchValue(this.cardTypeInfo);
   }
 
   @ControlValid() valid: (key, type?) => boolean;
@@ -53,36 +49,12 @@ export class UpdateComponent implements OnInit {
 
   @DrawerClose() close: () => void;
 
-  /*-------------- 长度必须大于2小于等于30(名称) --------------*/
-  nameLengthValidator(val: FormControl) {
-    var valid;
-    if (val.value != '') {
-      var str = String(val.value);
-      if (str.length >= 2 && str.length <= 30) {
-        valid = true;
-      }
-    }
-    return valid ? null : {info:'名称长度必须为2-30个字符'}
-  }
 
-  /*-------------- 大于0的数字最多两位小数(售价) --------------*/
-  priceValidator(num: FormControl) {
-    var valid;
-    var reg = /^[0-9]+(.[0-9]{1,2})?$/;
-    if (reg.test(num.value) && num.value > 0) {
-      valid = true;
+  private _lowestDiscountValidator = (control: AbstractControl): { [key: string]: any } | null => {
+    try {
+      return Number(control.value) >= 0 && Number(control.value) <= 1 ? null : { error: true };
+    } catch (error) {
+      return null;
     }
-    return valid ? null : {info:'请输入正确的售价'}
   }
-
-  /*-------------- 不允许折扣大于1小于0(最低折扣) --------------*/
-  discountValidator(num: FormControl):any {
-    var valid;
-    var reg = /^[0-9]+(.[0-9]{1,2})?$/;
-    if (num.value >= 0 && num.value <= 1 && reg.test(num.value) ) {
-      valid = true;
-    }
-    return valid ? null : {num:true}
-  }
-
 }

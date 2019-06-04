@@ -17,11 +17,14 @@ export class UpdateComponent implements OnInit {
 
   formGroup: FormGroup;
 
+  monthList = [];
+
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
     private drawerRef: NzDrawerRef
   ) { 
+    for (let i = 0; i < 48; i++) { this.monthList.push(i + 1); }
   }
 
   ngOnInit() {
@@ -40,7 +43,7 @@ export class UpdateComponent implements OnInit {
         this.formGroup.addControl('day', this.fb.control(this.cardTypeInfo ? this.cardTypeInfo.day : null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
         this.formGroup.removeControl('month')
       } else {
-        this.formGroup.addControl('month', this.fb.control(this.cardTypeInfo ? this.cardTypeInfo.month : null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
+        this.formGroup.addControl('month', this.fb.control(this.cardTypeInfo ? this.cardTypeInfo.month : null, [Validators.required]))
         this.formGroup.removeControl('day')
       }
     });

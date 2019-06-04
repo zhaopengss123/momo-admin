@@ -17,9 +17,6 @@ export class ServiceComponent implements OnInit {
 
   @DrawerCreate({ title: '服务', content: UpdateComponent }) update: ({ cardTypeInfo}?) => void;
 
-  //编辑回显数据
-  drawerData = {}; 
-
   queryNode: QueryNode[] = [
     {
       label : '服务名称',
@@ -31,30 +28,19 @@ export class ServiceComponent implements OnInit {
       key     : 'serviceTypeCategoryId',
       type    : 'tag',
       isRadio : true,
-      options : [
-        {
-          name : '游泳',
-          id   : 1
-        },
-        {
-          name : '日托',
-          id   : 2
-        }
-      ] 
+      optionsUrl: '/commodity/service/showServiceTypeCategory'
     },
     {
       label       : '总销量',
       key         : 'totalSalesVolume',
       type        : 'between',
-      valueKey    : ['minCount','maxCount'],
-      placeholder : ['最小值','最大值']
+      valueKey    : ['minCount','maxCount']
     },
     {
       label       : '售价',
       key         : 'price',
       type        : 'between',
-      valueKey    : ['minPrice','maxPrice'],
-      placeholder : ['最小值','最大值']
+      valueKey    : ['minPrice','maxPrice']
     }
   ]
 
@@ -62,72 +48,18 @@ export class ServiceComponent implements OnInit {
     private http: HttpService,
     private message: NzMessageService,
     private drawer: NzDrawerService
-    ){
-      
-    }
+  ){ }
 
   ngOnInit() {
-    this.http.post('/commodity/service/showServiceTypeCategory').then( res => {
-      this.queryNode[1].options = res.data.list;
-    })
   }
 
-  /*-------------- 获取服务类型列表数据 --------------*/
-  query(paramJson){
-    this.http.post('/commodity/service/serviceTypeList', { paramJson: JSON.stringify(paramJson) }).then(res => {
-    })
+  change(serviceTypeId, isOnline) {
+    this.http.post('/commodity/service/updateServiceTypeStatus', { paramJson: JSON.stringify({ serviceTypeId, isOnline }) }, true).then(res => this.table._request())
   }
 
-  /*-------------- 查询条件表单提交按钮 --------------*/
-  submit(ev) {
-    console.log(ev);
-  }
 
-  /*-------------- 上架功能 --------------*/
-  upperShelf(id) {
-    var paramJson = {
-      "serviceTypeId" : id, //服务Id
-      "isOnline"      : 1   //是否上架 1为上架
-    }
-    this.http.post('/commodity/service/updateServiceTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      if (res.result == 1000) {
-        this.message.create('success', '已上架');
-        this.table._request();
-      }
-    })
-  }
 
-  /*-------------- 下架功能 --------------*/
-  lowerShelf(id) {
-    var paramJson = {
-      "serviceTypeId" : id, //服务Id
-      "isOnline"      : 0   //是否上架 1为上架
-    }
-    this.http.post('/commodity/service/updateServiceTypeStatus', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      if (res.result == 1000) {
-        this.message.create('success', '已下架');
-        this.table._request();
-      }
-    })
+  delete(serviceTypeId) {
+    this.http.post('/commodity/service/deleteServiceType', { paramJson: JSON.stringify({ serviceTypeId }) }, true).then(res => this.table._request());
   }
-
-  /*-------------- 删除功能 --------------*/
-  delete(data) {
-    if (data.count != 0) {
-      this.message.create('warning', '该服务已被使用，不可删除！');
-      return;
-    }
-    var paramJson = {
-      "serviceTypeId" : data.serviceTypeId
-    }
-    //删除
-    this.http.post('/commodity/service/deleteServiceType', {paramJson : JSON.stringify(paramJson)}).then( res => {
-      if (res.result == 1000) {
-        this.message.create('success', '删除成功');
-        this.table._request();
-      }
-    })
-    
-  }
-
 }
