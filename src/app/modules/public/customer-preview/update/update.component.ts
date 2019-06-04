@@ -42,7 +42,7 @@ export class UpdateComponent implements OnInit {
       studentId: [],
       studentName: [, [Validators.required]],
       sex: ['男'],
-      nickName: [, [Validators.required]],
+      nickName: [],
       englishName: [],
       birthday: [, [Validators.required]],
       nation: [],
@@ -120,7 +120,7 @@ export class UpdateComponent implements OnInit {
       let url = this.formGroup.value.studentId ? 'updateStudentInfo' : 'newSaveStudent'
       this.optionItem.memberFromList.map(m => m.memberFromId === this.formGroup.value.memberFromId && (this.formGroup.value.memberFromName = m.fromName));
       this.formGroup.value.recruitTeacherId && this.peopleItem.collectorList.map(m => m.teacherId === this.formGroup.value.recruitTeacherId && (this.formGroup.value.recruitTeacherName = m.teacherName));
-      this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(true))
+      this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(this.type ? Object.assign({ type: this.type }, this.formGroup.value) : true))
     }
   }
 

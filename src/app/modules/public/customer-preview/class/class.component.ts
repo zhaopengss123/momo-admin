@@ -83,8 +83,8 @@ export class ClassComponent implements OnInit {
     }).afterClose.subscribe(res => {
       if (res) {
         let teacherName;
-        this.teacherList.map(teacher => teacher.id === res.teacherId && (teacherName = teacher.name) )
-        this.formGroup.patchValue({ startTime: res.startDate, endTime: res.endDate, pitNum: res.pitNum, teacherId: res.teacherId, teacherName });
+        this.teacherList.map(teacher => teacher.id === Number(res.teacherId) && (teacherName = teacher.name) )
+        this.formGroup.patchValue({ startTime: res.startDate, endTime: res.endDate, pitNum: res.pitNum, teacherId: Number(res.teacherId), teacherName });
       }
     });
   }
