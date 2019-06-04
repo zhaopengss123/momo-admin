@@ -18,7 +18,9 @@
   }
   .query-cell {
     float: right;
-    margin-right: 16px;
+    &:not(:first-child) {
+      margin-right: 16px;
+    }
   }
 }
 

@@ -84,7 +84,7 @@ export class ClassComponent implements OnInit {
       if (res) {
         let teacherName;
         this.teacherList.map(teacher => teacher.id === res.teacherId && (teacherName = teacher.name) )
-        this.formGroup.patchValue({ startTime: res.reserveDate, endTime: res.reserveDate, pitNum: res.pitNum, teacherId: res.teacherId, teacherName });
+        this.formGroup.patchValue({ startTime: res.startDate, endTime: res.endDate, pitNum: res.pitNum, teacherId: res.teacherId, teacherName });
       }
     });
   }

@@ -1,5 +1,4 @@
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { FormGroup } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { PaymentComponent } from '../../payment/payment.component';
@@ -54,7 +53,14 @@ export class HeaderComponent implements OnInit {
       paramJson: JSON.stringify({
         studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isPay'
       }),
-    }).then(res => res.result == 1000 ? this.payment({ id: this.memberInfo.studentInfo.studentId }) : this.message.warning(res.message));
+    }).then(res => {
+      if (res.result == 1000) {
+        this.payment({ id: this.memberInfo.studentInfo.studentId });
+      } else {
+        this.message.warning(res.message);
+        this.update({ id: this.memberInfo.studentInfo.studentId, type: 'isPay' })
+      }
+    });
   }
 
   /* -------------- 点击转班校验 -------------- */

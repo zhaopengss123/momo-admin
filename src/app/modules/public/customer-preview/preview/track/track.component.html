@@ -48,7 +48,7 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <div nz-col nzSpan="5">
+    <div nz-col nzSpan="5" *ngIf="studentInfo?.status != 2">
       <nz-form-item>
         <nz-form-control>
           <nz-radio-group formControlName="status" [nzButtonStyle]="'solid'">
@@ -184,7 +184,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="6" *ngIf="studentInfo?.status != 2">
         <nz-form-item>
           <nz-form-control>
             <nz-radio-group formControlName="status" [nzButtonStyle]="'solid'">

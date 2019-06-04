@@ -113,6 +113,12 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/commodity/student-status/student-status.module#StudentStatusModule'
           },
           {
+            path: 'card',
+            data: { title: '卡项' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/commodity/card/card.module#CardModule'
+          },
+          {
             path: 'service',
             data: { title: '服务' },
             canLoad: [AuthGuardService],

@@ -39,7 +39,6 @@ export class LeavingComponent implements OnInit {
     this.formGroup = this.fb.group({
       studentId: [this.id],
       studentName: [],
-      studentLeaveDate: [, [Validators.required]],
       leaveReason: [, [Validators.required]],
       price: [, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
     })

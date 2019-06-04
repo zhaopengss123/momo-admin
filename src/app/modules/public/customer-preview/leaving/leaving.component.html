@@ -5,13 +5,6 @@
 <form nz-form [formGroup]="formGroup">
   <div nz-row nzGutter="8">
     <nz-form-item>
-      <nz-form-label nzRequired>退园时间</nz-form-label>
-      <nz-form-control>
-        <nz-date-picker formControlName="studentLeaveDate" nzPlaceHolder="请选择退园时间"></nz-date-picker>
-        <nz-form-explain *ngIf="valid('studentLeaveDate')">请选择退园时间！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
       <nz-form-label nzRequired>退款</nz-form-label>
       <nz-form-control [ngClass]="{'has-error': formGroup.get('price') && (valid('price') || valid('price', 'pattern')) }">
         <nz-radio-group [(ngModel)]="whetherLeaving" [ngModelOptions]="{standalone: true}" (ngModelChange)="leavingChange($event)">

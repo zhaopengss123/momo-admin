@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { NzDrawerService } from 'ng-zorro-antd';
@@ -15,7 +16,8 @@ export class ConfigComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-    private fb: FormBuilder = new FormBuilder()
+    private fb: FormBuilder = new FormBuilder(),
+    private format: DatePipe
   ) {
     /* ------------------------ 获取营业时间配置并初始化 ------------------------*/
     this.businessConfigForm = this.fb.group({
@@ -34,13 +36,21 @@ export class ConfigComponent implements OnInit {
     })
   }  
 
-  saveSystemConfig() {
+  save() {
     let params = this.businessConfigForm.value;
+    params.startTime = this.format.transform(params.startTime, 'HH:mm');
+    params.endTime = this.format.transform(params.endTime, 'HH:mm');
     this.http.post('/settings/saveSystemConfig', { paramJson: JSON.stringify(params)}, true).then(res => { })
   }
   
   ngOnInit() {
     
+  }
+
+
+
+  disabledHours(): number[] {
+    return [0, 1, 2, 3, 4, 5, 6];
   }
 
 }

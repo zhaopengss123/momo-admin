@@ -150,7 +150,7 @@ export class ListComponent implements OnInit {
       res.data.cardList.map(item => this.queryItems.cardList[item.id] = item.name);
       res.data.teacherList.map(item => this.queryItems.teacherList[item.teacherId] = item.teacherName);
     });
-    this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[5].options = res.data.list);
+    this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[6].options = res.data.list);
   }
 
   ngOnInit() {

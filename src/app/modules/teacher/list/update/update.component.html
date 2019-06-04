@@ -5,11 +5,10 @@
                 <nz-form-label nzRequired nzFor="mobilePhone">老师账号</nz-form-label>
                 <nz-form-control>
                     <input nz-input placeholder="请输入老师账号" maxlength="11" formControlName="mobilePhone" id="mobilePhone">
-                    <nz-form-explain *ngIf="formGroup.get('mobilePhone').dirty && formGroup.get('mobilePhone').hasError('required')">请输入老师账号！</nz-form-explain>
-                    <nz-form-explain *ngIf="formGroup.get('mobilePhone').dirty && formGroup.get('mobilePhone').hasError('pattern')">请输入正确的老师账号！</nz-form-explain>
-                    <nz-form-explain *ngIf="formGroup.get('mobilePhone').dirty && formGroup.get('mobilePhone').hasError('duplicated')">该老师账号已存在</nz-form-explain>
-                    <nz-form-explain *ngIf="formGroup.get('mobilePhone').dirty && formGroup.get('mobilePhone').pending">
-                        <i nz-icon type="loading"></i>正在校验老师账号是否存在...</nz-form-explain>
+                    <nz-form-explain *ngIf="valid('mobilePhone')">请输入老师账号！</nz-form-explain>
+                    <nz-form-explain *ngIf="valid('mobilePhone', 'pattern')">请输入正确的老师账号！</nz-form-explain>
+                    <nz-form-explain *ngIf="valid('mobilePhone', 'duplicated')">该老师账号已存在</nz-form-explain>
+                    <nz-form-explain *ngIf="formGroup.get('mobilePhone').pending"><i nz-icon type="loading"></i>正在校验老师账号是否存在...</nz-form-explain>
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -21,18 +20,17 @@
                     <nz-form-label nzRequired>老师头像</nz-form-label>
                     <nz-form-control>
                         <ea-upload-picture formControlName="photoUrl" [maxLength]="1"></ea-upload-picture>
-                        <nz-form-explain *ngIf="formGroup.get('photoUrl').dirty && formGroup.get('photoUrl').hasError('required')">请上传照片！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('photoUrl')">请上传照片！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-        <div nz-row nzGutter="8">
+            
             <div nz-col nzSpan="12">
                 <nz-form-item>
-                    <nz-form-label nzRequired nzFor="name">姓名</nz-form-label>
+                    <nz-form-label nzRequired>姓名</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入老师姓名" formControlName="name" id="name">
-                        <nz-form-explain *ngIf="formGroup.get('name').dirty && formGroup.get('name').hasError('required')">请输入老师姓名！</nz-form-explain>
+                        <input nz-input placeholder="请输入老师姓名" formControlName="name">
+                        <nz-form-explain *ngIf="valid('name')">请输入老师姓名！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -47,8 +45,7 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-        <div nz-row nzGutter="8">
+            
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>角色</nz-form-label>
@@ -56,12 +53,12 @@
                         <nz-select formControlName="roleId" nzPlaceHolder="请选择角色">
                             <nz-option *ngFor="let option of roleList" [nzLabel]="option.roleName" [nzValue]="option.id"></nz-option>
                         </nz-select>
-                        <nz-form-explain *ngIf="formGroup.get('roleId').dirty && formGroup.get('roleId').hasError('required')">请选择角色！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('roleId')">请选择角色！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
-            <div nz-col nzSpan="12" *ngIf="formGroup.value.roleId == 2">
+            <div nz-col nzSpan="12" *ngIf="formGroup.get('isGovernor')">
                 <nz-form-item>
                     <nz-form-label nzRequired>是否是主管</nz-form-label>
                     <nz-form-control>
@@ -69,15 +66,12 @@
                             <nz-option nzLabel="是" [nzValue]="1"></nz-option>
                             <nz-option nzLabel="否" [nzValue]="0"></nz-option>
                         </nz-select>
-                        <nz-form-explain *ngIf="formGroup.get('isGovernor').dirty && formGroup.get('isGovernor').hasError('required')">请选择是否是主管！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('isGovernor')">请选择是否是主管！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-
-        <div nz-row nzGutter="8" *ngIf="formGroup.value.roleId == 2">
-
-            <div nz-col nzSpan="12">
+            
+            <div nz-col nzSpan="12" *ngIf="formGroup.get('classId')">
                 <nz-form-item>
                     <nz-form-label>负责班级</nz-form-label>
                     <nz-form-control>
@@ -88,25 +82,24 @@
                 </nz-form-item>
             </div>
 
-            <div nz-col nzSpan="12">
+            <div nz-col nzSpan="12" *ngIf="formGroup.get('receptionNum')">
                 <nz-form-item>
                     <nz-form-label nzRequired>接待能力</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入接待能力" formControlName="receptionNum" id="receptionNum">
-                        <nz-form-explain *ngIf="formGroup.get('receptionNum').dirty && formGroup.get('receptionNum').hasError('required')">请输入接待能力！</nz-form-explain>
+                        <input nz-input placeholder="请输入接待能力" formControlName="receptionNum">
+                        <nz-form-explain *ngIf="valid('receptionNum')">请输入接待能力！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('receptionNum', 'pattern')">请输入正确的接待能力！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-
-        <div nz-row nzGutter="8">
 
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>身份证号</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入身份证号" formControlName="idCard" id="idCard">
-                        <nz-form-explain *ngIf="formGroup.get('idCard').dirty && formGroup.get('idCard').hasError('required')">请输入身份证号！</nz-form-explain>
+                        <input nz-input placeholder="请输入身份证号" formControlName="idCard" maxlength="18">
+                        <nz-form-explain *ngIf="valid('idCard')">请输入身份证号！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('idCard', 'pattern')">请输入正确的身份证号！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -116,41 +109,35 @@
                     <nz-form-label nzRequired>生日</nz-form-label>
                     <nz-form-control>
                         <nz-date-picker formControlName="birthday"></nz-date-picker>
-                        <nz-form-explain *ngIf="formGroup.get('birthday').dirty && formGroup.get('birthday').hasError('required')">请选择生日！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('birthday')">请选择生日！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label>Email</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入邮箱地址" formControlName="eMail" id="eMail">
-                        <nz-form-explain *ngIf="formGroup.get('eMail').dirty && formGroup.get('eMail').hasError('required')">请输入邮箱地址！</nz-form-explain>
+                        <input nz-input placeholder="请输入邮箱地址" formControlName="eMail">
+                        <nz-form-explain *ngIf="valid('eMail', 'pattern')">请输入正确的邮箱地址！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
             <div nz-col nzSpan="12">
                 <nz-form-item>
-                    <nz-form-label nzRequired>家庭住址</nz-form-label>
+                    <nz-form-label>家庭住址</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="请输入家庭住址" formControlName="homeAddress" id="homeAddress">
-                        <nz-form-explain *ngIf="formGroup.get('homeAddress').dirty && formGroup.get('homeAddress').hasError('required')">请输入家庭住址！</nz-form-explain>
+                        <input nz-input placeholder="请输入家庭住址" formControlName="homeAddress">
+                        <nz-form-explain *ngIf="valid('homeAddress')">请输入家庭住址！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>入职时间</nz-form-label>
                     <nz-form-control>
                         <nz-date-picker placeholder="请选择入职时间" formControlName="entryTime"></nz-date-picker>
-                        <nz-form-explain *ngIf="formGroup.get('entryTime').dirty && formGroup.get('entryTime').hasError('required')">请选择入职时间！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('entryTime')">请选择入职时间！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -160,13 +147,10 @@
                     <nz-form-label>离职时间</nz-form-label>
                     <nz-form-control>
                         <nz-date-picker placeholder="请选择离职时间" formControlName="quitTime"></nz-date-picker>
-                        <nz-form-explain *ngIf="formGroup.get('quitTime').dirty && formGroup.get('quitTime').hasError('required')">请选择离职时间！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('quitTime')">请选择离职时间！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>老师状态</nz-form-label>
@@ -175,47 +159,11 @@
                             <nz-option nzLabel="在职" [nzValue]="1"></nz-option>
                             <nz-option nzLabel="离职" [nzValue]="2"></nz-option>
                         </nz-select>
-                        <nz-form-explain *ngIf="formGroup.get('status').dirty && formGroup.get('status').hasError('required')">请输入老师状态！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('status')">请输入老师状态！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
-        </div>
-
-
-        <div nz-row nzGutter="8" *ngIf="roleLevel <= 5">
-            <div nz-col nzSpan="12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="realPassword">密码</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input type="password" placeholder="请输入密码" formControlName="realPassword" id="realPassword">
-                        <nz-form-explain *ngIf="formGroup.get('realPassword').dirty && formGroup.get('realPassword').hasError('required')">请输入密码！</nz-form-explain>
-                        <nz-form-explain *ngIf="formGroup.get('realPassword').dirty && formGroup.get('realPassword').hasError('minlength')">请输入6位以上密码！</nz-form-explain>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div nz-col nzSpan="12">
-                <nz-form-item>
-                    <nz-form-label nzRequired nzFor="enterPassword">确认密码</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input type="password" placeholder="请输入密码" formControlName="enterPassword" id="enterPassword">
-                        <nz-form-explain *ngIf="formGroup.get('enterPassword').dirty && formGroup.get('enterPassword').hasError('required')">请输入密码！</nz-form-explain>
-                        <nz-form-explain *ngIf="formGroup.get('enterPassword').dirty && formGroup.get('enterPassword').hasError('error') && !formGroup.get('enterPassword').hasError('required')">密码不一致！</nz-form-explain>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-        </div>
-        <div nz-row nzGutter="8" *ngIf="roleLevel <= 5">
-            <div nz-col nzSpan="24">
-                <nz-form-item>
-                    <nz-form-label>可操作权限</nz-form-label>
-                    <nz-form-control>
-                        <nz-select formControlName="menuIds" nzMode="multiple" nzPlaceHolder="请选择可操作权限">
-                            <nz-option *ngFor="let option of menuList" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
         </div>
     </ng-container>
 </form>

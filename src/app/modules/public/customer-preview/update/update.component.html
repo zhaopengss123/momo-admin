@@ -79,7 +79,7 @@
       <nz-form-item>
         <nz-form-label [nzRequired]="type && type === 'isReserve'" [nzSpan]="5">班级</nz-form-label>
         <nz-form-control [nzSpan]="19">
-          <nz-select formControlName="classId" nzPlaceHolder="请选择班级">
+          <nz-select formControlName="classId" nzPlaceHolder="请选择班级" [nzDisabled]="!!studentInfo.cardType && !!studentInfo.isReserve">
             <nz-option [nzLabel]="option.className" [nzValue]="option.classId" *ngFor="let option of optionItem.classList"></nz-option>
           </nz-select>
           <nz-form-explain *ngIf="valid('classId')">请选择班级！</nz-form-explain>

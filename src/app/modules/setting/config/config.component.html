@@ -1,6 +1,6 @@
 <nz-card [nzBordered]="false" nzTitle="基础设置" [nzExtra]="extraTemplate">
     <ng-template #extraTemplate>
-        <button nz-button nzType="primary" (click)="saveSystemConfig()">保存</button>
+        <button nz-button nzType="primary" (click)="save()">保存</button>
     </ng-template>
     <form nz-form [formGroup]="businessConfigForm">
         <div nz-row nzGutter="8">
@@ -8,26 +8,7 @@
                 <nz-form-item>
                     <nz-form-label nzRequired>营业开始时间</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="startTime" nzPlaceHolder="请选择营业开始时间">
-                            <nz-option [nzValue]="6" nzLabel="6点"></nz-option>
-                            <nz-option [nzValue]="7" nzLabel="7点"></nz-option>
-                            <nz-option [nzValue]="8" nzLabel="8点"></nz-option>
-                            <nz-option [nzValue]="9" nzLabel="9点"></nz-option>
-                            <nz-option [nzValue]="10" nzLabel="10点"></nz-option>
-                            <nz-option [nzValue]="11" nzLabel="11点"></nz-option>
-                            <nz-option [nzValue]="12" nzLabel="12点"></nz-option>
-                            <nz-option [nzValue]="13" nzLabel="13点"></nz-option>
-                            <nz-option [nzValue]="14" nzLabel="14点"></nz-option>
-                            <nz-option [nzValue]="15" nzLabel="15点"></nz-option>
-                            <nz-option [nzValue]="16" nzLabel="16点"></nz-option>
-                            <nz-option [nzValue]="17" nzLabel="17点"></nz-option>
-                            <nz-option [nzValue]="18" nzLabel="18点"></nz-option>
-                            <nz-option [nzValue]="19" nzLabel="19点"></nz-option>
-                            <nz-option [nzValue]="20" nzLabel="20点"></nz-option>
-                            <nz-option [nzValue]="21" nzLabel="21点"></nz-option>
-                            <nz-option [nzValue]="22" nzLabel="22点"></nz-option>
-                            <nz-option [nzValue]="23" nzLabel="23点"></nz-option>
-                        </nz-select>
+                        <nz-time-picker [nzDisabledHours]="disabledHours" formControlName="startTime" nzFormat="HH:mm" nzPlaceHolder="请选择营业开始时间"></nz-time-picker>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -35,26 +16,7 @@
                 <nz-form-item>
                     <nz-form-label nzRequired>营业截止时间</nz-form-label>
                     <nz-form-control>
-                        <nz-select formControlName="endTime" nzPlaceHolder="请选择营业截止时间">
-                            <nz-option [nzValue]="6" nzLabel="6点"></nz-option>
-                            <nz-option [nzValue]="7" nzLabel="7点"></nz-option>
-                            <nz-option [nzValue]="8" nzLabel="8点"></nz-option>
-                            <nz-option [nzValue]="9" nzLabel="9点"></nz-option>
-                            <nz-option [nzValue]="10" nzLabel="10点"></nz-option>
-                            <nz-option [nzValue]="11" nzLabel="11点"></nz-option>
-                            <nz-option [nzValue]="12" nzLabel="12点"></nz-option>
-                            <nz-option [nzValue]="13" nzLabel="13点"></nz-option>
-                            <nz-option [nzValue]="14" nzLabel="14点"></nz-option>
-                            <nz-option [nzValue]="15" nzLabel="15点"></nz-option>
-                            <nz-option [nzValue]="16" nzLabel="16点"></nz-option>
-                            <nz-option [nzValue]="17" nzLabel="17点"></nz-option>
-                            <nz-option [nzValue]="18" nzLabel="18点"></nz-option>
-                            <nz-option [nzValue]="19" nzLabel="19点"></nz-option>
-                            <nz-option [nzValue]="20" nzLabel="20点"></nz-option>
-                            <nz-option [nzValue]="21" nzLabel="21点"></nz-option>
-                            <nz-option [nzValue]="22" nzLabel="22点"></nz-option>
-                            <nz-option [nzValue]="23" nzLabel="23点"></nz-option>
-                        </nz-select>
+                        <nz-time-picker [nzDisabledHours]="disabledHours" formControlName="endTime" nzFormat="HH:mm" nzPlaceHolder="请选择营业截止时间"></nz-time-picker>
                     </nz-form-control>
                 </nz-form-item>
             </div>

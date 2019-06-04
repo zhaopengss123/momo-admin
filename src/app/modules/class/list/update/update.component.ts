@@ -21,10 +21,10 @@ export class UpdateComponent implements OnInit {
     private fb: FormBuilder = new FormBuilder()
   ) { 
     this.formGroup = this.fb.group({
-      classId: [],
-      classImage: [, [Validators.required]],
+      id: [],
+      classImage: [],
       className: [, [Validators.required]],
-      classSlogan: [, [Validators.required]],
+      classSlogan: [],
       receptionNum: [, [Validators.required]],
       startMonth: [, [Validators.required]],
       endMonth: [, [Validators.required]],
@@ -32,7 +32,6 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.classInfo.classId = this.classInfo.id;
     this.formGroup.patchValue(this.classInfo);
   }
 

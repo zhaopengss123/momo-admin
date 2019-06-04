@@ -30,24 +30,13 @@ export class ListComponent implements OnInit {
   ];
   loading: boolean;
 
-  classList: any[] = [];
-
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
   ) { 
-    this.getData();
   }
 
   ngOnInit() {
-  }
-
-  getData() {
-    this.loading = true;
-    this.http.post('/classmanager/listClassMessage', {}, false).then(res => {
-      this.classList = res.data.list;
-      this.loading = false;
-    }).catch(err => this.loading = false);
   }
 
   update(classInfo = {}) {
@@ -57,11 +46,11 @@ export class ListComponent implements OnInit {
       nzContent: UpdateComponent,
       nzContentParams: { classInfo }
     });
-    drawer.afterClose.subscribe(res => res && this.getData());
+    drawer.afterClose.subscribe(res => res && this.listPage.eaTable._request());
   }
 
   delete(classId) {
-    this.http.post('/classmanager/deleteClassById', { classId }, true).then(res => this.getData())
+    this.http.post('/classmanager/deleteClassById', { classId }, true).then(res => this.listPage.eaTable._request())
   }
 
   preview(info) {
@@ -70,7 +59,7 @@ export class ListComponent implements OnInit {
       nzTitle: info.className,
       nzContent: PreviewComponent,
       nzContentParams: { id: info.id }
-    }).afterClose.subscribe(res => res && this.getData());
+    }).afterClose.subscribe(res => res && this.listPage.eaTable._request());
   }
 
 }

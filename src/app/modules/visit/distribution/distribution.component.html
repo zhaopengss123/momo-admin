@@ -18,18 +18,18 @@
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.nick }}</a></td>
       <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.name }}</a></td>
-      <td>{{ data.birthday || '--' }}</td>
+      <td>{{ data.birthday || '-' }}</td>
       <td>{{ data.sex }}</td>
       <td>{{ data.monthAge }}</td>
       <td>{{ data.parentName }}</td>
       <td>{{ data.mobile }}</td>
       <td>{{ data.threadCreateTime }}</td>
-      <td>{{ data.nextFollowTime || '--' }}</td>
-      <td>{{ data.lastFollowTime || '--' }}</td>
-      <td>{{ data.sourceName || '--' }}</td>
+      <td>{{ data.nextFollowTime || '-' }}</td>
+      <td>{{ data.lastFollowTime || '-' }}</td>
+      <td>{{ data.sourceName || '-' }}</td>
       <td>{{ data.threadClientStatusName }}</td>
       <td>{{ data.threadFollowStatusName }}</td>
-      <td>{{ data.collectorName || '--' }}</td>
+      <td>{{ data.collectorName || '-' }}</td>
       <td>{{ data.activityName || '-' }}</td>
       <td>{{ data.followerName || '-' }}</td>
     </ng-template>

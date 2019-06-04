@@ -1,5 +1,5 @@
 <div class="container">
-    <ea-list-page-simp #listPage url="/teacher/getTeachersList" [queryNode]="queryNode"
+    <ea-list-page-simp #listPage url="/teacher/getTeachersList" [queryNode]="queryNode" [paramsDefault]="{status: 1}"
         [tableThead]="[ '头像', '名字', '手机号' ,'性别', '角色', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
          [EaTableTbodyTr]="EaTableTbodyTr">
     </ea-list-page-simp>
@@ -7,7 +7,6 @@
     <ng-template #EaBtns>
         <button nz-button nzType="primary" (click)="update()">新增老师</button>
     </ng-template>
-
 
     <ng-template let-data #EaTableTbodyTr>
         <td>
@@ -26,21 +25,7 @@
         <td>{{ data.className }}</td>
         <td>{{ data.age }}</td>
         <td>{{ data.birthday }}</td>
-        <td>
-            <a (click)="update(data.id)">编辑</a>
-        </td>
+        <td><a (click)="update({ id: data.id })">编辑</a></td>
     </ng-template>
 
-
-
 </div>
-
-<ng-template #deleteContent>
-<textarea nz-input [(ngModel)]="remark" id="remark" name="remark" [nzAutosize]="{ minRows: 2, maxRows: 4 }"
-    placeholder="请输入删除原因"></textarea>
-<div style="color: #f5222d; margin-top: 8px;">删除后，老师的信息将从园中删除，您可以在“离职组”找到他们</div>
-</ng-template>
-<ng-template #deleteFooter>
-<button (click)="cancel()" nz-button>取消</button>
-<button (click)="deleteEnter()" nz-button nzType="primary">确定</button>
-</ng-template>
