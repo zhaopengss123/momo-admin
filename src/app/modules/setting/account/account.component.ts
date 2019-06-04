@@ -76,7 +76,7 @@ export class AccountComponent implements OnInit {
     this.createAccountId = null;
     this.showCreateAccount = true;
     this.createAccountForm.reset();
-    this.createAccountForm.patchValue({ status: 0 });
+    this.createAccountForm.patchValue({ enableStatus: 1 });
   }
   /* ----------------- 点击编辑账号按钮 ----------------- */
   editAccount(data) {
