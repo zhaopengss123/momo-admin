@@ -1,39 +1,114 @@
 <div class="title">
-  <h1>排课状况</h1>
-  <div class="cell">
-    <div class="s1">可用</div>
-    <div class="s2">已占用</div>
-    <div class="s3">可能续卡</div>
-    <div class="s4">当前选择</div>
-    <div class="s5">超出能力（超出1人）</div>
-    <div class="s6">严重超出能力（超出2人）</div>
-    <div class="s7">超严重超出能力（超出3人）</div>
-  </div>
+  <h1>
+    <span>排课状况</span>
+    <form nz-form [formGroup]="classForm" style="display: inline; margin-left: 12px;">
+      
+    <nz-select style="width: 120px;" formControlName="classId" nzPlaceHolder="选择班级">
+      <nz-option *ngFor="let option of classList" [nzLabel]="option.className" [nzValue]="option.id"></nz-option>
+    </nz-select>
+
+    </form>
+  </h1>
+
+    <div class="cell">
+      <div class="s1">可用</div>
+      <div class="s2">已占用</div>
+      <div class="s3">可能续卡</div>
+      <div class="s4">当前选择</div>
+      <div class="s5">超出能力（超出1人）</div>
+      <div class="s6">严重超出能力（超出2人）</div>
+      <div class="s7">超严重超出能力（超出3人）</div>
+    </div>
 </div>
 
-<div class="content">
-  <div class="item" *ngFor="let classes of dataSet">
-    <div class="classes">
-      <h2>{{ classes.className }}</h2>
-      <p>班级容纳人数：{{ classes.receptionNum }}</p>
-      <p>老师接待人数：{{ classes.teacherReceptionNum }}</p>
-    </div>
-    <div class="teachers">
-      <div class="teacher" *ngFor="let teacher of classes.teachers">
-        <div class="info">
-          <h2>{{ teacher.name }}</h2>
-          <p>接待能力 {{ teacher.receptionNum }} 人</p>
-        </div>
-        <div class="main">
-          <div class="month">
-            <nz-tag [nzColor]="'#2db7f5'">2019-09</nz-tag>
+<div class="boxx">
+  
+  <div class="header">
+    <h2>{{ dataSet[0]?.value[0].className }}</h2>
+    <p>班级容纳人数：{{ dataSet[0]?.value[0].receptionNum }}</p>
+    <p>老师接待能力：{{ dataSet[0]?.value[0].teacherReceptionNum }}</p>
+  </div>
+  
+  <ng-container *ngIf="dataSet[0]?.value[0].receptionNum; else elseTemplate">
+    <nz-spin [nzSpinning]="getCheckedItemLoading">
+      <div class="content">
+        <button nz-button nzType="dashed" nzBlock (click)="getData('up')"><i nz-icon nzType="up"></i>加载上一月</button>
+        <div class="box">
+          <ng-container *ngFor="let month of dataSet; let idx = index;">
             <div class="row">
-              <div class="thead">111
+              <div class="thead">
+                <nz-tag [nzColor]="'#2db7f5'">{{ month.key }}</nz-tag>
+                <ol>
+                  <li *ngFor="let d of month.days; let dayIndex = index;">
+                    <div
+                      [ngClass]="{'today': month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1) === today}">
+                      {{ dayIndex + 1 }}</div>
+                    <p
+                      [ngStyle]="{ 'color': getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) == '日' || getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) == '六' ? '#ff5722' : '' }">
+                      {{ getDate(month.key + '-' + (dayIndex < 11 ? '0' + (dayIndex + 1) : dayIndex + 1)) }}</p>
+                  </li>
+                </ol>
+              </div>
+              <div class="tbody" *ngFor="let teacher of month.value[0].teachers">
+                <div class="info">
+                  <h4>{{ teacher.name }}</h4>
+                  <p>接待能力{{ teacher.receptionNum }}人</p>
+                </div>
+                <ul *ngFor="let row of teacher.pit; let rowIdx = index;">
+                  <li *ngFor="let day of month.days; let dayIdx = index;"
+                    [ngClass]="{
+                      'yzy': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length,
+                      'ccnl': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 2,
+                      'yzcc': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 3,
+                      'tyzcc': teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length >= 4
+                    }" nz-popover
+                    [nzTitle]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length ? '预约信息' : null"
+                    [nzContent]="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length ? studentList : null">
+                    <ng-template #studentList>
+                      <nz-skeleton [style.width]="'300px'"
+                        [nzLoading]="getReserveLoading && !teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].innerHTML">
+                        <div class="preview"
+                          [innerHTML]="teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].innerHTML || getReserveInfo(teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''], month.key + '-' + (dayIdx + 1 < 10 ? '0' + (dayIdx + 1) : (dayIdx + 1)))">
+                        </div>
+                      </nz-skeleton>
+                    </ng-template>
+  
+                    <ng-container
+                      *ngIf="teacher.list['arr'+rowIdx] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''] && teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''].length">
+  
+                      <ng-container *ngIf="teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
+                        <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''];">
+                          <ng-container *ngFor="let m of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 2) + '']">
+                            <div [ngClass]="{ 'next': j.id === m.id && j.type == 0 && j.type == 0 && m.type == 0 }"></div>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+  
+                      <ng-container *ngFor="let j of teacher.list['arr'+rowIdx]['dayStudent'][(dayIdx + 1) + ''];">
+                        <div class="knxk" *ngIf="j.type == 2"></div>
+                      </ng-container>
+                    </ng-container>
+                  </li>
+                </ul>
+                <nz-empty *ngIf="teacher.pit && !teacher.pit.length" [nzNotFoundContent]="''" [nzNotFoundFooter]="''"
+                  nzNotFoundImage="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original">
+                </nz-empty>
               </div>
             </div>
-          </div>
+            <nz-divider *ngIf="idx != dataSet.length -1"></nz-divider>
+          </ng-container>
+  
         </div>
+        <button nz-button nzType="dashed" nzBlock (click)="getData('down')"><i nz-icon nzType="down"></i>加载下一月</button>
       </div>
-    </div>
-  </div>
+    </nz-spin>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <nz-empty [nzNotFoundFooter]="footerTpl" nzNotFoundContent="该班级下暂未分配老师">
+      <ng-template #footerTpl>
+        <button nz-button nzType="primary" routerLink="/home/teacher">去选择老师</button>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+
 </div>

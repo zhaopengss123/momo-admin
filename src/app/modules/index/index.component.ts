@@ -46,6 +46,7 @@ export class IndexComponent implements OnInit {
   more(url) {
     this.drawer.create({
       nzWidth: 600,
+      nzClosable: false,
       nzContent: ListComponent,
       nzContentParams: { url }
     })
