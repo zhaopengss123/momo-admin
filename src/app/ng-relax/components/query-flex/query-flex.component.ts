@@ -46,6 +46,7 @@ export class QueryFlexComponent implements OnInit {
         this.formGroup.addControl(res.key, this.fb.control(typeof res.default !== 'undefined' ? res.default : null));
       }
       if (res.type === 'select' || res.type === 'radio' || res.type === 'tag') {
+        res.options = res.options || [];
         res.optionKey = res.optionKey || { label: 'name', value: 'id' };
         if (res.optionsUrl) {
           this.cache.get(res.optionsUrl).subscribe(result => {
