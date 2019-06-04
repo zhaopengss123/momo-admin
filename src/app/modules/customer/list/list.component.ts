@@ -184,7 +184,7 @@ export class ListComponent implements OnInit {
     }).afterClose.subscribe(res => {
       if (res && res.isPaymentCard) {
         if (this.checkedData[0].classId) {
-          this.checkedData[0].cardType = 2;
+          this.checkedData[0].cardType = res.cardType;
           this.eaTable._request();
           this.appoint({ studentInfo: this.checkedData[0] });
         } else {

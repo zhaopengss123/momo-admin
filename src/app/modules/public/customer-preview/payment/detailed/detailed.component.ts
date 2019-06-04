@@ -32,7 +32,7 @@ export class DetailedComponent implements OnInit {
     private fb: FormBuilder = new FormBuilder(),
     private format: DatePipe
   ) { 
-    this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({roleId: 4}) }).then(res => this.teacherList = res.data.list);
+    this.http.post('/student/getCollectorAndRecommender').then(res => this.teacherList = res.data.collectorList);
   }
 
   preferential = 0;
@@ -96,7 +96,7 @@ export class DetailedComponent implements OnInit {
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
       params.effectDate && (params.effectDate = this.format.transform(params.effectDate, 'yyyy-MM-dd'));
       Object.keys(params).map(key => { if (params[key] === null || params[key] === '') { delete params[key]; } });
-      this.http.post(url, { paramJson: JSON.stringify(params) }, true).then(res => this.drawerRef.close(params.serviceTypeId ? true : { isPaymentCard: true })).catch(err => this.saveLoading = false);
+      this.http.post(url, { paramJson: JSON.stringify(params) }, true).then(res => this.drawerRef.close(params.serviceTypeId ? true : { isPaymentCard: true, cardType: this.formInfo.type })).catch(err => this.saveLoading = false);
     }
   }
 

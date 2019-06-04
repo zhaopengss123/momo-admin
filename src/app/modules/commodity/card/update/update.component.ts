@@ -13,7 +13,7 @@ import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator'
 })
 export class UpdateComponent implements OnInit {
   
-  @Input() cardTypeInfo: any = {};
+  @Input() cardTypeInfo;
 
   formGroup: FormGroup;
 
@@ -26,7 +26,7 @@ export class UpdateComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.fb.group({
-      cardTypeId: [this.cardTypeInfo.cardTypeId],
+      cardTypeId: [],
       type: [],
       cardTypeName: [, [Validators.required]],
       price: [, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
@@ -43,7 +43,7 @@ export class UpdateComponent implements OnInit {
         this.formGroup.removeControl('day')
       }
     });
-    this.cardTypeInfo.cardTypeId ? this.http.post('') : this.formGroup.patchValue({ type: 1});
+    this.formGroup.patchValue(this.cardTypeInfo || { type: 1});
   }
 
   @ControlValid() valid: (key, type?) => boolean;
