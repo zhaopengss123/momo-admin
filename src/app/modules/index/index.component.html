@@ -1,107 +1,3 @@
-<!-- 
-<div class="box">
-  <div class="logo"><img
-      [src]="info.coverImage || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'" alt="初之光">
-  </div>
-  <h2>{{ info.kindergartenName || '暂无园所名称' }}<i nz-icon type="edit" theme="outline" (click)="showDrawer = true"></i>
-  </h2>
-  <div class="desc">{{ info.introduction || '暂无简介' }}</div>
-  <ul>
-    <li>
-      <i nz-icon type="phone" theme="outline"></i>
-      <span>{{ info.phoneNum || '暂无联系电话' }}</span>
-    </li>
-    <li>
-      <i nz-icon type="environment" theme="outline"></i>
-      <span>{{ info.address || '暂无园所地址' }}</span>
-    </li>
-    <li>
-      <i nz-icon type="mail" theme="outline"></i>
-      <span>{{ info.email || '暂无联系邮箱' }}</span>
-    </li>
-    <li>
-      <i nz-icon type="ie" theme="outline"></i>
-      <span>{{ info.officialWebsite || '暂无园所官网' }}</span>
-    </li>
-  </ul>
-</div>
-
-<nz-drawer [nzVisible]="showDrawer" nzTitle="园所信息" [nzWidth]="420" (nzOnClose)="showDrawer = false">
-  <form nz-form [formGroup]="formGroup">
-    <nz-form-item>
-      <nz-form-label nzRequired>园所Logo</nz-form-label>
-      <nz-form-control>
-        <ea-upload-picture [maxLength]="1" formControlName="coverImage"></ea-upload-picture>
-        <nz-form-explain *ngIf="formGroup.get('coverImage').dirty && formGroup.get('coverImage').hasError('required')">
-          请上传园所Logo！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>园所名称</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="kindergartenName" placeholder="请输入园所名称">
-        <nz-form-explain
-          *ngIf="formGroup.get('kindergartenName').dirty && formGroup.get('kindergartenName').hasError('required')">
-          请输入园所名称！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>园所简介</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="introduction" placeholder="请输入园所简介">
-        <nz-form-explain
-          *ngIf="formGroup.get('introduction').dirty && formGroup.get('introduction').hasError('required')">请输入园所简介！
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>联系电话</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="phoneNum" placeholder="请输入联系电话">
-        <nz-form-explain *ngIf="formGroup.get('phoneNum').dirty && formGroup.get('phoneNum').hasError('required')">
-          请输入联系电话！</nz-form-explain>
-        <nz-form-explain *ngIf="formGroup.get('phoneNum').dirty && formGroup.get('phoneNum').hasError('pattern')">
-          请输入正确的联系电话！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>园所地址</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="address" placeholder="请输入园所地址">
-        <nz-form-explain *ngIf="formGroup.get('address').dirty && formGroup.get('address').hasError('required')">
-          请输入园所地址！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>邮箱地址</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="email" placeholder="请输入邮箱地址">
-        <nz-form-explain *ngIf="formGroup.get('email').dirty && formGroup.get('email').hasError('required')">请输入邮箱地址！
-        </nz-form-explain>
-        <nz-form-explain *ngIf="formGroup.get('email').dirty && formGroup.get('email').hasError('pattern')">请输入正确的邮箱地址！
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>官网地址</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="officialWebsite" placeholder="请输入官网地址">
-        <nz-form-explain
-          *ngIf="formGroup.get('officialWebsite').dirty && formGroup.get('officialWebsite').hasError('required')">
-          请输入官网地址！</nz-form-explain>
-        <nz-form-explain
-          *ngIf="formGroup.get('officialWebsite').dirty && formGroup.get('officialWebsite').hasError('pattern')">
-          请输入正确的官网地址！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-  <div class="drawer-footer">
-    <button nz-button (click)="showDrawer = false">取消</button>
-    <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
-  </div>
-</nz-drawer> -->
-
-
   <div class="header">
     <div class="logo"><div><img [src]="info.coverImage || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'" alt="初之光"></div></div>
 
@@ -119,19 +15,25 @@
         <h4>官网：{{ info.officialWebsite || '暂无园所官网' }}</h4>
       </div>
       <div nz-col nzSpan="6">
-        <button nz-button nzType="primary" nzGhost>编辑</button>
+        <button nz-button nzType="primary" nzGhost (click)="update()">编辑</button>
       </div>
     </div>
   </div>
 
-  <div class="card" nz-row nzGutter="30">
+  <div class="card" nz-row nzGutter="15">
     <div nz-col nzSpan="8">
-      <h2><i nz-icon nzType="team"></i>学籍天数少于x天</h2>
+      <div>
+        <h2><i nz-icon nzType="team"></i>学籍天数少于x天</h2>
+      </div>
     </div>
     <div nz-col nzSpan="8">
-      <h2><i nz-icon nzType="team"></i>学籍有效期少于x天</h2>
+      <div>
+        <h2><i nz-icon nzType="team"></i>学籍有效期少于x天</h2>
+      </div>
     </div>
     <div nz-col nzSpan="8">
-      <h2><i nz-icon nzType="team"></i>x天即将转班/毕业</h2>
+      <div>
+        <h2><i nz-icon nzType="team"></i>x天即将转班/毕业</h2>
+      </div>
     </div>
   </div>

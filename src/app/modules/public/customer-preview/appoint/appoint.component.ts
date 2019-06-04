@@ -32,6 +32,7 @@ export class AppointComponent implements OnInit {
   maxChecked = 0;       /* ? 最大选择天数 */
 
   ngOnInit() {
+    console.log(this.studentInfo)
     this.studentInfo.id = this.studentInfo.id || this.studentInfo.studentId;
     this.studentInfo.classId = this.classId || this.studentInfo.classId;
     /* 如果是日托， 则获取最大选择天数 */

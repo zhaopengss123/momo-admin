@@ -1,0 +1,58 @@
+<form nz-form [formGroup]="formGroup">
+  <nz-form-item>
+    <nz-form-label nzRequired>园所Logo</nz-form-label>
+    <nz-form-control>
+      <ea-upload-picture [maxLength]="1" formControlName="coverImage"></ea-upload-picture>
+      <nz-form-explain *ngIf="valid('coverImage')">请上传园所Logo！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>园所名称</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="kindergartenName" placeholder="请输入园所名称">
+      <nz-form-explain *ngIf="valid('kindergartenName')">请输入园所名称！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>园所简介</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="introduction" placeholder="请输入园所简介">
+      <nz-form-explain *ngIf="valid('introduction')">请输入园所简介！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>联系电话</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="phoneNum" placeholder="请输入联系电话">
+      <nz-form-explain *ngIf="valid('phoneNum')">请输入联系电话！</nz-form-explain>
+      <nz-form-explain *ngIf="valid('phoneNum', 'pattern')">请输入正确的联系电话！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>园所地址</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="address" placeholder="请输入园所地址">
+      <nz-form-explain *ngIf="valid('address')">请输入园所地址！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>邮箱地址</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="email" placeholder="请输入邮箱地址">
+      <nz-form-explain *ngIf="valid('email')">请输入邮箱地址！</nz-form-explain>
+      <nz-form-explain *ngIf="valid('email', 'pattern')">请输入正确的邮箱地址！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>官网地址</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="officialWebsite" placeholder="请输入官网地址">
+      <nz-form-explain *ngIf="valid('officialWebsite')">请输入官网地址！</nz-form-explain>
+      <nz-form-explain *ngIf="valid('officialWebsite', 'pattern')">请输入正确的官网地址！</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<div class="drawer-footer">
+  <button nz-button (click)="close()">取消</button>
+  <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
+</div>
