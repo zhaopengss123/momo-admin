@@ -40,7 +40,7 @@ export class IndexComponent implements OnInit {
       nzTitle: '园所信息',
       nzContent: UpdateComponent,
       nzContentParams: { info: this.info }
-    }).afterClose.subscribe(res => this.info = res);
+    }).afterClose.subscribe(res => res && (this.info = res));
   }
 
   more(url) {

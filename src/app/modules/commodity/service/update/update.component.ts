@@ -44,15 +44,29 @@ export class UpdateComponent implements OnInit {
   @ControlValid() valid: (key, type?) => boolean;
 
   saveLoading: boolean;
-
-  @DrawerSave('/commodity/service/saveService') save: () => void;
+  save() {
+    if (this.formGroup.invalid) {
+      Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
+    } else {
+      this.saveLoading = true;
+      let params = JSON.parse(JSON.stringify(this.formGroup.value));
+      params.serviceDesc = encodeURIComponent(params.serviceDesc);
+      params.serviceName = encodeURIComponent(params.serviceName);
+      this.http.post('/commodity/service/saveService', {
+        paramJson: JSON.stringify(params)
+      }, true).then(res => {
+        this.saveLoading = false;
+        this.drawerRef.close(true);
+      })
+    }
+  }
 
   @DrawerClose() close: () => void;
 
 
   private _lowestDiscountValidator = (control: AbstractControl): { [key: string]: any } | null => {
     try {
-      return Number(control.value) >= 0 && Number(control.value) <= 1 ? null : { error: true };
+      return Number(control.value) >= 0 && Number(control.value) <= 1 && (/^\d+(\.\d{1,2})?$/).test(control.value) ? null : { error: true };
     } catch (error) {
       return null;
     }

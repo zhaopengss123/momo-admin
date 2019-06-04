@@ -81,8 +81,7 @@ export class ListComponent implements OnInit {
       key     : 'studentId',
       type    : 'search',
       placeholder: '根据学号、姓名、手机号查询',
-      searchUrl: `${this.domainEs}/czg/fullQuery`,
-      isHide  : true
+      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label   : '所属销售',

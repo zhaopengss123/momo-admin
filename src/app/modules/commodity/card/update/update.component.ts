@@ -1,10 +1,9 @@
-import { DrawerSave } from './../../../../ng-relax/decorators/drawer/save.decorator';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { HttpService } from './../../../../ng-relax/services/http.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-update',
@@ -53,13 +52,28 @@ export class UpdateComponent implements OnInit {
   @ControlValid() valid: (key, type?) => boolean;
 
   saveLoading: boolean;
-  @DrawerSave('/commodity/card/saveCard') save: () => void;
+  save() {
+    if (this.formGroup.invalid) {
+      Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
+    } else {
+      this.saveLoading = true;
+      let params = JSON.parse(JSON.stringify(this.formGroup.value));
+      params.cardDesc = encodeURIComponent(params.cardDesc);
+      params.cardTypeName = encodeURIComponent(params.cardTypeName);
+      this.http.post('/commodity/card/saveCard', {
+        paramJson: JSON.stringify(params)
+      }, true).then(res => {
+        this.saveLoading = false;
+        this.drawerRef.close(true);
+      })
+    }
+  }
 
   @DrawerClose() close: () => void;
 
   private _lowestDiscountValidator = (control: AbstractControl): { [key: string]: any } | null => {
     try {
-      return Number(control.value) >= 0 && Number(control.value) <= 1 ? null : { error: true }; 
+      return Number(control.value) >= 0 && Number(control.value) <= 1 && (/^\d+(\.\d{1,2})?$/).test(control.value) ? null : { error: true }; 
     } catch (error) {
       return null;
     }

@@ -19,7 +19,10 @@
       <p>老师接待人数：{{ classes.teacherReceptionNum }}</p>
     </div>
     <div class="main">
-
+      <div class="teacher" *ngFor="let teacher of classes.teachers">
+        {{ teacher.name }}
+        {{ teacher.receptionNum }}
+      </div>
     </div>
   </div>
 </div>

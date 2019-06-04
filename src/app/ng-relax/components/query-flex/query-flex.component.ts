@@ -88,7 +88,7 @@ export class QueryFlexComponent implements OnInit {
       }
       if (res.type === 'datepicker') {
         if (queryForm[res.key]) {
-          queryForm[res.key] = this.format.transform(queryForm[res.key].getTime(), 'yyyy-MM-dd');
+          queryForm[res.key] = queryForm[res.key] instanceof Date ? this.format.transform(queryForm[res.key].getTime(), 'yyyy-MM-dd') : queryForm[res.key];
         }
       }
       if (res.type === 'monthpicker') {

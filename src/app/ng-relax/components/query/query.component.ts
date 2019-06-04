@@ -109,7 +109,7 @@ export class QueryComponent implements OnInit {
     this.node.map((res: any) => {
       if (res.type === 'datepicker') {
         if (queryForm[res.key]) {
-          queryForm[res.key] = this.datePipe.transform(queryForm[res.key].getTime(), 'yyyy-MM-dd');
+          queryForm[res.key] = queryForm[res.key] instanceof Date ? this.datePipe.transform(queryForm[res.key].getTime(), 'yyyy-MM-dd') : queryForm[res.key];
         }
       }
       if (res.type === 'monthpicker') {
