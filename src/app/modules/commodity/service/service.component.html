@@ -9,7 +9,6 @@
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务类型</nz-form-label>
             <nz-form-control [nzSm]="8" [nzXs]="24">
-<<<<<<< HEAD
                 <nz-select style="width: 183px;" formControlName="selectedVal" nzAllowClear nzPlaceHolder="请选择服务类型">
                   <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
                 </nz-select>
@@ -18,11 +17,6 @@
                 >
                 请选择服务类型
                 </nz-form-explain>
-=======
-              <nz-select style="width: 183px;" formControlName="selectedVal" nzAllowClear nzPlaceHolder="Choose">
-                <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
-              </nz-select>
->>>>>>> dev
             </nz-form-control>
           </nz-form-item>
 
@@ -62,7 +56,7 @@
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
             <nz-form-control [nzSm]="8" [nzXs]="24">
               <nz-input-group nzAddOnAfter="折">
-                <input formControlName="lowestDiscount" nz-input placeholder="请输入0.1-1" />
+                <input formControlName="lowestDiscount" nz-input placeholder="请输入0-10" />
               </nz-input-group>
               <nz-form-explain
                 *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value == ''">

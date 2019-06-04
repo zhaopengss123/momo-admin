@@ -102,7 +102,6 @@
             <nz-form-explain *ngIf="drawerFormModel.get('introduce')?.dirty && drawerFormModel.get('introduce')?.errors"
               style="margin-top: 10px;">
               学籍项介绍不能为空
-<<<<<<< HEAD
               </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -150,50 +149,6 @@
               <nz-form-explain
                 *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value == ''"
               >
-=======
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </ng-form>
-      <!--有限次学籍end-->
-    
-      <!--不限次学籍-->
-      <ng-form *ngIf="flag == '2'" nz-form [formGroup]="monthFormModel">
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>学籍类型</nz-form-label>
-          <nz-form-control [nzSm]="14" [nzXs]="24">
-            <nz-radio-group formControlName="studentStatusType">
-              <label (click)='switchFlag(1)' class="nz_select_button" nz-radio-button nzValue="1"
-                [nzDisabled]="!openIsSelect">
-                <p>有限次学籍</p>
-                <p>支持创建多个服务集合有限次数的次学籍</p>
-              </label>
-              <label (click)='switchFlag(2)' class="nz_select_button" nz-radio-button nzValue="2">
-                <p>不限次学籍</p>
-                <p>支持创建多个服务集合不限次数的学籍：月、年等</p>
-              </label>
-            </nz-radio-group>
-          </nz-form-control>
-        </nz-form-item>
-    
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>内容</nz-form-label>
-          <nz-form-control [nzSm]="14" [nzXs]="24">
-            <nz-input-group nzAddOnAfter="月">
-              <nz-select formControlName="selectedValue" style="width: 120px;" nzAllowClear nzPlaceHolder="请选择月数">
-                <nz-option *ngFor="let list of contentList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
-              </nz-select>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-    
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
-          <nz-form-control [nzSm]="14" [nzXs]="24">
-            <input nz-input type="text" formControlName="name" placeholder="长度为2-30个字" />
-            <nz-form-explain
-              *ngIf="monthFormModel.get('name')?.dirty && monthFormModel.get('name')?.errors && monthFormModel.get('name').value == ''">
->>>>>>> dev
               名称不能为空
             </nz-form-explain>
             <nz-form-explain
