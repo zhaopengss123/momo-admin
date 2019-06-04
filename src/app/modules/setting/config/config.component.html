@@ -2,51 +2,59 @@
     <ng-template #extraTemplate>
         <button nz-button nzType="primary" (click)="save()">保存</button>
     </ng-template>
-    <form nz-form [formGroup]="businessConfigForm">
+    <form nz-form [formGroup]="formGroup">
         <div nz-row nzGutter="8">
-            <div nz-col nzSpan="12" [nzXl]="8">
+            <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>营业开始时间</nz-form-label>
                     <nz-form-control>
                         <nz-time-picker [nzDisabledHours]="disabledHours" formControlName="startTime" nzFormat="HH:mm" nzPlaceHolder="请选择营业开始时间"></nz-time-picker>
+                        <nz-form-explain *ngIf="valid('startTime')">请选择营业开始时间！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div nz-col nzSpan="12" [nzXl]="8">
+            <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>营业截止时间</nz-form-label>
                     <nz-form-control>
                         <nz-time-picker [nzDisabledHours]="disabledHours" formControlName="endTime" nzFormat="HH:mm" nzPlaceHolder="请选择营业截止时间"></nz-time-picker>
+                        <nz-form-explain *ngIf="valid('endTime')">请选择营业截止时间！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
         <div nz-row nzGutter="8">
-            <div nz-col nzSpan="12" [nzXl]="8">
+            <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>日托天数剩余提醒</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="0" formControlName="dayCareRemind" id="dayCareRemind">
+                        <input nz-input placeholder="请输入日托天数剩余提醒" formControlName="dayCareRemind">
+                        <nz-form-explain *ngIf="valid('dayCareRemind')">请输入日托天数剩余提醒！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('dayCareRemind', 'pattern')">请输入正确的日托天数剩余提醒！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
         <div nz-row nzGutter="8">
-            <div nz-col nzSpan="12" [nzXl]="8">
+            <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>有效期天数剩余提醒</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="0" formControlName="usefulLifeRemind" id="usefulLifeRemind">
+                        <input nz-input placeholder="请输入有效期天数剩余提醒" formControlName="usefulLifeRemind">
+                        <nz-form-explain *ngIf="valid('usefulLifeRemind')">请输入日托天数剩余提醒！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('usefulLifeRemind', 'pattern')">请输入正确的日托天数剩余提醒！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
         <div nz-row nzGutter="8">
-            <div nz-col nzSpan="12" [nzXl]="8">
+            <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>转班或即将毕业剩余天数提醒</nz-form-label>
                     <nz-form-control>
-                        <input nz-input placeholder="0" formControlName="usefulLifeRemind" id="usefulLifeRemind">
+                        <input nz-input placeholder="请输入转班或即将毕业剩余天数提醒" formControlName="toGraduateRemind">
+                        <nz-form-explain *ngIf="valid('toGraduateRemind')">请输入日托天数剩余提醒！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('toGraduateRemind', 'pattern')">请输入正确的日托天数剩余提醒！</nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
