@@ -6,9 +6,11 @@ import { IndexComponent } from './index.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { Routes, RouterModule } from '@angular/router';
 import { UpdateComponent } from './update/update.component';
+import { ListComponent } from './list/list.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
-  declarations: [IndexComponent, UpdateComponent],
+  declarations: [IndexComponent, UpdateComponent, ListComponent, PreviewComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -20,6 +22,6 @@ import { UpdateComponent } from './update/update.component';
     NgRelaxModule,
     NgZorroAntdModule
   ],
-  entryComponents: [UpdateComponent]
+  entryComponents: [UpdateComponent, ListComponent]
 })
 export class IndexModule { }

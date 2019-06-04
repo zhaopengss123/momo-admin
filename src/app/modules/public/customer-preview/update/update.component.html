@@ -22,10 +22,9 @@
     </div>
     <div nz-col nzSpan="12">
       <nz-form-item>
-        <nz-form-label nzRequired [nzSpan]="5">昵称</nz-form-label>
+        <nz-form-label [nzSpan]="5">昵称</nz-form-label>
         <nz-form-control [nzSpan]="19">
           <input nz-input placeholder="请输入宝宝昵称" formControlName="nickName">
-          <nz-form-explain *ngIf="valid('nickName')">请输入宝宝昵称！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </div>

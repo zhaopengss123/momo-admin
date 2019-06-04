@@ -37,10 +37,10 @@ export class UpdateComponent implements OnInit {
 
     this.formGroup.controls['type'].valueChanges.subscribe(type => {
       if (type == 1) {
-        this.formGroup.addControl('day', this.fb.control(this.cardTypeInfo.day || null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
+        this.formGroup.addControl('day', this.fb.control(this.cardTypeInfo ? this.cardTypeInfo.day : null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
         this.formGroup.removeControl('month')
       } else {
-        this.formGroup.addControl('month', this.fb.control(this.cardTypeInfo.month || null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
+        this.formGroup.addControl('month', this.fb.control(this.cardTypeInfo ? this.cardTypeInfo.month : null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]))
         this.formGroup.removeControl('day')
       }
     });

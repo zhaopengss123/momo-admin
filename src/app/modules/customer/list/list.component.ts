@@ -145,10 +145,6 @@ export class ListComponent implements OnInit {
       this.queryNode[1].options = res.data.memberFromList;
       this.queryNode[2].options = res.data.classList;
       this.queryNode[3].options = res.data.cardList;
-      res.data.memberFromList.map(item => this.queryItems.memberFromList[item.memberFromId] = item.fromName);
-      res.data.classList.map(item => this.queryItems.classList[item.classId] = item.className);
-      res.data.cardList.map(item => this.queryItems.cardList[item.id] = item.name);
-      res.data.teacherList.map(item => this.queryItems.teacherList[item.teacherId] = item.teacherName);
     });
     this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[6].options = res.data.list);
   }
@@ -161,7 +157,18 @@ export class ListComponent implements OnInit {
     this.eaTable.request(params);
   }
 
-  @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number, type: string }?) => void;
+  update(obj?: {id: number, type: string}) {
+    this.drawer.create({
+      nzWidth: 720,
+      nzTitle: '学员信息',
+      nzBodyStyle: { 'padding-bottom': '53px' },
+      nzContent: UpdateComponent,
+      nzContentParams: obj ? { id: obj.id, type: obj.type } : {}
+    }).afterClose.subscribe(res => {
+      res.type == 'isReserve' && (this.checkedData[0].classId = res.classId);
+      this.eaTable._request();
+    })
+  }
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
 

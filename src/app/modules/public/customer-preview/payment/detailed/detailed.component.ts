@@ -41,7 +41,7 @@ export class DetailedComponent implements OnInit {
     this.formInfo = Object.assign(this.cardInfo, this.serviceInfo);
     let controls = {
       studentId: [this.id],
-      studentName: [],
+      studentName: [this.studentInfo.studentName],
       price: [this.formInfo.price],
       discount: [, [this._lowestDiscountValidator]],
       salespersonId: [, [Validators.required]],
@@ -54,7 +54,7 @@ export class DetailedComponent implements OnInit {
         cardTypeName: [this.formInfo.cardTypeName],
         freeDay: [, [Validators.pattern(/^[1-9]\d*$/)]],
         payMethod: [1],
-        studentNum: [, [Validators.required]]
+        studentNum: [{ value: this.studentInfo.studentNum, disabled: !!this.studentInfo.studentNum}, [Validators.required]]
       }, this.formInfo.type == 1 ? {
         effectDate: [, [Validators.required]],
         expireDate: [],
@@ -76,7 +76,6 @@ export class DetailedComponent implements OnInit {
       this.preferential = this.formInfo.price - this.formInfo.price * discount;
     })
 
-    this.formGroup.patchValue({ studentName: this.studentInfo.studentName });
     if (this.formInfo.cardTypeName && this.formInfo.type == 1) {
       let [y, m, d] = this.studentInfo.birthday.split('-');
       let expireDate = `${Number(y) + 4}-${Number(m) < 10 ? '0' + Number(m) : m}-${m == 2 && d == 29 ? 28 : d}`;

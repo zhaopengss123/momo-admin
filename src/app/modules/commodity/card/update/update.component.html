@@ -5,7 +5,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>学籍类型</nz-form-label>
         <nz-form-control>
-          <nz-radio-group formControlName="type" [nzButtonStyle]="'solid'">
+          <nz-radio-group formControlName="type" [nzButtonStyle]="'solid'" [nzDisabled]="!!cardTypeInfo">
             <label nz-radio-button [nzValue]="1"><p>有限次学籍</p>
             <p>支持创建多个服务集合有限次数的次学籍</p></label>
             <label nz-radio-button [nzValue]="2"><p>不限次学籍</p>
