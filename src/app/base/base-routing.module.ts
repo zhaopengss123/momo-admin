@@ -107,12 +107,6 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
-            path: 'studentstatus',
-            data: { title: '学籍项' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/commodity/student-status/student-status.module#StudentStatusModule'
-          },
-          {
             path: 'card',
             data: { title: '卡项' },
             canLoad: [AuthGuardService],

@@ -1,93 +1,87 @@
-<!-- <nz-drawer [nzClosable]="false" [nzOffsetX]="childrenVisible ? 180 : 0" [nzWidth]="600" [nzVisible]="visible"
-  nzTitle="添加服务" (nzOnClose)="close()"> -->
-  <ng-form #ngForm nz-form [formGroup]="formModel">
-    <div nz-row>
-      <div nz-col nzSpan="24">
-
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务类型</nz-form-label>
-          <nz-form-control [nzSm]="8" [nzXs]="24">
-              <nz-select style="width: 183px;" formControlName="selectedVal" nzAllowClear nzPlaceHolder="请选择服务类型">
-                <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
-              </nz-select>
-              <nz-form-explain
-              *ngIf="formModel.get('selectedVal').dirty && formModel.get('selectedVal')?.errors"
-              >
-              请选择服务类型
-              </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
-          <nz-form-control [nzSm]="8" [nzXs]="24">
-            <input formControlName="name" nz-input placeholder="长度为2-30个字" />
+<ng-form #ngForm nz-form [formGroup]="formGroup">
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>服务类型</nz-form-label>
+        <nz-form-control>
+            <nz-select style="width: 324px;" formControlName="serviceTypeCategoryId" nzAllowClear nzPlaceHolder="请选择服务类型">
+              <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
+            </nz-select>
             <nz-form-explain
-              *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value == ''">
-              名称不能为空
+            *ngIf="formGroup.get('serviceTypeCategoryId').dirty && formGroup.get('serviceTypeCategoryId')?.errors"
+            >
+            请选择服务类型
             </nz-form-explain>
-            <nz-form-explain
-              *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value != ''">
-              名称长度必须为2-30
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
-          <nz-form-control [nzSm]="8" [nzXs]="24">
-            <nz-input-group nzAddOnAfter="元">
-              <input formControlName="price" nz-input placeholder="请输入售价" />
-            </nz-input-group>
-            <nz-form-explain
-              *ngIf="formModel.get('price').dirty && formModel.get('price')?.errors && formModel.get('price').value == ''">
-              售价不能为空
-            </nz-form-explain>
-            <nz-form-explain
-              *ngIf="formModel.get('price')?.dirty && formModel.get('price')?.errors && formModel.get('price').value != ''">
-              请输入正确的售价
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
-          <nz-form-control [nzSm]="8" [nzXs]="24">
-            <nz-input-group nzAddOnAfter="折">
-              <input formControlName="lowestDiscount" nz-input placeholder="请输入0-10" />
-            </nz-input-group>
-            <nz-form-explain
-              *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value == ''">
-              最低折扣不能为空
-            </nz-form-explain>
-            <nz-form-explain
-              *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value != ''">
-              请输入正确的折扣
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务介绍</nz-form-label>
-          <nz-form-control [nzSm]="18" [nzXs]="24">
-            <quill-editor formControlName="introduce" [style]="{height: '200px'}"
-              placeholder="请输入该服务的介绍、使用/售卖须知，100字以内"></quill-editor>
-            <nz-form-explain style="margin-top: 10px;"
-              *ngIf="formModel.get('introduce').dirty && formModel.get('introduce').hasError('required')">服务介绍不能为空
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
+        </nz-form-control>
+      </nz-form-item>
     </div>
-  </ng-form>
-  <div class="footer">
-    <button type="button" (click)="addSubmit(0)" class="ant-btn ant-btn-primary" style="margin-right: 8px;"><span>提交</span></button>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>名称</nz-form-label>
+        <nz-form-control>
+          <input formControlName="serviceName" nz-input placeholder="长度为2-30个字" />
+          <nz-form-explain
+            *ngIf="formGroup.get('serviceName').dirty && formGroup.get('serviceName')?.errors && formGroup.get('serviceName').value == ''">
+            名称不能为空
+          </nz-form-explain>
+          <nz-form-explain
+            *ngIf="formGroup.get('serviceName').dirty && formGroup.get('serviceName')?.errors && formGroup.get('serviceName').value != ''">
+            名称长度必须为2-30
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12" style="padding-right: 10px;">
+      <nz-form-item>
+        <nz-form-label nzRequired>售价</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzAddOnAfter="元">
+            <input formControlName="price" nz-input placeholder="请输入售价" />
+          </nz-input-group>
+          <nz-form-explain
+            *ngIf="formGroup.get('price').dirty && formGroup.get('price')?.errors && formGroup.get('price').value == ''">
+            售价不能为空
+          </nz-form-explain>
+          <nz-form-explain
+            *ngIf="formGroup.get('price')?.dirty && formGroup.get('price')?.errors && formGroup.get('price').value != ''">
+            请输入正确的售价
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>允许最低折扣</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzAddOnAfter="折">
+            <input formControlName="lowestDiscount" nz-input placeholder="请输入0-1" />
+          </nz-input-group>
+          <nz-form-explain
+            *ngIf="formGroup.get('lowestDiscount')?.dirty && formGroup.get('lowestDiscount')?.errors && formGroup.get('lowestDiscount').value == ''">
+            最低折扣不能为空
+          </nz-form-explain>
+          <nz-form-explain
+            *ngIf="formGroup.get('lowestDiscount')?.dirty && formGroup.get('lowestDiscount')?.errors && formGroup.get('lowestDiscount').value != ''">
+            请输入正确的折扣
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nzRequired>服务介绍</nz-form-label>
+        <nz-form-control>
+          <quill-editor formControlName="serviceDesc" [style]="{height: '200px'}"
+            placeholder="请输入该服务的介绍、使用/售卖须知，100字以内"></quill-editor>
+          <nz-form-explain style="margin-top: 10px;"
+            *ngIf="formGroup.get('serviceDesc').dirty && formGroup.get('serviceDesc').hasError('required')">服务介绍不能为空
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </div>
-  <!-- <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
-    <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
-      <ng-template #item let-item>
-        <nz-list-item [nzContent]="item"></nz-list-item>
-      </ng-template>
-    </nz-list>
-  </nz-drawer> -->
-<!-- </nz-drawer> -->
+</ng-form>
+<div class="drawer-footer">
+  <button nz-button (click)="close()">取消</button>
+  <button nz-button type="button" [nzLoading]="saveLoading" (click)="save()" class="ant-btn ant-btn-primary"><span>提交</span></button>
+</div>
