@@ -100,11 +100,6 @@ export const MenuConfig = [
     icon  : 'shopping',
     children : [
       {
-        title : '学籍项',
-        key   : '/home/commodity/studentstatus',
-        isLeaf: true
-      },
-      {
         title : '卡项',
         key   : '/home/commodity/card',
         isLeaf: true

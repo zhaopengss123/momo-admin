@@ -1,104 +1,10 @@
 <div class="container">
-  
-  <nz-drawer [nzClosable]="false" [nzOffsetX]="childrenVisible ? 180 : 0" [nzWidth]="600" [nzVisible]="visible"
-    nzTitle="添加服务" (nzOnClose)="close()">
-    <ng-form #ngForm nz-form [formGroup]="formModel">
-      <div nz-row>
-        <div nz-col nzSpan="24">
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务类型</nz-form-label>
-            <nz-form-control [nzSm]="8" [nzXs]="24">
-                <nz-select style="width: 183px;" formControlName="selectedVal" nzAllowClear nzPlaceHolder="请选择服务类型">
-                  <nz-option *ngFor="let list of optionList" [nzValue]="list.id" [nzLabel]="list.name"></nz-option>
-                </nz-select>
-                <nz-form-explain
-                *ngIf="formModel.get('selectedVal').dirty && formModel.get('selectedVal')?.errors"
-                >
-                请选择服务类型
-                </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>名称</nz-form-label>
-            <nz-form-control [nzSm]="8" [nzXs]="24">
-              <input formControlName="name" nz-input placeholder="长度为2-30个字" />
-              <nz-form-explain
-                *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value == ''">
-                名称不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="formModel.get('name').dirty && formModel.get('name')?.errors && formModel.get('name').value != ''">
-                名称长度必须为2-30
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>售价</nz-form-label>
-            <nz-form-control [nzSm]="8" [nzXs]="24">
-              <nz-input-group nzAddOnAfter="元">
-                <input formControlName="price" nz-input placeholder="请输入售价" />
-              </nz-input-group>
-              <nz-form-explain
-                *ngIf="formModel.get('price').dirty && formModel.get('price')?.errors && formModel.get('price').value == ''">
-                售价不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="formModel.get('price')?.dirty && formModel.get('price')?.errors && formModel.get('price').value != ''">
-                请输入正确的售价
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>允许最低折扣</nz-form-label>
-            <nz-form-control [nzSm]="8" [nzXs]="24">
-              <nz-input-group nzAddOnAfter="折">
-                <input formControlName="lowestDiscount" nz-input placeholder="请输入0.1-1" />
-              </nz-input-group>
-              <nz-form-explain
-                *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value == ''">
-                最低折扣不能为空
-              </nz-form-explain>
-              <nz-form-explain
-                *ngIf="formModel.get('lowestDiscount')?.dirty && formModel.get('lowestDiscount')?.errors && formModel.get('lowestDiscount').value != ''">
-                请输入正确的折扣
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>服务介绍</nz-form-label>
-            <nz-form-control [nzSm]="18" [nzXs]="24">
-              <quill-editor formControlName="introduce" [style]="{height: '200px'}"
-                placeholder="请输入该服务的介绍、使用/售卖须知，100字以内"></quill-editor>
-              <nz-form-explain style="margin-top: 10px;"
-                *ngIf="formModel.get('introduce').dirty && formModel.get('introduce').hasError('required')">服务介绍不能为空
-              </nz-form-explain>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-    </ng-form>
-    <div class="footer">
-      <button type="button" (click)="addSubmit(0)" class="ant-btn ant-btn-primary" style="margin-right: 8px;"><span>提交</span></button>
-    </div>
-    <nz-drawer [nzClosable]="false" [nzVisible]="childrenVisible" nzTitle="Food" (nzOnClose)="closeChildren()">
-      <nz-list [nzDataSource]="vegetables" [nzRenderItem]="item">
-        <ng-template #item let-item>
-          <nz-list-item [nzContent]="item"></nz-list-item>
-        </ng-template>
-      </nz-list>
-    </nz-drawer>
-  </nz-drawer>
 
   <ea-query-flex [node]="queryNode" (onSubmit)="table.request($event)"></ea-query-flex>
   
   <nz-divider></nz-divider>
 
-  <button nz-button nzType="primary" (click)="open()" style="margin-bottom: 16px;">添加服务</button>
+  <button nz-button nzType="primary" (click)="update()" style="margin-bottom: 16px;">添加服务</button>
 
   <ea-table #table url="/commodity/service/serviceTypeList"
     [thead]="['名称','服务类型','最低折扣','创建人','创建时间','售价','销量','状态','操作']" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
@@ -113,7 +19,7 @@
       <td>{{ data.count }}</td>
       <td>{{ data.isOnline == 1 ? '已上架' : '未上架' }}</td>
       <td>
-        <a (click)="open(data)">编辑</a>
+        <a (click)="update({cardTypeInfo: data})">编辑</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a (click)="upperShelf(data.serviceTypeId)">上架</a>
         <nz-divider nzType="vertical"></nz-divider>

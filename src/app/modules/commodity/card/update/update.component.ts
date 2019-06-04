@@ -32,6 +32,7 @@ export class UpdateComponent implements OnInit {
       price: [, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       lowestDiscount: [, [Validators.required, this._lowestDiscountValidator]],
       cardDesc: [, [Validators.required]],
+      isOnline: [1]                                                             //默认上架
     });
 
     this.formGroup.controls['type'].valueChanges.subscribe(type => {

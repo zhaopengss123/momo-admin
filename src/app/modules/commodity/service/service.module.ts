@@ -5,9 +5,10 @@ import { ServiceComponent } from './service.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { QuillModule } from 'ngx-quill';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
-  declarations: [ServiceComponent],
+  declarations: [ServiceComponent, UpdateComponent],
   imports: [
     CommonModule,
     NgZorroAntdModule,
@@ -20,5 +21,6 @@ import { QuillModule } from 'ngx-quill';
     NgRelaxModule,
     QuillModule.forRoot()
   ],
+  entryComponents: [UpdateComponent]
 })
 export class ServiceModule { }
