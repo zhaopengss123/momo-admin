@@ -132,7 +132,7 @@ export class AddComponent implements OnInit {
         content: JSON.stringify(content),
         eventCheckAuth: this.eventInfo.eventCheckAuth,
         pushStatus: this.eventInfo.pushStatus
-      }) }).then(res => {
+      }) }, true).then(res => {
         this.drawerRef.close(true);
         this.saveLoading = false;
       }).catch(err => this.saveLoading = false);

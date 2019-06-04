@@ -31,10 +31,10 @@
       </nz-list-item>
     </ng-template>
     <ng-template #pagination>
-      <nz-pagination [nzPageIndex]="queryParams.pageNo" [nzTotal]="queryParams.totalCount" [nzShowTotal]="rangeTemplate"
+      <nz-pagination [nzPageIndex]="queryParams.pageNo" *ngIf="queryParams.totalCount" [nzTotal]="queryParams.totalCount" [nzShowTotal]="rangeTemplate"
         (nzPageIndexChange)="loadData($event)"></nz-pagination>
       <ng-template #rangeTemplate let-range="range" let-total>
-        当前：{{ range[0] }}-{{ range[1] }} 共 {{ total }} 条
+        从 {{ range[0] }} 到 {{ range[1]}} 条记录 / 共 {{ total }} 条记录
       </ng-template>
     </ng-template>
   </nz-list>

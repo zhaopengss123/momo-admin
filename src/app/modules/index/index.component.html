@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="box">
   <div class="logo"><img
       [src]="info.coverImage || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'" alt="初之光">
@@ -99,4 +99,39 @@
     <button nz-button (click)="showDrawer = false">取消</button>
     <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
   </div>
-</nz-drawer>
+</nz-drawer> -->
+
+
+  <div class="header">
+    <div class="logo"><div><img [src]="info.coverImage || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'" alt="初之光"></div></div>
+
+    <div class="info" nz-row>
+      <div nz-col nzSpan="6">
+        <h2>{{ info.kindergartenName || '暂无园所名称' }}</h2>
+        <p>{{ info.introduction || '暂无简介' }}</p>
+      </div>
+      <div nz-col nzSpan="6">
+        <h4>地址：{{ info.address || '暂无园所地址' }}</h4>
+        <h4>电话：{{ info.phoneNum || '暂无联系电话' }}</h4>
+      </div>
+      <div nz-col nzSpan="6">
+        <h4>邮箱：{{ info.email || '暂无联系邮箱' }}</h4>
+        <h4>官网：{{ info.officialWebsite || '暂无园所官网' }}</h4>
+      </div>
+      <div nz-col nzSpan="6">
+        <button nz-button nzType="primary" nzGhost>编辑</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" nz-row nzGutter="30">
+    <div nz-col nzSpan="8">
+      <h2><i nz-icon nzType="team"></i>学籍天数少于x天</h2>
+    </div>
+    <div nz-col nzSpan="8">
+      <h2><i nz-icon nzType="team"></i>学籍有效期少于x天</h2>
+    </div>
+    <div nz-col nzSpan="8">
+      <h2><i nz-icon nzType="team"></i>x天即将转班/毕业</h2>
+    </div>
+  </div>

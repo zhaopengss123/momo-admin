@@ -65,6 +65,12 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/setting/role/role.module#RoleModule'
           },
           {
+            path: 'monitor',
+            data: { title: '监控管理' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/setting/monitor/monitor.module#MonitorModule'
+          },
+          {
             path: 'config',
             data: { title: '基础设置' },
             canLoad: [AuthGuardService],
@@ -91,12 +97,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'monitor',
-        data: { title: '监控管理' },
-        canLoad: [AuthGuardService],
-        loadChildren: 'src/app/modules/monitor/monitor.module#MonitorModule'
-      },
-      {
         path: 'customer',
         data: { title: '学员管理' },
         canLoad: [AuthGuardService],
@@ -111,6 +111,12 @@ const routes: Routes = [
             data: { title: '学籍项' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/commodity/student-status/student-status.module#StudentStatusModule'
+          },
+          {
+            path: 'card',
+            data: { title: '卡项' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/commodity/card/card.module#CardModule'
           },
           {
             path: 'service',

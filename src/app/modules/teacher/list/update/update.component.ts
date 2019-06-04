@@ -1,15 +1,16 @@
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
-import { GetList } from 'src/app/ng-relax/decorators/getList.decorator';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
+import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
+import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
 
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
-  styleUrls: ['./update.component.scss']
+  styleUrls: ['./update.component.less']
 })
 export class UpdateComponent implements OnInit {
 
@@ -17,98 +18,57 @@ export class UpdateComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  roleList: any;
+  roleList: any[] = [];
   classList: any[] = [];
-  @GetList('/teacher/getMenus') menuList: any;
-
-  roleLevel: number;
-  password: string;
 
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
     private drawerRef: NzDrawerRef<boolean>
   ) { 
-    typeof this.roleList === 'function' && this.roleList();
-    typeof this.menuList === 'function' && this.menuList();
-    this.http.post('/message/getClasses', {}, false).then(res => this.classList = res.data);
-    this.http.post('/teacher/getRoleList', {}, false).then(res => this.roleList = res.data);
+    this.http.post('/message/getClasses').then(res => this.classList = res.data);
+    this.http.post('/teacher/getRoleList').then(res => this.roleList = res.data);
+  }
+
+  teacherInfo: any = {};
+  ngOnInit() {
     this.formGroup = this.fb.group({
       id: [this.id],
-      userId: [],
       mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)], [this._mobilePhoneAsyncValidator]],
       photoUrl: [, [Validators.required]],
       name: [, [Validators.required]],
       sex: ['1'],
       roleId: [, [Validators.required]],
-      code: [],
-      classId: [],
-      //menuIds: [],
-      receptionNum: [],
-      idCard:[, [Validators.required]],
-      birthday:[,[Validators.required]],
-      eMail: [],
+      idCard: [, [Validators.required, Validators.pattern(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/)]],
+      birthday: [, [Validators.required]],
+      eMail: [, [Validators.pattern(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)]],
       homeAddress: [],
       entryTime: [, [Validators.required]],
       quitTime: [],
       status: [, [Validators.required]],
-      isGovernor: [],
     });
-    console.log(this.formGroup.value.roleId );
-    this.formGroup.get('roleId').valueChanges.subscribe(roleId => {
-
-      if (roleId) {
-        this.roleList.map(role => {
-          if (role.id === roleId) {
-            this.roleLevel = role.level;
-            if (role.level <= 5) {
-              this.formGroup.addControl('realPassword', this.fb.control(this.password || null, [Validators.required, Validators.minLength(6)]));
-              this.formGroup.addControl('enterPassword', this.fb.control(this.password || null, [Validators.required, this._passwordValidator]));
-            } else {
-              this.formGroup.removeControl('realPassword');
-              this.formGroup.removeControl('enterPassword');
-            }
-          }
-        });
+    this.formGroup.controls['roleId'].valueChanges.subscribe(roleId => {
+      if (roleId == 2) {
+        this.formGroup.addControl('isGovernor', this.fb.control(this.teacherInfo.isGovernor || null, [Validators.required]));
+        this.formGroup.addControl('classId', this.fb.control(this.teacherInfo.classId || null));
+        this.formGroup.addControl('receptionNum', this.fb.control(this.teacherInfo.receptionNum || null, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]));
+      } else {
+        this.formGroup.removeControl('isGovernor');
+        this.formGroup.removeControl('classId');
+        this.formGroup.removeControl('receptionNum');
       }
-    })
-  }
+    });
 
-  ngOnInit() {
     this.id && this.http.post('/teacher/getTeacherInfo', { id: this.id }, false).then(res => {
-      let teacherInfo = res.data;
-      //this.password = teacherInfo.realPassword;
-      //teacherInfo.enterPassword = teacherInfo.realPassword;
-      //teacherInfo.classIds = [];
-      //teacherInfo.classes.map(res => teacherInfo.classIds.push(res.id));
-      //teacherInfo.menuIds = [];
-      //teacherInfo.menus.map(res => teacherInfo.menuIds.push(res.id));
-      this.formGroup.patchValue(teacherInfo);
+      this.teacherInfo = res.data;
+      this.formGroup.patchValue(res.data);
     });
   }
 
   @DrawerClose() close: () => void;
 
   saveLoading: boolean;
-  save() {
-    let params = JSON.parse(JSON.stringify(this.formGroup.value));
-    if (this.formGroup.invalid) {
-      for (let i in this.formGroup.controls) {
-        this.formGroup.controls[i].markAsDirty();
-        this.formGroup.controls[i].updateValueAndValidity();
-      }
-    } else {
-      this.saveLoading = true;
-      this.http.post('/teacher/saveTeacherInfo', { paramJson: JSON.stringify(params) }).then(res => {
-        this.drawerRef.close(true);
-      }).catch(err => this.saveLoading = false);
-    }
-  }
-
-  private _passwordValidator = (control): { error: boolean } | null => {
-    let password = this.formGroup && this.formGroup.get('realPassword') ? this.formGroup.get('realPassword').value : null;
-    return password && control.value && password === control.value ? null : { error: true };
-  }
+  @DrawerSave('/teacher/saveTeacherInfo') save: () => void;
 
   private _mobilePhoneAsyncValidator = (control: FormControl): any => {
     return Observable.create(observer => {
@@ -125,5 +85,7 @@ export class UpdateComponent implements OnInit {
       })
     })
   };
+
+  @ControlValid() valid: (key, type?) => boolean;
 
 }

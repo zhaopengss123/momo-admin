@@ -1,7 +1,10 @@
 <div class="container">
   <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
 
-  <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">新增客户线索</button>
+  <div class="ea-button-group">
+    <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">新增客户线索</button>
+    <button nz-button (click)="import()">导入客户</button>
+  </div>
 
   <ea-table #EaTable [timeout]="1000" [thead]="tableNode" [paramsDefault]="paramsDefault" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [url]="domainEs + '/czg/threadQuery'">
     <ng-template let-data #EaTableTbodyTr>

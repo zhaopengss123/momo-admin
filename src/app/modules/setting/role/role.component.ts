@@ -9,18 +9,13 @@ import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  styleUrls: ['./role.component.less']
 })
 export class RoleComponent implements OnInit {
 
   @ViewChild('EaListPage') EaListPage: ListPageComponent;
 
   queryNode: QueryNode[] = [
-    // {
-    //   label: '角色代码',
-    //   type: 'input',
-    //   key: 'code'
-    // },
     {
       label: '角色名称',
       type: 'input',

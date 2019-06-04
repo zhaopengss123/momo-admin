@@ -105,6 +105,11 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
+        title : '卡项',
+        key   : '/home/commodity/card',
+        isLeaf: true
+      },
+      {
         title : '服务',
         key   : '/home/commodity/service',
         isLeaf: true
@@ -124,7 +129,7 @@ export const MenuConfig = [
       },
       {
         title : '监控管理',
-        key   : '/home/monitor',
+        key   : '/home/setting/monitor',
         isLeaf: true
       },
       {

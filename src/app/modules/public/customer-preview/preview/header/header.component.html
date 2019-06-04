@@ -24,7 +24,7 @@
     </div>
     <div class="cell">
       <div class="dib">
-        <span>类型：</span><span>{{ memberInfo?.studentInfo.cardType == 1 ? '日托学员（剩余 ' + memberInfo?.studentInfo.times + '天）' : memberInfo?.studentInfo.cardType == 2 ? '定期学员' : '未办卡'  }}</span>
+        <span>类型：</span><span>{{ memberInfo?.studentInfo.cardType == 1 ? '日托学员（剩余 ' + memberInfo?.studentInfo.times + '天）' : memberInfo?.studentInfo.cardType == 2 ? '定期学员' + (memberInfo?.studentInfo.times ? '（剩余 ' + memberInfo?.studentInfo.times + '天）' : '')  : '未办卡'  }}</span>
         <nz-divider nzType="vertical"></nz-divider>
       </div>
       <div class="dib">

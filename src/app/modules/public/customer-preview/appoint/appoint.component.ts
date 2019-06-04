@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { NzDrawerRef, NzModalService } from 'ng-zorro-antd';
+import { NzDrawerRef, NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { addMonths, subMonths, format, addDays, getDay } from 'date-fns';
@@ -22,7 +22,8 @@ export class AppointComponent implements OnInit {
     private http: HttpService,
     private drawerRef: NzDrawerRef,
     private modal: NzModalService,
-    private format: DatePipe
+    private format: DatePipe,
+    private message: NzMessageService
   ) { 
   }
 
@@ -48,13 +49,19 @@ export class AppointComponent implements OnInit {
       if (this.checkedList.includes(day)) {
         this.checkedList = [];
       } else {
-        this.getCheckedItemLoading = true;
-
         let [startTime, teacherId, rowIndx] = day.split('|');
+
+        if (this.classId && new Date(startTime).getTime() < new Date().getTime()) {
+          this.message.warning('只能选择今天以后的日期');
+          return;
+        }
+
+        this.getCheckedItemLoading = true;
         this.http.post('/student/getReserveEndTime', {
           paramJson: JSON.stringify({
             studentId: this.studentInfo.id,
-            startTime
+            startTime,
+            isAdjust: !!this.classId
           })
         }).then(res => {
           this.checkedList = [];
@@ -91,31 +98,41 @@ export class AppointComponent implements OnInit {
         reserveType: this.studentInfo.cardType === 1 ? 1 : this.studentInfo.cardType === 2 ? 0 : 3
       });
     });
-    if (this.classId) {
-      this.drawerRef.close(checkedParams[0]);
-    } else {
-      this.saveLoading = true;
-      this.http.post('/reserve/checkReserveRecord', { 
-        paramJson: JSON.stringify( checkedParams ) 
-      }).then(res => this.modal[res.result == 1000 ? 'success' : res.result == 1001 ? 'error' : 'warning']({
-        nzMaskClosable: true,
-        nzTitle: res.message,
-        nzContent: res.data && res.data.list ? res.data.list.join('、') : `确定预约吗`,
-        nzOkText: res.result == 1001 ? null : '确定预约',
-        nzOnOk: () => {
-          this.getCheckedItemLoading = true;
-          let url = this.studentInfo.cardType == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
-          let [startDate, teacherId, pitNum] = this.checkedList[0].split('|');
-          let endDate = this.checkedList[this.checkedList.length - 1].split('|')[0];
-          let params = this.studentInfo.cardType == 2 ? {
-            pitNum: pitNum,
-            studentId: this.studentInfo.id,
-            reserveType: 0,
-            teacherId: teacherId,
-            classId: this.studentInfo.classId,
-            startDate,
-            endDate
-          } : checkedParams
+    this.saveLoading = true;
+    let url = !this.studentInfo.cardType || this.studentInfo.cardType == 1 ? 'checkReserveRecord' : this.studentInfo.cardType == 2 && this.classId ? 'checkConflictReserves' : 'checkLongtermReserveRecord';
+    let newParams = this.studentInfo.cardType == 2 ? {
+      studentId: this.studentInfo.id,
+      teacherId: checkedParams[0].teacherId,
+      pitNum: checkedParams[0].pitNum,
+      classId: this.studentInfo.classId,
+      reserveType: checkedParams[0].reserveType,
+      startDate: checkedParams[0].reserveDate,
+      endDate: checkedParams[checkedParams.length - 1].reserveDate,
+    } : checkedParams;
+    this.http.post(`/reserve/${url}`, { 
+      paramJson: JSON.stringify(newParams) 
+    }).then(res => this.modal[res.result == 1000 ? 'success' : res.result == 1001 ? 'error' : 'warning']({
+      nzMaskClosable: true,
+      nzTitle: res.message,
+      nzContent: res.data && res.data.list ? res.data.list.join('、') : `确定预约吗`,
+      nzOkText: res.result == 1001 ? null : '确定预约',
+      nzOnOk: () => {
+        this.getCheckedItemLoading = true;
+        let url = this.studentInfo.cardType == 2 ? '/reserve/longTermReserve' : '/reserve/batchSaveReserveRecord';
+        let [startDate, teacherId, pitNum] = this.checkedList[0].split('|');
+        let endDate = this.checkedList[this.checkedList.length - 1].split('|')[0];
+        let params: any = this.studentInfo.cardType == 2 ? {
+          pitNum: pitNum,
+          studentId: this.studentInfo.id,
+          reserveType: 0,
+          teacherId: teacherId,
+          classId: this.studentInfo.classId,
+          startDate,
+          endDate
+        } : checkedParams
+        if (this.classId) {
+          this.drawerRef.close(params.classId ? params : checkedParams[0]);
+        } else {
           this.http.post(url, {
             paramJson: JSON.stringify(params)
           }, true).then(res => {
@@ -132,14 +149,15 @@ export class AppointComponent implements OnInit {
               this.close(true);
             })
           });
-        },
-        nzCancelText: '取消预约',
-        nzOnCancel: () => { this.saveLoading = false }
-      }));
-    }
+        }
+      },
+      nzCancelText: '取消预约',
+      nzOnCancel: () => { this.saveLoading = false }
+    }));
   }
 
   private _classInfo;
+  private _getDataNum = 0;
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
     let classInfo = this._classInfo || await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
     this._classInfo = classInfo;
@@ -148,6 +166,14 @@ export class AppointComponent implements OnInit {
     let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
     this.dataSet[type === 'up' ? 'unshift' : 'push']({ key: month, value: JSON.parse(JSON.stringify(classInfo.data.list)), days: new Array(this._monthOfDays(month)) });
 
+    if (this._getDataNum < 2) {
+      this._getDataNum = this._getDataNum + 1;
+      setTimeout(() => {
+        this.getData(type || 'down');
+      }, 2000);
+    } else {
+      this._getDataNum = 0;
+    }
     this.dataSet[type === 'up' ? 0 : this.dataSet.length - 1].value.map(classes => {
       classes.teacherReceptionNum = 0;
       classes.teachers.map(teacher => {
@@ -174,7 +200,7 @@ export class AppointComponent implements OnInit {
 
   private _weekList = ['日', '一', '二', '三', '四', '五', '六'];
   getDate(day) {
-    return `${this._weekList[getDay(new Date(day))]}`
+    return this._weekList[getDay(new Date(day))] || '';
   }
 
   getReserveLoading: boolean;

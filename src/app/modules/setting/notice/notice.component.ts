@@ -1,13 +1,13 @@
-import { ListPageSimpComponent } from './../../../ng-relax/components/list-page-simp/list-page.component';
-import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { AnnouncementComponent } from './announcement/announcement.component';
+import { ListPageSimpComponent } from 'src/app/ng-relax/components/list-page-simp/list-page.component';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 @Component({
   selector: 'app-notice',
   templateUrl: './notice.component.html',
-  styleUrls: ['./notice.component.scss']
+  styleUrls: ['./notice.component.less']
 })
 export class NoticeComponent implements OnInit {
 

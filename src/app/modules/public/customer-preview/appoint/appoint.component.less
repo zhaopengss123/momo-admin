@@ -122,19 +122,22 @@
         min-height: 60px;
         position: relative;
         padding-left: 126px;
+        overflow: hidden;
         &:not(:last-child) {
           padding-bottom: 20px;
           border-bottom: solid 1px #F0F0F0;
           margin-bottom: 20px;
         }
+        ul {
+          width: 924px;
+        }
         .info {
           width: 120px;
-          height: ceil(100% + 1px);
+          height: 100%;
           padding-left: 16px;
           background: #fff;
           position: absolute;
           left: 0;
-          bottom: -1px;
           h4 {
             color: #373C41;
             font-size: 14px;
