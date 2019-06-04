@@ -5,7 +5,7 @@
     { label: '操作时间', type: 'rangepicker', key: 'time', valueKey: ['startTime', 'endTime'] },
     { label: '操作人', type: 'select', key: 'operationRoleId', optionsUrl: '/student/getRoleIdAndNameList' }
   ]"
-  [tableThead]="['操作时间', '姓名', '操作人', '操作模块', '操作记录']"
+  [tableThead]="['操作时间', '操作人', '角色', '操作模块', '操作记录']"
   [EaTableTbodyTr]="EaTableTbodyTr">
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.operationTime }}</td>
