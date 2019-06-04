@@ -26,7 +26,7 @@ export class CardComponent implements OnInit {
       key     : 'cardTypeCategoryId',
       type    : 'tag',
       isRadio : true,
-      options : [ { name : '次卡', id   : 1 }, { name : '月卡', id   : 2 } ]
+      optionsUrl: '/commodity/card/getCardTypeCategory'
     },
     {
       label       : '总销量',
