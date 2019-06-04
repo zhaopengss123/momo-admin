@@ -145,7 +145,7 @@ export class ListComponent implements OnInit {
       this.queryNode[2].options = res.data.classList;
       this.queryNode[3].options = res.data.cardList;
     });
-    this.http.post('/student/getTeacherListByRoleId', { paramJson: JSON.stringify({ roleId: 4 }) }).then(res => this.queryNode[6].options = res.data.list);
+    this.http.post('/student/getCollectorAndRecommender').then(res => this.queryNode[6].options = res.data.collectorList);
   }
 
   ngOnInit() {
