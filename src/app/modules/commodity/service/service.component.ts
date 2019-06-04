@@ -265,7 +265,7 @@ export class ServiceComponent implements OnInit {
   /*-------------- 不允许折扣大于10小于0(最低折扣) --------------*/
   discountValidator(num: FormControl):any {
     var valid;
-    var reg = /^[0-9]+(.[0-9]{1})?$/;
+    var reg = /^[0-9]+(.[0-9]{1,2})?$/;
     if (num.value >= 0 && num.value <= 10 && reg.test(num.value) ) {
       valid = true;
     }
