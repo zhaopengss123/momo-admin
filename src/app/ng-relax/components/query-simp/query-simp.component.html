@@ -33,7 +33,7 @@
           <nz-option 
             nzCustomContent
             *ngFor="let option of control.options"
-            [nzLabel]="option.text"
+            [nzLabel]="option.info"
             [nzValue]="option.id">
             <div class="search-result">
               <div [innerHTML]="option.name"></div>

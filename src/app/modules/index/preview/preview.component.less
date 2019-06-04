@@ -1,0 +1,282 @@
+@checked: #8fce41;      // 当前选择
+@yzy: #ffe52d;          // 已占用
+@knxk: #fef6d9;         // 可能续卡
+@ccnl: #fd704f;         // 超出能力
+@yzcc: #ea0c0c;         // 严重超出
+@tyzcc: #700;           // 特严重超出
+.title {
+  position: relative;
+  h1{
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom: 17px;
+  }
+  .cell {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    & > div {
+      float: left;
+      color: #999;
+      margin-left: 30px;
+      height: 14px;
+      font-size: 14px;
+      line-height: 1;
+      &:before {
+        content: '';
+        margin-right: 6px;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        vertical-align: top;
+      }
+    }
+    .s1:before {
+      border: dashed 1px #CDD7E1;
+    }
+    .s2:before {
+      background: @yzy;
+    }
+    .s3:before {
+      background: @knxk;
+    }
+    .s4:before {
+      background: @checked;
+    }
+    .s5:before {
+      background: @ccnl;
+    }
+    .s6:before {
+      background: @yzcc;
+    }
+    .s7:before {
+      background: @tyzcc;
+    }
+  }
+}
+
+.content {
+  padding: 25px;
+  box-shadow: 0px 0px 8px 0px rgba(231,237,251,1);
+  background: #fff;
+  border-radius: 10px;
+  .box {
+    padding: 24px 0;
+    .row {
+      &:not(:last-child) {
+        margin-bottom: 40px;
+      }
+      .thead {
+        height: 40px;
+        position: relative;
+        padding-left: 126px;
+        margin-bottom: 16px;
+        nz-tag {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        ol {
+          padding: 0;
+          height: 100%;
+          color: #919BA5;
+          font-size: 14px;
+          line-height: 22px;
+          text-align: center;
+          margin-bottom: 16px;
+          list-style: none;
+          li {
+            float: left;
+            width: 24px;
+            div {
+              height: 24px;
+              line-height: 24px;
+            }
+            p {
+              color: #4da7ef;
+              font-size: 12px;
+            }
+            &:not(:last-child) {
+              margin-right: 6px;
+            }
+          }
+        }
+      }
+      .tbody {
+        min-height: 60px;
+        position: relative;
+        padding-left: 126px;
+        overflow: hidden;
+        &:not(:last-child) {
+          padding-bottom: 20px;
+          border-bottom: solid 1px #F0F0F0;
+          margin-bottom: 20px;
+        }
+        ul {
+          width: 924px;
+        }
+        .info {
+          width: 120px;
+          height: 100%;
+          padding-left: 16px;
+          background: #fff;
+          position: absolute;
+          left: 0;
+          h4 {
+            color: #373C41;
+            font-size: 14px;
+            margin-bottom: 4px;
+          }
+          p {
+            color: #bbb;
+            font-size: 12px;
+          }
+        }
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          height: 24px;
+          &:not(:last-child) {
+            margin-bottom: 12px;
+          }
+          li {
+            float: left;
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            border: dashed 1px #cdd7e1;
+            cursor: pointer;
+            position: relative;
+            &:not(:last-child) {
+              margin-right: 6px;
+            }
+            &.yzy {
+              border: 0;
+              background: @yzy;
+            }
+            &.next {
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+              &::before {
+                content: '';
+                display: block;
+                width: 6px;
+                height: 100%;
+                background: inherit;
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin-right: -6px;
+              }
+              & + li {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+              }
+            }
+            & > div {
+              width: 24px;
+              height: 100%;
+              pointer-events: none;
+              position: absolute;
+              transition: all .2s;
+              top: 0;
+              right: 0;
+              margin-right: -12px;
+              opacity: 0;
+              &.next {
+                opacity: 1;
+                background: @yzy;
+              }
+              &.check-next {
+                opacity: 1;
+                background: @checked;
+              }
+              &.knxk {
+                opacity: 1;
+                background: @knxk;
+                margin-right: 0;
+                border-radius: 5px;
+              }
+            }
+            &.ccnl {
+              &::after { background: @ccnl; }
+            }
+            &.yzcc {
+              &::after { background: @yzcc; }
+            }
+            &.tyzcc {
+              &::after { background: @tyzcc; }
+            }
+            &.checked {
+              &::after { background: @checked; }
+            }
+            &::after { 
+              transition: all .2s;
+              content: '';
+              display: block;
+              border-radius: 5px;
+              width: 24px;
+              height: 24px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+            }
+            &.ccnl,
+            &.yzcc,
+            &.tyzcc,
+            &.checked {
+              border: 0;
+              &::after {
+                opacity: 1;
+              }
+              &::before {
+                background: @yzy;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+:host ::ng-deep nz-empty img {
+  width: auto;
+}
+::ng-deep .preview {
+  width: 300px;
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    background: #eee;
+    border-radius: 5px;
+    padding: 8px 12px;
+    overflow: hidden;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+    & > div {
+      float: left;
+      width: 50%;
+      line-height: 26px;
+      label {
+        color: #999;
+      }
+    }
+  }
+}
+.today {
+  color: #fff;
+  font-size: 12px;
+  background: #0083FF;
+  border-radius: 50%;
+  transform: scale(1.2);
+}
