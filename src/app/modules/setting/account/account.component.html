@@ -12,7 +12,6 @@
     <ng-template #EaTableTbodyTr let-data>
       <td>{{ data.account }}</td>
       <td>{{ data.name }}</td>
-      <td>{{ data.email || '--' }}</td>
       <td>{{ data.remark || '--' }}</td>
       <td>{{ data.createTime }}</td>
       <td><nz-tag [nzColor]="data.enableStatus == 1 ? '#2db7f5' : ''">{{ data.enableStatus == 1 ? '启用' : '停用' }}</nz-tag></td>

@@ -33,7 +33,7 @@ export class AccountComponent implements OnInit {
     }
   ]
 
-  tableThead: TheadNode[] | string[] = ['登录名', '中文名', '邮箱' ,'备注', '创建日期', '状态', '操作'];
+  tableThead: TheadNode[] | string[] = ['登录名', '中文名' ,'备注', '创建日期', '状态', '操作'];
 
   /* --------- 账户信息表单模型 --------- */
   createAccountForm: FormGroup;
