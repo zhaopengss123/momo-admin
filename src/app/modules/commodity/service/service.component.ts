@@ -2,8 +2,9 @@ import { QueryNode } from '../../../ng-relax/components/query/query.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzDrawerService } from 'ng-zorro-antd';
+import { UpdateComponent } from './update/update.component';
+import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 
 @Component({
   selector: 'app-service',
@@ -14,17 +15,11 @@ export class ServiceComponent implements OnInit {
 
   @ViewChild('table') table: TableComponent;
 
-  formModel: FormGroup
+  @DrawerCreate({ title: '服务', content: UpdateComponent }) update: ({ cardTypeInfo}?) => void;
 
   optionList = [];//回显服务类型展示数据
 
   isEdit = false;//是不是编辑
-
-  /*-------------- 抽屉 --------------*/
-  visible = false;
-  childrenVisible = false;
-
-  vegetables = ['asparagus', 'bamboo', 'potato', 'carrot', 'cilantro', 'potato', 'eggplant'];
 
   //编辑回显数据
   drawerData = {}; 
@@ -69,16 +64,10 @@ export class ServiceComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-    private fb: FormBuilder = new FormBuilder(),
-    private message: NzMessageService
+    private message: NzMessageService,
+    private drawer: NzDrawerService
     ){
-      this.formModel = this.fb.group({
-        selectedVal    : [1, Validators.required],
-        name           : [, [Validators.required, this.nameLengthValidator]],
-        price          : [, [Validators.required, this.priceValidator]],      //售价
-        lowestDiscount : [, [Validators.required, this.discountValidator]],   //最低折扣
-        introduce      : [, [Validators.required]]
-      }) 
+      
     }
 
   ngOnInit() {
@@ -238,38 +227,6 @@ export class ServiceComponent implements OnInit {
 
   closeChildren(): void {
     this.childrenVisible = false;
-  }
-
-  /*-------------- 长度必须大于2小于等于30(名称) --------------*/
-  nameLengthValidator(val: FormControl) {
-    var valid;
-    if (val.value != '') {
-      var str = String(val.value);
-      if (str.length >= 2 && str.length <= 30) {
-        valid = true;
-      }
-    }
-    return valid ? null : {info:'名称长度必须为2-30个字符'}
-  }
-
-  /*-------------- 大于0的数字最多两位小数(售价) --------------*/
-  priceValidator(num: FormControl) {
-    var valid;
-    var reg = /^[0-9]+(.[0-9]{1,2})?$/;
-    if (reg.test(num.value) && num.value > 0) {
-      valid = true;
-    }
-    return valid ? null : {info:'请输入正确的售价'}
-  }
-
-  /*-------------- 不允许折扣大于10小于0(最低折扣) --------------*/
-  discountValidator(num: FormControl):any {
-    var valid;
-    var reg = /^[0-9]+(.[0-9]{1,2})?$/;
-    if (num.value >= 0 && num.value <= 10 && reg.test(num.value) ) {
-      valid = true;
-    }
-    return valid ? null : {num:true}
   }
 
 }
