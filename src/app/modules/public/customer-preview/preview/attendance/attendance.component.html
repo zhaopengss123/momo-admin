@@ -9,7 +9,7 @@
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.date }}</td>
     <td>{{ data.comeTime }}</td>
-    <td>{{ data.comeName.split('|~!|')[0] }}</td>
+    <td>{{ data.comeName ? data.comeName.split('|~!|')[0] : '-' }}</td>
     <td>{{ data.goTime }}</td>
     <td>{{ data.goName }}</td>
     <td>{{ data.status ? '请假' : '正常' }}</td>
