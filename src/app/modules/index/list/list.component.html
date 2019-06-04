@@ -1,0 +1,8 @@
+<ea-table [url]="url" [thead]="['学号', '姓名', '手机', '天数']" [EaTableTbodyTr]="EaTableTbodyTr">
+  <ng-template let-item #EaTableTbodyTr>
+    <td>{{ item.studentNum }}</td>
+    <td>{{ item.studentName }}</td>
+    <td>{{ item.mobilePhone }}</td>
+    <td>{{ item.days }}</td>
+  </ng-template>
+</ea-table>

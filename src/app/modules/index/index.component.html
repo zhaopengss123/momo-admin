@@ -23,17 +23,63 @@
   <div class="card" nz-row nzGutter="15">
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team"></i>学籍天数少于x天</h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList)">查看更多</a></h2>
+        <div class="table">
+          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li></ol>
+          <ng-container *ngIf="dayTimeList.length; else elseTemplate">
+            <ul *ngFor="let item of dayTimeList">
+              <li>{{ item.studentNum }}</li>
+              <li>{{ item.studentName }}</li>
+              <li>{{ item.mobilePhone }}</li>
+              <li>{{ item.days }}</li>
+            </ul>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <nz-empty></nz-empty>
+          </ng-template>
+        </div>
       </div>
     </div>
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team"></i>学籍有效期少于x天</h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#8bc34a'"></i>学籍有效期少于{{ info.usefulLifeRemind }}天<a (click)="more(getOverdueList)">查看更多</a></h2>
+        <div class="table">
+          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li><li>关系</li></ol>
+          <ng-container *ngIf="overdueList.length; else elseTemplate">
+            <ul *ngFor="let item of overdueList">
+              <li>{{ item.studentNum }}</li>
+              <li>{{ item.studentName }}</li>
+              <li>{{ item.mobilePhone }}</li>
+              <li>{{ item.days }}</li>
+            </ul>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <nz-empty></nz-empty>
+          </ng-template>
+        </div>
       </div>
     </div>
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team"></i>x天即将转班/毕业</h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#ffc107'"></i>{{ info.toGraduateRemind }}天即将转班/毕业<a (click)="more(getAdjustList)">查看更多</a></h2>
+        <div class="table">
+          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li><li>关系</li></ol>
+          <ng-container *ngIf="adjustList.length; else elseTemplate">
+            <ul *ngFor="let item of adjustList">
+              <li>{{ item.studentNum }}</li>
+              <li>{{ item.studentName }}</li>
+              <li>{{ item.mobilePhone }}</li>
+              <li>{{ item.days }}</li>
+            </ul>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <nz-empty></nz-empty>
+          </ng-template>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div class="preview">
+    <app-preview></app-preview>
   </div>
