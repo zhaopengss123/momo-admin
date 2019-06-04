@@ -43,7 +43,7 @@
 
   <form nz-form [formGroup]="createAccountForm">
     <nz-form-item>
-      <nz-form-label [nzSpan]="6" [nzRequired]="true">登录名</nz-form-label>
+      <nz-form-label [nzSpan]="6" nzRequired>登录名</nz-form-label>
       <nz-form-control [nzSpan]="16">
         <input nz-input type="text" formControlName="account" placeholder="请输入登录名（手机号）" [readonly]="!!createAccountId" maxlength="11">
         <nz-form-explain *ngIf="createAccountForm.get('account').dirty && createAccountForm.get('account').hasError('required')">请输入登录名（手机号）!</nz-form-explain>
@@ -51,7 +51,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="6" [nzRequired]="true">中文名</nz-form-label>
+      <nz-form-label [nzSpan]="6" nzRequired>中文名</nz-form-label>
       <nz-form-control [nzSpan]="16">
         <input nz-input type="text" formControlName="name" placeholder="请输入中文名">
         <nz-form-explain *ngIf="createAccountForm.get('name').dirty && createAccountForm.get('name').hasError('required')">请输入中文名!</nz-form-explain>
@@ -59,16 +59,16 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item *ngIf="!createAccountId">
-      <nz-form-label [nzSpan]="6" nzFor="password" [nzRequired]="true">密码</nz-form-label>
+      <nz-form-label [nzSpan]="6" nzRequired>密码</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <input nz-input type="password" id="password" formControlName="password" placeholder="请输入密码">
+        <input nz-input [type]="createAccountForm.get('password').value ? 'password' : 'text'" formControlName="password" placeholder="请输入密码">
         <nz-form-explain *ngIf="createAccountForm.get('password').dirty && createAccountForm.get('password').errors">不填则为默认密码：123456!</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="email">邮箱</nz-form-label>
+      <nz-form-label [nzSpan]="6">邮箱</nz-form-label>
       <nz-form-control [nzSpan]="16">
-        <input nz-input type="text" id="email" formControlName="email" placeholder="请输入邮箱">
+        <input nz-input type="text" formControlName="email" placeholder="请输入邮箱">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
