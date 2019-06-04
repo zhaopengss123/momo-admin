@@ -37,6 +37,9 @@ export class AppointComponent implements OnInit {
     /* 如果是日托， 则获取最大选择天数 */
     this.studentInfo.cardType == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
     this.getData();
+    setTimeout(() => {
+      console.log(this.dataSet)
+    }, 5000);
   }
 
   checkedList: string[] = [];

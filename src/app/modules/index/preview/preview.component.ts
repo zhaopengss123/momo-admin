@@ -34,8 +34,9 @@ export class PreviewComponent implements OnInit {
   }
 
   getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */){
-    
-    // let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
+    console.log(this.dataSet)
+    let month = format(type === 'up' ? subMonths(new Date(this.dataSet[0].key), 1) : type === 'down' ? addMonths(new Date(this.dataSet[this.dataSet.length - 1].key), 1) : new Date(), 'YYYY-MM');
+    console.log(month)
     // this.dataSet[type === 'up' ? 'unshift' : 'push']({ key: month, value: JSON.parse(JSON.stringify(this.classInfo.data.list)), days: new Array(this._monthOfDays(month)) });
   }
 

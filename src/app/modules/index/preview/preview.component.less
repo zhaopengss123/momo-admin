@@ -63,6 +63,7 @@
   border-radius: 10px;
   .item {
     position: relative;
+    min-height: 120px;
     margin-top: 80px;
     padding-left: 150px;
     overflow-x: auto;
@@ -278,17 +279,18 @@
 .teachers {
   position: relative;
   .teacher {
+    display: flex;
     position: relative;
-    padding: 0 0 20px 150px;
+    overflow: hidden;
     &:not(:last-child) {
       margin-bottom: 20px;
+      padding-bottom: 20px;
       border-bottom: solid 1px #F0F0F0;
     }
   }
   .info {
-    position: absolute;
-    top: 0;
-    left: 30px;
+    width: 130px;
+    padding-left: 30px;
     h2 {
       color: #373C41;
       font-size: 14px;
@@ -297,7 +299,11 @@
     p {
       color: #bbb;
       font-size: 12px;
+      margin: 0;
     }
+  }
+  .main {
+    flex: 1;
   }
 }
 
