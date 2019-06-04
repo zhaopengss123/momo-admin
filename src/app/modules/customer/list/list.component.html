@@ -42,7 +42,7 @@
         <td><a (click)="preview({ id: data.studentId })">{{ data.studentName }}</a></td>
         <td>{{ data.sex || '-' }}</td>
         <td>{{ data.age || '-' }}</td>
-        <td>{{ data.cardTypeName || '-' }}</td>
+        <td><nz-tag *ngIf="data.cardType" [nzColor]="data.cardType == 1 ? '#87d068' : '#2db7f5'">{{ data.cardTypeName }}</nz-tag></td>
         <td>{{ data.className || '-' }}</td>
         <td>{{ data.memberFromName || '-' }}</td>
         <td>{{ data.salespersonName || '-' }}</td>
@@ -50,8 +50,12 @@
         <td>{{ data.effectDate || '-' }}</td>
         <td>{{ data.expireDate || '-' }}</td>
         <td>{{ data.times }}</td>
-        <td>{{ data.studentStatus }}</td>
-        <td>{{ data.isLook ? '关闭' : '开启' }}</td>
+        <td>
+          <nz-tag [nzColor]="data.status == 0 ? 'green' : data.status == 1 ? '#87d068' : data.status == 2 ? '#2db7f5' : data.status == 3 ? '#f50' : ''">
+            {{ data.studentStatus }}
+          </nz-tag>
+        </td>
+        <td><nz-badge [nzStatus]="data.isLook ? 'default' : 'processing'" [nzText]="data.isLook ? '关闭' : '开启'"></nz-badge></td>
         <td>
           <ng-container *ngIf="data.status != 2">
             <a (click)="lookChange(data.studentId, data.isLook ? 0 : 1)">{{ data.isLook ? '开启' : '关闭' }}监控</a>

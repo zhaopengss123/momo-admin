@@ -62,7 +62,7 @@ export class AccountComponent implements OnInit {
     /* ----------------- 初始化账户信息表单模型 ----------------- */
     this.createAccountForm = this.fb.group({
       id: [],
-      account: [, [Validators.required,this._codeValidator]],
+      account: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
       name: [, [Validators.required, Validators.pattern(/^[\u4e00-\u9fa5]+$/)]],
       password: [, [Validators.required]],
       email: [],
@@ -154,12 +154,5 @@ export class AccountComponent implements OnInit {
         }
       ]
     })
-  }
-
-
-  private _codeValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      return control.value && control.value.substr(control.value.length - 6, 6) === '_admin' ? { 'allowAdmin': true } : null;
-    };
   }
 }

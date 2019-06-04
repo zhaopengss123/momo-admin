@@ -215,8 +215,8 @@ export class AppointComponent implements OnInit {
         res.data.list.map(student => {
           innerHTML.push(`<li>
             <div><label>姓名:</label><span>${student.studentName}</span></div>
-            <div><label>类型:</label><span>${student.type == 2 ? '定期' : student.type == 1 ? '日托' : '体验'}</span></div>
-            ${student.type == 2 ? `
+            <div><label>类型:</label><span>${student.type == 2 && !student.effectDate ? '体验' : student.type == 2 ? '定期' : student.type == 1 ? '日托' : '体验'}</span></div>
+            ${student.type == 2 && student.effectDate ? `
               <div><label>开始时间:</label><span>${student.effectDate}</span></div>
               <div><label>结束时间:</label><span>${student.expireDate}</span></div>
             ` : `
