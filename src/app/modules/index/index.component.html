@@ -2,19 +2,19 @@
     <div class="logo"><div><img [src]="info.coverImage || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'" alt="初之光"></div></div>
 
     <div class="info" nz-row>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="7">
         <h2>{{ info.kindergartenName || '暂无园所名称' }}</h2>
         <p>{{ info.introduction || '暂无简介' }}</p>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="7">
         <h4>地址：{{ info.address || '暂无园所地址' }}</h4>
         <h4>电话：{{ info.phoneNum || '暂无联系电话' }}</h4>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="7">
         <h4>邮箱：{{ info.email || '暂无联系邮箱' }}</h4>
         <h4>官网：{{ info.officialWebsite || '暂无园所官网' }}</h4>
       </div>
-      <div nz-col nzSpan="6">
+      <div nz-col nzSpan="3">
         <button nz-button nzType="primary" nzGhost (click)="update()">编辑</button>
       </div>
     </div>

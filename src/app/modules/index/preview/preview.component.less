@@ -66,7 +66,6 @@
     min-height: 120px;
     margin-top: 80px;
     padding-left: 150px;
-    overflow-x: auto;
   }
 
 
@@ -281,7 +280,6 @@
   .teacher {
     display: flex;
     position: relative;
-    overflow: hidden;
     &:not(:last-child) {
       margin-bottom: 20px;
       padding-bottom: 20px;
@@ -304,6 +302,17 @@
   }
   .main {
     flex: 1;
+    overflow-x: auto;
+
+    .month {
+      position: relative;
+      nz-tag {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: -40px;
+      }
+    }
   }
 }
 
