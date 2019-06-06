@@ -86,7 +86,7 @@ export class PreviewComponent implements OnInit {
       students.map(s => studentIds.push(s.id))
       studentIds = Array.from(new Set([...studentIds]));
       this.http.post('/student/showStudentCardInfo', { paramJson: JSON.stringify({ studentIds: studentIds.join(',') }) }).then(res => {
-        if (res.data && res.data.list) {
+        if (res.result == 1000) {
           let innerHTML = [];
           res.data.list.map(student => {
             innerHTML.push(`<li>
@@ -101,10 +101,12 @@ export class PreviewComponent implements OnInit {
             </li>`)
           })
           students['innerHTML'] = `<ul>${innerHTML.join('')}</ul>`;
-          setTimeout(() => {
-            this.getReserveLoading = false;
-          });
+        } else {
+          students['innerHTML'] = '数据库无此学员数据';
         }
+        setTimeout(() => {
+          this.getReserveLoading = false;
+        })
       })
     }
   }

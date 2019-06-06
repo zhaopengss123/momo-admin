@@ -23,7 +23,7 @@
   <div class="card" nz-row nzGutter="15">
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList)">查看更多</a></h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList)" *ngIf="dayTimeList.length && dayTimeList.length >= 4">查看更多</a></h2>
         <div class="table">
           <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="dayTimeList.length; else elseTemplate">
@@ -42,9 +42,9 @@
     </div>
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team" [style.color]="'#8bc34a'"></i>学籍有效期少于{{ info.usefulLifeRemind }}天<a (click)="more(getOverdueList)">查看更多</a></h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#8bc34a'"></i>学籍有效期少于{{ info.usefulLifeRemind }}天<a (click)="more(getOverdueList)" *ngIf="overdueList.length && overdueList.length >= 4">查看更多</a></h2>
         <div class="table">
-          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li><li>关系</li></ol>
+          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="overdueList.length; else elseTemplate">
             <ul *ngFor="let item of overdueList">
               <li>{{ item.studentNum }}</li>
@@ -61,9 +61,9 @@
     </div>
     <div nz-col nzSpan="8">
       <div>
-        <h2><i nz-icon nzType="team" [style.color]="'#ffc107'"></i>{{ info.toGraduateRemind }}天即将转班/毕业<a (click)="more(getAdjustList)">查看更多</a></h2>
+        <h2><i nz-icon nzType="team" [style.color]="'#ffc107'"></i>{{ info.toGraduateRemind }}天即将转班/毕业<a (click)="more(getAdjustList)" *ngIf="adjustList.length && adjustList.length >= 4">查看更多</a></h2>
         <div class="table">
-          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li><li>关系</li></ol>
+          <ol><li>学号</li><li>姓名</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="adjustList.length; else elseTemplate">
             <ul *ngFor="let item of adjustList">
               <li>{{ item.studentNum }}</li>
