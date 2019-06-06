@@ -86,23 +86,25 @@ export class PreviewComponent implements OnInit {
       students.map(s => studentIds.push(s.id))
       studentIds = Array.from(new Set([...studentIds]));
       this.http.post('/student/showStudentCardInfo', { paramJson: JSON.stringify({ studentIds: studentIds.join(',') }) }).then(res => {
-        let innerHTML = [];
-        res.data.list.map(student => {
-          innerHTML.push(`<li>
-            <div><label>姓名:</label><span>${student.studentName}</span></div>
-            <div><label>类型:</label><span>${student.type == 2 && !student.effectDate ? '体验' : student.type == 2 ? '定期' : student.type == 1 ? '日托' : '体验'}</span></div>
-            ${student.type == 2 && student.effectDate ? `
-              <div><label>开始时间:</label><span>${student.effectDate}</span></div>
-              <div><label>结束时间:</label><span>${student.expireDate}</span></div>
-            ` : `
-              <div><label>时间:</label><span>${reserveDate}</span></div>
-            `}
-          </li>`)
-        })
-        students['innerHTML'] = `<ul>${innerHTML.join('')}</ul>`;
-        setTimeout(() => {
-          this.getReserveLoading = false;
-        });
+        if (res.data && res.data.list) {
+          let innerHTML = [];
+          res.data.list.map(student => {
+            innerHTML.push(`<li>
+              <div><label>姓名:</label><span>${student.studentName}</span></div>
+              <div><label>类型:</label><span>${student.type == 2 && !student.effectDate ? '体验' : student.type == 2 ? '定期' : student.type == 1 ? '日托' : '体验'}</span></div>
+              ${student.type == 2 && student.effectDate ? `
+                <div><label>开始时间:</label><span>${student.effectDate}</span></div>
+                <div><label>结束时间:</label><span>${student.expireDate}</span></div>
+              ` : `
+                <div><label>时间:</label><span>${reserveDate}</span></div>
+              `}
+            </li>`)
+          })
+          students['innerHTML'] = `<ul>${innerHTML.join('')}</ul>`;
+          setTimeout(() => {
+            this.getReserveLoading = false;
+          });
+        }
       })
     }
   }
