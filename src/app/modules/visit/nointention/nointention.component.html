@@ -15,7 +15,7 @@
       <td>{{ data.sex }}</td>
       <td>{{ data.monthAge }}</td>
       <td>{{ data.parentName }}</td>
-      <td>{{ data.mobile }}</td>
+      <td><ng-container *ngIf="!data.showPhone; else elseTemplate"><a (click)="data.showPhone = true">查看</a></ng-container><ng-template #elseTemplate>{{ data.mobile }}</ng-template></td>
       <td>{{ data.threadCreateTime }}</td>
       <td>{{ data.nextFollowTime || '--' }}</td>
       <td>{{ data.lastFollowTime || '--' }}</td>

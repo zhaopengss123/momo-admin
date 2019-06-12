@@ -63,7 +63,7 @@ export class AnnouncementComponent implements OnInit {
 
   ngOnInit() {
     this.http.post('/message/getTeacherList', {}, false).then(res => this.teacherList = res.data);
-    this.http.post('/classmanager/class/listClassMessage', {}, false).then(res => this.classList = res.data.list);
+    this.http.post('/classmanager/listClassMessage', {}, false).then(res => this.classList = res.data.list);
   }
   
   @DrawerClose() close: () => void;

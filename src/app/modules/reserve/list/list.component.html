@@ -14,13 +14,12 @@
     <form nz-form nzLayout="inline" [formGroup]="weilaiForm">
       <div nz-col style="width: 600px">
         <nz-radio-group formControlName="weilai" style="width: 100%; display: flex;">
-          <label style="flex: 1; text-align: center" *ngFor="let option of weilaiOptionList" nz-radio-button [nzValue]="option.id">{{
-            option.name }}</label>
+          <label style="flex: 1; text-align: center" *ngFor="let option of weilaiOptionList" nz-radio-button [nzValue]="option.id">{{ option.name }}</label>
         </nz-radio-group>
       </div>
     </form>
   </ng-template>
-
+  <div style="margin: 16px 8px 16px 0; line-height: 32px; text-align: right;">共 {{ listPage.eaTable.dataSet.length }} 条记录</div>
   <ng-template let-data #EaTableTbodyTr>
     <td>
       <nz-avatar nzShape="square" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom" [nzSrc]="data.headPhoto"
@@ -30,9 +29,9 @@
       </ng-template>
     </td>
     <td>{{ data.studentNum }}</td>
-    <td>{{ data.studentName	 }}</td>
-    <td>{{ data.nickName	}}</td>
-    <td>{{ data.mobilePhone }}</td>
+    <td><a (click)="preview({ id: data.studentId })">{{ data.studentName }}</a></td>
+    <td><a (click)="preview({ id: data.studentId })">{{ data.nickName }}</a></td>
+    <td><ng-container *ngIf="!data.showPhone; else elseTemplate"><a (click)="data.showPhone = true">查看</a></ng-container><ng-template #elseTemplate>{{ data.mobilePhone }}</ng-template></td>
     <td>{{ data.sex }}</td>
     <td>{{ data.monthAge }}</td>
     <td>{{ data.birthday }}</td>

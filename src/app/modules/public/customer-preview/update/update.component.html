@@ -289,7 +289,7 @@
               <nz-form-label [nzSpan]="5" [nzNoColon]="true"></nz-form-label>
               <nz-form-control [nzSpan]="19">
                 <label nz-radio formControlName="defaultStatus" (click)="setDefault(idx)">默认联系人</label>
-                <a [style.float]="'right'" *ngIf="!item['controls']['defaultStatus'].value"
+                <a [style.float]="'right'" *ngIf="!item['controls']['defaultStatus'].value && item['controls']['isForbidden'].value != 1"
                   (click)="accountList.removeAt(idx)">删除此组</a>
               </nz-form-control>
             </nz-form-item>

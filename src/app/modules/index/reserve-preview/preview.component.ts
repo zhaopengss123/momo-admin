@@ -5,11 +5,11 @@ import { DatePipe } from '@angular/common';
 import { subMonths, addMonths, format, getDay } from 'date-fns';
 
 @Component({
-  selector: 'app-preview',
+  selector: 'app-reserve-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.less']
 })
-export class PreviewComponent implements OnInit {
+export class ReservePreviewComponent implements OnInit {
 
   dataSet: any[] = [];
 

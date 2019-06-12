@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { UpdateComponent } from './update/update.component';
+import { PreviewComponent } from '../public/customer-preview/preview/preview.component';
+import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 
 @Component({
   selector: 'app-index',
@@ -43,13 +45,16 @@ export class IndexComponent implements OnInit {
     }).afterClose.subscribe(res => res && (this.info = res));
   }
 
-  more(url) {
+  more(url, title) {
     this.drawer.create({
       nzWidth: 600,
+      nzTitle: title,
       nzClosable: false,
       nzContent: ListComponent,
       nzContentParams: { url }
     })
   }
+
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
 
 }

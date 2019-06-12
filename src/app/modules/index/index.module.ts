@@ -7,10 +7,11 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { Routes, RouterModule } from '@angular/router';
 import { UpdateComponent } from './update/update.component';
 import { ListComponent } from './list/list.component';
-import { PreviewComponent } from './preview/preview.component';
+import { ReservePreviewComponent } from './reserve-preview/preview.component';
+import { CustomerPreviewModule } from '../public/customer-preview/customer-preview.module';
 
 @NgModule({
-  declarations: [IndexComponent, UpdateComponent, ListComponent, PreviewComponent],
+  declarations: [IndexComponent, UpdateComponent, ListComponent, ReservePreviewComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -20,7 +21,8 @@ import { PreviewComponent } from './preview/preview.component';
       }
     ]),
     NgRelaxModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    CustomerPreviewModule
   ],
   entryComponents: [UpdateComponent, ListComponent]
 })

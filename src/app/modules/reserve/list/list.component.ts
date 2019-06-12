@@ -6,6 +6,8 @@ import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-page.component';
 import { environment } from 'src/environments/environment';
+import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
+import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
 
 @Component({
   selector: 'app-reserve',
@@ -101,5 +103,7 @@ export class ReserveComponent implements OnInit {
       this.listPage.eaTable._request();
     })
   }
+
+  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
 
 }

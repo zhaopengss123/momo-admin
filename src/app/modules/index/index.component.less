@@ -78,18 +78,27 @@
     ol {
       margin-bottom: 8px;
     }
+    &.one {
+      ol, ul {
+        li {
+          &:nth-child(4) {
+            flex: 2;
+          }
+          &:nth-child(5) {
+            flex: 1;
+          }
+        }
+      }
+    }
     ol, ul {
       padding: 0 15px;
       list-style: none;
       display: flex;
       li {
         color: #919BA5;
-        flex: 2;
-        &:nth-child(3) {
-          flex: 4;
-        }
-        &:nth-child(4) {
-          flex: 1;
+        flex: 1;
+        &:nth-child(5) {
+          flex: 2;
         }
         &:not(:first-child) {
           text-align: center;

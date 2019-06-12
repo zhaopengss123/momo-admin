@@ -5,6 +5,7 @@ import { ReserveComponent } from './list/list.component';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { CustomerPreviewModule } from '../public/customer-preview/customer-preview.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
       }
     ]),
     NgZorroAntdModule,
-    NgRelaxModule
+    NgRelaxModule,
+    CustomerPreviewModule
   ],
   declarations: [ReserveComponent],
   entryComponents: [ReserveComponent]

@@ -1,8 +1,10 @@
-<ea-table [url]="url" [thead]="['学号', '姓名', '手机', '天数']" [EaTableTbodyTr]="EaTableTbodyTr">
+<ea-table [url]="url" [thead]="['姓名', '昵称', '班级', '老师', '手机', '天数']" [EaTableTbodyTr]="EaTableTbodyTr">
   <ng-template let-item #EaTableTbodyTr>
-    <td>{{ item.studentNum }}</td>
-    <td>{{ item.studentName }}</td>
-    <td>{{ item.mobilePhone }}</td>
+    <td><a (click)="preview({ id: item.studentId })">{{ item.studentName }}</a></td>
+    <td><a (click)="preview({ id: item.studentId })">{{ item.nickName }}</a></td>
+    <td>{{ item.className }}</td>
+    <td>{{ item.teacherName }}</td>
+    <td><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a><ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container></td>
     <td>{{ item.days }}</td>
   </ng-template>
 </ea-table>
