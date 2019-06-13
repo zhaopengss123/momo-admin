@@ -4,7 +4,7 @@
   [queryNode]="[ 
     { label: '出勤时间', type: 'rangepicker', key: 'time', valueKey: ['startTime', 'endTime'] }
   ]"
-  [tableThead]="['日期', '到校', '接/送', '离校', '接/送人', '状态', '班级', '老师', '备注']"
+  [tableThead]="['日期', '到校', '送人', '离校', '接人', '状态', '班级', '老师', '备注']"
   [EaTableTbodyTr]="EaTableTbodyTr">
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.date }}</td>

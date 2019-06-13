@@ -7,6 +7,7 @@ import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { PreviewComponent } from './list/preview/preview.component';
 import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { AddComponent } from './list/preview/add/add.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
     NgZorroAntdModule,
     NgRelaxModule
   ],
-  declarations: [ListComponent, UpdateComponent, PreviewComponent],
-  entryComponents: [UpdateComponent, PreviewComponent]
+  declarations: [ListComponent, UpdateComponent, PreviewComponent, AddComponent],
+  entryComponents: [UpdateComponent, PreviewComponent, AddComponent]
 })
 export class ClassModule { }

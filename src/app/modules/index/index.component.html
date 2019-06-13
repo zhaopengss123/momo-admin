@@ -25,12 +25,11 @@
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList, '学籍天数少于' + info.dayCareRemind + '天')" *ngIf="dayTimeList.length && dayTimeList.length >= 4">查看更多</a></h2>
         <div class="table one">
-          <ol><li>姓名</li><li>昵称</li><li>班级</li><li>手机</li><li>天数</li></ol>
+          <ol><li>姓名</li><li>昵称</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="dayTimeList.length; else elseTemplate">
             <ul *ngFor="let item of dayTimeList">
-              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName }}</a></li>
-              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName }}</a></li>
-              <li>{{ item.className }}</li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName || '-' }}</a></li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName || '-' }}</a></li>
               <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a><ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container></li>
               <li>{{ item.days }}</li>
             </ul>
@@ -45,13 +44,12 @@
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#8bc34a'"></i>学籍有效期少于{{ info.usefulLifeRemind }}天<a (click)="more(getOverdueList, '学籍有效期少于' + info.usefulLifeRemind + '天')" *ngIf="overdueList.length && overdueList.length >= 4">查看更多</a></h2>
         <div class="table">
-          <ol><li>姓名</li><li>昵称</li><li>班级</li><li>老师</li><li>手机</li><li>天数</li></ol>
+          <ol><li>姓名</li><li>昵称</li><li>老师</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="overdueList.length; else elseTemplate">
             <ul *ngFor="let item of overdueList">
-              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName }}</a></li>
-              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName }}</a></li>
-              <li>{{ item.className }}</li>
-              <li>{{ item.teacherName }}</li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName || '-' }}</a></li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName || '-' }}</a></li>
+              <li>{{ item.teacherName || '-' }}</li>
               <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a><ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container></li>
               <li>{{ item.days }}</li>
             </ul>
@@ -66,13 +64,12 @@
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#ffc107'"></i>{{ info.toGraduateRemind }}天即将转班/毕业<a (click)="more(getAdjustList, info.toGraduateRemind + '天即将转班/毕业')" *ngIf="adjustList.length && adjustList.length >= 4">查看更多</a></h2>
         <div class="table">
-          <ol><li>姓名</li><li>昵称</li><li>班级</li><li>老师</li><li>手机</li><li>天数</li></ol>
+          <ol><li>姓名</li><li>昵称</li><li>老师</li><li>手机</li><li>天数</li></ol>
           <ng-container *ngIf="adjustList.length; else elseTemplate">
             <ul *ngFor="let item of adjustList">
-              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName }}</a></li>
-              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName }}</a></li>
-              <li>{{ item.className }}</li>
-              <li>{{ item.teacherName }}</li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName || '-' }}</a></li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName || '-' }}</a></li>
+              <li>{{ item.teacherName || '-' }}</li>
               <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a><ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container></li>
               <li>{{ item.days }}</li>
             </ul>

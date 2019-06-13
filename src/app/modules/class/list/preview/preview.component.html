@@ -31,7 +31,6 @@
             </li>
           </ul>
         </ng-template>
-        <button nz-button nzType="primary" (click)="classChange()">转班</button>
       </nz-button-group>
     </div>
 
@@ -57,29 +56,3 @@
     </nz-table>
   </nz-tab>
 </nz-tabset>
-
-
-
-<nz-modal [(nzVisible)]="showChangeClass" nzTitle="转班" 
-  (nzOnCancel)="showChangeClass = false" 
-  (nzOnOk)="changeClassEnter()"
-  [nzOkLoading]="changeClassLoading">
-  <form nz-form [formGroup]="changeClassGroup">
-    <nz-form-item>
-      <nz-form-label nzRequired>班级</nz-form-label>
-      <nz-form-control>
-        <nz-select formControlName="classId" nzPlaceHolder="请选择班级">
-          <nz-option *ngFor="let option of classList" [nzLabel]="option.className" [nzValue]="option.id"></nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="changeClassGroup.get('classId').dirty && changeClassGroup.get('classId').hasError('required')">请选择班级！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="content">转班原因</nz-form-label>
-      <nz-form-control>
-        <textarea nz-input formControlName="content" name="content" [nzAutosize]="{ minRows: 4, maxRows: 4 }" placeholder="请输入转班原因"></textarea>
-        <nz-form-explain *ngIf="changeClassGroup.get('content').dirty && changeClassGroup.get('content').hasError('required')">请输入转班原因！</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>

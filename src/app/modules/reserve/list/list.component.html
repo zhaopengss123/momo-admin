@@ -35,7 +35,11 @@
     <td>{{ data.sex }}</td>
     <td>{{ data.monthAge }}</td>
     <td>{{ data.birthday }}</td>
-    <td>{{ data.reserveType == 0 ? '长期' : data.reserveType == 1 ? '日托' : data.reserveType == 3 ? '体验' : '未知' }}</td>
+    <td>
+      <nz-tag [nzColor]="data.reserveType == 0 ? '#2db7f5' : data.reserveType == 1 ? '#87d068' : data.reserveType == 3 ? 'green' : ''">
+        {{ data.reserveType == 0 ? '长期' : data.reserveType == 1 ? '日托' : data.reserveType == 3 ? '体验' : '未知' }}
+      </nz-tag>
+    </td>
     <td>{{ data.className }}</td>
     <td>{{ data.teacherName }}</td>
     <td>{{ data.reserveStatus == 0 ? '未到校' : data.reserveStatus == 1 ? '已到校' : data.reserveStatus == 2 ? '已离校' : data.reserveStatus == 3 ? '请假' : data.reserveStatus == 4 ? '已撤销' : '未知' }}</td>

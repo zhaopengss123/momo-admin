@@ -1,8 +1,8 @@
-import { AddComponent } from './../../../event/list/add/add.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { NzDrawerRef, NzMessageService, NzModalService, NzDrawerService } from 'ng-zorro-antd';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AddComponent } from './add/add.component';
 
 @Component({
   selector: 'app-preview',
@@ -16,8 +16,6 @@ export class PreviewComponent implements OnInit {
   teacherList: any[] = [];
   childrenList: any[] = [];
 
-  classList: any[] = [];
-
   eventList: any[] = [];
 
 
@@ -30,13 +28,6 @@ export class PreviewComponent implements OnInit {
     private drawer: NzDrawerService
   ) { 
     this.http.post('/message/listEvent', {}, false).then(res => this.eventList = res.data.list);
-    this.http.post('/message/getClasses', {}, false).then(res => this.classList = res.data);
-
-    this.changeClassGroup = this.fb.group({
-      studentIds: [],
-      classId: [, [Validators.required]],
-      content: [, [Validators.required]]
-    })
   }
 
   ngOnInit() {
@@ -72,36 +63,6 @@ export class PreviewComponent implements OnInit {
           studentInfo
         }
       });
-    }
-  }
-
-  showChangeClass: boolean;
-  changeClassGroup: FormGroup;
-  changeClassLoading: boolean;
-  classChange() {
-    if (this.displayData.every(value => !value.checked)) {
-      this.message.warning('请选择至少一位孩子');
-    } else {
-      this.showChangeClass = true;
-      this.changeClassGroup.reset();
-      let studentIds = []
-      this.displayData.map(res => res.checked && studentIds.push(res.id));
-      this.changeClassGroup.patchValue({ studentIds: studentIds.join(',') })
-    }
-  }
-  changeClassEnter() {
-    if (this.changeClassGroup.invalid) {
-      for (let i in this.changeClassGroup.controls) {
-        this.changeClassGroup.controls[i].markAsDirty();
-        this.changeClassGroup.controls[i].updateValueAndValidity();
-      }
-    } else {
-      this.changeClassLoading = true;
-      this.http.post('/classmanager/updateStudentToOtherClass', { paramJson: JSON.stringify(this.changeClassGroup.value) }).then(res => {
-        this.changeClassLoading = false;
-        this.modal.closeAll();
-        this.getData();
-      }).catch(err => this.changeClassLoading = false);
     }
   }
 

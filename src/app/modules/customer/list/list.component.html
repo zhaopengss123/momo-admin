@@ -25,7 +25,7 @@
       [isRadio]="true"
       [checkedItems]="checkedItems"
       (checkedItemsChange)="checkedData = $event"
-      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
+      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '老师', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
       [EaTableTbodyTr]="EaTableTbodyTr" 
       [checkedKey]="'studentId'"
       [checked]="true">
@@ -44,6 +44,7 @@
         <td>{{ data.age || '-' }}</td>
         <td><nz-tag *ngIf="data.cardType" [nzColor]="data.cardType == 1 ? '#87d068' : '#2db7f5'">{{ data.cardTypeName }}</nz-tag></td>
         <td>{{ data.className || '-' }}</td>
+        <td>{{ data.teacherName || '-' }}</td>
         <td>{{ data.memberFromName || '-' }}</td>
         <td>{{ data.salespersonName || '-' }}</td>
         <td>{{ data.createTime }}</td>
