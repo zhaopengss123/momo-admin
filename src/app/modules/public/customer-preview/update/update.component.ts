@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { NzDrawerRef } from 'ng-zorro-antd';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -93,7 +93,7 @@ export class UpdateComponent implements OnInit {
       isForbidden: [],
       accountId: [],
       accountName: [, [Validators.required]],
-      accountPhone: [accountPhone, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
+      accountPhone: [accountPhone, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/), this._accountMobileOnlyValidate(this.accountList.length)]],
       relationship: [, [Validators.required]],
       workplace: [],
       idNumber: [],
@@ -130,5 +130,10 @@ export class UpdateComponent implements OnInit {
   _disabledDate(current: Date): boolean {
     return current && current.getTime() > Date.now();
   }
-  
+
+  _accountMobileOnlyValidate = (idx: number): ValidatorFn => {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      return this.accountList.controls.some((f, i) => f.value.accountPhone == control.value && i !== idx) ? { error: true } : null;
+    }
+  }
 }
