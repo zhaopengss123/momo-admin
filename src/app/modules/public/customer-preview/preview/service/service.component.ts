@@ -38,6 +38,9 @@ export class ServiceComponent implements OnInit {
       res.data.list.map(item => {
         try {
           item.appContent = JSON.parse(item.appContent);
+          if (item.appContent.content.substr(item.appContent.content.length - 4, item.appContent.content.length) === '|~!|') {
+            item.appContent.content = item.appContent.content.substr(0, item.appContent.content.length - 4);
+          }
           item.appContent.content = item.appContent.content.split('|~!|').join('<i>|</i>');
         } catch (error) {
           item.appContent = { content: '', videoUrl: '', imgUrlList: [] };

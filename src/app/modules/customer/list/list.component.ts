@@ -188,10 +188,12 @@ export class ListComponent implements OnInit {
       nzContent: PaymentComponent,
       nzContentParams: { id: params.id }
     }).afterClose.subscribe(res => {
+      if (res) {
+        this.eaTable._request();
+      }
       if (res && res.isPaymentCard) {
+        this.checkedData[0].cardType = res.cardType;
         if (this.checkedData[0].classId) {
-          this.checkedData[0].cardType = res.cardType;
-          this.eaTable._request();
           this.appoint({ studentInfo: this.checkedData[0] });
         } else {
           this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
@@ -200,7 +202,23 @@ export class ListComponent implements OnInit {
     });
   }
 
-  @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
+  // @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
+  class(params) {
+    this.drawer.create({
+      nzTitle: '转/升班',
+      nzWidth: 720,
+      nzContent: ClassComponent,
+      nzBodyStyle: {
+        'padding-bottom': '53px'
+      },
+      nzContentParams: { id: params.id }
+    }).afterClose.subscribe((res: boolean) => {
+      if (res) {
+        this.checkedItems = [];
+        this.eaTable._request();
+      }
+    });
+  }
 
   @DrawerCreate({ content: LeavingComponent, title: '退园', width: 460 }) leaving: ({id: number}) => void;
 

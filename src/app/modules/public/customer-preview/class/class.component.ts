@@ -1,4 +1,4 @@
-import { NzDrawerService, NzDrawerRef } from 'ng-zorro-antd';
+import { NzDrawerService, NzDrawerRef, NzModalService } from 'ng-zorro-antd';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -30,7 +30,8 @@ export class ClassComponent implements OnInit {
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
     private drawer: NzDrawerService,
-    private drawerRef: NzDrawerRef
+    private drawerRef: NzDrawerRef,
+    private modal: NzModalService
   ) {
     this.http.post('/reserve/getClassWithTeacher').then(res => { this.classList = res.data.list; this._disabledClass(); });
   }
@@ -43,7 +44,7 @@ export class ClassComponent implements OnInit {
       this._disabledClass();
       this.formGroup.patchValue({
         className: this.memberInfo.studentInfo.className,
-        studentName: this.memberInfo.studentInfo.className,
+        studentName: this.memberInfo.studentInfo.studentName,
       });
 
       if (this.memberInfo.studentInfo.cardType == 2) {
@@ -106,5 +107,22 @@ export class ClassComponent implements OnInit {
 
   saveLoading: boolean;
   @DrawerSave('/student/adjustClass') save: () => void;
+  saveConfirm() {
+    if (this.memberInfo.studentInfo.cardType == 1) {
+      this.http.post('/student/rituoStudentAdjustClassRemind', { paramJson: JSON.stringify({studentId: this.id})}).then(res => {
+        if (res.data.list && res.data.list.length) {
+          this.modal.confirm({
+            nzTitle: '<i>确定要转班吗?</i>',
+            nzContent: `<b>您再 ${res.data.list.map(r => r = r.reserveDate).join('、')} 有预约记录确认要转班嘛</b>`,
+            nzOnOk: () => this.save()
+          });
+        } else {
+          this.save();
+        }
+      })
+    } else {
+      this.save();
+    }
+  }
 
 }

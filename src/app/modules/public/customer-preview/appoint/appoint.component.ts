@@ -37,9 +37,6 @@ export class AppointComponent implements OnInit {
     /* 如果是日托， 则获取最大选择天数 */
     this.studentInfo.cardType == 1 && this.http.post('/student/isHaveReserveTimes', { paramJson: JSON.stringify({ studentId: this.studentInfo.id }) }).then(res => this.maxChecked = res.data.surplusTimes);
     this.getData();
-    setTimeout(() => {
-      console.log(this.dataSet)
-    }, 5000);
   }
 
   checkedList: string[] = [];
@@ -54,7 +51,7 @@ export class AppointComponent implements OnInit {
       } else {
         let [startTime, teacherId, rowIndx] = day.split('|');
 
-        if (this.classId && new Date(startTime).getTime() < new Date().getTime()) {
+        if (this.classId && new Date(startTime).getTime() < new Date().getTime() - 24 * 60 * 60 * 1000) {
           this.message.warning('只能选择今天以后的日期');
           return;
         }
