@@ -94,6 +94,13 @@ export const MenuConfig = [
     isLeaf: true
   },
   {
+    title : '经营分析',
+    brief : '经营',
+    key   : '/home/management',
+    icon  : 'database',
+    isLeaf: true
+  },
+  {
     title : '商品管理',
     brief : '商品',
     key   : '/home/commodity',

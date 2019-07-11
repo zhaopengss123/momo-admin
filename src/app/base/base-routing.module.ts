@@ -127,6 +127,12 @@ const routes: Routes = [
         loadChildren: 'src/app/modules/analysis/analysis.module#AnalysisModule'
       },
       {
+        path: 'management',
+        data: { title: '经营分析' },
+        canLoad: [AuthGuardService],
+        loadChildren: 'src/app/modules/management/management.module#ManagementModule'
+      },
+      {
         path: 'visit',
         data: { noReuse: true },
         children: [
