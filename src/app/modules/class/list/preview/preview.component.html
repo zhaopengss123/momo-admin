@@ -1,12 +1,13 @@
-<nz-tabset>
+<nz-tabset [nzSelectedIndex]="selectIndex">
   <nz-tab nzTitle="老师">
-    <nz-table #basicTable [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="teacherList">
+    <nz-table #basicTable [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="classInfo.teacherInfos">
       <thead>
         <tr>
           <th>头像</th>
           <th>名字</th>
           <th>性别</th>
           <th>角色</th>
+          <th>接待能力</th>
         </tr>
       </thead>
       <tbody>
@@ -15,30 +16,17 @@
           <td>{{data.name}}</td>
           <td>{{data.sex ==  1 ? '男' : '女'}}</td>
           <td>{{data.roleName}}</td>
+          <td>{{ data.receptionNum }}</td>
         </tr>
       </tbody>
     </nz-table>
   </nz-tab>
-  <nz-tab nzTitle="孩子">
-    <div class="button">
-      <nz-button-group>
-        <button nz-button nzType="primary" nz-popover nzTitle="选择事件" nzTrigger="click" [nzContent]="contentTemplate"
-          [(nzVisible)]="showEventList">新增事件</button>
-        <ng-template #contentTemplate>
-          <ul nz-menu class="popover-content">
-            <li nz-menu-item *ngFor="let item of eventList">
-              <a href="javascript:;" (click)="addEvent(item)">{{ item.eventName }} <span *ngIf="item.eventType == 1" style="color: #E10000">(不可批量添加)</span></a>
-            </li>
-          </ul>
-        </ng-template>
-      </nz-button-group>
-    </div>
-
-    <nz-table #basicTable1 [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="childrenList" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+  <nz-tab nzTitle="日托">
+    <nz-table #basicTable1 [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="classInfo.dayCareStuList">
       <thead>
         <tr>
-          <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <th>头像</th>
+          <th>学号</th>
           <th>名字</th>
           <th>昵称</th>
           <th>性别</th>
@@ -46,8 +34,52 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable1.data">
-          <td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus()"></td>
           <td><nz-avatar nzShape="square" nzPlacement="rightBottom" [nzSrc]="data.headPhoto"></nz-avatar></td>
+          <td>{{data.studentNum}}</td>
+          <td>{{data.studentName}}</td>
+          <td>{{data.nickName}}</td>
+          <td>{{data.sex}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="月托">
+    <nz-table #basicTable2 [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="classInfo.mouthCareStuList">
+      <thead>
+        <tr>
+          <th>头像</th>
+          <th>学号</th>
+          <th>名字</th>
+          <th>昵称</th>
+          <th>性别</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable2.data">
+          <td><nz-avatar nzShape="square" nzPlacement="rightBottom" [nzSrc]="data.headPhoto"></nz-avatar></td>
+          <td>{{data.studentNum}}</td>
+          <td>{{data.studentName}}</td>
+          <td>{{data.nickName}}</td>
+          <td>{{data.sex}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="体验">
+    <nz-table #basicTable3 [nzShowPagination]="false" [nzPageSize]="10000" [nzData]="classInfo.experienceStuList">
+      <thead>
+        <tr>
+          <th>头像</th>
+          <th>学号</th>
+          <th>名字</th>
+          <th>昵称</th>
+          <th>性别</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable3.data">
+          <td><nz-avatar nzShape="square" nzPlacement="rightBottom" [nzSrc]="data.headPhoto"></nz-avatar></td>
+          <td>{{data.studentNum}}</td>
           <td>{{data.studentName}}</td>
           <td>{{data.nickName}}</td>
           <td>{{data.sex}}</td>

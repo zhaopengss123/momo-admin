@@ -107,7 +107,7 @@ export class UpdateComponent implements OnInit {
       if (isRequest) {
         this.saveLoading = true;
         params.map(res => Object.keys(res).map(key => res[key] === null && delete res[key]));
-        this.http.post('/settings/updateEventConfig', {
+        this.http.post('/settings/event/updateEventConfig', {
           paramJson: JSON.stringify({
             id: this.eventInfo.id,
             templateContent: JSON.stringify(params)

@@ -3,7 +3,7 @@
     #listPage
     url="/classmanager/getClassList"
     [queryNode]="queryNode"
-    [tableThead]="[ '头像', '班级名称', '班级口号' ,'月龄范围', '班级容纳人数', '老师接待能力人数', '老师', '学生' ,'操作' ]"
+    [tableThead]="[ '头像', '班级名称', '班级口号' ,'月龄范围', '班级容纳人数', '老师接待能力人数', '老师', '日托', '月托', '体验', '操作' ]"
     [EaBtns]="EaBtns"
     [EaTableTbodyTr]="EaTableTbodyTr">
   </ea-list-page-simp>
@@ -20,13 +20,15 @@
         <img [src]="data.classImage" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
       </ng-template>
     </td>
-    <td><a (click)="preview(data)">{{ data.className }}</a></td>
+    <td>{{ data.className }}</td>
     <td>{{ data.classSlogan }}</td>
     <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
     <td>{{ data.receptionNum }}</td>
     <td>{{ data.teacherReceptionNum }}</td>
-    <td>{{ data.teacherTotal }}</td>
-    <td>{{ data.studentTotal }}</td>
+    <td><a (click)="preview(data, 0)">{{ data.teacherTotal }}</a></td>
+    <td><a (click)="preview(data, 1)">{{ data.dayCareTotal }}</a></td>
+    <td><a (click)="preview(data, 2)">{{ data.mouthCareTotal }}</a></td>
+    <td><a (click)="preview(data, 3)">{{ data.experienceTotal }}</a></td>
     <td>
       <a (click)="update(data)">编辑</a>
       <nz-divider nzType="vertical"></nz-divider>

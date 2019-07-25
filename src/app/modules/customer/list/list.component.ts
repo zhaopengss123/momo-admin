@@ -1,3 +1,4 @@
+import { DelayComponent } from './../../public/customer-preview/delay/delay.component';
 import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QueryNode, QueryComponent } from 'src/app/ng-relax/components/query/query.component';
@@ -220,7 +221,9 @@ export class ListComponent implements OnInit {
     });
   }
 
-  @DrawerCreate({ content: LeavingComponent, title: '退园', width: 460 }) leaving: ({id: number}) => void;
+  @DrawerCreate({ content: LeavingComponent, title: '退园', width: 600 }) leaving: ({id: number}) => void;
+
+  @DrawerCreate({ content: DelayComponent, title: '延期', width: 600 }) delay: ({ id: number }) => void;
 
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }?) => void;
 
@@ -278,7 +281,18 @@ export class ListComponent implements OnInit {
 
   /* -------------- 点击退园校验 -------------- */
   leavingValid() {
-    this.checkedData[0].status != 4 ? this.leaving({ id: this.checkedItems[0] }) : this.message.warning('已退园学员不可再次退园');
+    this.checkedData[0].status != 3 && this.checkedData[0].status != 4 ? this.leaving({ id: this.checkedItems[0] }) : this.message.warning('已退园学员不可再次退园');
+  }
+
+  delayValid() {
+    let data = this.eaTable.dataSet.filter(d => d.studentId === this.checkedItems[0])[0];
+    if (data.cardType != 2) {
+      this.message.warning('只有定期学员才可延期')
+    } else if (!data.effectDate) {
+      this.message.warning('学员未开卡，无法延期');
+    } else {
+      this.delay({ id: this.checkedItems[0] })
+    }
   }
 
 }

@@ -11,19 +11,19 @@
 
     <div class="cell">
       <div class="dib">
+        <span>班级：</span><span>{{ memberInfo?.studentInfo.className || '-' }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib" *ngIf="memberInfo?.studentInfo.cardType == 2">
+        <span>老师：</span><span>{{ memberInfo?.studentInfo.teacherName || '-' }}</span>
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div class="dib">
         <span>所属销售：</span><span>{{ memberInfo?.studentInfo.salespersonName || '-' }}</span>
         <nz-divider nzType="vertical"></nz-divider>
       </div>
       <div class="dib">
         <span>建档时间：</span><span>{{ memberInfo?.studentInfo.createTime }}</span>
-        <nz-divider nzType="vertical"></nz-divider>
-      </div>
-      <div class="dib">
-        <span>班级：</span><span>{{ memberInfo?.studentInfo.className || '-' }}</span>
-      </div>
-      <div class="dib" *ngIf="memberInfo?.studentInfo.cardType == 2">
-        <nz-divider nzType="vertical"></nz-divider>
-        <span>老师：</span><span>{{ memberInfo?.studentInfo.teacherName || '-' }}</span>
       </div>
     </div>
     <div class="cell">

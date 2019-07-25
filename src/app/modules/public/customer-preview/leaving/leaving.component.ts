@@ -1,3 +1,4 @@
+import { format, differenceInCalendarDays } from 'date-fns';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
@@ -23,6 +24,9 @@ export class LeavingComponent implements OnInit {
 
   whetherLeaving = true;
 
+  resultTimes = 0;
+  resultFreeTimes = 0;
+
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
@@ -35,6 +39,20 @@ export class LeavingComponent implements OnInit {
       this.formGroup.patchValue({ studentName: res.data.studentInfo.studentName });
       this.memberInfo.hideBtn = true;
       this.loading = false;
+      if (this.memberInfo.studentInfo.cardType == 2 && this.memberInfo.studentInfo.effectDate) {
+        this.formGroup.addControl('leaveDate', this.fb.control(null, [Validators.required]));
+        this.formGroup.addControl('studentLeaveDate', this.fb.control(null, [Validators.required]));
+        this.formGroup.get('leaveDate').valueChanges.subscribe(v => {
+          if (v) {
+            let startTime = format(v, 'YYYY-MM-DD');
+            this.formGroup.patchValue({ studentLeaveDate: startTime });
+            this.http.post('/student/getLeaveSurplusTime', { paramJson: JSON.stringify({ studentId: this.id, startTime }) }).then(res => {
+              this.resultTimes = res.data.resultTimes;
+              this.resultFreeTimes = res.data.resultFreeTimes;
+            })
+          }
+        })
+      }
     });
     this.formGroup = this.fb.group({
       studentId: [this.id],
@@ -56,5 +74,9 @@ export class LeavingComponent implements OnInit {
       this.formGroup.addControl('price', this.fb.control(null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)])) :
       this.formGroup.removeControl('price');
   }
+
+  disabledDate = (current: Date): boolean => {
+    return differenceInCalendarDays(current, new Date(this.memberInfo.studentInfo.expireDate)) > 0;
+  };
 
 }

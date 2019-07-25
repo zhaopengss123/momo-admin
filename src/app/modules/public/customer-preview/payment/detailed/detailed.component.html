@@ -1,69 +1,117 @@
-<div class="detail">
-  <ea-title>{{ formInfo.cardTypeName || formInfo.serviceName }}</ea-title>
-  <div [innerHtml]="formInfo.cardDesc || formInfo.serviceDesc"></div>
-</div>
+<form nz-form [formGroup]="formGroup" *ngIf="paymentType">
+  <ng-container [ngSwitch]="paymentType">
 
-<form nz-form [formGroup]="formGroup">
-  <nz-form-item>
-    <nz-form-label nzSpan="5" nzRequired>单价</nz-form-label>
-    <nz-form-control nzSpan="19">
-      <input nz-input formControlName="price" placeholder="商品单价" readonly>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzSpan="5">折扣</nz-form-label>
-    <nz-form-control nzSpan="19">
-      <input nz-input formControlName="discount" [placeholder]="'请输入' + formInfo.lowestDiscount + '- 1'">
-      <nz-form-explain *ngIf="valid('discount', 'error')">请输入正确的折扣({{ formInfo.lowestDiscount }} - 1)</nz-form-explain>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzSpan="5">优惠</nz-form-label>
-    <nz-form-control nzSpan="19">
-      <nz-form-text style="color: #f5222d; font-size: 14px;">{{ (preferential || 0) | currency: '￥' }}</nz-form-text>
-    </nz-form-control>
-  </nz-form-item>
-  <ng-container *ngIf="formInfo.cardTypeName">
-    <nz-form-item>
-      <nz-form-label nzSpan="5">赠送</nz-form-label>
-      <nz-form-control nzSpan="19">
-        <input nz-input formControlName="freeDay" placeholder="请输入赠送的天数">
-        <nz-form-explain *ngIf="valid('freeDay', 'pattern')">请输入正确的天数</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
-    <ng-container *ngIf="formInfo.type == 1">
+    <ng-container *ngSwitchCase="'card'">
       <nz-form-item>
-        <nz-form-label nzSpan="5" nzRequired>入学时间</nz-form-label>
+        <nz-form-label nzSpan="5" nzRequired>单价</nz-form-label>
         <nz-form-control nzSpan="19">
-          <nz-date-picker formControlName="effectDate" nzFormat="yyyy-MM-dd" nzPlaceHolder="请选择入学时间"></nz-date-picker>
-          <nz-form-explain *ngIf="valid('effectDate')">请选择入学时间</nz-form-explain>
+          <input nz-input formControlName="price" placeholder="商品单价" readonly>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzSpan="5">到期时间</nz-form-label>
+        <nz-form-label nzSpan="5">折扣</nz-form-label>
         <nz-form-control nzSpan="19">
-          <input nz-input formControlName="expireDate" readonly placeholder="到期时间">
+          <input nz-input formControlName="discount" [placeholder]="'请输入' + cardFormInfo.lowestDiscount + '- 1'">
+          <nz-form-explain *ngIf="valid('discount', 'error')">请输入正确的折扣({{ cardFormInfo.lowestDiscount }} - 1)</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5">优惠</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <nz-form-text style="color: #f5222d; font-size: 14px;">{{ (preferential || 0) | currency: '￥' }}</nz-form-text>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5">订金</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <nz-form-text style="color: #f5222d; font-size: 14px;">{{ (formGroup.controls['deposit'].value || 0) | currency: '￥' }}</nz-form-text>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5">赠送</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <input nz-input formControlName="freeDay" placeholder="请输入赠送的天数">
+          <nz-form-explain *ngIf="valid('freeDay', 'pattern')">请输入正确的天数</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5" nzRequired>缴费性质</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <nz-select formControlName="payMethod" nzPlaceHolder="请选择缴费性质">
+            <nz-option nzLabel="全款" [nzValue]="1"></nz-option>
+            <nz-option nzLabel="分期" [nzValue]="2"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5" nzRequired>学号</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <input nz-input formControlName="studentNum" placeholder="请输入学号">
+          <nz-form-explain *ngIf="valid('studentNum','required')">请输入学号</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+
+      <ng-container *ngIf="cardFormInfo.type == 1">
+        <nz-form-item>
+          <nz-form-label nzSpan="5" nzRequired>入学时间</nz-form-label>
+          <nz-form-control nzSpan="19">
+            <nz-date-picker formControlName="effectDate" nzFormat="yyyy-MM-dd" nzPlaceHolder="请选择入学时间"></nz-date-picker>
+            <nz-form-explain *ngIf="valid('effectDate')">请选择入学时间</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzSpan="5">到期时间</nz-form-label>
+          <nz-form-control nzSpan="19">
+            <input nz-input formControlName="expireDate" readonly placeholder="到期时间">
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'service'">
+      <nz-collapse [nzBordered]="false">
+        <nz-collapse-panel [formGroup]="group" *ngFor="let group of serviceList.controls; let idx = index;" [nzActive]="true" [nzHeader]="group['controls']['serviceTypeName'].value" [nzExtra]="serviceList.controls.length > 1 ? extraTpl : null">
+
+          <nz-form-item>
+            <nz-form-label nzSpan="5" nzRequired>单价</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <input nz-input formControlName="price" placeholder="商品单价" readonly>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">折扣</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <input nz-input formControlName="discount" [placeholder]="'请输入' + group['lowestDiscount'] + '- 1'">
+              <nz-form-explain *ngIf="group['controls']['discount'].dirty && group['controls']['discount'].hasError('error')">请输入正确的折扣({{ group['lowestDiscount'] }} - 1)</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          
+          <ng-template #extraTpl><i nz-icon nzType="delete" nzTheme="outline" (click)="deleteService($event, idx)"></i></ng-template>
+        </nz-collapse-panel>
+      </nz-collapse>
+
+      <nz-form-item>
+        <nz-form-label nzSpan="5">优惠</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <nz-form-text style="color: #f5222d; font-size: 14px;">{{ (preferential || 0) | currency: '￥' }}</nz-form-text>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+      <nz-form-item>
+        <nz-form-label nzSpan="5" nzRequired>缴纳金额</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <input nz-input formControlName="price" placeholder="请输入缴纳订金金额">
+          <nz-form-explain *ngIf="valid('price')">请输入缴纳订金金额！</nz-form-explain>
+          <nz-form-explain *ngIf="valid('price', 'pattern')">请输入正确的金额！</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </ng-container>
     
-    <nz-form-item>
-      <nz-form-label nzSpan="5" nzRequired>缴费性质</nz-form-label>
-      <nz-form-control nzSpan="19">
-        <nz-select formControlName="payMethod" nzPlaceHolder="请选择缴费性质">
-          <nz-option nzLabel="全款" [nzValue]="1"></nz-option>
-          <nz-option nzLabel="分期" [nzValue]="2"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="5" nzRequired>学号</nz-form-label>
-      <nz-form-control nzSpan="19">
-        <input nz-input formControlName="studentNum" placeholder="请输入学号">
-        <nz-form-explain *ngIf="valid('studentNum','required')">请输入学号</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
   </ng-container>
+
   <nz-form-item>
     <nz-form-label nzSpan="5" nzRequired>所属销售</nz-form-label>
     <nz-form-control nzSpan="19">
@@ -79,6 +127,6 @@
       <textarea nz-input formControlName="comment" placeholder="请输入备注"></textarea>
     </nz-form-control>
   </nz-form-item>
-</form>
 
-<button nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="save()" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading">收款：{{ (formInfo.price - preferential) | currency: '￥' }}</button>
+  <button nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="save()" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading">收款：{{ ( priceTotal - preferential - (formGroup.controls['deposit']?.value || 0) ) | currency: '￥' }}</button>
+</form>

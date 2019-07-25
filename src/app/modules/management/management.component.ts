@@ -1,3 +1,5 @@
+import { AppState } from './../../core/reducers/reducers-config';
+import { Store } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit } from '@angular/core';
@@ -30,9 +32,12 @@ export class ManagementComponent implements OnInit {
     "textFieldList": [],
     "writeableSelectList": []
   };
+
+  kindergartenId: number;
   constructor(
     private http: HttpService,
     private format: DatePipe,
+    private store: Store<AppState>
   ) {
     var date = new Date();
     var year = date.getFullYear();
@@ -130,7 +135,8 @@ export class ManagementComponent implements OnInit {
         delete params[i];
       }
     }
-    window.open(this.domain + '/report/export?paramJson=' + JSON.stringify(params));
+    params.kindergartenId = this.kindergartenId;
+    window.open(this.domain + '/report/export?paramJson=' + encodeURIComponent(JSON.stringify(params)));
   }
   elder(index) {
     let reportId = index == '0' ? '2' : index == '1' ? '3' : '';
@@ -196,7 +202,7 @@ export class ManagementComponent implements OnInit {
     }
   }
   ngOnInit() {
-
+    this.store.select('userInfoState').subscribe(res => this.kindergartenId = res.kindergartenId);
   }
 
 }

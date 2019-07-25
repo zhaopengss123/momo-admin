@@ -9,6 +9,21 @@
       </nz-tab>
     </nz-tabset>
   </div>
+
+  <div class="download-app">
+    <ul>
+      <li nz-popover nzType="primary" [nzContent]="downloadAppL">
+        <img src="./assets/images/download-app-ls.jpg" alt="">
+        <p>老师端APP下载</p>
+        <ng-template #downloadAppL><img width="200" src="./assets/images/download-app-ls.jpg" alt=""></ng-template>
+      </li>
+      <li nz-popover nzType="primary" [nzContent]="downloadAppJ">
+        <img src="./assets/images/download-app-jz.jpg" alt="">
+        <p>家长端APP下载</p>
+        <ng-template #downloadAppJ><img width="200" src="./assets/images/download-app-jz.jpg" alt=""></ng-template>
+      </li>
+    </ul>
+  </div>
   
   <div class="search">
     <nz-input-group [nzSuffix]="suffixIconSearch">

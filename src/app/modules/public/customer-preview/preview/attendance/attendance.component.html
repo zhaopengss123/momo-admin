@@ -12,7 +12,7 @@
     <td>{{ data.comeName ? data.comeName.split('|~!|')[0] : '-' }}</td>
     <td>{{ data.goTime }}</td>
     <td>{{ data.goName ? data.goName.split('|~!|')[0] : '-' }}</td>
-    <td>{{ data.status ? '请假' : '正常' }}</td>
+    <td>{{ data.status == 0 ? '正常' : data.status == 1 ? '请假' : '延期' }}</td>
     <td>{{ data.className }}</td>
     <td>{{ data.teacherName }}</td>
     <td>{{ data.comment }}</td>

@@ -1,11 +1,11 @@
 <div class="container">
     <ea-list-page-simp #listPage url="/teacher/getTeachersList" [queryNode]="queryNode" [paramsDefault]="{status: 1}"
-        [tableThead]="[ '头像', '名字', '手机号' ,'性别', '角色', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
+        [tableThead]="[ '头像', '名字', '手机号' ,'性别', '角色', '是否是主管', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
          [EaTableTbodyTr]="EaTableTbodyTr">
     </ea-list-page-simp>
 
     <ng-template #EaBtns>
-        <button nz-button nzType="primary" (click)="update()">新增老师</button>
+        <button nz-button nzType="primary" (click)="update()">新增员工</button>
     </ng-template>
 
     <ng-template let-data #EaTableTbodyTr>
@@ -21,6 +21,7 @@
                 *ngIf="data.isPhone">{{ data.mobilePhone }}</span></td>
         <td>{{ data.sex == 1 ? '男' : '女' }}</td>
         <td>{{ data.roleName }}</td>
+        <td>{{ data.isGovernor ? '是' : '否' }}</td>
         <td>{{ data.status == 1 ? '在职' : '离职' }}</td>
         <td>{{ data.className }}</td>
         <td>{{ data.age }}</td>

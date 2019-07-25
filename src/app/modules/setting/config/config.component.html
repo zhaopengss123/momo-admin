@@ -59,5 +59,39 @@
                 </nz-form-item>
             </div>
         </div>
+        <div nz-row nzGutter="8">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired>地图标注（经纬度）</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group nzCompact>
+                            <input type="text" nz-input placeholder="经纬度" formControlName="latAndLon" [readOnly]="true" style="width:80%;" />
+                            <button nz-button nzType="primary" style="width: 20%" (click)="selectMarker()">去选择</button>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row nzGutter="8">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired>家长签到范围</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="distance" nzPlaceHolder="请选择家长签到范围">
+                            <nz-option nzLabel="100米" [nzValue]="100"></nz-option>
+                            <nz-option nzLabel="200米" [nzValue]="200"></nz-option>
+                            <nz-option nzLabel="300米" [nzValue]="300"></nz-option>
+                            <nz-option nzLabel="400米" [nzValue]="400"></nz-option>
+                            <nz-option nzLabel="500米" [nzValue]="500"></nz-option>
+                            <nz-option nzLabel="600米" [nzValue]="600"></nz-option>
+                            <nz-option nzLabel="700米" [nzValue]="700"></nz-option>
+                            <nz-option nzLabel="800米" [nzValue]="800"></nz-option>
+                            <nz-option nzLabel="900米" [nzValue]="900"></nz-option>
+                            <nz-option nzLabel="1000米" [nzValue]="1000"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
     </form>
 </nz-card>

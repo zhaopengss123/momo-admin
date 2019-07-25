@@ -99,6 +99,14 @@ export class UpdateComponent implements OnInit {
       idNumber: [],
       defaultStatus: [!this.accountList.length]
     }));
+    let group = this.accountList.controls[this.accountList.controls.length - 1];
+    group['controls']['accountPhone'].valueChanges.subscribe(accountPhone => {
+      if ((/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/).test(accountPhone) && accountPhone) {
+        this.http.post('/student/returnParentAccountInfo', { paramJson: JSON.stringify({ accountPhone }) }).then(res => {
+          group.patchValue(res.data);
+        })
+      }
+    });
   }
 
   setDefault(idx) {
@@ -117,11 +125,12 @@ export class UpdateComponent implements OnInit {
         }
       }
     } else {
+      this.saveLoading = true;
       this.formGroup.value.birthday = this.format.transform(this.formGroup.value.birthday, 'yyyy-MM-dd');
       let url = this.formGroup.value.studentId ? 'updateStudentInfo' : 'newSaveStudent'
       this.optionItem.memberFromList.map(m => m.memberFromId === this.formGroup.value.memberFromId && (this.formGroup.value.memberFromName = m.fromName));
       this.formGroup.value.recruitTeacherId && this.peopleItem.collectorList.map(m => m.teacherId === this.formGroup.value.recruitTeacherId && (this.formGroup.value.recruitTeacherName = m.teacherName));
-      this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(this.type ? Object.assign({ type: this.type }, this.formGroup.value) : true))
+      this.http.post(`/student/${url}`, { paramJson: JSON.stringify(this.formGroup.value) }, true).then(res => this.close(this.type ? Object.assign({ type: this.type }, this.formGroup.value) : true)).catch(e => this.saveLoading = false);
     }
   }
 

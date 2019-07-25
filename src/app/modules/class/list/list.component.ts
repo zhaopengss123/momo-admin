@@ -53,13 +53,13 @@ export class ListComponent implements OnInit {
     this.http.post('/classmanager/deleteClassById', { classId }, true).then(res => this.listPage.eaTable._request())
   }
 
-  preview(info) {
+  preview(classInfo, selectIndex) {
     this.drawer.create({
       nzWidth: 720,
-      nzTitle: info.className,
+      nzTitle: classInfo.className,
       nzContent: PreviewComponent,
-      nzContentParams: { id: info.id }
-    }).afterClose.subscribe(res => res && this.listPage.eaTable._request());
+      nzContentParams: { classInfo, selectIndex }
+    })
   }
 
 }

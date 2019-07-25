@@ -1,19 +1,25 @@
 <ea-table 
+  #table
   url="/student/getTransactionRecordList" 
   [paramsDefault]="{ studentId: studentId }"
-  [thead]="['名称', '单价', '折扣', '支付金额', '赠送（天）', '成单时间', '开卡时间', '到期时间', '所属销售', '缴费性质', '备注']"
+  [thead]="['名称', '商品类型', '单价', '折扣', '使用订金', '支付金额', '赠送（天）', '成单时间', '开卡时间', '到期时间', '天数', '所属销售', '缴费性质', '备注', '状态', '操作']"
   [EaTableTbodyTr]="EaTableTbodyTr">
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.name }}</td>
+    <td>{{ data.type == 1 ? '学籍类' : '服务类' }}</td>
     <td>{{ data.price }}</td>
     <td>{{ data.discount }}</td>
+    <td>{{ data.deposit }}</td>
     <td>{{ data.balance }}</td>
     <td>{{ data.freeDay }}</td>
     <td>{{ data.createTime }}</td>
     <td>{{ data.effectDate }}</td>
     <td>{{ data.expireDate }}</td>
+    <td>{{ data.day }}</td>
     <td>{{ data.teacherName }}</td>
     <td>{{ data.payMethod == 1 ? '全款' : '分期' }}</td>
     <td>{{ data.comment }}</td>
+    <td>{{ data.status == 0 ? '交易成功' : data.status == 1 ? '已退款' : '已使用' }}</td>
+    <td><a nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="refund(data.id)" *ngIf="data.status == 0 && data.type != 1">退款</a></td>
   </ng-template>
 </ea-table>

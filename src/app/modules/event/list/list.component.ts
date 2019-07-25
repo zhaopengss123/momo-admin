@@ -4,6 +4,7 @@ import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { QueryNode, QueryComponent } from 'src/app/ng-relax/components/query/query.component';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-list',
@@ -18,7 +19,8 @@ export class ListComponent implements AfterViewInit {
     {
       label: '时间',
       type: 'datepicker',
-      key: 'startTime'
+      key: 'startTime',
+      default: new Date()
     },
     {
       label: '孩子',
@@ -71,7 +73,8 @@ export class ListComponent implements AfterViewInit {
 
   queryParams: any = {
     pageNo: 1,
-    totalCount: 0
+    totalCount: 0,
+    startTime: format(new Date(), 'YYYY-MM-DD')
   };
   loadData(pi: number): void {
     this.queryParams.pageNo = pi;

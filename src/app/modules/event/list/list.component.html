@@ -15,9 +15,7 @@
 
 </div>
 <div class="content">
-  <nz-list [nzDataSource]="dataSet" nzItemLayout="horizontal" [nzLoading]="loading"
-    [nzPagination]="pagination"
-    [nzRenderItem]="item">
+  <nz-list [nzDataSource]="dataSet" nzItemLayout="horizontal" [nzLoading]="loading" [nzPagination]="pagination" [nzRenderItem]="item">
     <ng-template #item let-item>
       <nz-list-item *ngIf="!showExamine || (showExamine && item.auditStatus == 1)" [nzActions]="item.auditStatus != 2 ? [editAction] : null">
         <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="item.loading">

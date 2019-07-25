@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 
 import { NgRelaxModule } from './../../../ng-relax/ng-relax.module';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { BmapComponent } from './bmap/bmap.component';
 
 
 @NgModule({
-  declarations: [ConfigComponent],
+  declarations: [ConfigComponent, BmapComponent],
   imports: [
     CommonModule,
     NgZorroAntdModule,
@@ -19,6 +20,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
         component: ConfigComponent
       }
     ]),
-  ]
+  ],
+  entryComponents: [BmapComponent]
 })
 export class ConfigModule { }

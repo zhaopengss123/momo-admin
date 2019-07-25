@@ -1,4 +1,4 @@
-<div nz-row [nzGutter]="32">
+<div nz-row [nzGutter]="32" style="height: 100%">
   <div nz-col [nzSpan]="15">
     <nz-tabset>
       <nz-tab nzTitle="办卡">
@@ -15,7 +15,7 @@
             </nz-tag>
           </ng-container>
         </div>
-        <ea-table #cardTypeTable url="/commodity/card/getCardTypeList" (clickData)="select($event, 'cardInfo')" [paramsDefault]="{ isOnline: true}"
+        <ea-table #cardTypeTable url="/commodity/card/getCardTypeList" (clickData)="select($event, 'card')" [paramsDefault]="{ isOnline: true}"
           [thead]="['卡名称', '卡类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr0">
           <ng-template let-data #EaTableTbodyTr0>
             <td>{{ data.cardTypeName }}</td>
@@ -40,7 +40,7 @@
           </ng-container>
         </div>
         <ea-table #serviceTable url="/commodity/service/serviceTypeList"
-          (clickData)="select($event, 'serviceInfo')"
+          (clickData)="select($event, 'service')"
           [paramsDefault]="{ isOnline: true}" [thead]="['服务名称', '服务类型', '最低折扣', '售价']" [EaTableTbodyTr]="EaTableTbodyTr1">
           <ng-template let-data #EaTableTbodyTr1>
             <td>{{ data.serviceName }}</td>
@@ -50,10 +50,14 @@
           </ng-template>
         </ea-table>
       </nz-tab>
+      <nz-tab nzTitle="订金">
+        <ea-tip>订金会在办卡时扣除，如未办卡也可在交易记录中退款。</ea-tip>
+        <button nz-button nzBlock nzType="dashed" (click)="select({}, 'deposit')">缴纳订金</button>
+      </nz-tab>
     </nz-tabset>
   </div>
 
-  <div nz-col [nzSpan]="9" style="min-height: 500px; border-left: solid 1px #eee">
+  <div nz-col [nzSpan]="9" style="height: 100%; border-left: solid 1px #eee; overflow-y: auto">
     <nz-skeleton [nzLoading]="!studentInfo?.studentId">
       <div class="header">
         <nz-avatar [nzShape]="'square'" [nzSrc]="studentInfo?.headPhoto" [nzSize]="64" [nzIcon]="'user'"></nz-avatar>
@@ -72,12 +76,10 @@
           </div>
         </div>
       </div>
-    </nz-skeleton>
-    
-    <nz-divider></nz-divider>
-    <nz-empty *ngIf="isInit" [nzNotFoundImage]="'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'" [nzNotFoundContent]="'请选择卡项或服务'"></nz-empty>
-    <nz-skeleton *ngIf="!isInit" [nzLoading]="!showPayment">
-      <app-detailed [id]="id" [studentInfo]="studentInfo" [cardInfo]="cardInfo" *ngIf="showPayment" [serviceInfo]="serviceInfo"></app-detailed>
+      
+      <nz-divider></nz-divider>
+
+      <app-detailed *ngIf="studentInfo?.studentId" [studentInfo]="studentInfo" [selectChange]="selectChange"></app-detailed>
     </nz-skeleton>
   </div>
 </div>

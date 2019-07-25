@@ -73,8 +73,8 @@ export const MenuConfig = [
     ]
   },
   {
-    title : '老师管理',
-    brief : '老师',
+    title : '员工管理',
+    brief : '员工',
     key   : '/home/teacher',
     icon  : 'team',
     isLeaf: true
@@ -97,7 +97,7 @@ export const MenuConfig = [
     title : '经营分析',
     brief : '经营',
     key   : '/home/management',
-    icon  : 'database',
+    icon  : 'line-chart',
     isLeaf: true
   },
   {
