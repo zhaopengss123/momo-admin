@@ -77,6 +77,20 @@ export class ListComponent implements OnInit {
       options : [{ name: '开启', id: 0}, { name: '关闭', id: 1}],
       isRadio : true
     },
+    // {
+    //   label   : '体验状态',
+    //   key     : 'studentStatus',
+    //   type    : 'tag',
+    //   options : [{ name: '未体验', id: 0}, { name: '已体验', id: 1}],
+    //   isRadio : true
+    // },
+    {
+      label   : '入学状态',
+      key     : 'cardStatus',
+      type    : 'tag',
+      options : [{ name: '待入学', id: 0}, { name: '已入学', id: 1}],
+      isRadio : true
+    },
     {
       label   : '学员',
       key     : 'studentId',
@@ -104,19 +118,22 @@ export class ListComponent implements OnInit {
     {
       label   : '建档时间',
       key     : 'createTime',
-      type    : 'datepicker',
+      type    : 'rangepicker',
+      valueKey: ['createTimeStart', 'createTimeEnd'],
       isHide  : true
     },
     {
       label   : '入学时间',
       key     : 'effectDate',
-      type    : 'datepicker',
+      type    : 'rangepicker',
+      valueKey: ['effectDateStart', 'effectDateEnd'],
       isHide  : true
     },
     {
       label   : '到期时间',
       key     : 'expireDate',
-      type    : 'datepicker',
+      type    : 'rangepicker',
+      valueKey: ['expireDateStart', 'expireDateEnd'],
       isHide  : true
     },
     {

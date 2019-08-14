@@ -22,6 +22,13 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
+        <nz-form-label nzSpan="5">增减金额</nz-form-label>
+        <nz-form-control nzSpan="19">
+          <input nz-input formControlName="updatePrice" placeholder="请输入增减金额">
+          <nz-form-explain *ngIf="valid('updatePrice', 'pattern')">请输入正确的金额</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
         <nz-form-label nzSpan="5">订金</nz-form-label>
         <nz-form-control nzSpan="19">
           <nz-form-text style="color: #f5222d; font-size: 14px;">{{ (formGroup.controls['deposit'].value || 0) | currency: '￥' }}</nz-form-text>
@@ -128,5 +135,5 @@
     </nz-form-control>
   </nz-form-item>
 
-  <button nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="save()" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading">收款：{{ ( priceTotal - preferential - (formGroup.controls['deposit']?.value || 0) ) | currency: '￥' }}</button>
+  <button nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="save()" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="saveLoading">收款：{{ ( priceTotal - preferential - (formGroup.controls['deposit']?.value || 0) ) + updatePrice | currency: '￥' }}</button>
 </form>

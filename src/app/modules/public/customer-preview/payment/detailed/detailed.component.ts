@@ -28,6 +28,7 @@ export class DetailedComponent implements OnInit {
   priceTotal = 0;
   /* 优惠金额 */
   preferential = 0;
+  updatePrice = 0;
 
   constructor(
     private http: HttpService,
@@ -94,7 +95,8 @@ export class DetailedComponent implements OnInit {
       payMethod: [1],
       studentNum: [{ value: this.studentInfo.studentNum, disabled: !!this.studentInfo.studentNum }, [Validators.required]],
       deposit: [],
-      depositId: []
+      depositId: [],
+      updatePrice: [, [Validators.pattern(/^\-?[0-9]+(\.\d{1,2})?$/)]]
     }, data.type == 1 ? {
       effectDate: [, [Validators.required]],
       expireDate: [],
@@ -107,6 +109,8 @@ export class DetailedComponent implements OnInit {
       let discount = Number(val) ? Number(val) : 1;
       this.preferential = data.price - data.price * discount;
     });
+
+    this.formGroup.get('updatePrice').valueChanges.subscribe(res => this.updatePrice = res && Number(res) ? Number(res) : 0 );
 
     if (data.type == 1) {
       let [y, m, d] = this.studentInfo.birthday.split('-');

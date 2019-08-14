@@ -3,11 +3,10 @@
     #listPage
     url="/reserve/queryReserve"
     [queryNode]="queryNode"
-    [tableThead]="[ '学员头像','学号', '学员姓名', '学员昵称', '手机号', '性别', '月龄', '生日', '学员类型', '班级', '老师', '预约状态', '预约时间', 
-    '操作时间', '备注', '操作' ]"
+    [tableThead]="[ '学员头像','学号', '学员姓名', '学员昵称', '手机号', '性别', '月龄', '生日', '学员类型', '班级', '老师', '预约状态', '预约时间', '操作时间', '家长嘱托', '操作' ]"
     [EaBtns]="EaBtns"
     [showPage]="false"
-    [paramsInit]="paramsInit"
+    [paramsDefault]="paramsDefault"
     [EaTableTbodyTr]="EaTableTbodyTr">
   </ea-list-page>
   <ng-template #EaBtns>
@@ -45,7 +44,7 @@
     <td>{{ data.reserveStatus == 0 ? '未到校' : data.reserveStatus == 1 ? '已到校' : data.reserveStatus == 2 ? '已离校' : data.reserveStatus == 3 ? '请假' : data.reserveStatus == 4 ? '已撤销' : '未知' }}</td>
     <td>{{ data.reserveDate }}</td>
     <td>{{ data.createTime }}</td>
-    <td>{{ data.comment }}</td>
+    <td><span nz-tooltip [nzTitle]="data.content">{{ data.content && data.content.length > 10 ? data.content.substr(0, 10) + '...' : data.content }}</span></td>
     <td>
       <a nz-popconfirm *ngIf="(data.reserveType == 1 || data.reserveType == 3) && data.reserveStatus == 0" nzTitle="确定要撤销该预约吗？" (nzOnConfirm)="withdraw(data.id)">撤销</a>
     </td>

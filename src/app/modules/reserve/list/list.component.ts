@@ -62,7 +62,7 @@ export class ReserveComponent implements OnInit {
     }
   ];
 
-  paramsInit;
+  paramsDefault;
 
   weilaiForm: FormGroup;
   weilaiOptionList: any[] = []
@@ -73,7 +73,7 @@ export class ReserveComponent implements OnInit {
     private format: DatePipe,
     private fb: FormBuilder = new FormBuilder()
   ) { 
-    this.paramsInit = {
+    this.paramsDefault = {
       reserveDate: this.format.transform(new Date(), 'yyyy-MM-dd'),
     };
     this.weilaiForm = this.fb.group({

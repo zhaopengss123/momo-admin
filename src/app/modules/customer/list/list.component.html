@@ -2,7 +2,7 @@
   <nz-tabset [(nzSelectedIndex)]="customerStatusIndex" (nzSelectChange)="tabsetSelectChange()">
     <nz-tab nzTitle="全部"></nz-tab>
     <nz-tab nzTitle="在校学员"></nz-tab>
-    <nz-tab nzTitle="体验学员"></nz-tab>
+    <nz-tab nzTitle="潜在学员"></nz-tab>
     <nz-tab nzTitle="离校学员"></nz-tab>
   </nz-tabset>
 
@@ -26,7 +26,7 @@
       [isRadio]="true"
       [checkedItems]="checkedItems"
       (checkedItemsChange)="checkedData = $event"
-      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '老师', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态','监控状态', '操作']" 
+      [thead]="['头像', '学号', '昵称', '姓名', '性别', '月龄', '类型', '班级', '老师', '来源', '销售', '建档时间', '入学时间', '到期时间', '剩余天数', '状态', '跟踪记录','监控状态', '操作']" 
       [EaTableTbodyTr]="EaTableTbodyTr" 
       [checkedKey]="'studentId'"
       [checked]="true">
@@ -57,6 +57,7 @@
             {{ data.studentStatus }}
           </nz-tag>
         </td>
+        <td><div class="oh" nz-tooltip [nzTitle]="data.lastFollowContent">{{ data.lastFollowContent }}</div></td>
         <td><nz-badge [nzStatus]="data.isLook ? 'default' : 'processing'" [nzText]="data.isLook ? '关闭' : '开启'"></nz-badge></td>
         <td>
           <ng-container *ngIf="data.status != 2">

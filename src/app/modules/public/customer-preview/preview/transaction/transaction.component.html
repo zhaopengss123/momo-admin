@@ -20,6 +20,17 @@
     <td>{{ data.payMethod == 1 ? '全款' : '分期' }}</td>
     <td>{{ data.comment }}</td>
     <td>{{ data.status == 0 ? '交易成功' : data.status == 1 ? '已退款' : '已使用' }}</td>
-    <td><a nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="refund(data.id)" *ngIf="data.status == 0 && data.type != 1">退款</a></td>
+    <td>
+      <ng-container *ngIf="data.status == 0 && data.type != 1">
+        <a nz-popconfirm nzTitle="请核对收款金额后确认收款" (nzOnConfirm)="refund(data.id)">退款</a>
+        <nz-divider nzType="vertical"></nz-divider>
+      </ng-container>
+      <a (click)="showModal = true; transactionId = data.id; teacherId = null;">更改销售</a>
+    </td>
   </ng-template>
 </ea-table>
+<nz-modal [(nzVisible)]="showModal" nzTitle="更改销售" (nzOnCancel)="showModal = false" (nzOnOk)="changeEnter()" [nzOkLoading]="changeLoading">
+  <nz-select [style.width]="'100%'" [(ngModel)]="teacherId" nzPlaceHolder="请选择所属销售">
+    <nz-option *ngFor="let item of teacherList" [nzLabel]="item.teacherName" [nzValue]="item.teacherId"></nz-option>
+  </nz-select>
+</nz-modal>
