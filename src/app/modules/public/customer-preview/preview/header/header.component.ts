@@ -82,7 +82,4 @@ export class HeaderComponent implements OnInit {
 
   @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }) => void;
 
-  @ModifyData('/membermanage/returnVisit/setNoIntention') nointention: (id: number) => void;
-
-
 }

@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="formGroup">
-  <div nz-row nzGutter="8">
-    <div nz-col nzSpan="12">
+  <nz-row [nzGutter]="8">
+    <nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired>宝宝名称</nz-form-label>
         <nz-form-control>
@@ -8,8 +8,8 @@
           <nz-form-explain *ngIf="valid('studentName')">请输入宝宝名称</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
-    </div>
-    <div nz-col nzSpan="12">
+    </nz-col>
+    <nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired>家长电话</nz-form-label>
         <nz-form-control>
@@ -17,8 +17,19 @@
           <nz-form-explain *ngIf="valid('mobilePhone') || valid('mobilePhone', 'pattern')">请输入正确的家长电话</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
-    </div>
-  </div>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>分配给</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="followerId" nzPlaceHolder="请选择成长顾问">
+            <nz-option *ngFor="let item of teacherList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('followerId')">请选择成长顾问</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row>
 </form>
 
 <div class="drawer-footer">

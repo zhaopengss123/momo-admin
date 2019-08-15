@@ -25,7 +25,7 @@ export class PreviewComponent implements OnInit {
       this.memberInfo = res.data;
       this.source && (this.memberInfo.hideBtn = this.source);
       this.loading = false;
-    })
+    });
   }
 
 }

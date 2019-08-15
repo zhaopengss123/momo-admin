@@ -20,8 +20,8 @@
     </div>
   </div>
 
-  <div class="card" nz-row nzGutter="15">
-    <div nz-col nzSpan="8">
+  <div class="card" nz-row nzGutter="16">
+    <div nz-col nzSpan="6">
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList, '学籍天数少于' + info.dayCareRemind + '天')" *ngIf="dayTimeList.length && dayTimeList.length >= 4">查看更多</a></h2>
         <div class="table one">
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div nz-col nzSpan="8">
+    <div nz-col nzSpan="6">
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#8bc34a'"></i>学籍有效期少于{{ info.usefulLifeRemind }}天<a (click)="more(getOverdueList, '学籍有效期少于' + info.usefulLifeRemind + '天')" *ngIf="overdueList.length && overdueList.length >= 4">查看更多</a></h2>
         <div class="table">
@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div nz-col nzSpan="8">
+    <div nz-col nzSpan="6">
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#ffc107'"></i>{{ info.toGraduateRemind }}天即将转班/毕业<a (click)="more(getAdjustList, info.toGraduateRemind + '天即将转班/毕业')" *ngIf="adjustList.length && adjustList.length >= 4">查看更多</a></h2>
         <div class="table">
@@ -80,8 +80,71 @@
         </div>
       </div>
     </div>
+    <!-- <div nz-col nzSpan="16">
+      <div>
+        <h2><span>今日待回访任务</span><a>查看更多</a></h2>
+        <div class="table">
+          <ol>
+            <li>成长顾问</li>
+            <li>待回访数</li>
+            <li>已回访数</li>
+            <li>无意向</li>
+            <li>持续跟进</li>
+          </ol>
+          <ng-container *ngIf="adjustList.length; else elseTemplate">
+            <ul *ngFor="let item of adjustList">
+              <li><a (click)="preview({ id: item.studentId })">{{ item.studentName || '-' }}</a></li>
+              <li><a (click)="preview({ id: item.studentId })">{{ item.nickName || '-' }}</a></li>
+              <li>{{ item.teacherName || '-' }}</li>
+              <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a>
+                <ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container>
+              </li>
+              <li>{{ item.days }}</li>
+            </ul>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <nz-empty></nz-empty>
+          </ng-template>
+        </div>
+      </div>
+    </div> -->
+    <div nz-col nzSpan="6">
+      <div>
+        <h2>
+          <span>生日提醒</span>
+          <!-- <a>查看更多</a>
+          <nz-divider nzType="vertical"></nz-divider> -->
+          <a (click)="getBirthdayList(3)">一周</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="getBirthdayList(2)">明天</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="getBirthdayList(1)">今天</a>
+        </h2>
+        <div class="table">
+          <ol>
+            <li>姓名</li>
+            <li>昵称</li>
+            <li>月龄</li>
+            <li>手机</li>
+          </ol>
+          <ng-container *ngIf="studentList.length; else elseTemplate">
+            <ul *ngFor="let item of studentList">
+              <li><a (click)="preview({ id: item.id })">{{ item.studentName || '-' }}</a></li>
+              <li><a (click)="preview({ id: item.id })">{{ item.nickName || '-' }}</a></li>
+              <li>{{ item.month || '-' }}</li>
+              <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a>
+                <ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container>
+              </li>
+            </ul>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <nz-empty></nz-empty>
+          </ng-template>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div [style.margin-top]="'23px'">
+  <div [style.margin-top]="'6px'">
     <app-reserve-preview></app-reserve-preview>
   </div>

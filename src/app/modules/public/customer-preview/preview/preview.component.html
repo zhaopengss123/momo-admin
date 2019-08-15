@@ -1,7 +1,7 @@
 <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 2 }" [nzLoading]="loading">
   <app-header [memberInfo]="memberInfo"></app-header>
 </nz-skeleton>
-<nz-tabset>
+<nz-tabset [nzSelectedIndex]="source ? '1' : 0">
   <nz-tab nzTitle="客户信息">
     <nz-skeleton [nzActive]="true" [nzLoading]="loading">
       <app-information [memberInfo]="memberInfo"></app-information>

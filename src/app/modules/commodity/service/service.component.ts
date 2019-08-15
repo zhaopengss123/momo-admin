@@ -31,6 +31,13 @@ export class ServiceComponent implements OnInit {
       optionsUrl: '/commodity/service/showServiceTypeCategory'
     },
     {
+      label   : '状态',
+      key     : 'isOnline',
+      type    : 'tag',
+      isRadio : true,
+      options : [{ name: '已上架', id: 1 }, { name: '未上架', id: 0 }]
+    },
+    {
       label       : '总销量',
       key         : 'totalSalesVolume',
       type        : 'between',

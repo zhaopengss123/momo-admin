@@ -18,9 +18,11 @@ export class IndexComponent implements OnInit {
   dayTimeList: any[] = [];
   overdueList: any[] = [];
   adjustList: any[] = [];
+  studentList: any[] = [];
   getLackCardTimeList = '/message/getLackCardTimeList';
   getOverdueList = '/message/getOverdueList';
   getAdjustList = '/message/getAdjustClassStudentList';
+  getBirthdayStudentList = '/message/getBirthdayStudentList';
 
   constructor(
     private http: HttpService,
@@ -31,6 +33,7 @@ export class IndexComponent implements OnInit {
     this.http.post(this.getLackCardTimeList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.dayTimeList = res.data.list);
     this.http.post(this.getOverdueList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.overdueList = res.data.list);
     this.http.post(this.getAdjustList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.adjustList = res.data.list);
+    this.getBirthdayList(1);
   }
 
   ngOnInit() {
@@ -53,6 +56,11 @@ export class IndexComponent implements OnInit {
       nzContent: ListComponent,
       nzContentParams: { url }
     })
+  }
+
+  getBirthdayList(type) {
+    this.studentList = [];
+    this.http.post(this.getBirthdayStudentList, { paramJson: JSON.stringify({ pageNum: 1, pageSize: 4, type }) }).then(res => this.studentList = res.data.list);
   }
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;

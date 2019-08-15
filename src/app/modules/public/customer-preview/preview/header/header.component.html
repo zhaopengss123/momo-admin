@@ -47,7 +47,6 @@
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status == 2" (click)="classValid()">转班</button>
         <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status == 2" (click)="leaving({id: memberInfo?.studentInfo.studentId})">退园</button>
       </nz-button-group>
-      <button nz-button nzType="primary" nzGhost *ngIf="memberInfo.studentInfo.status != 2 && memberInfo.hideBtn === 'visit'" nz-popconfirm nzTitle="确定要移到无意向客户嘛?" (nzOnConfirm)="nointention(memberInfo.studentInfo.studentId)">移到无意向客户</button>
     </div>
   </div>
 </div>

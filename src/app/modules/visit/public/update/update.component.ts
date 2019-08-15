@@ -15,19 +15,24 @@ export class UpdateComponent implements OnInit {
 
   @Input() id: number;
   
-  formGroup: FormGroup
+  formGroup: FormGroup;
+
+  teacherList: any[] = [];
 
   constructor(
     private fb: FormBuilder = new FormBuilder(),
     private http: HttpService,
     private drawerRef: NzDrawerRef
-  ) { }
+  ) { 
+    this.http.post('/teacher/getGrowthConsultant', { code: 1004 }).then(res => this.teacherList = res.data);
+  }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       id: [this.id],
-      studentName: [, [Validators.required]],                                                                               // 宝宝姓名
-      mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]]
+      studentName: [, [Validators.required]],
+      mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
+      followerId: [, [Validators.required]]
     });
   }
   
