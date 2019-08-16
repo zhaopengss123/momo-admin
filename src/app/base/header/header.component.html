@@ -11,18 +11,22 @@
   </div>
 
   <div class="download-app">
-    <ul>
-      <li nz-popover nzType="primary" [nzContent]="downloadAppL">
-        <img src="./assets/images/download-app-ls.jpg" alt="">
-        <p>老师端APP下载</p>
-        <ng-template #downloadAppL><img width="200" src="./assets/images/download-app-ls.jpg" alt=""></ng-template>
-      </li>
-      <li nz-popover nzType="primary" [nzContent]="downloadAppJ">
-        <img src="./assets/images/download-app-jz.jpg" alt="">
-        <p>家长端APP下载</p>
-        <ng-template #downloadAppJ><img width="200" src="./assets/images/download-app-jz.jpg" alt=""></ng-template>
-      </li>
-    </ul>
+    <div nz-popover  [nzContent]="downloadAppL">
+      <i nz-icon nzType="android" nzTheme="outline"></i>
+      <span>移动客户端</span>
+      <ng-template #downloadAppL>
+        <ol class="download-app-qrcode">
+          <li>
+            <img width="200" src="./assets/images/download-app-ls.jpg" alt="老师端APP下载">
+            <h4>老师端APP下载</h4>
+          </li>
+          <li>
+            <img width="200" src="./assets/images/download-app-jz.jpg" alt="家长端APP下载">
+            <h4>家长端APP下载</h4>
+          </li>
+        </ol>
+      </ng-template>
+    </div>
   </div>
   
   <div class="search">

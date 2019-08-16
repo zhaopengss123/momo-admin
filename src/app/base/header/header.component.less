@@ -55,36 +55,45 @@
 .download-app {
   flex: 0 0 auto;
   padding-right: 12px;
-  border-bottom: solid 1px #e8e8e8;
   margin-left: -12px;
-  ul {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0;
-    li {
-      flex: 1;
-      height: 63px;
-      margin: 0 3px;
-      padding: 0 5px;
-      cursor: pointer;
-      text-align: center;
-      &:hover {
-        background: #e8e8e8;
-      }
-      img {
-        width: 28px;
-        display: inline-block;
-        display: inline-block;
-        vertical-align: top;
-        margin-top: 12px;
-      }
-      p {
-        height: 14px;
-        line-height: 1;
-        margin-bottom: 0;
-        margin-top: -20px;
-      }
+  border-bottom: solid 1px #e8e8e8;
+  & > div {
+    padding: 0 12px;
+    color: #666;
+    height: 100%;
+    cursor: pointer;
+    &:hover {
+      background: #e6f7ff;
+    }
+  }
+  i {
+    font-size: 16px;
+    margin-right: 4px;
+  }
+  span {
+    font-size: 14px;
+  }
+}
+::ng-deep .download-app-qrcode {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  h4 {
+    margin: 0;
+    color: #666;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+  }
+  img {
+    width: 160px;
+    margin-bottom: 6px;
+  }
+  li {
+    flex: 1;
+    &:first-child {
+      margin-right: 12px;
     }
   }
 }
