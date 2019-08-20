@@ -1,14 +1,14 @@
-import { VisitModule } from './../visit.module';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MemberComponent } from './member.component';
+import { StayComponent } from './stay.component';
+import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { VisitModule } from '../visit.module';
 import { RouterModule } from '@angular/router';
 import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
-  declarations: [MemberComponent],
+  declarations: [StayComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
@@ -16,9 +16,9 @@ import { CustomerPreviewModule } from '../../public/customer-preview/customer-pr
     VisitModule,
     RouterModule.forChild([{
       path: '',
-      component: MemberComponent
+      component: StayComponent
     }]),
     CustomerPreviewModule,
   ]
 })
-export class MemberModule { }
+export class StayModule { }

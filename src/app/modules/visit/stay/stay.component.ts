@@ -1,16 +1,19 @@
-import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
-import { NzDrawerService } from 'ng-zorro-antd';
+import { UpdateComponent } from './../public/update/update.component';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
+import { NzDrawerService } from 'ng-zorro-antd';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { ImportComponent } from '../public/import/import.component';
 
 @Component({
-  selector: 'app-nointention',
-  templateUrl: './nointention.component.html',
-  styleUrls: ['./nointention.component.less']
+  selector: 'app-stay',
+  templateUrl: './stay.component.html',
+  styleUrls: ['./stay.component.less']
 })
-export class NointentionComponent implements OnInit {
+export class StayComponent implements OnInit {
+
+  @ViewChild('EaTable') table;
 
   queryNode: QueryNode[] = [
     {
@@ -43,23 +46,18 @@ export class NointentionComponent implements OnInit {
 
   tableNode = ['学员昵称', '学员姓名', '学员生日', '性别', '月龄', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '收集者', '参与活动', '分配到', '跟踪记录'];
 
-  checkedItems: any[] = [];
-
-  @ViewChild('EaTable') table;
   constructor(
     private drawer: NzDrawerService,
-    private http: HttpService
   ) { }
 
   ngOnInit() {
+    
   }
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
-  gainClue(): void {
-    this.http.post('/membermanage/returnVisit/gainMemberClue', { ids: this.checkedItems.join(',')  }, true).then(res => {
-      this.checkedItems = [];
-      this.table._request();
-    })
-  }
+  @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
+
+  @DrawerCreate({ title: '导入客户', content: ImportComponent }) import: () => void;
+
 }

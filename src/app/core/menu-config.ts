@@ -28,27 +28,22 @@ export const MenuConfig = [
     icon  : 'customer-service',
     children : [
       {
-        title : '线索回访',
-        key   : '/home/visit/clue',
+        title : '待回访',
+        key   : '/home/visit/stay',
         isLeaf: true
       },
       {
-        title : '未办卡回访',
-        key   : '/home/visit/nocard',
+        title : '已回访',
+        key   : '/home/visit/already',
         isLeaf: true
       },
       {
-        title : '会员回访',
-        key   : '/home/visit/member',
-        isLeaf: true
-      },
-      {
-        title : '无意向客户',
+        title : '无意向',
         key   : '/home/visit/nointention',
         isLeaf: true
       },
       {
-        title : '线索分配',
+        title : '待分配',
         key   : '/home/visit/distribution',
         isLeaf: true
       }

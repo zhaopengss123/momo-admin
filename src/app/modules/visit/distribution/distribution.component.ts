@@ -2,13 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { UpdateComponent } from '../public/update/update.component';
-import { environment } from 'src/environments/environment';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/reducers/reducers-config';
+import { ImportComponent } from '../public/import/import.component';
 
 @Component({
   selector: 'app-distribution',
@@ -17,28 +15,25 @@ import { AppState } from 'src/app/core/reducers/reducers-config';
 })
 export class DistributionComponent implements OnInit {
 
-  domainEs = environment.domainEs;
-  paramsDefault: any = { giveUp: 0 };
-
   @ViewChild('EaTable') table: TableComponent;
 
   queryNode: QueryNode[] = [
     {
       label: '学员',
-      key: 'id',
-      type: 'search',
+      key: 'keyWords',
+      type: 'input',
       placeholder: '根据学号、姓名、手机号查询',
-      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
       label: '分配给',
       key: 'followerId',
       type: 'select',
-      options: []
+      optionsUrl: '/teacher/getGrowthConsultant',
+      params: { code: 1004 }
     },
     {
       label: '来源',
-      key: 'sourceId',
+      key: 'memberFromId',
       type: 'select',
       optionsUrl: '/membermanage/returnVisit/getMemberFrom',
       optionKey: { label: 'fromName', value: 'id' }
@@ -53,13 +48,13 @@ export class DistributionComponent implements OnInit {
       label: '学员生日',
       key: 'birthday',
       type: 'rangepicker',
-      valueKey: ['startBirthDay', 'endBirthDay']
+      valueKey: ['startBirthday', 'endBirthday']
     },
     {
       label: '创建时间',
       key: 'createTime',
       type: 'rangepicker',
-      valueKey: ['startThreadCreateTime', 'endThreadCreateTime']
+      valueKey: ['startCreateTime', 'endCreateTime']
     },
     {
       label: '下次跟进',
@@ -68,21 +63,27 @@ export class DistributionComponent implements OnInit {
       valueKey: ['startNextFollowTime', 'endNextFollowTime']
     },
     {
-      label: '未参与过',
+      label: '回访时间',
+      key: 'followTime',
+      type: 'rangepicker',
+      valueKey: ['startFollowTime', 'endFollowTime']
+    },
+    {
+      label: '客户状态',
+      key: 'visitStatusId',
+      type: 'select',
+      optionsUrl: '/membermanage/returnVisit/getVisitStatus'
+    },
+    {
+      label: '已预约',
       key: 'activityId',
       type: 'select',
       optionsUrl: '/membermanage/returnVisit/getActivities',
       optionKey: { label: 'activityName', value: 'id' }
     },
-    {
-      label: '收集者',
-      key: 'collectorId',
-      type: 'select',
-      options: []
-    },
   ];
 
-  tableNode = ['学员昵称', '学员姓名', '学员生日', '性别', '月龄', '家长姓名', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '跟进阶段', '收集者', '参与活动', '分配到'];
+  tableNode = ['学员昵称', '学员姓名', '学员生日', '性别', '月龄', '家长电话', '入库时间', '下次跟进时间', '最后跟进时间', '来源', '客户状态', '收集者', '参与活动', '分配到', '跟踪记录'];
 
   checkedItems: any[] = [];
 
@@ -94,17 +95,11 @@ export class DistributionComponent implements OnInit {
     private drawer: NzDrawerService,
     private http: HttpService,
     private message: NzMessageService,
-    private store: Store<AppState>
   ) { 
-    this.http.post('/membermanage/returnVisit/getFollowTeachers').then(res => {
-      this.teacherList = res.data;
-      this.queryNode[1].options = res.data;
-      this.queryNode[8].options = res.data;
-    })
+    this.http.post('/teacher/getGrowthConsultant', { code: 1004 }).then(res => this.teacherList = res.data);
   }
 
   ngOnInit() {
-    this.store.select('userInfoState').subscribe(userInfo => this.paramsDefault.storeId = userInfo.kindergartenId);
   }
 
   distribution() {
@@ -123,5 +118,7 @@ export class DistributionComponent implements OnInit {
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
   @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
+
+  @DrawerCreate({ title: '导入客户', content: ImportComponent }) import: () => void;
 
 }

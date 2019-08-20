@@ -20,7 +20,6 @@ export class ImportComponent implements OnInit {
   uploadInfo: string;
 
   uploadComplate(e) {
-    console.log(e)
     if (e.type === 'start') {
       this.uploadResult = [];
     }

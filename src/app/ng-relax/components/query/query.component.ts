@@ -1,6 +1,6 @@
 import { AppState } from 'src/app/core/reducers/reducers-config';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { CacheService } from '../../services/cache.service';
 import { Subject } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { serialize } from 'src/app/core/http.intercept';
 
 @Component({
   selector: 'ea-query',
@@ -59,17 +60,20 @@ export class QueryComponent implements OnInit {
       }
       if (res.type === 'select' || res.type === 'radio') {
         res.optionKey = res.optionKey || { label: 'name', value: 'id' };
-        if (res.optionsUrl && res.noCache) {
-          this.http.post<any>(res.optionsUrl, {}).subscribe(result => {
-            res.options = (res.options || []).concat(result.result);
-            res.optionsResult && res.optionsResult(res.options);
-          })
-        } else if (res.optionsUrl) {
-          this.cache.get(res.optionsUrl).subscribe(result => {
-            res.options = (res.options || []).concat(result);
+        if (res.optionsUrl) {
+          this.http.post<any>(res.optionsUrl, serialize(res.params || {}), {
+            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+          }).subscribe(result => {
+            res.options = (res.options || []).concat(result.data.list || result.data);
             res.optionsResult && res.optionsResult(res.options);
           })
         }
+        //  else if (res.optionsUrl) {
+        //   this.cache.get(res.optionsUrl).subscribe(result => {
+        //     res.options = (res.options || []).concat(result);
+        //     res.optionsResult && res.optionsResult(res.options);
+        //   })
+        // }
       }
 
       if (res.type === 'search') {

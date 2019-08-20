@@ -137,32 +137,26 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
-            path: 'clue',
-            data: { title: '线索回访' },
+            path: 'stay',
+            data: { title: '待回访' },
             canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/clue/clue.module#ClueModule'
+            loadChildren: 'src/app/modules/visit/stay/stay.module#StayModule'
           },
           {
-            path: 'nocard',
-            data: { title: '未办卡回访' },
+            path: 'already',
+            data: { title: '已回访' },
             canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/nocard/nocard.module#NocardModule'
-          },
-          {
-            path: 'member',
-            data: { title: '会员回访' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/member/member.module#MemberModule'
+            loadChildren: 'src/app/modules/visit/already/already.module#AlreadyModule'
           },
           {
             path: 'nointention',
-            data: { title: '无意向客户' },
+            data: { title: '无意向' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/nointention/nointention.module#NointentionModule'
           },
           {
             path: 'distribution',
-            data: { title: '线索分配' },
+            data: { title: '待分配' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/distribution/distribution.module#DistributionModule'
           }

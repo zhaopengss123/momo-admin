@@ -1,14 +1,14 @@
-import { RouterModule } from '@angular/router';
-import { VisitModule } from './../visit.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NocardComponent } from './nocard.component';
+import { AlreadyComponent } from './already.component';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { VisitModule } from '../visit.module';
+import { RouterModule } from '@angular/router';
 import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
 
 @NgModule({
-  declarations: [NocardComponent],
+  declarations: [AlreadyComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
@@ -16,9 +16,9 @@ import { CustomerPreviewModule } from '../../public/customer-preview/customer-pr
     VisitModule,
     RouterModule.forChild([{
       path: '',
-      component: NocardComponent
+      component: AlreadyComponent
     }]),
     CustomerPreviewModule,
   ]
 })
-export class NocardModule { }
+export class AlreadyModule { }
