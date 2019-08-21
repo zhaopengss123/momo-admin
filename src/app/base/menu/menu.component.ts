@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/reducers/reducers-config';
 import { MenuConfig } from 'src/app/core/menu-config';
 import { RouterState } from 'src/app/core/reducers/router-reducer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -21,7 +22,8 @@ export class MenuComponent implements OnInit {
   roleAllowPath: string;
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,19 @@ export class MenuComponent implements OnInit {
     this.store.select('userInfoState').subscribe(res => {
       this.roleAllowPath = res.menuUrls;
     });
+  }
 
+  routerLink(children: any[]) {
+    if (this.roleAllowPath.indexOf('**') > -1) {
+      this.router.navigateByUrl(children[0].key);
+    } else {
+      for (let i = 0; i < children.length; i++) {
+        if (this.roleAllowPath.indexOf(children[i].key) > -1) {
+          this.router.navigateByUrl(children[i].key);
+          break;
+        }
+      }
+    }
   }
 
 }
