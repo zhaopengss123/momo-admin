@@ -18,6 +18,7 @@ export class UpdateComponent implements OnInit {
   formGroup: FormGroup;
 
   teacherList: any[] = [];
+  sourceList: any[] = [];
 
   constructor(
     private fb: FormBuilder = new FormBuilder(),
@@ -25,6 +26,7 @@ export class UpdateComponent implements OnInit {
     private drawerRef: NzDrawerRef
   ) { 
     this.http.post('/teacher/getGrowthConsultant', { code: 1004 }).then(res => this.teacherList = res.data);
+    this.http.post('/membermanage/returnVisit/getMemberFrom').then(res => this.sourceList = res.data);
   }
 
   ngOnInit() {
@@ -32,7 +34,8 @@ export class UpdateComponent implements OnInit {
       id: [this.id],
       studentName: [, [Validators.required]],
       mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
-      followerId: [, [Validators.required]]
+      followerId: [, [Validators.required]],
+      memberFromId: [, [Validators.required]]
     });
   }
   

@@ -29,6 +29,17 @@
         </nz-form-control>
       </nz-form-item>
     </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>来源</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="memberFromId" nzPlaceHolder="请选择来源">
+            <nz-option *ngFor="let item of sourceList" [nzLabel]="item.fromName" [nzValue]="item.id"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('memberFromId')">请选择来源</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
   </nz-row>
 </form>
 
