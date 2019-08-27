@@ -39,7 +39,7 @@
     <div nz-col nzSpan="5" *ngIf="!!(formGroup.get('visitStatusId').value && formGroup.get('visitStatusId').value < 3)">
       <nz-form-item>
         <nz-form-control>
-          <nz-date-picker formControlName="nextFollowTime" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
+          <nz-date-picker formControlName="nextFollowTime" [nzShowToday]="false" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
             [nzDisabledDate]="_disabledDate"></nz-date-picker>
           <nz-form-explain *ngIf="valid('nextFollowTime')">请选择下次跟进时间</nz-form-explain>
         </nz-form-control>
@@ -160,7 +160,7 @@
       <div nz-col nzSpan="6" *ngIf="!!(updateFormGroup.get('visitStatusId').value && updateFormGroup.get('visitStatusId').value < 3)">
         <nz-form-item>
           <nz-form-control>
-            <nz-date-picker formControlName="nextFollowTime" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
+            <nz-date-picker formControlName="nextFollowTime" [nzShowToday]="false" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
               [nzDisabledDate]="_disabledDate"></nz-date-picker>
             <nz-form-explain *ngIf="validUpdateControl('nextFollowTime')">请选择下次跟进时间</nz-form-explain>
           </nz-form-control>

@@ -19,10 +19,12 @@ export class IndexComponent implements OnInit {
   overdueList: any[] = [];
   adjustList: any[] = [];
   studentList: any[] = [];
+  visitList: any[] = [];
   getLackCardTimeList = '/message/getLackCardTimeList';
   getOverdueList = '/message/getOverdueList';
   getAdjustList = '/message/getAdjustClassStudentList';
   getBirthdayStudentList = '/message/getBirthdayStudentList';
+  getVisitList = '/message/getTodayReturnVisitList';
 
   constructor(
     private http: HttpService,
@@ -33,6 +35,7 @@ export class IndexComponent implements OnInit {
     this.http.post(this.getLackCardTimeList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.dayTimeList = res.data.list);
     this.http.post(this.getOverdueList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.overdueList = res.data.list);
     this.http.post(this.getAdjustList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.adjustList = res.data.list);
+    this.http.post(this.getVisitList).then(res => this.visitList = res.data);
     this.getBirthdayList(1);
   }
 

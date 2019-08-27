@@ -107,7 +107,7 @@ export class TrackComponent implements OnInit, OnChanges {
   }
 
   _disabledDate(current: Date): boolean {
-    return current && current.getTime() < Date.now() - 1000 * 60 * 60 * 24;
+    return current && current.getTime() < Date.now();
   }
 
   saveLoading: boolean;

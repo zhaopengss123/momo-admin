@@ -77,18 +77,18 @@ export class ListComponent implements OnInit {
       options : [{ name: '开启', id: 0}, { name: '关闭', id: 1}],
       isRadio : true
     },
-    // {
-    //   label   : '体验状态',
-    //   key     : 'studentStatus',
-    //   type    : 'tag',
-    //   options : [{ name: '未体验', id: 0}, { name: '已体验', id: 1}],
-    //   isRadio : true
-    // },
     {
-      label   : '入学状态',
+      label   : '状态',
       key     : 'cardStatus',
       type    : 'tag',
-      options : [{ name: '待入学', id: 0}, { name: '已入学', id: 1}],
+      options : [
+        { name: '待入学', id: 0},
+        { name: '已入学', id: 1 },
+        { name: '已到店', id: 2 },
+        { name: '未到店', id: 3 },
+        { name: '未体验', id: 4 },
+        { name: '无意向', id: 5 }
+      ],
       isRadio : true
     },
     {
@@ -99,11 +99,10 @@ export class ListComponent implements OnInit {
       searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
-      label   : '所属销售',
-      key     : 'salespersonId',
+      label   : '归属老师',
+      key     : 'teacherId',
       type    : 'select',
-      options : [],
-      optionKey: { label: 'teacherName', value: 'teacherId' },
+      optionsUrl: '/message/getTeacherList',
       isHide  : true
     },
     {
@@ -113,6 +112,14 @@ export class ListComponent implements OnInit {
       type    : 'rangepicker',
       format  : 'MM-dd',
       ranges  : this.birthdayRanges,
+      isHide  : true
+    },
+    {
+      label   : '年龄',
+      key     : 'times',
+      valueKey: ['yearStart', 'yearEnd'],
+      placeholder: ['最小年龄(正整数)', '最大年龄(正整数)'],
+      type    : 'between',
       isHide  : true
     },
     {
@@ -246,7 +253,7 @@ export class ListComponent implements OnInit {
 
   paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
-    this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? "2" : this.customerStatusIndex == 2 ? "0,1" : "3,4";
+    this.paramsDefault.studentStatus = this.customerStatusIndex == 0 ? null : this.customerStatusIndex == 1 ? '2' : this.customerStatusIndex == 2 ? '1' : '3,4';
     this.eaQuery['submit']();
   }
 

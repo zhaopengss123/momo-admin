@@ -43,7 +43,7 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
-        title : '待分配',
+        title : '全部线索',
         key   : '/home/visit/distribution',
         isLeaf: true
       }

@@ -15,7 +15,7 @@
     <a href="javascript:;" (click)="distribution()">确认分配</a>
   </ea-tip>
 
-  <ea-table #EaTable [thead]="tableNode" [checked]="true" [checkedItems]="checkedItems" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" url="/membermanage/clue/waitAllotList">
+  <ea-table #EaTable [thead]="tableNode" [checked]="true" [checkedItems]="checkedItems" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" url="/membermanage/clue/allClueList">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.nickName }}</a></td>
       <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.studentName }}</a></td>
