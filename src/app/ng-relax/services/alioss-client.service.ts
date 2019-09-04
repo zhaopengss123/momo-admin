@@ -22,7 +22,7 @@ export class AliOssClientService {
         this._getAliOssToken(resolve, reject);
       } else {
         this._loading = true;
-        this.http.get('https://oss.beibeiyue.com/oss/getOSSToken?type=1', {}, false).then(res => {
+        this.http.get('https://oss.haochengzhang.com/oss/getOSSToken?type=1', {}, false).then(res => {
           this._loading = false;
           if (res.result == 0) {
             let creds = res['data'];

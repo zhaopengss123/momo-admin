@@ -125,7 +125,7 @@ export class AnnouncementComponent implements OnInit {
         let uploadNum = 0;
         if (imgs.length) {
           const _this_ = this;
-          this.http.get('http://oss.beibeiyue.com/oss/getOSSToken?type=1', {}, false).then(res => {
+          this.http.get('http://oss.haochengzhang.com/oss/getOSSToken?type=1', {}, false).then(res => {
             if (res.result == 0) {
               let creds = res.data;
               let client = new OSS.Wrapper({

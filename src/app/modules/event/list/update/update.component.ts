@@ -34,10 +34,10 @@ export class UpdateComponent implements OnInit {
     this.templateContent.map((control, i) => {
       if (control.type == 'radioArray' || control.type == 'checkboxArray') {
         control.valueArrays.map((optionList, idx) => {
-          this.formGroup.addControl(`control${i.toString() + idx}`, this.fb.control(this.contentValue[i][idx], control.required ? [Validators.required] : []))
+          this.formGroup.addControl(`control${i.toString() + idx}`, this.fb.control(this.contentValue[i] && this.contentValue[i][idx] ? this.contentValue[i][idx] : null, control.required ? [Validators.required] : []))
         })
       } else {
-        this.formGroup.addControl(`control${i}`, this.fb.control(this.contentValue[i], control.required ? [Validators.required] : []))
+        this.formGroup.addControl(`control${i}`, this.fb.control(this.contentValue[i] || null, control.required ? [Validators.required] : []))
       }
     })
   }
