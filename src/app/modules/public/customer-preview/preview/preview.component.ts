@@ -12,7 +12,7 @@ export class PreviewComponent implements OnInit {
 
   @Input() source: string;
   
-  memberInfo: any = { studentInfo: {}, parentAccountList: [] };
+  memberInfo: any = { studentInfo: {}, parentAccountList: [], cardList: [] };
 
   loading: boolean = true;
 

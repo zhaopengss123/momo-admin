@@ -1,3 +1,4 @@
+import { SelectCardComponent } from './select-card/select-card.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { NgModule } from '@angular/core';
@@ -19,12 +20,12 @@ import { AppointComponent } from './appoint/appoint.component';
 import { DelayComponent } from './delay/delay.component';
 
 @NgModule({
-  declarations: [UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent],
+  declarations: [UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule
   ],
-  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent]
+  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent]
 })
 export class CustomerPreviewModule { }

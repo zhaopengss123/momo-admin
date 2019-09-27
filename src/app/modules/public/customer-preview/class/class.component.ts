@@ -17,6 +17,8 @@ export class ClassComponent implements OnInit {
 
   @Input() id: number;
 
+  @Input() cardInfo: any = {};
+
   formGroup: FormGroup;
 
   memberInfo: any = { studentInfo: {}, parentAccountList: [] };
@@ -80,7 +82,7 @@ export class ClassComponent implements OnInit {
       nzWidth: 1148,
       nzClosable: false,
       nzContent: AppointComponent,
-      nzContentParams: { studentInfo: this.memberInfo.studentInfo, classId: this.formGroup.controls['classId'].value }
+      nzContentParams: { studentInfo: this.memberInfo.studentInfo, cardInfo: this.cardInfo, classId: this.formGroup.controls['classId'].value }
     }).afterClose.subscribe(res => {
       if (res) {
         let teacherName;

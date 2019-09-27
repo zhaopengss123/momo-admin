@@ -1,3 +1,4 @@
+import { SelectCardComponent } from '../../public/customer-preview/select-card/select-card.component';
 import { DelayComponent } from './../../public/customer-preview/delay/delay.component';
 import { NzDrawerService, NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -182,19 +183,30 @@ export class ListComponent implements OnInit {
   }
 
   update(obj?: {id: number, type: string}) {
+    let params: any = obj || {};
     this.drawer.create({
       nzWidth: 720,
       nzTitle: '学员信息',
       nzBodyStyle: { 'padding-bottom': '53px' },
       nzContent: UpdateComponent,
-      nzContentParams: obj ? { id: obj.id, type: obj.type } : {}
+      nzContentParams: { id: params.id, type: params.type }
     }).afterClose.subscribe(res => {
       res.type == 'isReserve' && (this.checkedData[0].classId = res.classId);
       this.eaTable._request();
     })
   }
 
-  @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({id: number}) => void;
+  preview(studentInfo) {
+    this.drawer.create({
+      nzWidth: 960,
+      nzTitle: null,
+      nzContent: PreviewComponent,
+      nzContentParams: { id: studentInfo.studentId },
+      nzClosable: false
+    }).afterClose.subscribe(res => {
+      res && res == 'appoint' && this.appoint({ studentInfo, cardInfo: res });
+    })
+  }
 
   checkedData;
   operation(type: string) {
@@ -219,7 +231,7 @@ export class ListComponent implements OnInit {
       if (res && res.isPaymentCard) {
         this.checkedData[0].cardType = res.cardType;
         if (this.checkedData[0].classId) {
-          this.appoint({ studentInfo: this.checkedData[0] });
+          // this.appoint({ studentInfo: this.checkedData[0] });
         } else {
           this.modal.success({ nzTitle: '完善该学员班级等各项信息后即可入学', nzContent: '请编辑学员信息，完成入学' });
         }
@@ -227,8 +239,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  // @DrawerCreate({ content: ClassComponent, title: '转/升班'}) class: ({id: number}) => void;
-  class(params) {
+  class(params, cardInfo) {
     this.drawer.create({
       nzTitle: '转/升班',
       nzWidth: 720,
@@ -236,7 +247,7 @@ export class ListComponent implements OnInit {
       nzBodyStyle: {
         'padding-bottom': '53px'
       },
-      nzContentParams: { id: params.id }
+      nzContentParams: { id: params.id, cardInfo }
     }).afterClose.subscribe((res: boolean) => {
       if (res) {
         this.checkedItems = [];
@@ -249,7 +260,7 @@ export class ListComponent implements OnInit {
 
   @DrawerCreate({ content: DelayComponent, title: '延期', width: 600 }) delay: ({ id: number }) => void;
 
-  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any }?) => void;
+  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any, cardInfo}?) => void;
 
   paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
@@ -263,19 +274,37 @@ export class ListComponent implements OnInit {
 
 
   /* -------------- 点击预约校验 -------------- */
-  appointValid() {
-    this.http.post('/student/studentInfoIsComplete', {
+  async appointValid() {
+    let valid = await this.http.post('/student/studentInfoIsComplete', {
       paramJson: JSON.stringify({
         studentId: this.checkedItems[0], buttonName: 'isReserve'
       }),
-    }).then(res => {
-      if (res.result == 1000) {
-        this.appoint({ studentInfo: this.checkedData[0] })
+    });
+    if (valid.result == 1000) {
+      let cardList = valid.data;
+      let studentInfo = this.checkedData[0];
+      if (!cardList.length) {
+        this.appoint({ studentInfo, cardInfo: {} });
+      } else if (cardList.length === 1) {
+        this.appoint({ studentInfo, cardInfo: cardList[0] });
       } else {
-        this.message.warning(res.message);
-        res.result != 1999 && this.update({ id: this.checkedItems[0], type: 'isReserve' })
+        this.modal.create({
+          nzTitle: '选择开卡',
+          nzContent: SelectCardComponent,
+          nzComponentParams: { cardList, studentInfo },
+          nzFooter: null
+        }).afterClose.subscribe(res => {
+          if (res && res.operation == 'appoint') {
+            this.appoint({ studentInfo, cardInfo: res });
+          } else if (res && res.operation == 'update') {
+            this.update({ id: studentInfo.studentId, type: 'isReserve' })
+          }
+        });
       }
-    })
+    } else {
+      this.message.warning(valid.message);
+      valid.result != 1999 && this.update({ id: this.checkedItems[0], type: 'isReserve' })
+    }
   }
 
   /* -------------- 点击缴费校验 -------------- */
@@ -300,7 +329,7 @@ export class ListComponent implements OnInit {
       paramJson: JSON.stringify({
         studentId: this.checkedItems[0], buttonName: 'isAdjustClass'
       }),
-    }).then(res => res.result == 1000 ? this.class({ id: this.checkedItems[0] }) : this.message.warning(res.message));
+    }).then(res => res.result == 1000 ? this.class({ id: this.checkedItems[0] }, res.data[0]) : this.message.warning(res.message));
   }
 
   /* -------------- 点击退园校验 -------------- */
@@ -316,6 +345,28 @@ export class ListComponent implements OnInit {
       this.message.warning('学员未开卡，无法延期');
     } else {
       this.delay({ id: this.checkedItems[0] })
+    }
+  }
+
+  async validateOpenCard(studentInfo) {
+    let studentId = studentInfo.studentId;
+    let valid = await this.http.post('/student/getStuOpenCardStatus', { studentId });
+    if (valid.result == 1000) {
+      let cardList = (await this.http.post('/student/listStuUnopenCard', { studentId })).data;
+      this.modal.create({
+        nzTitle: '选择开卡',
+        nzContent: SelectCardComponent,
+        nzComponentParams: { cardList, studentInfo },
+        nzFooter: null
+      }).afterClose.subscribe(res => {
+        if (res && res.operation == 'appoint') {
+          this.appoint({ studentInfo, cardInfo: res });
+        } else if (res && res.operation == 'update') {
+          this.update({ id: studentInfo.studentId, type: 'isReserve' })
+        }
+      });
+    } else {
+      this.message.warning(valid.message)
     }
   }
 

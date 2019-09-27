@@ -19,6 +19,7 @@ import { CustomerPreviewModule } from '../public/customer-preview/customer-previ
     CustomerPreviewModule,
     NgZorroAntdModule,
     NgRelaxModule
-  ]
+  ],
+  entryComponents: []
 })
 export class CustomerModule { }

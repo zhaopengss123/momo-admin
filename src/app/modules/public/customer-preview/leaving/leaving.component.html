@@ -4,28 +4,21 @@
 <nz-divider></nz-divider>
 <form nz-form [formGroup]="formGroup">
   <div nz-row nzGutter="8">
-    <nz-form-item *ngIf="memberInfo.studentInfo.cardType == 2 && memberInfo.studentInfo.effectDate">
+    <nz-form-item>
       <nz-form-label nzRequired>退园时间</nz-form-label>
       <nz-form-control>
-        <nz-input-group nzCompact>
-          <nz-date-picker [nzDisabledDate]="disabledDate" [nzAllowClear]="false" formControlName="leaveDate" nzPlaceHolder="请选择退园时间" style="width: 40%"></nz-date-picker>
-          <input type="text" nz-input [value]="'剩余'+ (resultTimes + resultFreeTimes) +'天（购买的'+ resultTimes +'天  赠送'+ resultFreeTimes +'天）'" [disabled]="true" style="width:60%;" />
-        </nz-input-group>
+        <nz-date-picker [nzDisabledDate]="disabledDate" [nzAllowClear]="false" formControlName="leaveDate" nzPlaceHolder="请选择退园时间"></nz-date-picker>
         <nz-form-explain *ngIf="valid('leaveDate')">请选择退园时间！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>退款</nz-form-label>
-      <nz-form-control [ngClass]="{'has-error': formGroup.get('price') && (valid('price') || valid('price', 'pattern')) }">
+    <nz-form-item *ngFor="let card of pricesAndCardType.controls">
+      <nz-form-label>“{{ card['cardTypeName'] }}</nz-form-label>
+      <nz-form-control [formGroup]="card">
         <nz-input-group nzCompact>
-          <nz-select [(ngModel)]="whetherLeaving"  [ngModelOptions]="{standalone: true}" (ngModelChange)="leavingChange($event)" [style.width]="'30%'">
-            <nz-option *ngFor="let item of [{ label: '是', value: true }, { label: '否', value: false }]" [nzLabel]="item.label" [nzValue]="item.value">
-            </nz-option>
-          </nz-select>
-          <input nz-input *ngIf="formGroup.get('price')" formControlName="price" placeholder="请输入退款金额" [style.width]="'70%'">
+          <input nz-input formControlName="price" placeholder="请输入退款金额（不输代表不退）" [style.width]="'50%'">
+          <input type="text" nz-input [value]="card['cardStatus'] == 4 ? '该卡未被使用' : card['resultTimes'] || card['resultTimes'] > -1 ? '剩余'+ (card['resultTimes'] + card['resultFreeTimes']) + (card['type'] == 1 ? '次' : '天') + '（购买的'+ (card['resultTimes']) + (card['type'] == 1 ? '次' : '天') +'  赠送'+ (card['resultFreeTimes']) + (card['type'] == 1 ? '次' : '天') + '）' : '请选择退园时间'" [disabled]="true" [style.width]="'50%'" />
         </nz-input-group>
-        <nz-form-explain [style.text-indent]="'104px'" *ngIf="formGroup.get('price') && valid('price')">请输入退款金额！</nz-form-explain>
-        <nz-form-explain [style.text-indent]="'104px'" *ngIf="formGroup.get('price') && valid('price', 'pattern')">请输入正确的金额！</nz-form-explain>
+        <nz-form-explain *ngIf="card['controls']['price'].errors">请输入正确的退款金额！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

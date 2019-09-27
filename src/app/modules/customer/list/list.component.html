@@ -39,8 +39,8 @@
           </ng-template>
         </td>
         <td>{{ data.studentNum || '-' }}</td>
-        <td><a (click)="preview({ id: data.studentId })">{{ data.nickName }}</a></td>
-        <td><a (click)="preview({ id: data.studentId })">{{ data.studentName }}</a></td>
+        <td><a (click)="preview(data)">{{ data.nickName }}</a></td>
+        <td><a (click)="preview(data)">{{ data.studentName }}</a></td>
         <td>{{ data.sex || '-' }}</td>
         <td>{{ data.age || '-' }}</td>
         <td><nz-tag *ngIf="data.cardType" [nzColor]="data.cardType == 1 ? '#87d068' : '#2db7f5'">{{ data.cardTypeName }}</nz-tag></td>
@@ -62,6 +62,10 @@
         <td>
           <ng-container *ngIf="data.status != 2">
             <a (click)="lookChange(data.studentId, data.isLook ? 0 : 1)">{{ data.isLook ? '开启' : '关闭' }}监控</a>
+          </ng-container>
+          <nz-divider nzType="vertical" *ngIf="data.status != 2 && data.startStatus"></nz-divider>
+          <ng-container *ngIf="data.startStatus">
+            <a (click)="validateOpenCard(data)">开卡</a>
           </ng-container>
         </td>
       </ng-template>

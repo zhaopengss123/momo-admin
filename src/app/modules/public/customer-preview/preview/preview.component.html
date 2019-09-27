@@ -12,7 +12,7 @@
     <app-track [studentInfo]="memberInfo.studentInfo"></app-track>
   </ng-template></nz-tab>
   <nz-tab nzTitle="交易记录"><ng-template nz-tab>
-    <app-transaction [studentId]="id"></app-transaction>
+    <app-transaction [studentInfo]="memberInfo.studentInfo" [cardList]="memberInfo.cardList"></app-transaction>
   </ng-template></nz-tab>
   <nz-tab nzTitle="出勤记录"><ng-template nz-tab>
     <app-attendance [studentId]="id"></app-attendance>

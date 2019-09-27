@@ -18,7 +18,7 @@ export class HttpService {
   *    接收参数
   *            1. 请求地址: string    (必填)
   *            2. 请求参数: object    (必填: 可为空)
-  *            3. 是否自动根据状态码提示： boolean (默认为： true)
+  *            3. 是否自动根据状态码提示： boolean (默认为： false)
   */
   post(url: string, query: object = {}, auto?: boolean): Promise<any> {
     return new Promise((resolve, reject) => {

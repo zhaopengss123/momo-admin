@@ -70,7 +70,7 @@
                     </ng-container>
                   </ng-container>
   
-                  <div *ngIf="studentInfo.cardType == 2"
+                  <div *ngIf="cardInfo.type == 2"
                     [ngClass]="{'check-next': checkedList.includes(month.key + '-' + (dayIdx + 1 < 10 ? '0' + (dayIdx + 1) : (dayIdx + 1)) + '|' + teacher.id + '|' + rowIdx) && checkedList.includes(month.key + '-' + (dayIdx + 2 < 10 ? '0' + (dayIdx + 2) : (dayIdx + 2)) + '|' + teacher.id + '|' + rowIdx) }">
                   </div>
                 </li>
