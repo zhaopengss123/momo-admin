@@ -1,24 +1,18 @@
-import { ExamineComponent } from './examine.component';
 import { NgModule } from '@angular/core';
 import { CommonModule , DatePipe } from '@angular/common';
-
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
-import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { ImportComponent } from './public/import/import.component';
+import { UpdateComponent } from './public/update/update.component';
 
 @NgModule({
+  declarations: [UpdateComponent, ImportComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: ExamineComponent
-      }
-    ]),
+    NgRelaxModule,
     NgZorroAntdModule,
-    NgRelaxModule
   ],
-  declarations: [ExamineComponent],
+  entryComponents: [UpdateComponent, ImportComponent],
   providers: [ DatePipe ]
-})
-export class ExamineModule { }
+}) 
+export class EducationModule { }
