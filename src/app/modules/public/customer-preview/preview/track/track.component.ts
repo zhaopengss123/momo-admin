@@ -112,7 +112,6 @@ export class TrackComponent implements OnInit, OnChanges {
 
   saveLoading: boolean;
   save(group) {
-    console.log(this[group])
     if (this[group].invalid) {
       Object.values(this[group].controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {

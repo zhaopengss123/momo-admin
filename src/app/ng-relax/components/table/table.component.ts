@@ -108,7 +108,6 @@ export class TableComponent implements OnInit {
   }
 
   private _getData(params) {
-    console.log(serialize(params));
     this.http.post<any>(this.url, serialize(params), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     }).subscribe(res => {

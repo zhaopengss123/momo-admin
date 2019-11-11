@@ -110,12 +110,10 @@ export class RoleComponent implements OnInit {
           type: 'primary',
           loading: false,
           onClick(componentInstance) {
-            console.log(componentInstance.menuIds);
             if (componentInstance.loading) {
               message.warning('请等待数据加载完毕...');
             } else {
               this.loading = true;
-              console.log(componentInstance);
               http.post('/settings/role/updateRoleMenu', {
                 roleId: componentInstance.roleId,
                 menuUrls: componentInstance.checkedNodes.join(',')
