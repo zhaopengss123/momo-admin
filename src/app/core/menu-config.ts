@@ -53,7 +53,7 @@ export const MenuConfig = [
     title : '教务管理',
     brief : '教务',
     key   : '/home/education',
-    icon  : 'appstore',
+    icon  : 'book',
     children : [
       {
         title : '课程管理',

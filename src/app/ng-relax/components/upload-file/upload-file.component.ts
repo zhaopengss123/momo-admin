@@ -23,7 +23,7 @@ export class UploadFileComponent implements OnInit {
   private _aliOssClientVideo;
 
   filesChange: any = () => { };
-
+  filesdetail: any ;
   @Input() maxLength = 1;
 
   allowuploadNo = 1;
@@ -117,7 +117,7 @@ export class UploadFileComponent implements OnInit {
             name: fileName,
             status: 'done'
           });
-          this.files = arr;
+          this.filesdetail = arr;
           observer.next(true);
           observer.complete();
         }, err => {

@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-page.component';
+import { DetailComponent } from './../public/detail/detail.component';
 
 @Component({
   selector: 'app-curriculum',
@@ -28,7 +29,7 @@ export class CurriculumComponent implements OnInit {
       label: '课程类别',
       key: 'typeId',
       type: 'select',
-      optionsUrl: '/course/listCourseType',
+      options: [],
     },
  
     {
@@ -39,7 +40,7 @@ export class CurriculumComponent implements OnInit {
     },
   ];
 
-  tableNode = ['课程名称', '类别', '时长',  '状态', '操作'];
+  tableNode = ['课程名称', '类别', '时长',  '状态', '创建时间' , '操作'];
 
   constructor(
     private drawer: NzDrawerService,
@@ -49,6 +50,7 @@ export class CurriculumComponent implements OnInit {
       this.http.post('/course/listCourseType', { 
       }).then(res => {
         this.listCourseType = res.data.list;
+        this.queryNode[1].options = res.data.list;
       });
     }
 
@@ -76,14 +78,25 @@ export class CurriculumComponent implements OnInit {
       nzContentParams: { info }
     });
     drawer.afterClose.subscribe(res => {
+      this.http.post('/course/listCourseType', { 
+      }).then(res => {
+        this.listCourseType = res.data.list;
+        this.queryNode[1].options = res.data.list;
+      });
       if(!res){ return false };
       this.listPage && this.listPage.eaTable._request();
       this.table && this.table._request();
     });
 }
-download(data){
-  if(data.lesson){ window.open(data.lesson) };
-  if(data.vedio){  window.open(data.vedio, '_blank')  };
+openDetail(info = {}){
+  // if(data.lesson){ window.open(data.lesson) };
+  // if(data.vedio){  window.open(data.vedio, '_blank')  };
+  const drawer = this.drawer.create({
+    nzWidth: 720,
+    nzTitle: '课程详情',
+    nzContent: DetailComponent,
+    nzContentParams: { info }
+  });
 }
 
 }

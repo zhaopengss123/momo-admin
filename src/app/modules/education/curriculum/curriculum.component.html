@@ -16,9 +16,10 @@
       </td>
       <td>{{ data.duration || '--' }}</td>
       <td>{{ data.status == 0 ? '启用' : '停用'  }}</td>
+      <td>{{ data.createTime }}</td>
       <td>
         <ng-container>
-          <a (click)="download(data)">下载教案</a>
+          <a (click)="openDetail(data)">课程详情</a>
         </ng-container>
         <nz-divider nzType="vertical"></nz-divider>
         <ng-container>

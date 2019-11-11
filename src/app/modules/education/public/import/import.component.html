@@ -30,8 +30,6 @@
                   <td>
                       <ng-container *ngIf="!data.edit; else saveTpl">
                           <a (click)="data.edit = true;">编辑</a>
-                          <nz-divider nzType="vertical"></nz-divider>
-                          <a nz-popconfirm nzTitle="确认删除此类别吗?" (nzOnConfirm)="delete(data)">删除</a>
                         </ng-container>
                         <ng-template #saveTpl>
                           <a (click)="saveEdit(data)">保存</a>

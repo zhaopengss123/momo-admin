@@ -6,25 +6,26 @@ import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator'
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { ImportComponent } from '../import/import.component';
 import { Observable } from 'rxjs';
-import   PlvVideoUpload  from '@polyv/vod-upload-js-sdk'
 import { Md5 } from "ts-md5";
+declare var PlvVideoUpload:any;
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.less']
 })
+
 export class UpdateComponent implements OnInit {
 
   @Input() info;
-  
+  // PlvVideoUpload : any;
   formGroup: FormGroup;
   isLoadingfile: boolean  = false;
   filesChange: any = () => { };
 
   @Input() maxLength = 1;
+  
 
   allowuploadNo = 1;
-
   private _files
   listCourseType: any[] = [];
   sourceList: any[] = [];
@@ -145,13 +146,16 @@ export class UpdateComponent implements OnInit {
     })
   }
   beforeUpload = (file: UploadFile): boolean => {
-    this._validatorUploadFile(file);
+    this._validatorUploadFile(file).subscribe(res => { });
     return false;
   }
+
   private _validatorUploadFile(file: UploadFile): Observable<any> {
     return new Observable(observer => {
+ 
       let fileType = file.name.split('.')[file.name.split('.').length - 1].toLowerCase();
-        let fileName = new Date().getTime() + `.${fileType}`;
+        // let fileName = new Date().getTime() + `.${fileType}`;
+        let fileName = 'movie' + `.${fileType}`;
        let that = this;
         let ts:any =new Date();
         ts =  Date.parse(ts);
@@ -194,13 +198,12 @@ export class UpdateComponent implements OnInit {
                     });
                     that.files = arr;
                   });
-                },3000);
+                },5000);
             }
           },
           fileSetting
         );
         videoUpload.startAll();
-      
     })
   }
 

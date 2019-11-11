@@ -1,3 +1,4 @@
+<div class="update-content">
 <form nz-form [formGroup]="formGroup">
     <nz-row [nzGutter]="8">
       <nz-col [nzSpan]="12">
@@ -36,7 +37,8 @@
         <nz-form-item>
           <nz-form-label nzRequired>适用年龄（月龄）</nz-form-label>
           <nz-form-control>
-            <input type="text" formControlName="startMonth" nz-input placeholder="最小月龄" style="width:120px; text-align: center;" />
+            <!-- <input type="text" formControlName="startMonth" nz-input placeholder="最小月龄" style="width:120px; text-align: center;" /> -->
+            <nz-input-number  formControlName="startMonth"></nz-input-number>
             <input
               type="text"
               disabled
@@ -44,7 +46,8 @@
               placeholder="~"
               style="width: 30px; border-left: 0px; pointer-events: none; background-color: rgb(255, 255, 255);"
             />
-            <input type="text" formControlName="endMonth" nz-input placeholder="最大月龄" style="width: 120px; text-align: center; border-left: 0px;" />
+            <!-- <input type="text" formControlName="endMonth" nz-input placeholder="最大月龄" style="width: 120px; text-align: center; border-left: 0px;" /> -->
+            <nz-input-number  formControlName="endMonth"></nz-input-number>
             <nz-form-explain *ngIf="valid('startMonth') || valid('endMonth')">请输入正确的月龄</nz-form-explain>
           </nz-form-control>
         </nz-form-item>
@@ -54,7 +57,7 @@
           <nz-form-label nzRequired>上课时长</nz-form-label>
           <nz-form-control>
             <nz-input-group  nzAddOnAfter="分钟">
-              <input type="text" formControlName="duration" nz-input />
+              <nz-input-number style="width:100%;"  formControlName="duration"></nz-input-number>
             </nz-input-group>
             <nz-form-explain *ngIf="valid('duration')">请输入上课时长</nz-form-explain>
           </nz-form-control>
@@ -66,6 +69,7 @@
         <nz-form-control>
             <ea-upload-picture  [maxLength]="1" formControlName="cover"  ></ea-upload-picture> 
             <nz-form-explain *ngIf="valid('cover')">请选择课程封面</nz-form-explain>
+            <div style="font-size:11px; clear:both; display:block; color: #333;">请上传2MB内JPG,JPEG,PNG,GIF格式的文件</div>
           </nz-form-control>
     </nz-row> 
     <nz-row [nzGutter]="8">
@@ -86,7 +90,7 @@
         <nz-form-label>教材教具</nz-form-label>
         <nz-form-control>
             <textarea  nz-input placeholder="请输入上课所需书本名称、教具名称及数量等。" formControlName="realia" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
-          </nz-form-control>
+         </nz-form-control>
     </nz-row> 
     <nz-row [nzGutter]="8">
         <nz-form-label>教案</nz-form-label>
@@ -114,3 +118,4 @@
     <button nz-button (click)="close()">取消</button>
     <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="saves()">保存</button>
   </div>
+</div>
