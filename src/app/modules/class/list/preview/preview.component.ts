@@ -21,7 +21,6 @@ export class PreviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.classInfo)
   }
 
 }
