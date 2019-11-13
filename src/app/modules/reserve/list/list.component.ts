@@ -102,7 +102,7 @@ export class ReserveComponent implements OnInit {
   
   openDiary(data){
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
-    window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail//?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
+    window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
   }
   withdraw(id) {
     this.http.post('/reserve/withdrawReserve', { reserveId: id}).then(res => {
