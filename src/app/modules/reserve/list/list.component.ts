@@ -8,6 +8,8 @@ import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-pa
 import { environment } from 'src/environments/environment';
 import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorator';
 import { PreviewComponent } from '../../public/customer-preview/preview/preview.component';
+import { NzMessageService } from 'ng-zorro-antd';
+
 
 @Component({
   selector: 'app-reserve',
@@ -71,7 +73,8 @@ export class ReserveComponent implements OnInit {
     private http: HttpService,
     private drawer: NzDrawerService,
     private format: DatePipe,
-    private fb: FormBuilder = new FormBuilder()
+    private fb: FormBuilder = new FormBuilder(),
+    private message: NzMessageService
   ) { 
     this.paramsDefault = {
       reserveDate: this.format.transform(new Date(), 'yyyy-MM-dd'),
@@ -92,12 +95,21 @@ export class ReserveComponent implements OnInit {
       })
     });
   }
-
+ 
   ngOnInit() {
+    
   }
   
-  
-
+  openDiary(data){
+    let token = JSON.parse(localStorage.getItem('userInfo')).token;    
+    this.http.post('/daily/get', {  studentId: data.id, queryDate: data.reserveDate  }).then(res => {
+        if(res && res.result == 1000 && res.data){
+            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetai/?studentId=${ data.id }&queryDate=${ data.reserveDate }&token=${ token }`);
+        }else{
+          this.message.warning('该会员没有记录');
+          }
+    })
+  }
   withdraw(id) {
     this.http.post('/reserve/withdrawReserve', { reserveId: id}).then(res => {
       this.listPage.eaTable._request();

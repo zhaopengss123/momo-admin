@@ -103,7 +103,8 @@ export class AddComponent implements OnInit {
           appContent.content.push(`${control.label}：${arrVal.join('、')}`);
         } else if (control.type == 'files' && this.formGroup.value['control' + i]) {
           if (this.formGroup.value['control' + i].indexOf('hcz-czg-image') > -1) {
-            appContent.imgUrlList = this.formGroup.value['control' + i].split(',');
+            let arr = this.formGroup.value['control' + i].split(',');
+            appContent.imgUrlList = appContent.imgUrlList.concat(arr);
           } else {
             appContent.videoUrl = this.formGroup.value['control' + i];
           }

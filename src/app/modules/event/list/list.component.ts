@@ -103,6 +103,7 @@ export class ListComponent implements AfterViewInit {
         return item;
       });
       this.dataSet = res.data.list;
+      console.log();
     })
   }
 

@@ -28,11 +28,11 @@ export class UploadFileComponent implements OnInit {
 
   allowuploadNo = 1;
 
-  private _files
+  private _filex
   @Input()
-  set files(pic) {
+  set filex(pic) {
     if (typeof pic === 'string') {
-      this._files = pic.split(',').map((item, idx) => {
+      this._filex = pic.split(',').map((item, idx) => {
         let uploadfile: any = {};
         uploadfile.uid = idx;
         uploadfile.url = item;
@@ -41,15 +41,15 @@ export class UploadFileComponent implements OnInit {
         return uploadfile;
       })
     } else if (typeof pic === 'object') {
-      this._files = pic;
+      this._filex = pic;
     } else if (typeof pic === 'number') {
-      this._files = this.files;
+      this._filex = this.filex;
     } else {
-      this._files = [];
+      this._filex = [];
     }
     let filestring = []
-    if (this._files.length) {
-      this._files.map(res => {
+    if (this._filex.length) {
+      this._filex.map(res => {
         filestring.push(res.url);
       })
     }
@@ -59,8 +59,8 @@ export class UploadFileComponent implements OnInit {
     }, 500);
     this.filesChange(filestring.join(','));
   }
-  get files() {
-    return this._files;
+  get filex() {
+    return this._filex;
   }
 
   constructor(
@@ -110,13 +110,14 @@ export class UploadFileComponent implements OnInit {
         let fileName = new Date().getTime() + `.${fileType}`;
         this[fileType != 'mp4' ? '_aliOssClientImage' : '_aliOssClientVideo'].multipartUpload(fileName, file, {}).then(res => {
           let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
-          let arr = this.files || [];
+          let arr = this.filex || [];
           arr.push({
             uid: file.uid,
             url: imageSrc,
             name: fileName,
             status: 'done'
           });
+          this.filex = [...arr];
           this.filesdetail = arr;
           observer.next(true);
           observer.complete();
@@ -135,7 +136,7 @@ export class UploadFileComponent implements OnInit {
   /* 实现 ControlValueAccessor 接口部分 */
   writeValue(val: any): void {
     if (val) {
-      this.files = val;
+      this.filex = val;
     }
   }
   registerOnChange(fn: any): void {

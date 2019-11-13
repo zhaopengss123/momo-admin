@@ -43,8 +43,8 @@
               <span class="contentI" [innerHTML]="item.appContent?.content"></span>
               <div *ngIf="item.appContent.videoUrl"><a (click)="previewUrl(item.appContent.videoUrl)">点击查看视频</a></div>
               <div *ngIf="item.appContent.imgUrlList">
-                <ng-container *ngFor="let item of item.appContent.imgUrlList">
-                  <a (click)="previewUrl(item)"><nz-avatar style="margin-right: 12px;" nzIcon="user" nzSize="large" nzShape="square" [nzSrc]="item"></nz-avatar></a>
+                <ng-container *ngFor="let items of item.appContent.imgUrlList">
+                  <a (click)="previewUrl(items)"><nz-avatar style="margin-right: 12px;" nzIcon="user" nzSize="large" nzShape="square" [nzSrc]="items"></nz-avatar></a>
                 </ng-container>
               </div>
             </ng-template>

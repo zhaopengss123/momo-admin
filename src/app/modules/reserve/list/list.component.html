@@ -46,6 +46,8 @@
     <td>{{ data.createTime }}</td>
     <td><span nz-tooltip [nzTitle]="data.content">{{ data.content && data.content.length > 10 ? data.content.substr(0, 10) + '...' : data.content }}</span></td>
     <td>
+      <a (click)="openDiary(data)">成长日记</a>
+      <nz-divider *ngIf="(data.reserveType == 1 || data.reserveType == 3) && data.reserveStatus == 0"  nzType="vertical"></nz-divider>
       <a nz-popconfirm *ngIf="(data.reserveType == 1 || data.reserveType == 3) && data.reserveStatus == 0" nzTitle="确定要撤销该预约吗？" (nzOnConfirm)="withdraw(data.id)">撤销</a>
     </td>
   </ng-template>
