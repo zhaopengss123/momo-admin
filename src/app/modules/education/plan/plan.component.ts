@@ -38,7 +38,8 @@ export class PlanComponent implements OnInit {
   pageSize: number = 10;
   imgurl : string = 'https://gw.alipayobjects.com/zos/rmsportal/LFooOLwmxGLsltmUjTAP.svg';
   loading: boolean;
-
+  listClass:any[] = [];
+  classStatusIndex: number = 0;
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
@@ -46,10 +47,12 @@ export class PlanComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.http.post('/message/listClassMessage', { }, false).then(res => { this.listClass = res.data.list; })
   }
 
   select(data){
     console.log(data);
+    
   }
 
   delete(classId) {
@@ -58,6 +61,9 @@ export class PlanComponent implements OnInit {
   pageChange(){
       console.log(this.pageNum,this.pageSize);
   } 
+  selectclass(id){
+    console.log(id);
+  }
 
 
 }
