@@ -1,0 +1,81 @@
+<div class="container">
+    <nz-tabset>
+        <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectclass(item.id)"></nz-tab>
+    </nz-tabset>
+    <ea-query [node]="queryNode" (onSubmit)="select($event)"></ea-query>
+    <div class="data-list">
+        <div class="list">
+            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
+                <div class="icon-top">绘本阅读</div>
+            </div>
+            <div class="list-font">
+                <span>《火车快跑》</span>
+                <span>适用：0-6个月</span>
+            </div>
+            <div class="list-btn">
+                查看课程
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
+                <div class="icon-top">绘本阅读</div>
+            </div>
+            <div class="list-font">
+                <span>《火车快跑》</span>
+                <span>适用：0-6个月</span>
+            </div>
+            <div class="list-btn">
+                查看课程
+            </div>
+        </div>
+
+
+        <div class="list">
+            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
+                <div class="icon-top">绘本阅读</div>
+            </div>
+            <div class="list-font">
+                <span>《火车快跑》</span>
+                <span>适用：0-6个月</span>
+            </div>
+            <div class="list-btn">
+                查看课程
+            </div>
+        </div>
+
+
+        <div class="list">
+            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
+                <div class="icon-top">绘本阅读</div>
+            </div>
+            <div class="list-font">
+                <span>《火车快跑》</span>
+                <span>适用：0-6个月</span>
+            </div>
+            <div class="list-btn">
+                查看课程
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
+                <div class="icon-top">绘本阅读</div>
+            </div>
+            <div class="list-font">
+                <span>《火车快跑》</span>
+                <span>适用：0-6个月</span>
+            </div>
+            <div class="list-btn">
+                查看课程
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page">
+        <nz-pagination [(nzPageIndex)]="pageNum" [(nzPageSize)]="pageSize" (nzPageIndexChange)="pageChange()"
+            (nzPageSizeChange)="pageChange()" [nzTotal]="50" nzShowSizeChanger></nz-pagination>
+    </div>
+
+</div>
