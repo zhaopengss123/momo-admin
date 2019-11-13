@@ -40,7 +40,7 @@ export class CurriculumComponent implements OnInit {
     },
   ];
 
-  tableNode = ['课程名称', '类别', '时长',  '状态', '创建时间' , '操作'];
+  tableNode = ['课程名称', '类别', '时长', '适用月龄', '状态', '创建时间' , '操作'];
 
   constructor(
     private drawer: NzDrawerService,
@@ -75,6 +75,7 @@ export class CurriculumComponent implements OnInit {
       nzWidth: 720,
       nzTitle: '课程管理',
       nzContent: UpdateComponent,
+      nzMaskClosable: false,
       nzContentParams: { info }
     });
     drawer.afterClose.subscribe(res => {
