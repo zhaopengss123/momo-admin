@@ -102,18 +102,18 @@ export class ReserveComponent implements OnInit {
   
   openDiary(data){
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
-    this.http.post('/daily/get', {  studentId: data.id, queryDate: data.reserveDate  }).then(res => {
-        if(res && res.result == 1000 && res.data){
-            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetai/?studentId=${ data.id }&queryDate=${ data.reserveDate }&token=${ token }`);
+    this.http.post('/daily/get', {  studentId: data.studentId, queryDate: data.reserveDate  }).then(res => {
+        if(res && res.data.contentJson){
+            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
         }else{
-          this.message.warning('该会员没有记录');
+          this.message.warning('该学员未生成成长日记');
           }
     })
   }
   withdraw(id) {
     this.http.post('/reserve/withdrawReserve', { reserveId: id}).then(res => {
       this.listPage.eaTable._request();
-    })
+    }) 
   }
 
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number }) => void;
