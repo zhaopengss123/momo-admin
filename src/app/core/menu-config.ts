@@ -56,6 +56,11 @@ export const MenuConfig = [
     icon  : 'book',
     children : [
       {
+        title : '课程教案',
+        key   : '/home/education/plan',
+        isLeaf: true
+      },
+      {
         title : '课程管理',
         key   : '/home/education/curriculum',
         isLeaf: true

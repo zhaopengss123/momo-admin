@@ -207,6 +207,12 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
+            path: 'plan',
+            data: { title: '课程教案' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/education/plan/plan.module#PlanModule'
+          },
+          {
             path: 'curriculum',
             data: { title: '课程管理' },
             canLoad: [AuthGuardService],
