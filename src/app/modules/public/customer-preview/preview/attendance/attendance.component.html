@@ -4,7 +4,7 @@
   [queryNode]="[ 
     { label: '出勤时间', type: 'rangepicker', key: 'time', valueKey: ['startTime', 'endTime'] }
   ]"
-  [tableThead]="['日期', '到校', '送人', '离校', '接人', '状态', '班级', '老师', '备注']"
+  [tableThead]="['日期', '到校', '送人', '离校', '接人', '状态', '班级', '老师', '备注','操作']"
   [EaTableTbodyTr]="EaTableTbodyTr">
   <ng-template let-data #EaTableTbodyTr>
     <td>{{ data.date }}</td>
@@ -16,6 +16,9 @@
     <td>{{ data.className }}</td>
     <td>{{ data.teacherName }}</td>
     <td>{{ data.comment }}</td>
+    <td>
+        <a (click)="openDiary(data)">成长日记</a>
+    </td>
   </ng-template>
   
 </ea-list-page-simp>
