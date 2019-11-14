@@ -22,7 +22,7 @@
               <label nz-checkbox [(ngModel)]="item.checked"></label>
             </ng-container>
           </ng-template>
-          <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="item.eventIcon" [nzDescription]="item.showTime">
+          <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="item.eventIcon" [nzDescription]="item.startTime">
             <ng-template #nzTitle>
               <h2>
                 {{ item.eventName }}

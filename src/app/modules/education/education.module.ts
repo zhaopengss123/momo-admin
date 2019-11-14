@@ -7,15 +7,16 @@ import { UpdateComponent } from './public/update/update.component';
 import { DetailComponent } from './public/detail/detail.component';
 import { UpdateScheduleComponent } from './public/update-schedule/update-schedule.component';
 import { UpdatetimeComponent } from './public/updatetime/updatetime.component';
+import { AdjustmentComponent } from './public/adjustment/adjustment.component';
 
 @NgModule({
-  declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent],
+  declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule,
   ],
-  entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent, UpdatetimeComponent],
+  entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent],
   providers: [ DatePipe ]
 }) 
 export class EducationModule { }

@@ -96,7 +96,6 @@ export class ExamineComponent implements OnInit, AfterViewInit {
         } catch (error) {
           item.appContent = { content: '', videoUrl: '', imgUrlList: [] };
         }
-        console.log(item); 
         return item;
       });
       this.dataSet = res.data.list;

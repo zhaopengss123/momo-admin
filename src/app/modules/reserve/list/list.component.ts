@@ -102,7 +102,7 @@ export class ReserveComponent implements OnInit {
   
   openDiary(data){
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
-    this.http.post('/daily/get', {  studentId: data.studentId, queryDate: data.reserveDate  }).then(res => {
+    this.http.post('/diary/get', {  studentId: data.studentId, queryDate: data.reserveDate  }).then(res => {
         if(res && res.data.contentJson){
             window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
         }else{

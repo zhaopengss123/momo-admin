@@ -2,6 +2,7 @@ import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { AdjustmentComponent } from '../public/adjustment/adjustment.component';
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
@@ -61,6 +62,17 @@ export class TimetableComponent implements OnInit {
     this.Saturday = this.showWeekFirstDay(6 - nowDayOfWeek + index);;
     this.endDate = this.showWeekFirstDay(7 - nowDayOfWeek + index);
   };
+  addCustomer(){
+    const drawer = this.drawer.create({
+      nzWidth: 1000,
+      nzTitle: '排课/调整',
+      nzContent: AdjustmentComponent,
+      nzContentParams: { }
+    });
+    drawer.afterClose.subscribe(res => {
+
+    });
+}
   showWeekFirstDay(i) {
     var day3 = new Date();
     day3.setTime(day3.getTime() + i * 24 * 60 * 60 * 1000);
