@@ -21,7 +21,7 @@ export class ReserveComponent implements OnInit {
   @ViewChild('listPage') listPage: ListPageComponent;
 
   domain = environment.domainEs;
-
+  domains = environment.domain;
   queryNode: QueryNode[] = [
     {
       label   : '学员',
@@ -104,7 +104,7 @@ export class ReserveComponent implements OnInit {
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
     this.http.post('/diary/get', {  studentId: data.studentId, queryDate: data.reserveDate  }).then(res => {
         if(res && res.data.contentJson){
-            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
+            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }&domain=${ this.domains }`);
         }else{
           this.message.warning('该学员未生成成长日记');
           }

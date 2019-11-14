@@ -118,6 +118,7 @@ export class UploadFileComponent implements OnInit {
             status: 'done'
           });
           this.filesdetail = arr;
+          this.files = [...arr];
           observer.next(true);
           observer.complete();
         }, err => {
