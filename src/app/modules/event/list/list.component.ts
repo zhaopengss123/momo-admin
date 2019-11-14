@@ -96,7 +96,7 @@ export class ListComponent implements AfterViewInit {
           if (item.appContent.content.substr(item.appContent.content.length - 4, item.appContent.content.length) === '|~!|') {
             item.appContent.content = item.appContent.content.substr(0, item.appContent.content.length - 4);
           }
-          item.appContent.content = item.appContent.content.split('|~!|').join('<i>|</i>');
+          item.appContent.content = item.appContent.content.split('|~!|').join('<br>');
         } catch (error) {
           item.appContent = { content: '', videoUrl: '', imgUrlList: [] };
         }
