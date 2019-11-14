@@ -1,6 +1,6 @@
 <div class="container">
     <ea-list-page-simp #listPage url="/teacher/getTeachersList" [queryNode]="queryNode" [paramsDefault]="{status: 1}"
-        [tableThead]="[ '头像', '名字', '手机号' ,'性别', '角色', '是否是主管', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
+        [tableThead]="[ '头像', '名字', '艺名', '手机号' ,'性别', '角色', '是否是主管', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
          [EaTableTbodyTr]="EaTableTbodyTr">
     </ea-list-page-simp>
 
@@ -16,6 +16,7 @@
             </ng-template>
         </td>
         <td>{{ data.name }}</td>
+        <td>{{ data.englishName || '--' }}</td>
         <td><span *ngIf="!data.isPhone" (click)="data.isPhone = true"
                 style="color:#1890ff; cursor: pointer;">查看</span><span
                 *ngIf="data.isPhone">{{ data.mobilePhone }}</span></td>
