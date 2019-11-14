@@ -20,7 +20,7 @@ export class AttendanceComponent implements OnInit {
   }
   openDiary(data){
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
-    this.http.post('/daily/get', {  studentId: this.studentId, queryDate: data.date  }).then(res => {
+    this.http.post('/diary/get', {  studentId: this.studentId, queryDate: data.date  }).then(res => {
         if(res && res.data.contentJson){
             window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ this.studentId }&queryDate=${ data.date }&token=${ token }`);
         }else{
