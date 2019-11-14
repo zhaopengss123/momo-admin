@@ -1,4 +1,5 @@
 <div class="main">
+    <button nz-button nzType="primary" style="margin-bottom:20px; float:right;" (click)="addTime()">添加时段</button>
     <button nz-button nzType="dashed" style="width: 100%; " (click)="addClass()"><i class="anticon anticon-plus"></i>添加方案</button>
 
     <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
@@ -8,7 +9,7 @@
               <th><a style="color:red;">*</a>开始时间</th>
               <th>描述</th>
               <th>状态</th>
-              <th nzWidth="150px">操作</th>
+              <th nzWidth="100px">操作</th>
             </tr>
           </thead>
           <tbody>
@@ -22,27 +23,28 @@
                         </ng-template>
                   </td>
                   <td >
-                      <ng-container *ngIf="!data.edit; else descriptionInputTpl">
-                          {{ data.description }}
+                      <ng-container *ngIf="!data.edit; else dateInputTpl">
+                          {{ data.date }}
                         </ng-container>
-                        <ng-template #descriptionInputTpl>
-                          <input type="text" nz-input [(ngModel)]="data.description" />
+                        <ng-template #dateInputTpl>
+                            <nz-date-picker [(ngModel)]="data.date"  nzFormat="yyyy-MM-dd" (ngModelChange)="dateChange($event,data)"
+                            nzPlaceHolder="选择日期"
+                          ></nz-date-picker>
                         </ng-template>
                   </td>
                   <td >
-                      <ng-container *ngIf="!data.edit; else descriptionInputTpl">
-                          {{ data.description }}
+                      <ng-container *ngIf="!data.edit; else commitInputTpl">
+                          {{ data.commit }}
                         </ng-container>
-                        <ng-template #descriptionInputTpl>
-                          <input type="text" nz-input [(ngModel)]="data.description" />
+                        <ng-template #commitInputTpl>
+                          <input type="text" nz-input [(ngModel)]="data.commit" />
                         </ng-template>
                   </td>
                   <td >
-                      <ng-container *ngIf="!data.edit; else descriptionInputTpl">
-                          {{ data.description }}
-                        </ng-container>
-                        <ng-template #descriptionInputTpl>
-                          <input type="text" nz-input [(ngModel)]="data.description" />
+                      <ng-container *ngIf="!data.edit; else statusInputTpl">
+                          <nz-tag [nzColor]="data.status ? '#2db7f5' : ''">{{ data.status == 1 ? '启用' : '停用' }}</nz-tag>                        </ng-container>
+                        <ng-template #statusInputTpl>
+                            <nz-switch [(ngModel)]="data.status" nzCheckedChildren="已启用" nzUnCheckedChildren="已停用"></nz-switch>
                         </ng-template>
                   </td>
                   <td>

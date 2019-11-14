@@ -1,28 +1,22 @@
 import { Component, OnInit  } from '@angular/core';
 import { NzMessageService, NzDrawerRef , NzDrawerService } from 'ng-zorro-antd';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { UpdatetimeComponent } from '../updatetime/updatetime.component';
-
 
 @Component({
-  selector: 'app-update-schedule',
-  templateUrl: './update-schedule.component.html',
-  styleUrls: ['./update-schedule.component.less']
+  selector: 'app-updatetime',
+  templateUrl: './updatetime.component.html',
+  styleUrls: ['./updatetime.component.less']
 })
-export class UpdateScheduleComponent implements OnInit {
+export class UpdatetimeComponent implements OnInit {
   classList: any[] = [];
   editName: string;
   listOfData: any[] = [];
-  _queryForm: FormGroup;
+
   constructor(
     private message: NzMessageService,
     private drawerRef: NzDrawerRef,
     private drawer: NzDrawerService,
     private http: HttpService,
-    private datePipe : DatePipe,
-
   ) { }
 
   ngOnInit() {
@@ -47,27 +41,18 @@ export class UpdateScheduleComponent implements OnInit {
     }
   }
   getData(){
-    // this.http.post('/course/listCourseType').then(res => {
-    //   this.listOfData = res.data.list;
-    // });
-    this.listOfData = [];
+    this.http.post('/course/listCourseType').then(res => {
+      this.listOfData = res.data.list;
+    });
   }
   addClass(){
     let json = {
-      name: null,
-      date: null,
-      commit: null,
-      status: true,
+      fromName: '',
       edit: true
     };
     this.listOfData.unshift(json);
   }
-  dateChange(date,data){
-    data.date = this.datePipe.transform( date, 'yyyy-MM-dd');
-  }
   saveEdit(data){
-    data.edit = false;
-    return false;
     if(!data.name){
       this.message.warning('类别名称不能为空！');
       return false;
@@ -116,15 +101,8 @@ export class UpdateScheduleComponent implements OnInit {
     }
     data.edit = false;
   }
-  addTime(){
-    this.drawer.create({
-      nzWidth: 720,
-      nzTitle: '时段管理',
-      nzBodyStyle: { 'padding-bottom': '53px' },
-      nzContent: UpdatetimeComponent,
-    }).afterClose.subscribe(res => {
-        console.log('reset');
-    })
-  }
+  // save() {
+  //   this.drawerRef.close(true)
+  // }
   
 }

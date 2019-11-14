@@ -1,37 +1,43 @@
 <div class="container">
     <nz-tabset>
-        <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectclass(item.id)"></nz-tab>
+        <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectClass(item.id)"></nz-tab>
     </nz-tabset>
-    <ea-query [node]="queryNode" (onSubmit)="select($event)"></ea-query>
-    <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
-    url="/course/queryCourse">
-    <ng-template let-data #EaTableTbodyTr>
-      <td>{{ data.name }}</td>
-      <td>
-        <ng-container *ngFor="let item of listCourseType">
-          {{  item.id ==  data.typeId ? item.name : '' }}
-        </ng-container>
-      </td>
-      <td>{{ data.duration || '--' }}</td>
-      <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
-      <td>{{ data.status == 0 ? '启用' : '停用'  }}</td>
-      <td>{{ data.createTime }}</td>
-      <td>
-        <ng-container>
-          <a (click)="openDetail(data)">课程详情</a>
-        </ng-container>
-        <nz-divider nzType="vertical"></nz-divider>
-        <ng-container>
-          <a (click)="addCustomer(data)">编辑</a>
-        </ng-container>
-        <nz-divider nzType="vertical"></nz-divider>
-        <ng-container>
-          <a (click)="updataStatus(data)">{{ data.status != 0 ? '启用' : '停用'  }}</a>
-        </ng-container>
-      </td>
-    </ng-template>
-  </ea-table>
+    <div class="top-nav">
+        <nz-radio-group [(ngModel)]="week">
+            <label nz-radio-button nzValue="0" (click)="prveDate()"><span>上周</span></label>
+            <label nz-radio-button nzValue="1" (click)="nowDate()"><span>本周</span></label>
+            <label nz-radio-button nzValue="2" (click)="nextDate()"><span>下周</span></label>
+          </nz-radio-group>
+          <div style="float:right;">
+            <button nz-button nzType="primary" style="margin-right:10px;">下载课表</button>
+            <button nz-button nzType="primary">排课/调整</button>
+          </div>
+        </div>
 
-
-
+        <nz-table #basicTable [nzData]="dataList">
+            <thead>
+              <tr>
+                <th nzWidth="150px">日期</th>
+                <th>星期一<br>{{ startDate }}</th>
+                <th>星期二<br>{{ Tuesday }}</th>
+                <th>星期三<br>{{ Wednesday }}</th>
+                <th>星期四<br>{{ Thursday }}</th>
+                <th>星期五<br>{{ Friday }}</th>
+                <th>星期六<br>{{ Saturday }}</th>    
+                <th>星期日<br>{{ endDate }}</th>                 
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of dataList">
+                <td>{{data.name}}</td>
+                <td>{{data.age}}</td>
+                <td>{{data.address}}</td>
+                <td>
+                  <a>Action 一 {{data.name}}</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
 </div>

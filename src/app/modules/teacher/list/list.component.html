@@ -1,11 +1,11 @@
 <div class="container">
     <ea-list-page-simp #listPage url="/teacher/getTeachersList" [queryNode]="queryNode" [paramsDefault]="{status: 1}"
-        [tableThead]="[ '头像', '名字', '艺名', '手机号' ,'性别', '角色', '是否是主管', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
+        [tableThead]="[ '头像', '名字', '昵称', '手机号' ,'性别', '角色', '是否是主管', '在职状态' ,'所属班级', '年龄', '生日', '操作' ]" [EaBtns]="EaBtns"
          [EaTableTbodyTr]="EaTableTbodyTr">
     </ea-list-page-simp>
 
     <ng-template #EaBtns>
-        <button nz-button nzType="primary" (click)="update()">新增员工</button>
+        <button nz-button nzType="primary" (click)="update()">新增老师</button>
     </ng-template>
 
     <ng-template let-data #EaTableTbodyTr>

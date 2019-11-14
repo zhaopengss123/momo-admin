@@ -1,0 +1,76 @@
+<div class="main">
+    <button nz-button nzType="dashed" style="width: 100%; " (click)="addClass()"><i class="anticon anticon-plus"></i>添加时段</button>
+
+    <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
+        <thead>
+            <tr>
+              <th>开始时段</th>
+              <th>结束时段</th>
+              <th>名称</th>
+              <th>需要排课</th>
+              <th>内容</th>
+              <th nzWidth="100px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data of listOfData">
+                  <td >
+                      <ng-container *ngIf="!data.edit; else startTimeInputTpl">
+                          {{ data.name }}
+                        </ng-container>
+                        <ng-template #startTimeInputTpl>
+                            <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm"></nz-time-picker>
+                        </ng-template>
+                  </td>
+                  <td >
+                      <ng-container *ngIf="!data.edit; else endTimeInputTpl">
+                          {{ data.name }} 
+                        </ng-container>
+                        <ng-template #endTimeInputTpl>
+                            <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm"></nz-time-picker>
+                        </ng-template>
+                  </td>
+                  <td >
+                      <ng-container *ngIf="!data.edit; else nameInputTpl">
+                          {{ data.name }}
+                        </ng-container>
+                        <ng-template #nameInputTpl>
+                          <input type="text" nz-input [(ngModel)]="data.name" />
+                        </ng-template>
+                  </td>
+                  <td >
+                      <ng-container *ngIf="!data.edit; else nameInputTpl">
+                          {{ data.name }}
+                        </ng-container>
+                        <ng-template #nameInputTpl>
+                          <input type="text" nz-input [(ngModel)]="data.name" />
+                        </ng-template>
+                  </td>
+                  <td >
+                      <ng-container *ngIf="!data.edit; else descriptionInputTpl">
+                          {{ data.description }}
+                        </ng-container>
+                        <ng-template #descriptionInputTpl>
+                          <input type="text" nz-input [(ngModel)]="data.description" />
+                        </ng-template>
+                  </td>
+                  <td>
+                      <ng-container *ngIf="!data.edit; else saveTpl">
+                          <a (click)="data.edit = true;">编辑</a>
+                        </ng-container>
+                        <ng-template #saveTpl>
+                          <a (click)="saveEdit(data)">保存</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a (click)="cancel(data)">取消</a>
+                        </ng-template>
+          
+          
+                  </td>
+              </tr>
+          </tbody>
+    </nz-table>
+</div>
+
+<!-- <div class="drawer-footer">
+  <button nz-button nzType="primary" (click)="save()"></button>
+</div> -->

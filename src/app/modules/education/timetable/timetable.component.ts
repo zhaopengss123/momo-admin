@@ -1,8 +1,6 @@
 import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService } from 'ng-zorro-antd';
-import { ListPageSimpComponent } from './../../../ng-relax/components/list-page-simp/list-page.component';
-import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 @Component({
   selector: 'app-timetable',
@@ -10,34 +8,17 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   styleUrls: ['./timetable.component.less']
 })
 export class TimetableComponent implements OnInit {
-  @ViewChild('listPage') listPage: ListPageSimpComponent;
-
-  queryNode: QueryNode[] = [
-    {
-      label: '课程名称',
-      key: 'className',
-      type: 'input'
-    },
-    {
-      label: '课程类别',
-      key: 'typeId',
-      type: 'select',
-      optionsUrl: '/course/listCourseType'
-    },
-    {
-      label: '宝宝月龄',
-      key: 'yueling',
-      valueKey: ['startMonthAge', 'endMonthAge'],
-      type: 'between',
-      placeholder: ['最小月龄', '最大月龄']
-    }
-  ];
-  pageNum: number = 1;
-  pageSize: number = 10;
-  imgurl: string = 'https://gw.alipayobjects.com/zos/rmsportal/LFooOLwmxGLsltmUjTAP.svg';
-  loading: boolean;
+  week: number = 0;
   listClass: any[] = [];
-  classStatusIndex: number = 0;
+  dateIndex: any = 0;
+  startDate: string;
+  endDate: string;
+  isOkLoading: any = false;
+  Tuesday: string;
+  Wednesday: string;
+  Thursday: string;
+  Friday: string;
+  Saturday: string;
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
@@ -45,23 +26,51 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; })
+    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; });
+    this.nowDate();
   }
 
   select(data) {
     console.log(data);
 
   }
+  selectClass(data){
+    console.log(1111);
+  }
+  nowDate() {
+    this.dateIndex = 0;
+    this.datefun(0);
+  }
+  nextDate() {
+    this.dateIndex++;
+    this.datefun(this.dateIndex * 7);
+  }
+  prveDate() {
+      this.dateIndex--;
+      this.datefun(this.dateIndex * 7);
+  }
+  datefun(index) {
+    let now: any = new Date();
+    let nowDayOfWeek = now.getDay();
+    nowDayOfWeek = nowDayOfWeek == 0 ? 7 : nowDayOfWeek;
+    this.startDate = this.showWeekFirstDay(1 - nowDayOfWeek + index);
+    this.Tuesday = this.showWeekFirstDay(2 - nowDayOfWeek + index);;
+    this.Wednesday = this.showWeekFirstDay(3 - nowDayOfWeek + index);;
+    this.Thursday = this.showWeekFirstDay(4 - nowDayOfWeek + index);;
+    this.Friday = this.showWeekFirstDay(5 - nowDayOfWeek + index);;
+    this.Saturday = this.showWeekFirstDay(6 - nowDayOfWeek + index);;
+    this.endDate = this.showWeekFirstDay(7 - nowDayOfWeek + index);
+  };
+  showWeekFirstDay(i) {
+    var day3 = new Date();
+    day3.setTime(day3.getTime() + i * 24 * 60 * 60 * 1000);
+    let Month = (day3.getMonth() + 1) < 10 ? '0' + (day3.getMonth() + 1) : (day3.getMonth() + 1);
+    let dayDate = (day3.getDate()) < 10 ? '0' + (day3.getDate()) : (day3.getDate());
+    var s3 = day3.getFullYear() + "-" + Month + "-" + dayDate;
+    return s3;
+  }
+ 
 
-  delete(classId) {
-    this.http.post('/classmanager/deleteClassById', { classId }, true).then(res => this.listPage.eaTable._request())
-  }
-  pageChange() {
-    console.log(this.pageNum, this.pageSize);
-  }
-  selectclass(id) {
-    console.log(id);
-  }
 
 
 }
