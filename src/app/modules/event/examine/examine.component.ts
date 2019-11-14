@@ -92,10 +92,11 @@ export class ExamineComponent implements OnInit, AfterViewInit {
       res.data.list.map(item => {
         try {
           item.appContent = JSON.parse(item.appContent);
-          item.appContent.content = item.appContent.content.split('|~!|').join('<i>|</i>');
+          item.appContent.content = item.appContent.content.split('|~!|').join('<br>');
         } catch (error) {
           item.appContent = { content: '', videoUrl: '', imgUrlList: [] };
         }
+        console.log(item); 
         return item;
       });
       this.dataSet = res.data.list;
