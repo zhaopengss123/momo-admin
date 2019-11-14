@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="top-btn">
+        <button nz-button nzType="primary">初始化日程</button>
+        <button nz-button nzType="default" (click)="openUpdate()">配置日程</button>
+        <span>*修改完以下配置后，新的日程安排并不会立即生效，如果要立即生效，请按初“始化日程”按钮！</span>
+    </div>
+    <nz-table #basicTable [nzData]="datalist" nzShowPagination="false">
+        <thead>
+          <tr>
+            <th nzWidth="150px">时间</th>
+            <th nzWidth="150px">名称</th>
+            <th nzWidth="150px">需要排课</th>
+            <th nzWidth="150px">内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of datalist">
+            <td>{{data.date}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.istrue ? '是' : 'false'}}</td>
+            <td>
+              {{ data.commit }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+  </div> 

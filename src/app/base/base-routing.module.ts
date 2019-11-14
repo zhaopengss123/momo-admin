@@ -213,6 +213,18 @@ const routes: Routes = [
             loadChildren: 'src/app/modules/education/plan/plan.module#PlanModule'
           },
           {
+            path: 'timetable',
+            data: { title: '班级课表' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/education/timetable/timetable.module#TimetableModule'
+          },
+          {
+            path: 'schedule',
+            data: { title: '日程安排' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/education/schedule/schedule.module#ScheduleModule'
+          },
+          {
             path: 'curriculum',
             data: { title: '课程管理' },
             canLoad: [AuthGuardService],

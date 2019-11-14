@@ -5,15 +5,16 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { ImportComponent } from './public/import/import.component';
 import { UpdateComponent } from './public/update/update.component';
 import { DetailComponent } from './public/detail/detail.component';
+import { UpdateScheduleComponent } from './public/update-schedule/update-schedule.component';
 
 @NgModule({
-  declarations: [UpdateComponent, ImportComponent, DetailComponent],
+  declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule,
   ],
-  entryComponents: [UpdateComponent, ImportComponent , DetailComponent],
+  entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent],
   providers: [ DatePipe ]
 }) 
 export class EducationModule { }

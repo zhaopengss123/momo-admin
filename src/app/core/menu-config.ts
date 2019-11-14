@@ -61,6 +61,16 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
+        title : '班级课表',
+        key   : '/home/education/timetable',
+        isLeaf: true
+      },
+      {
+        title : '日程安排',
+        key   : '/home/education/schedule',
+        isLeaf: true
+      },
+      {
         title : '课程管理',
         key   : '/home/education/curriculum',
         isLeaf: true

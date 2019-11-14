@@ -3,79 +3,35 @@
         <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectclass(item.id)"></nz-tab>
     </nz-tabset>
     <ea-query [node]="queryNode" (onSubmit)="select($event)"></ea-query>
-    <div class="data-list">
-        <div class="list">
-            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
-                <div class="icon-top">绘本阅读</div>
-            </div>
-            <div class="list-font">
-                <span>《火车快跑》</span>
-                <span>适用：0-6个月</span>
-            </div>
-            <div class="list-btn">
-                查看课程
-            </div>
-        </div>
-
-        <div class="list">
-            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
-                <div class="icon-top">绘本阅读</div>
-            </div>
-            <div class="list-font">
-                <span>《火车快跑》</span>
-                <span>适用：0-6个月</span>
-            </div>
-            <div class="list-btn">
-                查看课程
-            </div>
-        </div>
-
-
-        <div class="list">
-            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
-                <div class="icon-top">绘本阅读</div>
-            </div>
-            <div class="list-font">
-                <span>《火车快跑》</span>
-                <span>适用：0-6个月</span>
-            </div>
-            <div class="list-btn">
-                查看课程
-            </div>
-        </div>
+    <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="/course/queryCourse">
+    <ng-template let-data #EaTableTbodyTr>
+      <td>{{ data.name }}</td>
+      <td>
+        <ng-container *ngFor="let item of listCourseType">
+          {{  item.id ==  data.typeId ? item.name : '' }}
+        </ng-container>
+      </td>
+      <td>{{ data.duration || '--' }}</td>
+      <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
+      <td>{{ data.status == 0 ? '启用' : '停用'  }}</td>
+      <td>{{ data.createTime }}</td>
+      <td>
+        <ng-container>
+          <a (click)="openDetail(data)">课程详情</a>
+        </ng-container>
+        <nz-divider nzType="vertical"></nz-divider>
+        <ng-container>
+          <a (click)="addCustomer(data)">编辑</a>
+        </ng-container>
+        <nz-divider nzType="vertical"></nz-divider>
+        <ng-container>
+          <a (click)="updataStatus(data)">{{ data.status != 0 ? '启用' : '停用'  }}</a>
+        </ng-container>
+      </td>
+    </ng-template>
+  </ea-table>
 
 
-        <div class="list">
-            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
-                <div class="icon-top">绘本阅读</div>
-            </div>
-            <div class="list-font">
-                <span>《火车快跑》</span>
-                <span>适用：0-6个月</span>
-            </div>
-            <div class="list-btn">
-                查看课程
-            </div>
-        </div>
-
-        <div class="list">
-            <div class="list-bg" [ngStyle]="{'background-image': 'url('+ imgurl+ ')'}">
-                <div class="icon-top">绘本阅读</div>
-            </div>
-            <div class="list-font">
-                <span>《火车快跑》</span>
-                <span>适用：0-6个月</span>
-            </div>
-            <div class="list-btn">
-                查看课程
-            </div>
-        </div>
-
-    </div>
-
-    <div class="page">
-        <nz-pagination [(nzPageIndex)]="pageNum" [(nzPageSize)]="pageSize" (nzPageIndexChange)="pageChange()"
-            (nzPageSizeChange)="pageChange()" [nzTotal]="50" nzShowSizeChanger></nz-pagination>
-    </div>
 
 </div>
