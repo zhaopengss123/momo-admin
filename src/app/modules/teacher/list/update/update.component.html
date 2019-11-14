@@ -35,6 +35,15 @@
                 </nz-form-item>
             </div>
             <div nz-col nzSpan="12">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>艺名</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input placeholder="请输入老师艺名" formControlName="englishName">
+                            <nz-form-explain *ngIf="valid('englishName')">请输入老师艺名！</nz-form-explain>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            <div nz-col nzSpan="12">
                 <nz-form-item>
                     <nz-form-label nzRequired>性别</nz-form-label>
                     <nz-form-control>

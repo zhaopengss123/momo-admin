@@ -37,6 +37,7 @@ export class UpdateComponent implements OnInit {
       mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)], [this._mobilePhoneAsyncValidator]],
       photoUrl: [, [Validators.required]],
       name: [, [Validators.required]],
+      englishName: [, [Validators.required]],
       sex: ['1'],
       roleId: [, [Validators.required]],
       idCard: [, [Validators.required, Validators.pattern(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/)]],

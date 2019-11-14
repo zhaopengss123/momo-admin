@@ -207,12 +207,12 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
-        title : '班级设置',
+        title : '班级管理',
         key   : '/home/setting/class',
         isLeaf: true
       },
       {
-        title : '员工设置',
+        title : '老师管理',
         key   : '/home/setting/teacher',
         isLeaf: true
       }
