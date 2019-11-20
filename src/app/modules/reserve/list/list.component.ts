@@ -68,7 +68,7 @@ export class ReserveComponent implements OnInit {
 
   weilaiForm: FormGroup;
   weilaiOptionList: any[] = []
-
+  diaryList: any[] = [];
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
@@ -82,7 +82,7 @@ export class ReserveComponent implements OnInit {
     this.weilaiForm = this.fb.group({
       weilai: []
     })
-    
+    this.http.post('/diary/students', { queryDate: this.paramsDefault.reserveDate }).then(res => { this.diaryList = res.data; })
     this.http.post('/reserve/getWeeks').then(res => {
       res.data.list.map(item => this.weilaiOptionList.push({ name: item.week, id: new Date(item.date) }));
       this.weilaiOptionList[0].name = '今天';
@@ -90,7 +90,9 @@ export class ReserveComponent implements OnInit {
       this.weilaiForm.get('weilai').valueChanges.subscribe(res => {
         if (res) {
           this.listPage.eaTable.request({ reserveDate: this.format.transform(res, 'yyyy-MM-dd') })
-          this.listPage.eaQuery._queryForm.patchValue({ reserveDate: res })
+          this.listPage.eaQuery._queryForm.patchValue({ reserveDate: res });
+          this.http.post('/diary/students', { queryDate: this.format.transform(res, 'yyyy-MM-dd') }).then(res => { this.diaryList = res.data; })
+
         }
       })
     });

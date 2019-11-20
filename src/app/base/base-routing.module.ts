@@ -95,16 +95,16 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
-            path: 'list',
-            data: { title: '个人事件' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/event/list/list.module#ListModule'
-          },
-          {
             path: 'examine',
             data: { title: '审核事件' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/event/examine/examine.module#ExamineModule'
+          },
+          {
+            path: 'list',
+            data: { title: '个人事件' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/event/list/list.module#ListModule'
           },
         ]
       },

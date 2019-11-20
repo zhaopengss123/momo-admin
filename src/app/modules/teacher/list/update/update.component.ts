@@ -1,11 +1,12 @@
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { NzDrawerRef } from 'ng-zorro-antd';
+import { NzDrawerRef , NzDrawerService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
+import { AppointComponent } from '../../../public/customer-preview/appoint/appoint.component';
 
 @Component({
   selector: 'app-update',
@@ -15,16 +16,18 @@ import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
 export class UpdateComponent implements OnInit {
 
   @Input() id: number;
-
+  memberList: any[] = [];
   formGroup: FormGroup;
-
+  teacherStatus: number;
   roleList: any[] = [];
   classList: any[] = [];
 
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
-    private drawerRef: NzDrawerRef<boolean>
+    private drawerRef: NzDrawerRef<boolean>,
+    private drawer: NzDrawerService,
+
   ) { 
     this.http.post('/message/getClasses').then(res => this.classList = res.data);
     this.http.post('/teacher/getRoleList').then(res => this.roleList = res.data);
@@ -61,7 +64,8 @@ export class UpdateComponent implements OnInit {
     });
 
     this.id && this.http.post('/teacher/getTeacherInfo', { id: this.id }, false).then(res => {
-      this.teacherInfo = res.data;
+      this.teacherStatus = res.data.status;
+      this.teacherInfo = JSON.parse(JSON.stringify(res.data));
       this.formGroup.patchValue(res.data);
     });
   }
@@ -69,6 +73,18 @@ export class UpdateComponent implements OnInit {
   @DrawerClose() close: () => void;
 
   saveLoading: boolean;
+  saves(){
+    if(this.formGroup.value.status != this.teacherStatus && this.formGroup.value.status == 2){
+      this.http.post('/student/getStudentList', { paramJson: JSON.stringify({"kindergartenId":1,"teacherId": this.teacherInfo.teacherId,"pageNum":1,"pageSize":100}), pageSize: 1, pageNum :100 }, false).then(res => {
+          this.memberList = res.data.list;
+          if(this.memberList.length == 0){
+            this.save();
+          }
+      });
+    }else{
+      this.save();
+    }
+  }
   @DrawerSave('/teacher/saveTeacherInfo') save: () => void;
 
   private _mobilePhoneAsyncValidator = (control: FormControl): any => {
@@ -89,4 +105,22 @@ export class UpdateComponent implements OnInit {
 
   @ControlValid() valid: (key, type?) => boolean;
 
+  selectAppoint(data) {
+    this.http.post('/student/getNewStudent', { id: data.studentId }).then(res => {
+      data.type = data.cardType;
+      let memberInfo = res.data;
+      this.drawer.create({
+        nzTitle: null,
+        nzWidth: 1148,
+        nzClosable: false,
+        nzContent: AppointComponent,
+        nzContentParams: { studentInfo: memberInfo.studentInfo, cardInfo: data, classId: memberInfo.studentInfo.classId }
+      }).afterClose.subscribe(res => {
+        if (res) {
+           this.saves();
+        }
+      });
+    });
+
+  }
 }

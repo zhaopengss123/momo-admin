@@ -3,22 +3,24 @@
 
   <div [style.float]="'right'">
     <nz-button-group>
-      <button (click)="operExamine()" nz-button nzType="primary" *ngIf="!showExamine">审核事件</button>
-      <button nz-button nzType="primary" *ngIf="showExamine" (click)="batchStatus('2')">通过</button>
-      <button nz-button *ngIf="showExamine" (click)="batchStatus('3')">不通过</button>
-      <button (click)="showExamine = false" nz-button *ngIf="showExamine">取消</button>
+      <button nz-button nzType="primary"  (click)="batchStatus('2')">通过</button>
+      <button nz-button  (click)="batchStatus('3')">不通过</button>
+      <button  nz-button (click)="allSelect()">全选</button>
     </nz-button-group>
   </div>
 
 </div>
 <div class="content">
+  
   <nz-list [nzDataSource]="dataSet" nzItemLayout="horizontal" [nzLoading]="loading" [nzPagination]="pagination"
     [nzRenderItem]="item">
     <ng-template #item let-item>
-      <nz-list-item *ngIf="!showExamine || (showExamine && item.auditStatus == 1)" [nzActions]="[editAction]">
+      <nz-list-item  [nzActions]="[editAction]">
         <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="item.loading">
           <ng-template #editAction>
-            <ng-container *ngIf="showExamine">
+            <ng-container *ngIf="item.auditStatus == 1">
+                <a (click)="update(item)">编辑</a>
+              <nz-divider nzType="vertical"></nz-divider>
               <label nz-checkbox [(ngModel)]="item.checked"></label>
             </ng-container>
           </ng-template>

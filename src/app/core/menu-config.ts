@@ -69,13 +69,13 @@ export const MenuConfig = [
     icon  : 'appstore',
     children : [
       {
-        title : '个人事件',
-        key   : '/home/event/list',
+        title : '审核事件',
+        key   : '/home/event/examine',
         isLeaf: true
       },
       {
-        title : '审核事件',
-        key   : '/home/event/examine',
+        title : '个人事件',
+        key   : '/home/event/list',
         isLeaf: true
       }
     ]
