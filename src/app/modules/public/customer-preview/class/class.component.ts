@@ -1,5 +1,5 @@
 import { NzDrawerService, NzDrawerRef, NzModalService } from 'ng-zorro-antd';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators , FormControl } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
@@ -55,12 +55,14 @@ export class ClassComponent implements OnInit {
         this.formGroup.addControl('startTime', this.fb.control(null));
         this.formGroup.addControl('endTime', this.fb.control(null));
         this.formGroup.addControl('pitNum', this.fb.control(null));
+        this.formGroup.addControl('newTeacherName', this.fb.control(null));
       }
     });
     this.formGroup = this.fb.group({
       studentId: [this.id],
       className: [],
       studentName: [],
+      newTeacherName: [],
 
       classId: [, [Validators.required]],
       newClassName: [],
@@ -74,11 +76,12 @@ export class ClassComponent implements OnInit {
       this.formGroup.patchValue({ teacherName: null });
       this.classList.map(classes => classes.classId === classId && (this.teacherList = classes.teachers, this.formGroup.patchValue({ newClassName: classes.className })));
     })
-
+    
     this.http.post('/reserve/getClassWithTeacher').then(res => {
       this.classList = res.data.list;
       if (this.cardInfo.isteacher) {
         this.formGroup.patchValue({ classId: this.cardInfo.classId });
+        console.log(this.cardInfo.classId);
         this._disabledClass();
       }
     });
@@ -95,7 +98,7 @@ export class ClassComponent implements OnInit {
     }).afterClose.subscribe(res => {
       if (res) {
         let teacherName;
-        this.teacherList.map(teacher => teacher.id === Number(res.teacherId) && (teacherName = teacher.name))
+        this.teacherList.map(teacher => teacher.id === Number(res.teacherId) && (teacherName = teacher.name));
         this.formGroup.patchValue({ startTime: res.startDate, endTime: res.endDate, pitNum: res.pitNum, teacherId: Number(res.teacherId), teacherName });
       }
     });
@@ -118,8 +121,23 @@ export class ClassComponent implements OnInit {
 
   saveLoading: boolean;
   @DrawerSave('/student/adjustClass') save: () => void;
-  @DrawerSave('/student/adjustTeacher') saveTeacher: () => void;
-
+  // @DrawerSave('/student/adjustTeacher') saveTeacher: () => void;
+  saveTeacher(){
+    if (this.formGroup.invalid) {
+      Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
+    } else {
+      this.saveLoading = true;
+      let params = JSON.parse(JSON.stringify(this.formGroup.value));
+      params.newTeacherName = params.teacherName;
+      params.teacherName = this.memberInfo.studentInfo.teacherName;
+      this.http.post('/student/adjustTeacher', {
+        paramJson: JSON.stringify(params)
+      }, true).then(res => {
+        this.saveLoading = false;
+        this.drawerRef.close(true);
+      }).catch(err => this.saveLoading = false);
+    }
+  }
   saveConfirm() {
     if (!this.cardInfo.isteacher) {
       if (this.memberInfo.studentInfo.cardType == 1) {

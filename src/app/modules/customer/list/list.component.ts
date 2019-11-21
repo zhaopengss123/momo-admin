@@ -354,13 +354,13 @@ export class ListComponent implements OnInit {
     let data = this.eaTable.dataSet.filter(d => d.studentId === this.checkedItems[0])[0];
     let teacherName = data.teacherName;
     let type = data.cardType;
-    if (teacherName && type == 2) {
-      this.updateTeach({ id: this.checkedItems[0] }, { teacherName , type });
+    if (teacherName && type == 2 && data.studentStatus != '已过期' ) {
+      this.updateTeach({ id: this.checkedItems[0] }, { teacherName , type , classId: data.classId });
     } else {
       if(data.className && data.cardTypeName == '日托' ){
-      this.message.warning('日托学员无固定老师，无法修改负责老师')
+      this.message.warning('日托学员无固定老师，无法修改负责老师');
       }else{
-        this.message.warning('该学员不能修改负责老师')
+        this.message.warning('该学员不能修改负责老师');
       }
     }
   }

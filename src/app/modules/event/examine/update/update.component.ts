@@ -31,17 +31,18 @@ export class UpdateComponent implements OnInit {
   ngOnInit() {
     this.templateContent = JSON.parse(this.eventInfo.templateContent);
     this.contentValue = JSON.parse(this.eventInfo.content);
-    if(this.templateContent[1] && this.templateContent[1].type == 'files'){
-      if(this.contentValue[1].indexOf('http') == -1){
-        let len = (this.contentValue.splice(this.contentValue.length - 1 ,1)).join();
-        this.contentValue.splice(1,0,len);
-      }
-    }
+
     if(this.templateContent[0] && this.templateContent[0].type == 'datetime'){
       var dates = this.contentValue[0];
       if(!(isNaN(dates)&&!isNaN(Date.parse(dates)))){
         this.contentValue.unshift(new Date());
       }    
+    }
+    if(this.templateContent[1] && this.templateContent[1].type == 'files'){
+      if(this.contentValue[1].indexOf('http') == -1){
+        let len = (this.contentValue.splice(this.contentValue.length - 1 ,1)).join();
+        this.contentValue.splice(1,0,len);
+      }
     }
   
     this.templateContent.map((control, i) => {

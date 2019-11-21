@@ -21,7 +21,7 @@ export class UpdateComponent implements OnInit {
   teacherStatus: number;
   roleList: any[] = [];
   classList: any[] = [];
-
+  teacherList: any[] = [];
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
@@ -31,6 +31,9 @@ export class UpdateComponent implements OnInit {
   ) { 
     this.http.post('/message/getClasses').then(res => this.classList = res.data);
     this.http.post('/teacher/getRoleList').then(res => this.roleList = res.data);
+    this.http.post('/reserve/getClassWithTeacher').then(res => {
+      this.teacherList = res.data.list;
+    });
   }
 
   teacherInfo: any = {};
@@ -74,9 +77,9 @@ export class UpdateComponent implements OnInit {
 
   saveLoading: boolean;
   saves(){
-    if(this.formGroup.value.status != this.teacherStatus && this.formGroup.value.status == 2){
-      this.http.post('/student/getStudentList', { paramJson: JSON.stringify({"kindergartenId":1,"teacherId": this.teacherInfo.teacherId,"pageNum":1,"pageSize":100}), pageSize: 1, pageNum :100 }, false).then(res => {
-          this.memberList = res.data.list;
+    if(this.formGroup.value.status != this.teacherStatus && this.formGroup.value.status == 2 && this.teacherInfo.teacherId){
+      this.http.post('/student/selectStudentsByTeacher', { teacherId: this.teacherInfo.teacherId  }, false).then(res => {
+          this.memberList = res.data;
           if(this.memberList.length == 0){
             this.save();
           }
@@ -105,10 +108,12 @@ export class UpdateComponent implements OnInit {
 
   @ControlValid() valid: (key, type?) => boolean;
 
-  selectAppoint(data) {
-    this.http.post('/student/getNewStudent', { id: data.studentId }).then(res => {
-      data.type = data.cardType;
+  selectAppoint(item) {
+    let data = JSON.parse(JSON.stringify(item));
+    this.http.post('/student/getNewStudent', { id: data.id }).then(res => {
+      data.type = 2;
       let memberInfo = res.data;
+      data.cardId = res.data.cardList[0].cardId;
       this.drawer.create({
         nzTitle: null,
         nzWidth: 1148,
@@ -117,7 +122,34 @@ export class UpdateComponent implements OnInit {
         nzContentParams: { studentInfo: memberInfo.studentInfo, cardInfo: data, classId: memberInfo.studentInfo.classId }
       }).afterClose.subscribe(res => {
         if (res) {
-           this.saves();
+          let newTeacherName;
+          this.teacherList.map(classes=>{
+            if(classes.classId == memberInfo.studentInfo.classId){
+              classes.teachers.map(item=>{
+                if(item.id == res.teacherId ){
+                  newTeacherName = item.name
+                }
+              })
+            }
+          })
+          let paramJson = JSON.stringify({
+            studentId: res.studentId,
+            className: memberInfo.studentInfo.className,
+            newClassName: memberInfo.studentInfo.className,
+            studentName: memberInfo.studentInfo.studentName,
+            newTeacherName,
+            teacherId: Number(res.teacherId),
+            reason: 'dsada',
+            classId: memberInfo.studentInfo.classId,
+            startTime: res.startDate,
+            endTime: res.endDate,
+            pitNum: res.pitNum,
+            teacherName: memberInfo.studentInfo.teacherName
+
+          });
+          this.http.post('/student/adjustTeacher', { paramJson },true).then(res => {
+              this.saves();
+          })
         }
       });
     });
