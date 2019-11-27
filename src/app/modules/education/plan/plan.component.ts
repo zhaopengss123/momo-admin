@@ -51,8 +51,7 @@ export class PlanComponent implements OnInit {
   }
 
   select(data){
-    console.log(data);
-    
+    this.http.post('/course/queryCourse', { paramJson: JSON.stringify(data) }, false).then(res => {  })
   }
 
   delete(classId) {
