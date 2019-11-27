@@ -94,7 +94,18 @@ export class HeaderComponent implements OnInit {
 
   @DrawerCreate({ content: PaymentComponent, width: 1060, closable: false }) payment: ({ id: number }) => void;
 
-  @DrawerCreate({ content: ClassComponent, title: '转/升班' }) class: ({ id: number }, cardInfo) => void;
+  // @DrawerCreate({ content: ClassComponent, title: '转/升班' }) class: ({ id: number }, cardInfo) => void;
+  class(params, cardInfo) {
+    this.drawer.create({
+      nzTitle: '转/升班',
+      nzWidth: 720,
+      nzContent: ClassComponent,
+      nzBodyStyle: {
+        'padding-bottom': '53px'
+      },
+      nzContentParams: { id: params.id, cardInfo }
+    }).afterClose.subscribe((res: boolean) => {});
+  }
 
   @DrawerCreate({ content: LeavingComponent, title: '退园', width: 460 }) leaving: ({ id: number }) => void;
 
