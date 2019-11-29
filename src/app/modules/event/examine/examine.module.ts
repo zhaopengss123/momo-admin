@@ -5,6 +5,7 @@ import { CommonModule , DatePipe } from '@angular/common';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
     NgZorroAntdModule,
     NgRelaxModule
   ],
-  declarations: [ExamineComponent],
+  declarations: [ExamineComponent, UpdateComponent],
+  entryComponents: [UpdateComponent],
   providers: [ DatePipe ]
 })
 export class ExamineModule { }

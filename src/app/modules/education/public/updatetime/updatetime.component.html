@@ -1,37 +1,29 @@
 <div class="main">
-    <button nz-button nzType="dashed" style="width: 100%; " (click)="addClass()"><i class="anticon anticon-plus"></i>添加时段</button>
+    <button nz-button nzType="dashed" style="width: 100%; " (click)="addTime()"><i class="anticon anticon-plus"></i>添加时段</button>
 
-    <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
+    <nz-table #basicTable [(nzData)]="listOfData" [nzShowPagination]="false">
         <thead>
             <tr>
-              <th>开始时段</th>
-              <th>结束时段</th>
-              <th>名称</th>
-              <th>需要排课</th>
-              <th>内容</th>
-              <th nzWidth="100px">操作</th>
+              <th><a style="color:red;">*</a>开始时段</th>
+              <th><a style="color:red;">*</a>结束时段</th>
+              <th nzWidth="100px"><a style="color:red;">*</a>名称</th>
+              <th nzWidth="100px">英文名称</th>
+              <th>是否需要排课</th>
+              <th nzWidth="150px">课程类型</th>
+              <th><a style="color:red;">*</a>内容</th>
+              <th nzWidth="150px">操作</th>
             </tr>
           </thead>
           <tbody>
-              <tr *ngFor="let data of listOfData">
-                  <td >
-                      <ng-container *ngIf="!data.edit; else startTimeInputTpl">
-                          {{ data.name }}
-                        </ng-container>
-                        <ng-template #startTimeInputTpl>
-                            <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm"></nz-time-picker>
-                        </ng-template>
+              <tr *ngFor="let data of listOfData; let i = index;">
+                  <td>
+                      <nz-time-picker [nzDisabled]="!data.edit"  nzAllowEmpty="false" [(ngModel)]="data.startTime" nzFormat="HH:mm" ></nz-time-picker>
+                  </td>
+                  <td>
+                      <nz-time-picker [nzDisabled]="!data.edit" nzAllowEmpty="false" [(ngModel)]="data.endTime" nzFormat="HH:mm"></nz-time-picker>
                   </td>
                   <td >
-                      <ng-container *ngIf="!data.edit; else endTimeInputTpl">
-                          {{ data.name }} 
-                        </ng-container>
-                        <ng-template #endTimeInputTpl>
-                            <nz-time-picker [(ngModel)]="data.time" nzFormat="HH:mm"></nz-time-picker>
-                        </ng-template>
-                  </td>
-                  <td >
-                      <ng-container *ngIf="!data.edit; else nameInputTpl">
+                      <ng-container *ngIf="!data.edit; else nameInputTpl"> 
                           {{ data.name }}
                         </ng-container>
                         <ng-template #nameInputTpl>
@@ -39,29 +31,42 @@
                         </ng-template>
                   </td>
                   <td >
-                      <ng-container *ngIf="!data.edit; else nameInputTpl">
-                          {{ data.name }}
+                      <ng-container *ngIf="!data.edit; else nameInputTpl"> 
+                          {{ data.englishName }}
                         </ng-container>
                         <ng-template #nameInputTpl>
-                          <input type="text" nz-input [(ngModel)]="data.name" />
+                          <input type="text" nz-input [(ngModel)]="data.englishName" />
                         </ng-template>
                   </td>
                   <td >
+                        <nz-switch [(ngModel)]="data.status" [nzDisabled]="!data.edit" nzCheckedChildren="是" nzUnCheckedChildren="否" ></nz-switch>
+                  </td>
+                  <td>
+                      <nz-select *ngIf="data.status" [(ngModel)]="data.courseTypes" nzMode="multiple" style="width:150px;" [nzDisabled]="!data.edit" nzPlaceHolder="请选择">
+                          <nz-option *ngFor="let item of listCourse" [(nzValue)]="item.id" [(nzLabel)]="item.name"></nz-option>
+                        </nz-select>
+                    </td>
+                  <td>
                       <ng-container *ngIf="!data.edit; else descriptionInputTpl">
-                          {{ data.description }}
+                          {{ data.content }}
                         </ng-container>
                         <ng-template #descriptionInputTpl>
-                          <input type="text" nz-input [(ngModel)]="data.description" />
+                          <textarea style="width:300px;" type="text"  nz-input [(ngModel)]="data.content" ></textarea>
                         </ng-template>
                   </td>
+                
                   <td>
                       <ng-container *ngIf="!data.edit; else saveTpl">
                           <a (click)="data.edit = true;">编辑</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a (click)="addList(data,i)">新增</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a nz-popconfirm nzTitle="确认删除?" (nzOnConfirm)="delectList(data,i)">删除</a>
                         </ng-container>
                         <ng-template #saveTpl>
-                          <a (click)="saveEdit(data)">保存</a>
-                          <nz-divider nzType="vertical"></nz-divider>
-                          <a (click)="cancel(data)">取消</a>
+                            <a (click)="updatelistok(data)">确定</a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                          <a (click)="cancel(data,i)">取消</a>
                         </ng-template>
           
           
@@ -70,7 +75,7 @@
           </tbody>
     </nz-table>
 </div>
-
-<!-- <div class="drawer-footer">
-  <button nz-button nzType="primary" (click)="save()"></button>
-</div> -->
+<div class="drawer-footer">
+    <button nz-button (click)="close()">取消</button>
+    <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="saves()">保存</button>
+  </div>

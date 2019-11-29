@@ -1,36 +1,24 @@
 <form>
   <nz-row [nzGutter]="8">
     <nz-col [nzSpan]="12">
-      <nz-form-label style="font-weight:bold;">课程名称</nz-form-label>
-      <nz-form-control>
-        {{ info.name  }}
-      </nz-form-control>
+      <nz-form-label ><b>课程名称:</b> {{ info.name  }}</nz-form-label>
     </nz-col>
   </nz-row>
 
   <nz-row [nzGutter]="8">
       <nz-col [nzSpan]="12">
-        <nz-form-label style="font-weight:bold;">课程类别</nz-form-label>
-        <nz-form-control>
-          {{ info.typeName }}
-        </nz-form-control>
+        <nz-form-label ><b>课程类别:</b> {{ info.typeName }}</nz-form-label>
       </nz-col>
     </nz-row>
 
     <nz-row [nzGutter]="8">
         <nz-col [nzSpan]="12">
-          <nz-form-label style="font-weight:bold;">适用月龄</nz-form-label>
-          <nz-form-control>
-            {{ info.startMonth }}月 - {{ info.endMonth }}月
-          </nz-form-control>
+          <nz-form-label ><b>适用月龄:</b> {{ info.startMonth }}月-{{ info.endMonth }}月</nz-form-label>
         </nz-col>
       </nz-row>
       <nz-row [nzGutter]="8">
           <nz-col [nzSpan]="12">
-            <nz-form-label style="font-weight:bold;">上课时长</nz-form-label>
-            <nz-form-control>
-              {{ info.duration }}分钟
-            </nz-form-control>
+            <nz-form-label ><b>上课时长:</b> {{ info.duration }}分钟</nz-form-label>
           </nz-col>
         </nz-row>
   <nz-row [nzGutter]="8" *ngIf="info.goal">

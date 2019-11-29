@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <nz-table #basicTable [nzData]="dataList">
+        <nz-table #basicTable [nzData]="dataList" nzShowPagination="false" [nzScroll]="{ x:'1700px' }">
             <thead>
               <tr>
                 <th nzWidth="150px">日期</th>
@@ -28,14 +28,140 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of dataList">
-                <td>{{data.name}}</td>
-                <td>{{data.age}}</td>
-                <td>{{data.address}}</td>
+              <tr class="dateList" *ngFor="let data of dataList">
                 <td>
-                  <a>Action 一 {{data.name}}</a>
-                  <nz-divider nzType="vertical"></nz-divider>
-                  <a>Delete</a>
+                  <p>{{data.startHour>9 ? data.startHour : '0'+ data.startHour}}:{{data.startMinute>9 ? data.startMinute : '0'+ data.startMinute}}-{{data.endHour>9 ? data.endHour : '0'+ data.endHour}}:{{data.endMinute>9 ? data.endMinute : '0'+ data.endMinute}}</p>
+                  <p *ngIf="data.englishName">{{ data.englishName }}</p>
+                  <p>{{ data.name }}</p>
+                </td>
+                <td [attr.colspan]="data.courseTypes == null ? 7 : 1">
+                    <div *ngIf="data.courseTypes != null">
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == startDate ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                      <ng-container *ngIf="data.courseTypes == null">
+                            {{ data.content }}
+                      </ng-container>   
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                    <div>
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == Tuesday ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                    <div>
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == Wednesday ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                  <div>
+                    <ng-container *ngFor="let item of courseDayList">
+                        <ng-container *ngIf="item.configDate == Thursday ">
+                            <ng-container *ngFor="let xmain of item.courseList">
+                                <ng-container *ngIf="xmain.template == data.id">
+                                    <ng-container *ngIf="xmain.data">
+                                      <p>{{ xmain.data.typeName }}</p>
+                                      <p>{{ xmain.data.name }}</p>
+                                      <p>课程目标：{{ xmain.data.goal }}</p>
+                                      <p>课程收获：{{ xmain.data.gain }}</p>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                  </div>
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                    <div>
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == Friday ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                    <div>
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == Saturday ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                </td>
+                <td *ngIf="data.courseTypes != null">
+                    <div>
+                        <ng-container *ngFor="let item of courseDayList">
+                            <ng-container *ngIf="item.configDate == endDate ">
+                                <ng-container *ngFor="let xmain of item.courseList">
+                                    <ng-container *ngIf="xmain.template == data.id">
+                                        <ng-container *ngIf="xmain.data">
+                                          <p>{{ xmain.data.typeName }}</p>
+                                          <p>{{ xmain.data.name }}</p>
+                                          <p>课程目标：{{ xmain.data.goal }}</p>
+                                          <p>课程收获：{{ xmain.data.gain }}</p>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                      </div>
                 </td>
               </tr>
             </tbody>

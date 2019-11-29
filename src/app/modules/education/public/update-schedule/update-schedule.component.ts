@@ -16,6 +16,7 @@ export class UpdateScheduleComponent implements OnInit {
   editName: string;
   listOfData: any[] = [];
   _queryForm: FormGroup;
+  tableLoading: boolean = false;
   constructor(
     private message: NzMessageService,
     private drawerRef: NzDrawerRef,
@@ -47,17 +48,27 @@ export class UpdateScheduleComponent implements OnInit {
     }
   }
   getData(){
-    // this.http.post('/course/listCourseType').then(res => {
-    //   this.listOfData = res.data.list;
-    // });
-    this.listOfData = [];
+    this.http.post('/courseConfig/listCoursePlan').then(res => {
+      res.data.list.map(item=>{
+        item.status = item.runningStatus == 0 ? true : false;
+      })
+      this.listOfData = res.data.list;
+
+    });
+  }
+  selectPlan(id){
+    if(this.tableLoading){ return ; }
+    this.tableLoading = true;
+    this.http.post('/courseConfig/enableCoursePlan',{ id },true).then(res => {
+      this.tableLoading = false;
+      this.getData();
+    });
   }
   addClass(){
     let json = {
       name: null,
-      date: null,
-      commit: null,
-      status: true,
+      description: null,
+      status: false,
       edit: true
     };
     this.listOfData.unshift(json);
@@ -67,17 +78,19 @@ export class UpdateScheduleComponent implements OnInit {
   }
   saveEdit(data){
     data.edit = false;
-    return false;
+  
     if(!data.name){
-      this.message.warning('类别名称不能为空！');
+      this.message.warning('名称不能为空！');
       return false;
     }
     let url:  string;
     if(!data.id){
-        url =  '/course/saveCourseType';
+       url ='/courseConfig/saveCoursePlan';
     }else{
-       url = '/course/updateCourseType';
+       url = '/courseConfig/updateCoursePlan';
     }
+    if(this.tableLoading){ return ; }
+    this.tableLoading = true;
     this.http.post(url,{
       paramJson: JSON.stringify({
         id: data.id || null,
@@ -85,6 +98,7 @@ export class UpdateScheduleComponent implements OnInit {
         description: data.description
       })
     }).then(res => {
+      this.tableLoading = false;
       if(res.result == 1000){
         this.message.success('操作成功');
         data.edit = false;
@@ -116,15 +130,14 @@ export class UpdateScheduleComponent implements OnInit {
     }
     data.edit = false;
   }
-  addTime(){
+  updataTime(id){
     this.drawer.create({
-      nzWidth: 720,
+      nzWidth: 1200,
       nzTitle: '时段管理',
       nzBodyStyle: { 'padding-bottom': '53px' },
       nzContent: UpdatetimeComponent,
-    }).afterClose.subscribe(res => {
-        console.log('reset');
-    })
+      nzContentParams: { id }
+    }).afterClose.subscribe(res => {})
   }
   
 }

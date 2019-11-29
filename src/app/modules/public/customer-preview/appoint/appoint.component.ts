@@ -33,6 +33,7 @@ export class AppointComponent implements OnInit {
   maxChecked = 0;       /* ? 最大选择天数 */
 
   ngOnInit() {
+    
     this.cardInfo.id = this.cardInfo.cardId || this.cardInfo.id;
     this.studentInfo.id = this.studentInfo.id || this.studentInfo.studentId;
     this.studentInfo.classId = this.classId || this.studentInfo.classId;
@@ -166,6 +167,13 @@ export class AppointComponent implements OnInit {
   private _getDataNum = 0;
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
     let classInfo = this._classInfo || await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
+    if(classInfo.data.list.length && classInfo.data.list[0].teachers){
+      classInfo.data.list[0].teachers.map((item,index)=>{
+        if(this.studentInfo.teacherId == item.id){
+            classInfo.data.list[0].teachers.splice(index,1);
+        }
+      })
+    }
     this._classInfo = classInfo;
     /* 如查询不到做兼容处理 */
     classInfo.data.list = classInfo.data.list.length ? classInfo.data.list : [{ className: this.studentInfo.gradeName, teachers: [], receptionNum: 0}];

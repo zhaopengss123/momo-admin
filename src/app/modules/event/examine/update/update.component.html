@@ -13,13 +13,13 @@
           <textarea nz-input [formControlName]="'control' + i" [nzAutosize]="{ minRows: 4, maxRows: 4 }" [placeholder]="'请输入' + control.label"></textarea>
         </ng-container>
 
-      <ng-container *ngIf="control.type === 'datetime'">
+        <ng-container *ngIf="control.type === 'datetime'">
           <nz-date-picker nzShowTime [formControlName]="'control' + i" nzFormat="yyyy-MM-dd HH:mm" [nzPlaceHolder]="'请选择' + control.label"></nz-date-picker>
         </ng-container>
 
         <ng-container *ngIf="control.type === 'startendtime'">
           <nz-range-picker [formControlName]="'control' + i" nzAllowClear nzFormat="yyyy-MM-dd HH:mm" [nzPlaceHolder]="['开始日期', '结束日期']"></nz-range-picker>
-        </ng-container> 
+        </ng-container>
 
         <ng-container *ngIf="control.type === 'radio'">
           <nz-radio-group [formControlName]="'control' + i">

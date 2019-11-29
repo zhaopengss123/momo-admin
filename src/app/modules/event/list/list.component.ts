@@ -17,6 +17,13 @@ export class ListComponent implements AfterViewInit {
 
   queryNode: QueryNode[] = [
     {
+      label: '事件',
+      type: 'select',
+      key: 'eventCode',
+      optionKey: { label: 'eventName', value: 'eventCode' },
+      optionsUrl: '/message/listEvent'
+    },
+    {
       label: '时间',
       type: 'datepicker',
       key: 'startTime',

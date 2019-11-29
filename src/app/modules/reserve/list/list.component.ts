@@ -21,7 +21,7 @@ export class ReserveComponent implements OnInit {
   @ViewChild('listPage') listPage: ListPageComponent;
 
   domain = environment.domainEs;
-
+  domains = environment.domain;
   queryNode: QueryNode[] = [
     {
       label   : '学员',
@@ -64,11 +64,13 @@ export class ReserveComponent implements OnInit {
     }
   ];
 
+
+
   paramsDefault;
 
   weilaiForm: FormGroup;
   weilaiOptionList: any[] = []
-
+  diaryList: any[] = [];
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
@@ -82,15 +84,15 @@ export class ReserveComponent implements OnInit {
     this.weilaiForm = this.fb.group({
       weilai: []
     })
-    
     this.http.post('/reserve/getWeeks').then(res => {
       res.data.list.map(item => this.weilaiOptionList.push({ name: item.week, id: new Date(item.date) }));
       this.weilaiOptionList[0].name = '今天';
       this.weilaiForm.patchValue({ weilai: this.weilaiOptionList[0].id })
       this.weilaiForm.get('weilai').valueChanges.subscribe(res => {
         if (res) {
-          this.listPage.eaTable.request({ reserveDate: this.format.transform(res, 'yyyy-MM-dd') })
-          this.listPage.eaQuery._queryForm.patchValue({ reserveDate: res })
+          this.listPage.eaTable.request({ reserveDate: this.format.transform(res, 'yyyy-MM-dd')})
+          this.listPage.eaQuery._queryForm.patchValue({ reserveDate: res });
+
         }
       })
     });
@@ -99,12 +101,16 @@ export class ReserveComponent implements OnInit {
   ngOnInit() {
     
   }
-  
+  getList(e) {
+    let date = e[0].reserveDate;
+    this.http.post('/diary/students', { queryDate: date }).then(res => { this.diaryList = res.data; })
+
+  }
   openDiary(data){
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
     this.http.post('/diary/get', {  studentId: data.studentId, queryDate: data.reserveDate  }).then(res => {
         if(res && res.data.contentJson){
-            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }`);
+            window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ data.studentId }&queryDate=${ data.reserveDate }&token=${ token }&domain=${ this.domains }`);
         }else{
           this.message.warning('该学员未生成成长日记');
           }

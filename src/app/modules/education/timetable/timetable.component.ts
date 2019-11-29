@@ -20,6 +20,9 @@ export class TimetableComponent implements OnInit {
   Thursday: string;
   Friday: string;
   Saturday: string;
+  dataList: any[] = [];
+  classId: number;
+  courseDayList: any[] = [];
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
@@ -27,16 +30,54 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; });
+    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; this.classId  = res.data.list[0].id; this.getCourseDayConfig(); });
     this.nowDate();
+    this.getData();
   }
 
   select(data) {
-    console.log(data);
 
   }
-  selectClass(data){
-    console.log(1111);
+  getCourseDayConfig(){
+    this.http.post('/courseConfig/queryCourseDayConfig', {
+      classId: this.classId,
+      startDate: this.startDate,
+      endDate: this.endDate
+    }, false).then(res => {
+        res.data.list.map((item,index)=>{
+          item.courses = item.courses.substring(1,item.courses.length - 1);
+          item.coursesList = item.courses.split(',');
+          let arr = [];
+          item.coursesList.map((umm,eqs) =>{
+            let ummlist = umm.split(':');
+            let json = {
+              template :  ummlist[0],
+              cid: ummlist[1]
+            };
+            this.courseInfo(ummlist[1],index,eqs)
+            arr.push(json);
+          })
+          item.courseList = arr;
+        })
+        this.courseDayList = res.data.list;
+        
+     });
+  }
+  courseInfo(id,index,eqs){
+    this.http.post('/course/getCourseInfo', {
+      id: id
+    }, false).then(res => {
+      this.courseDayList[index].courseList[eqs].data = res.data;
+    });
+  }
+  getData(){
+    this.http.post('/courseConfig/getCourseDayTemplate', {}, false).then(res => { 
+      this.dataList = res.data.list;
+     });
+  }
+  selectClass(id){
+    this.classId = id;
+    this.getCourseDayConfig();
   }
   nowDate() {
     this.dateIndex = 0;
@@ -64,10 +105,20 @@ export class TimetableComponent implements OnInit {
   };
   addCustomer(){
     const drawer = this.drawer.create({
-      nzWidth: 1000,
+      nzWidth: 1200,
       nzTitle: '排课/调整',
       nzContent: AdjustmentComponent,
-      nzContentParams: { }
+      nzContentParams: { 
+        classId: this.classId,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        Tuesday: this.Tuesday,
+        Wednesday: this.Wednesday,
+        Thursday: this.Thursday,
+        Friday: this.Friday,
+        Saturday: this.Saturday
+
+      }
     });
     drawer.afterClose.subscribe(res => {
 

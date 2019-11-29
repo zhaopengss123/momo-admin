@@ -9,17 +9,20 @@
           <tr>
             <th nzWidth="150px">时间</th>
             <th nzWidth="150px">名称</th>
-            <th nzWidth="150px">需要排课</th>
-            <th nzWidth="150px">内容</th>
+            <th>需要排课</th>
+            <th >内容</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of datalist">
-            <td>{{data.date}}</td>
+            <td>{{data.startHour>9 ? data.startHour : '0'+ data.startHour}}:{{data.startMinute>9 ? data.startMinute : '0'+ data.startMinute}}-{{data.endHour>9 ? data.endHour : '0'+ data.endHour}}:{{data.endMinute>9 ? data.endMinute : '0'+ data.endMinute}}</td>
             <td>{{data.name}}</td>
-            <td>{{data.istrue ? '是' : 'false'}}</td>
             <td>
-              {{ data.commit }}
+                <button *ngIf="data.courseTypes" nzSize="small" nz-button nzType="primary">是</button>
+                <button *ngIf="!data.courseTypes" nzSize="small" nz-button nzType="default">否</button>
+            </td>
+            <td>
+              {{ data.content }}
             </td>
           </tr>
         </tbody>

@@ -27,14 +27,19 @@ export class ScheduleComponent implements OnInit {
   }];
   constructor(
     private drawer: NzDrawerService,
-    private http: HttpService,
+    private http: HttpService, 
     private message: NzMessageService,
   ) {
 
   }
 
   ngOnInit() {
-
+    this.getData();
+  }
+  getData(){
+    this.http.post('/courseConfig/getCourseDayTemplate', { }, false).then(res => { 
+      this.datalist  = res.data.list;
+  });
   }
   openUpdate(info = {}){
     const drawer = this.drawer.create({
@@ -42,7 +47,9 @@ export class ScheduleComponent implements OnInit {
       nzTitle: '配置日程',
       nzContent: UpdateScheduleComponent,
       nzContentParams: { }
-    });
+    }).afterClose.subscribe(res => {
+      this.getData();
+  })
   }
 
 }

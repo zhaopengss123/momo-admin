@@ -6,6 +6,7 @@ import { ListComponent } from './list/list.component';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { UpdateComponent } from './list/update/update.component';
 import { RouterModule } from '@angular/router';
+import { MemberlistComponent } from './list/memberlist/memberlist.component';
 
 @NgModule({
   imports: [
@@ -19,8 +20,8 @@ import { RouterModule } from '@angular/router';
     NgZorroAntdModule,
     NgRelaxModule
   ],
-  declarations: [ListComponent, UpdateComponent],
-  entryComponents: [UpdateComponent],
+  declarations: [ListComponent, UpdateComponent, MemberlistComponent],
+  entryComponents: [UpdateComponent , MemberlistComponent],
   providers: [ DatePipe ]
 })
 export class TeacherModule { }

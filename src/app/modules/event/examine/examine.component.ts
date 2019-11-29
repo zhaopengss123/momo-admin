@@ -1,8 +1,9 @@
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { HttpService } from './../../../ng-relax/services/http.service';
 import { QueryComponent } from './../../../ng-relax/components/query/query.component';
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { UpdateComponent } from './update/update.component';
 
 
 @Component({
@@ -13,8 +14,23 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 export class ExamineComponent implements OnInit, AfterViewInit {
 
   @ViewChild('eaQuery') eaQuery: QueryComponent
-
+  allChecked: boolean = false;
+  indeterminate: boolean = true;
   queryNode: QueryNode[] = [
+    {
+      label: '事件',
+      type: 'select',
+      key: 'eventCode',
+      optionKey: { label: 'eventName', value: 'eventCode' },
+      optionsUrl: '/message/listEvent'
+    },
+    {
+      label: '审核状态',
+      type: 'select',
+      key: 'auditStatus',
+      default: 1,
+      options: [{ name: '无需审核', id: 0 }, { name: '未审核', id: 1 }, { name: '审核通过', id: 2 }, { name: '审核未通过', id: 3 }]
+    },
     {
       label: '时间',
       type: 'datepicker',
@@ -33,7 +49,8 @@ export class ExamineComponent implements OnInit, AfterViewInit {
       key: 'classId',
       optionKey: { label: 'className', value: 'id' },
       optionsUrl: '/message/listClassMessage'
-    }
+    },
+
   ]
 
   loading: boolean;
@@ -45,6 +62,7 @@ export class ExamineComponent implements OnInit, AfterViewInit {
   checkAuth: number;
 
   constructor(
+    private drawer: NzDrawerService,
     private http: HttpService,
     private message: NzMessageService
   ) {
@@ -68,9 +86,21 @@ export class ExamineComponent implements OnInit, AfterViewInit {
       this.eaQuery._queryForm.patchValue({ studentId: null });
     });
   }
-
-
-
+  allSelect() {
+    let allchecked = false;
+    if (this.dataSet.every(item => !item.checked)) {
+      allchecked = true;
+    } else if (this.dataSet.every(item => item.checked)) {
+      allchecked = false;
+    }else{
+      allchecked = true;
+    }
+    if (allchecked) {
+      this.dataSet.map(item => { item.checked = true; })
+    } else {
+      this.dataSet.map(item => { item.checked = false; })
+    }
+  }
   queryParams: any = {
     pageNo: 1,
     totalCount: 0
@@ -84,8 +114,10 @@ export class ExamineComponent implements OnInit, AfterViewInit {
     this.query();
   }
   query() {
+
     this.loading = true;
-    this.http.post('/message/listEventByCondition', { paramJson: JSON.stringify(Object.assign(this.queryParams, { auditStatus: 1})) }, false).then(res => {
+    this.queryParams.auditStatus = this.queryParams.auditStatus || this.queryParams.auditStatus == 0 ? this.queryParams.auditStatus : 1;
+    this.http.post('/message/listEventByCondition', { paramJson: JSON.stringify(this.queryParams) }, false).then(res => {
       this.loading = false;
       this.checkAuth = res.data.checkAuth;
       this.queryParams.totalCount = res.data.totalCount;
@@ -101,14 +133,18 @@ export class ExamineComponent implements OnInit, AfterViewInit {
       this.dataSet = res.data.list;
     })
   }
-
+  update(eventInfo) {
+    const drawer = this.drawer.create({
+      nzWidth: 400,
+      nzTitle: `编辑“${eventInfo.eventName}”事件`,
+      nzContent: UpdateComponent,
+      nzContentParams: { eventInfo }
+    });
+    drawer.afterClose.subscribe(res => res && this.query());
+  }
   showEventList: boolean;
 
-  showExamine: boolean;
-  operExamine() {
-    this.showExamine = true;
-    this.dataSet.map(res => res.checked = false);
-  }
+
 
 
   previewUrl(url) {
@@ -126,7 +162,6 @@ export class ExamineComponent implements OnInit, AfterViewInit {
           auditStatus
         })
       }).then(res => {
-        this.showExamine = false;
         this.query();
       });
     } else {

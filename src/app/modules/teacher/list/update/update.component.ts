@@ -1,11 +1,12 @@
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { NzDrawerRef } from 'ng-zorro-antd';
+import { NzDrawerRef , NzDrawerService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
+import { AppointComponent } from '../../../public/customer-preview/appoint/appoint.component';
 
 @Component({
   selector: 'app-update',
@@ -15,19 +16,24 @@ import { DrawerSave } from 'src/app/ng-relax/decorators/drawer/save.decorator';
 export class UpdateComponent implements OnInit {
 
   @Input() id: number;
-
+  memberList: any[] = [];
   formGroup: FormGroup;
-
+  teacherStatus: number;
   roleList: any[] = [];
   classList: any[] = [];
-
+  teacherList: any[] = [];
   constructor(
     private http: HttpService,
     private fb: FormBuilder = new FormBuilder(),
-    private drawerRef: NzDrawerRef<boolean>
+    private drawerRef: NzDrawerRef<boolean>,
+    private drawer: NzDrawerService,
+
   ) { 
     this.http.post('/message/getClasses').then(res => this.classList = res.data);
     this.http.post('/teacher/getRoleList').then(res => this.roleList = res.data);
+    this.http.post('/reserve/getClassWithTeacher').then(res => {
+      this.teacherList = res.data.list;
+    });
   }
 
   teacherInfo: any = {};
@@ -61,7 +67,8 @@ export class UpdateComponent implements OnInit {
     });
 
     this.id && this.http.post('/teacher/getTeacherInfo', { id: this.id }, false).then(res => {
-      this.teacherInfo = res.data;
+      this.teacherStatus = res.data.status;
+      this.teacherInfo = JSON.parse(JSON.stringify(res.data));
       this.formGroup.patchValue(res.data);
     });
   }
@@ -69,6 +76,18 @@ export class UpdateComponent implements OnInit {
   @DrawerClose() close: () => void;
 
   saveLoading: boolean;
+  saves(){
+    if(this.formGroup.value.status != this.teacherStatus && this.formGroup.value.status == 2 && this.teacherInfo.teacherId){
+      this.http.post('/student/selectStudentsByTeacher', { teacherId: this.teacherInfo.teacherId  }, false).then(res => {
+          this.memberList = res.data;
+          if(this.memberList.length == 0){
+            this.save();
+          }
+      });
+    }else{
+      this.save();
+    }
+  }
   @DrawerSave('/teacher/saveTeacherInfo') save: () => void;
 
   private _mobilePhoneAsyncValidator = (control: FormControl): any => {
@@ -89,4 +108,51 @@ export class UpdateComponent implements OnInit {
 
   @ControlValid() valid: (key, type?) => boolean;
 
+  selectAppoint(item) {
+    let data = JSON.parse(JSON.stringify(item));
+    this.http.post('/student/getNewStudent', { id: data.id }).then(res => {
+      data.type = 2;
+      let memberInfo = res.data;
+      data.cardId = res.data.cardList[0].cardId;
+      this.drawer.create({
+        nzTitle: null,
+        nzWidth: 1148,
+        nzClosable: false,
+        nzContent: AppointComponent,
+        nzContentParams: { studentInfo: memberInfo.studentInfo, cardInfo: data, classId: memberInfo.studentInfo.classId }
+      }).afterClose.subscribe(res => {
+        if (res) {
+          let newTeacherName;
+          this.teacherList.map(classes=>{
+            if(classes.classId == memberInfo.studentInfo.classId){
+              classes.teachers.map(item=>{
+                if(item.id == res.teacherId ){
+                  newTeacherName = item.name
+                }
+              })
+            }
+          })
+          let paramJson = JSON.stringify({
+            studentId: res.studentId,
+            className: memberInfo.studentInfo.className,
+            newClassName: memberInfo.studentInfo.className,
+            studentName: memberInfo.studentInfo.studentName,
+            newTeacherName,
+            teacherId: Number(res.teacherId),
+            reason: 'dsada',
+            classId: memberInfo.studentInfo.classId,
+            startTime: res.startDate,
+            endTime: res.endDate,
+            pitNum: res.pitNum,
+            teacherName: memberInfo.studentInfo.teacherName
+
+          });
+          this.http.post('/student/adjustTeacher', { paramJson },true).then(res => {
+              this.saves();
+          })
+        }
+      });
+    });
+
+  }
 }

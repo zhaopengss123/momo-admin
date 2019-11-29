@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
 
   customerStatusIndex = 0;
 
-  birthdayRanges = { 
+  birthdayRanges = {
     '今天': [new Date(), new Date()],
     '明天': [addDays(new Date(), 1), addDays(new Date(), 1)],
     '本周': [new Date(), addDays(new Date(), 7 - (getDay(new Date()) || 7))],
@@ -45,111 +45,111 @@ export class ListComponent implements OnInit {
 
   queryNode: QueryNode[] = [
     {
-      label   : '学员性别',
-      key     : 'sex',
-      type    : 'tag',
-      options : [{ name: '男孩', id: '男'}, { name: '女孩', id: '女'}],
-      isRadio : true
+      label: '学员性别',
+      key: 'sex',
+      type: 'tag',
+      options: [{ name: '男孩', id: '男' }, { name: '女孩', id: '女' }],
+      isRadio: true
     },
     {
-      label   : '学员来源',
-      key     : 'memberFromid',
-      type    : 'tag',
+      label: '学员来源',
+      key: 'memberFromid',
+      type: 'tag',
       optionKey: { label: 'fromName', value: 'memberFromId' },
       options: []
     },
     {
-      label   : '学员班级',
-      key     : 'classIds',
-      type    : 'tag',
+      label: '学员班级',
+      key: 'classIds',
+      type: 'tag',
       optionKey: { label: 'className', value: 'classId' },
       options: []
     },
     {
-      label   : '学籍类型',
-      key     : 'cardTypeCategoryIds',
-      type    : 'tag',
+      label: '学籍类型',
+      key: 'cardTypeCategoryIds',
+      type: 'tag',
       options: []
     },
     {
-      label   : '监控状态',
-      key     : 'isLook',
-      type    : 'tag',
-      options : [{ name: '开启', id: 0}, { name: '关闭', id: 1}],
-      isRadio : true
+      label: '监控状态',
+      key: 'isLook',
+      type: 'tag',
+      options: [{ name: '开启', id: 0 }, { name: '关闭', id: 1 }],
+      isRadio: true
     },
     {
-      label   : '状态',
-      key     : 'cardStatus',
-      type    : 'tag',
-      options : [
-        { name: '待入学', id: 0},
+      label: '状态',
+      key: 'cardStatus',
+      type: 'tag',
+      options: [
+        { name: '待入学', id: 0 },
         { name: '已入学', id: 1 },
         { name: '已到店', id: 2 },
         { name: '未到店', id: 3 },
         { name: '未体验', id: 4 },
         { name: '无意向', id: 5 }
       ],
-      isRadio : true
+      isRadio: true
     },
     {
-      label   : '学员',
-      key     : 'studentId',
-      type    : 'search',
+      label: '学员',
+      key: 'studentId',
+      type: 'search',
       placeholder: '根据学号、姓名、手机号查询',
       searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
-      label   : '归属老师',
-      key     : 'teacherId',
-      type    : 'select',
+      label: '归属老师',
+      key: 'teacherId',
+      type: 'select',
       optionsUrl: '/message/getTeacherList',
-      isHide  : true
+      isHide: true
     },
     {
-      label   : '学员生日',
-      key     : 'birthday',
+      label: '学员生日',
+      key: 'birthday',
       valueKey: ['startBirthday', 'endBirthday'],
-      type    : 'rangepicker',
-      format  : 'MM-dd',
-      ranges  : this.birthdayRanges,
-      isHide  : true
+      type: 'rangepicker',
+      format: 'MM-dd',
+      ranges: this.birthdayRanges,
+      isHide: true
     },
     {
-      label   : '年龄',
-      key     : 'times',
+      label: '年龄',
+      key: 'times',
       valueKey: ['yearStart', 'yearEnd'],
       placeholder: ['最小年龄(正整数)', '最大年龄(正整数)'],
-      type    : 'between',
-      isHide  : true
+      type: 'between',
+      isHide: true
     },
     {
-      label   : '建档时间',
-      key     : 'createTime',
-      type    : 'rangepicker',
+      label: '建档时间',
+      key: 'createTime',
+      type: 'rangepicker',
       valueKey: ['createTimeStart', 'createTimeEnd'],
-      isHide  : true
+      isHide: true
     },
     {
-      label   : '入学时间',
-      key     : 'effectDate',
-      type    : 'rangepicker',
+      label: '入学时间',
+      key: 'effectDate',
+      type: 'rangepicker',
       valueKey: ['effectDateStart', 'effectDateEnd'],
-      isHide  : true
+      isHide: true
     },
     {
-      label   : '到期时间',
-      key     : 'expireDate',
-      type    : 'rangepicker',
+      label: '到期时间',
+      key: 'expireDate',
+      type: 'rangepicker',
       valueKey: ['expireDateStart', 'expireDateEnd'],
-      isHide  : true
+      isHide: true
     },
     {
-      label   : '剩余天数',
-      key     : 'times',
+      label: '剩余天数',
+      key: 'times',
       valueKey: ['minTimes', 'maxTimes'],
-      type    : 'between',
-      isHide  : true
+      type: 'between',
+      isHide: true
     }
   ];
 
@@ -165,7 +165,7 @@ export class ListComponent implements OnInit {
     private drawer: NzDrawerService,
     private message: NzMessageService,
     private modal: NzModalService
-  ) { 
+  ) {
     this.http.post('/student/getStudentListQueryCondition').then(res => {
       this.queryNode[1].options = res.data.memberFromList;
       this.queryNode[2].options = res.data.classList;
@@ -182,7 +182,7 @@ export class ListComponent implements OnInit {
     this.eaTable.request(params);
   }
 
-  update(obj?: {id: number, type: string}) {
+  update(obj?: { id: number, type: string }) {
     let params: any = obj || {};
     this.drawer.create({
       nzWidth: 720,
@@ -255,12 +255,29 @@ export class ListComponent implements OnInit {
       }
     });
   }
+  updateTeach(params, cardInfo) {
+    cardInfo.isteacher = true;
+    this.drawer.create({
+      nzTitle: '修改负责老师',
+      nzWidth: 720,
+      nzContent: ClassComponent,
+      nzBodyStyle: {
+        'padding-bottom': '53px'
+      },
+      nzContentParams: { id: params.id, cardInfo }
+    }).afterClose.subscribe((res: boolean) => {
+      if (res) {
+        this.checkedItems = [];
+        this.eaTable._request();
+      }
+    });
+  }
 
-  @DrawerCreate({ content: LeavingComponent, title: '退园', width: 600 }) leaving: ({id: number}) => void;
+  @DrawerCreate({ content: LeavingComponent, title: '退园', width: 600 }) leaving: ({ id: number }) => void;
 
   @DrawerCreate({ content: DelayComponent, title: '延期', width: 600 }) delay: ({ id: number }) => void;
 
-  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any, cardInfo}?) => void;
+  @DrawerCreate({ content: AppointComponent, width: 1148, closable: false }) appoint: ({ studentInfo: any, cardInfo }?) => void;
 
   paramsDefault = { kindergartenId: null, studentStatus: null }
   tabsetSelectChange() {
@@ -269,7 +286,7 @@ export class ListComponent implements OnInit {
   }
 
   lookChange(studentId, isLook) {
-    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook })}, true).then(res => this.eaTable._request());
+    this.http.post('/student/updateStudentIsLookStatus', { paramJson: JSON.stringify({ studentId, isLook }) }, true).then(res => this.eaTable._request());
   }
 
 
@@ -332,6 +349,21 @@ export class ListComponent implements OnInit {
     }).then(res => res.result == 1000 ? this.class({ id: this.checkedItems[0] }, res.data[0]) : this.message.warning(res.message));
   }
 
+  /* -------------- 负责老师校验 -------------- */
+  teacherValid() {
+    let data = this.eaTable.dataSet.filter(d => d.studentId === this.checkedItems[0])[0];
+    let teacherName = data.teacherName;
+    let type = data.cardType;
+    if (teacherName && type == 2 && data.studentStatus != '已过期' ) {
+      this.updateTeach({ id: this.checkedItems[0] }, { teacherName , type , classId: data.classId });
+    } else {
+      if(data.className && data.cardTypeName == '日托' ){
+      this.message.warning('日托学员无固定老师，无法修改负责老师');
+      }else{
+        this.message.warning('该学员不能修改负责老师');
+      }
+    }
+  }
   /* -------------- 点击退园校验 -------------- */
   leavingValid() {
     this.checkedData[0].status != 3 && this.checkedData[0].status != 4 ? this.leaving({ id: this.checkedItems[0] }) : this.message.warning('已退园学员不可再次退园');

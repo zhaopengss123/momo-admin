@@ -86,6 +86,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this._request();
+
   }
 
   _request(isReset?: boolean): void {
@@ -100,6 +101,7 @@ export class TableComponent implements OnInit {
     Object.keys(paramJson).map(key => { if (paramJson[key] === '' || paramJson[key] === null) { delete paramJson[key] } });
     let params = this.isParamJson ? { paramJson: JSON.stringify(paramJson), pageNum: this._pageInfo.pageNum, pageSize : this._pageInfo.pageSize } : paramJson;
     this.paramsInit = {};
+   
     this.timeout ? setTimeout(_ => this._getData(params,), this.timeout) : this._getData(params);
   }
   request(params): void {
@@ -114,6 +116,7 @@ export class TableComponent implements OnInit {
       this._pageInfo.loading = false;
       if (res.result == 1000) {
         if (res.data) {
+
           this.dataSet = res.data.list || res.data;
           !res.data.list && (this.showPage = false);
 
@@ -130,6 +133,7 @@ export class TableComponent implements OnInit {
             this._readyComplate = true;
           }
           this.dataChange.emit(this.dataSet);
+
         }
       } else {
         this.message.warning(res.message || '操作成功');

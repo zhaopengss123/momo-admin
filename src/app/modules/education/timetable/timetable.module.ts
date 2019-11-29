@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DatePipe } from '@angular/common';
 import { TimetableComponent } from './timetable.component';
 import { RouterModule } from '@angular/router';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
@@ -18,6 +18,8 @@ import { EducationModule } from '../education.module';
       path: '',
       component: TimetableComponent
     }]),
-  ]
+  ],
+  providers: [ DatePipe ]
+
 })
 export class TimetableModule { }

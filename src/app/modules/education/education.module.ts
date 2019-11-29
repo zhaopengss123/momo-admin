@@ -8,15 +8,16 @@ import { DetailComponent } from './public/detail/detail.component';
 import { UpdateScheduleComponent } from './public/update-schedule/update-schedule.component';
 import { UpdatetimeComponent } from './public/updatetime/updatetime.component';
 import { AdjustmentComponent } from './public/adjustment/adjustment.component';
+import { SelectClassComponent } from './public/select-class/select-class.component';
 
 @NgModule({
-  declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent],
+  declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent, SelectClassComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule,
   ],
-  entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent],
+  entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent, SelectClassComponent],
   providers: [ DatePipe ]
 }) 
 export class EducationModule { }

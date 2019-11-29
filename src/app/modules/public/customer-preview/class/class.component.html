@@ -7,11 +7,14 @@
     <nz-form-item>
       <nz-form-label nzRequired>转/升班</nz-form-label>
       <nz-form-control>
-        <nz-input-group [nzAddOnAfter]="'当前班级：' + (memberInfo.studentInfo.className || '-')">
-          <nz-select formControlName="classId" nzPlaceHolder="请选择预约班级">
+        <nz-input-group [nzAddOnAfter]="'当前班级：' + (memberInfo.studentInfo.className || '-')" *ngIf="!cardInfo.isteacher">
+          <nz-select formControlName="classId" nzPlaceHolder="请选择预约班级" >
             <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.classId" [nzDisabled]="item.disabled"></nz-option>
           </nz-select>
         </nz-input-group>
+        <nz-select formControlName="classId" nzPlaceHolder="请选择预约班级" [nzDisabled]="cardInfo.isteacher" *ngIf="cardInfo.isteacher">
+            <nz-option *ngFor="let item of classList" [nzLabel]="item.className" [nzValue]="item.classId" [nzDisabled]="item.disabled"></nz-option>
+          </nz-select>
         <nz-form-explain *ngIf="valid('classId')">请选择转/升班级！</nz-form-explain>
       </nz-form-control>
     </nz-form-item>

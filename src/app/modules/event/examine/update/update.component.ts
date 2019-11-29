@@ -30,14 +30,8 @@ export class UpdateComponent implements OnInit {
 
   ngOnInit() {
     this.templateContent = JSON.parse(this.eventInfo.templateContent);
-    this.templateContent.map(item=>{
-      if(item.type === 'datetime' && item.values ){
-        delete item.values;
-        item.valueArrays = [null];
-      }
-    })
-    
     this.contentValue = JSON.parse(this.eventInfo.content);
+   
     if(this.templateContent[0] && this.templateContent[0].type == 'datetime'){
       var dates = this.contentValue[0];
       if(!(isNaN(dates)&&!isNaN(Date.parse(dates)))){
@@ -61,7 +55,6 @@ export class UpdateComponent implements OnInit {
           this.formGroup.addControl(`control${i.toString() + idx}`, this.fb.control(this.contentValue[i] && this.contentValue[i][idx] ? this.contentValue[i][idx] : null, control.required ? [Validators.required] : []))
         })
       } else {
-
         this.formGroup.addControl(`control${i}`, this.fb.control(this.contentValue[i] || null, control.required ? [Validators.required] : []))
       }
     })
@@ -123,13 +116,11 @@ export class UpdateComponent implements OnInit {
             }
           });
           let newArr = []
-          appContent.imgUrlList = [];
           arrVal.map(item => item.map(res => newArr.push(res)));
           appContent.content.push(`${control.label}：${arrVal.join('、')}`);
         } else if (control.type == 'files' && this.formGroup.value['control' + i]) {
           if (this.formGroup.value['control' + i].indexOf('hcz-czg-image') > -1) {
-            let arr = this.formGroup.value['control' + i].split(',');
-            appContent.imgUrlList = appContent.imgUrlList.concat(arr);
+            appContent.imgUrlList = this.formGroup.value['control' + i].split(',');
           } else {
             appContent.videoUrl = this.formGroup.value['control' + i];
           }
