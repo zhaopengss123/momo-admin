@@ -68,7 +68,6 @@ export class PlanComponent implements OnInit {
       let slen:any = Math.floor(swidth / 200);
       let padd = swidth % 200 ;
       this.margin = padd/slen/2;
-      console.log(this.margin);
     })
   }
 

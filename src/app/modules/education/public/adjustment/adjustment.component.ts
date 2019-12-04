@@ -1,6 +1,6 @@
 import { HttpService } from '../../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { NzDrawerService } from 'ng-zorro-antd';
+import { NzDrawerService, NzDrawerRef } from 'ng-zorro-antd';
 import { FormGroup , FormBuilder} from '@angular/forms';
 import { SelectClassComponent } from '../select-class/select-class.component';
 @Component({
@@ -17,14 +17,17 @@ export class AdjustmentComponent implements OnInit {
   @Input() Thursday;
   @Input() Friday;
   @Input() Saturday;  
+  planId: number = 0;
   courseDayList:any[] = [];
   dataList:any[] = [];
   listClass:any[] = [];
-  className:string;ß
+  className:string;
+  saveLoading: boolean = false;
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
-    private fb: FormBuilder = new FormBuilder()
+    private fb: FormBuilder = new FormBuilder(),
+    private drawerRef: NzDrawerRef,
   ) {
     this.http.post('/message/listClassMessage', {}, false).then(res => { 
       this.listClass = res.data.list;
@@ -43,6 +46,8 @@ export class AdjustmentComponent implements OnInit {
   getData(){
     this.http.post('/courseConfig/getCourseDayTemplate', {}, false).then(res => { 
       this.dataList = res.data.list;
+      if( !res.data.list.length){ return false; }
+      this.planId = res.data.list[0].planId;
      });
   }
   getCourseDayConfig(){
@@ -78,20 +83,76 @@ export class AdjustmentComponent implements OnInit {
     });
   }
  
-  editorx(data){
+  editorx(data,dates){
     const drawer = this.drawer.create({
-      nzWidth: 720,
+      nzWidth: 800,
       nzTitle: '选择课程',
       nzContent: SelectClassComponent,
       nzContentParams: { }
     });
     drawer.afterClose.subscribe(res => {
+        if(res){
+          let result = res[0];
+          let isdate = false;
+          this.courseDayList.map(item=>{
+            if(item.configDate == dates){
+                isdate = true;
+                item.courseList.map((ytime,index)=>{
+                    if(ytime.template == data.id){
+                      item.courseList.splice(index,1);
+                    }
+                })
+                let json:any = { data:{}  };
+                json.template = data.id;
+                json.data.name = result.name;
+                json.cid = result.id;
+                item.courseList.push(json);
+            }
+            
+          })
 
+          if(!isdate){
+            let addJson:any = {
+              courseList: [],
+              classId : this.classId,
+              planId : this.planId
+            };
+            addJson.configDate = dates;
+            let json:any = { data:{}  };
+            json.template = data.id;
+            json.data.name = result.name;            
+            json.cid = result.id;
+            addJson.courseList.push(json);
+            this.courseDayList.push(addJson);
+          }
+        }
     });
 }
+saves(){
+  let list = JSON.parse(JSON.stringify(this.courseDayList));
+  list.map(item=>{
+    item.courses = '';
+    item.courseList.map((sjItem,index)=>{
+      item.courses += sjItem.template + ':' + sjItem.cid; 
+      if(index != item.courseList.length - 1){
+        item.courses+=',';
+      }
+    })
+    item.courses = '{' + item.courses + '}';
+  })
+  if(this.saveLoading){ return ; }
+  this.saveLoading = true;
+  this.http.post('/courseConfig/saveCourseDayConfig', {
+    paramJson: JSON.stringify(list)
+  }, true).then(res => {
+    this.saveLoading  = false;
+    this.drawerRef.close(true);
+  });
+}
+close(){
+  this.drawerRef.close(false);
 
- 
-
+}
 
 
 }

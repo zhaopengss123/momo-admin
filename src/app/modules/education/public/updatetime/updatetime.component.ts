@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NzMessageService, NzDrawerRef, NzDrawerService } from 'ng-zorro-antd';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { DatePipe } from '@angular/common';
-import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
-
 @Component({
   selector: 'app-updatetime',
   templateUrl: './updatetime.component.html',
@@ -18,7 +15,8 @@ export class UpdatetimeComponent implements OnInit {
   @Input() id;
   constructor(
     private message: NzMessageService,
-    private http: HttpService
+    private http: HttpService,
+    private drawerRef: NzDrawerRef
   ) { }
   ngOnInit() {
     this.getData();
@@ -53,13 +51,7 @@ export class UpdatetimeComponent implements OnInit {
         item.startTime = new Date('2019-01-01 ' + item.startHour + ':' + item.startMinute);
         item.endTime = new Date('2019-01-01 ' + item.endHour + ':' + item.endMinute);
         item.status = item.courseTypes ? true : false;
-        item.courseTypes = item.courseTypes ? item.courseTypes.split(',') : null;
-        item.courseTypes && item.courseTypes.map((scs, index) => {
-          item.courseTypes[index] = Number(item.courseTypes[index]);
-        })
-        if (item.courseTypes) {
-          item.courseTypes[0] = Number(item.courseTypes[0]);
-        }
+        item.courseTypes = item.courseTypes ? JSON.parse(item.courseTypes) : {} ;
       })
       this.listOfData = res.data.list;
     });
@@ -73,7 +65,6 @@ export class UpdatetimeComponent implements OnInit {
     list.push(json);
     this.listOfData = list;
   }
-
   addList(data, index) {
     let list = JSON.parse(JSON.stringify(this.listOfData));
     let json = {
@@ -99,7 +90,9 @@ export class UpdatetimeComponent implements OnInit {
       }
     });
   }
-  @DrawerClose() close: () => void;
+  close(){
+    this.drawerRef.close(false);
+  }
   saves() {
     let params = JSON.parse(JSON.stringify(this.listOfData))
     params.map(item => {
@@ -111,7 +104,6 @@ export class UpdatetimeComponent implements OnInit {
       let endTime = new Date(item.endTime);
       item.endHour = endTime.getHours();
       item.endMinute = endTime.getMinutes();
-      item.courseTypes = item.courseTypes && item.courseTypes.length ? item.courseTypes.join(',') : null;
     })
     let isbreak = false;
     for (var i = 0; i < params.length; i++) {
@@ -154,14 +146,19 @@ export class UpdatetimeComponent implements OnInit {
       this.message.warning(`内容不能为空！`);   
       return false;
     }
+    if(!(data.status && data.courseTypes && data.courseTypes[1] && data.courseTypes[2] && data.courseTypes[3] && data.courseTypes[4] && data.courseTypes[5] )){
+       this.message.warning(`课程类型不能为空！`);   
+       return false;      
+    }
     data.edit = false;
   }
   cancel(data,i) {
     let list = JSON.parse(JSON.stringify(this.listOfData));
     if (!data.id) {
       list.splice(i, 1);
+    }else{
+      list[i].edit = false;
     }
-    list[i].edit = false;
     this.listOfData = list;
   }
   delectList(data,i){
