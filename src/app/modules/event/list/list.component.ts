@@ -1,10 +1,12 @@
 import { UpdateComponent } from './update/update.component';
 import { AddComponent } from './add/add.component';
+import { PreviewComponent } from './preview/preview.component';
 import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
 import { QueryNode, QueryComponent } from 'src/app/ng-relax/components/query/query.component';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { format } from 'date-fns';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +16,7 @@ import { format } from 'date-fns';
 export class ListComponent implements AfterViewInit {
 
   @ViewChild('eaQuery') eaQuery: QueryComponent
+  domains = environment.domain;
 
   queryNode: QueryNode[] = [
     {
@@ -138,6 +141,12 @@ export class ListComponent implements AfterViewInit {
       this.message.warning('请选择一个孩子');
     }
   }
+  preview(item){
+    let token = JSON.parse(localStorage.getItem('userInfo')).token;    
+    let reserveDate = item.startTime.slice(0,10);
+    window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ item.studentId }&queryDate=${ reserveDate }&token=${ token }&domain=${ this.domains }&audit=1`);
+ }
+  
 
   update(eventInfo) {
     const drawer = this.drawer.create({

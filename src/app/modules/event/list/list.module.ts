@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { UpdateComponent } from './update/update.component';
 import { AddComponent } from './add/add.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   imports: [
@@ -20,8 +21,8 @@ import { AddComponent } from './add/add.component';
     NgZorroAntdModule,
     NgRelaxModule
   ],
-  declarations: [ListComponent, UpdateComponent, AddComponent],
-  entryComponents: [UpdateComponent, AddComponent],
+  declarations: [ListComponent, UpdateComponent, AddComponent,PreviewComponent],
+  entryComponents: [UpdateComponent, AddComponent,PreviewComponent],
   providers:[ DatePipe ]
 })
 export class ListModule { }

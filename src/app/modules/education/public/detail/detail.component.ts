@@ -9,6 +9,7 @@ import { InformationComponent } from 'src/app/modules/public/customer-preview/pr
 })
 export class DetailComponent implements OnInit {
   @Input() info;
+
   listCourseType:any[] = [];
   constructor(
     private http: HttpService,
@@ -17,6 +18,23 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(!this.info.name){
+      this.http.post('/course/queryCourse', { 
+        paramJson: JSON.stringify({name:this.info.data.name}),
+        pageNum:1,
+        pageSize:10
+      }).then(res => {
+          if(res.result == 1000){
+            this.info = res.data.list[0];
+            this.getTypeName();
+          }
+      });
+    }else{
+      this.getTypeName();
+    }
+
+  }
+  getTypeName(){
     this.http.post('/course/listCourseType', { 
     }).then(res => {
       this.listCourseType = res.data.list;

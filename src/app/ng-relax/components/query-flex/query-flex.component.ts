@@ -65,7 +65,7 @@ export class QueryFlexComponent implements OnInit {
             condition,
             pageNum: 1,
             pageSize: 10
-          }, res.params || {})).then(result => {
+          }, res.params || {}),).then(result => {
             if (result.data) {
               result.data.list.map(d => d.text = d.name.replace(/<\/?[^>]*>/g, ''));
               res.options = result.data.list;

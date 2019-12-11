@@ -67,7 +67,8 @@ export class ImportComponent implements OnInit {
       paramJson: JSON.stringify({
         id: data.id || null,
         name : data.name,
-        description: data.description
+        description: data.description,
+        color: data.color
       })
     }).then(res => {
       if(res.result == 1000){

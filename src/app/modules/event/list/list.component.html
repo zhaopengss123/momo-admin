@@ -2,11 +2,13 @@
   <ea-query-simp #eaQuery [node]="queryNode" (onSubmit)="querySubmit($event)"></ea-query-simp>
   
   <ng-template #contentTemplate>
+    <div class="eventlist-div">
     <ul nz-menu class="popover-content">
       <li nz-menu-item *ngFor="let item of eventList">
         <a href="javascript:;" (click)="addEvent(item)">{{ item.eventName }}</a>
       </li>
     </ul>
+  </div>
   </ng-template>
 
   <div [style.float]="'left'">
@@ -27,6 +29,9 @@
               <a (click)="update(item)">编辑</a>
               <nz-divider nzType="vertical"></nz-divider>
               <a nz-popconfirm nzTitle="确定要删除吗？" (nzOnConfirm)="delete(item.id)">删除</a>
+              <nz-divider nzType="vertical" *ngIf="item.eventName == '日记'"></nz-divider>
+              <a (click)="preview(item)" *ngIf="item.eventName == '日记'">预览</a>
+
             </ng-template>
             
           </ng-template>

@@ -1,8 +1,8 @@
 <div class="container">
-    <ea-list-page-simp #listPage url="/reserve/queryReserve" [queryNode]="queryNode"
+    <ea-list-page #listPage url="/reserve/queryReserve" [queryNode]="queryNode"
     [tableThead]="[ '学员头像','学号', '学员姓名', '学员昵称', '手机号', '性别', '月龄', '生日', '学员类型', '班级', '老师', '预约状态', '预约时间', '操作时间', '家长嘱托', '操作' ]"
-    [EaBtns]="EaBtns" [showPage]="false" [paramsDefault]="paramsDefault" [EaTableTbodyTr]="EaTableTbodyTr"  (dataChange)="getList($event)">
-  </ea-list-page-simp>
+    [EaBtns]="EaBtns" [showPage]="false" [paramsDefault]="paramsDefault" [EaTableTbodyTr]="EaTableTbodyTr"  (requestReady)="getList($event)" (dataChange)="getList($event)">
+  </ea-list-page>
   <ng-template #EaBtns>
     <form nz-form nzLayout="inline" [formGroup]="weilaiForm" >
       <div nz-col style="width: 600px;">

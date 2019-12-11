@@ -1,4 +1,24 @@
 <div class="main">
+    <form style="float:right; margin-bottom: 30px; width: 600px;">
+        <div style="float:left; width: 300px;">
+            <nz-row [nzGutter]="8">
+                <nz-form-label>当前班级</nz-form-label>
+                <nz-select style="width:200px;" disabled  [(ngModel)]="classId" name="classId" nzAllowClear nzPlaceHolder="选择班级">
+                    <nz-option *ngFor="let item of listClass"  [nzValue]="item.id" [nzLabel]="item.className"></nz-option>
+                  </nz-select>
+                
+            </nz-row>
+          </div>
+      <div style="float:left; width: 300px;">
+        <nz-row [nzGutter]="8">
+            <nz-form-label>引入班级模板</nz-form-label>
+            <nz-select style="width:200px;" [(ngModel)]="modeClassId" name="modeClassId" nzAllowClear (ngModelChange)="selectMode()" nzPlaceHolder="选择班级">
+                <nz-option *ngFor="let item of listClass"  [nzValue]="item.id" [nzLabel]="item.className"></nz-option>
+              </nz-select>
+            
+        </nz-row>
+      </div>
+     </form> 
     <button nz-button nzType="dashed" style="width: 100%; " (click)="addTime()"><i class="anticon anticon-plus"></i>添加时段</button>
 
     <nz-table #basicTable [(nzData)]="listOfData" [nzShowPagination]="false">

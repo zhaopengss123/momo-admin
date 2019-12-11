@@ -6,6 +6,7 @@ import { ListPageSimpComponent } from './../../../ng-relax/components/list-page-
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DetailComponent } from './../public/detail/detail.component';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-plan',
@@ -23,17 +24,18 @@ export class PlanComponent implements OnInit {
       type: 'input'
     },
     {
-      label: '课程类别',
-      key: 'typeId',
+      label: '班级',
+      key: 'classId',
       type: 'select',
-      options : []
+      optionKey   : { label: 'className', value: 'id' },
+      optionsUrl  : '/message/listClassMessage'
     }
   ];
   pageNum: number = 1;
-  pageSize: number = 20;
+  pageSize: number = 40;
   totalPage: number = 0;
   param: any;
-  classId: number = 0;
+  typeId: number = 0;
   imgurl : string = 'https://gw.alipayobjects.com/zos/rmsportal/LFooOLwmxGLsltmUjTAP.svg';
   loading: boolean;
   listClass:any[] = [];
@@ -41,6 +43,7 @@ export class PlanComponent implements OnInit {
   classStatusIndex: number = 0;
   listCourseType: any[];
   margin: number;
+  listWidth:number;
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
@@ -49,25 +52,38 @@ export class PlanComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.post('/message/listClassMessage', { }, false).then(res => { 
-      this.listClass = res.data.list; 
-      this.listClass.unshift({ className: '全部' , id : 0 });
-    });
-    this.http.post('/course/listCourseType', { }, false).then(res => { this.listCourseType = res.data.list;  this.queryNode[1].options = res.data.list; })
+  
+    this.http.post('/course/listCourseType', { }, false).then(res => { res.data.list.unshift({ name: '全部' , id : 0 }); this.listCourseType = res.data.list;  })
 
   }
   querys(data){
     this.param = JSON.parse(JSON.stringify(data));
-    if(this.classId != 0){
-      data.classId = this.classId;
+    if(this.typeId != 0){
+      data.typeId = this.typeId;
+    }else{
+      delete data['typeId'];
     }
     this.http.post('/course/queryCourse', { paramJson: JSON.stringify(data), pageNum: this.pageNum , pageSize: this.pageSize }, false).then(res => { 
       this.courseList = res.data.list;  
       this.totalPage = res.data.totalPage;
       let swidth: number = Number(this.elementView.nativeElement.offsetWidth);
+      if(swidth){
       let slen:any = Math.floor(swidth / 200);
       let padd = swidth % 200 ;
       this.margin = padd/slen/2;
+      // this.listWidth = (swidth/5)-20;
+      // this.listWidth = this.listWidth>=200 ?  this.listWidth : 200;
+    }else{
+      setTimeout(res=>{
+        swidth = Number(this.elementView.nativeElement.offsetWidth);
+        let slen:any = Math.floor(swidth / 200);
+        let padd = swidth % 200 ;
+        this.margin = padd/slen/2;
+        // this.listWidth = (swidth/5)-20;
+        // this.listWidth = this.listWidth>=200 ?  this.listWidth : 200;
+
+      },3000);
+    }
     })
   }
 
@@ -76,11 +92,19 @@ export class PlanComponent implements OnInit {
   }
  
   selectclass(id){
-    this.classId = id;
+    this.typeId = id;
+    this.pageNum = 1;
     this.querys(this.param);
   }
-
+  submitQuerys(e){
+    this.pageNum = 1;
+    this.querys(e);
+  }
   pageChange(){
+    this.querys(this.param);
+  }
+  pagesizeChange(){
+    this.pageNum = 1;
     this.querys(this.param);
   }
   openDetail(info = {}){

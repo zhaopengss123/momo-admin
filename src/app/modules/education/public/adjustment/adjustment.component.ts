@@ -44,7 +44,7 @@ export class AdjustmentComponent implements OnInit {
     this.getCourseDayConfig();
   }
   getData(){
-    this.http.post('/courseConfig/getCourseDayTemplate', {}, false).then(res => { 
+    this.http.post('/courseConfig/getCourseDayTemplate', { classId : this.classId }, false).then(res => { 
       this.dataList = res.data.list;
       if( !res.data.list.length){ return false; }
       this.planId = res.data.list[0].planId;

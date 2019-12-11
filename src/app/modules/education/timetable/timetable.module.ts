@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { NgRelaxModule } from 'src/app/ng-relax/ng-relax.module';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { EducationModule } from '../education.module';
-
 @NgModule({
   declarations: [TimetableComponent],
   imports: [

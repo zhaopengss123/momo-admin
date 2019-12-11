@@ -4,6 +4,7 @@ import { QueryComponent } from './../../../ng-relax/components/query/query.compo
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { UpdateComponent } from './update/update.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class ExamineComponent implements OnInit, AfterViewInit {
   @ViewChild('eaQuery') eaQuery: QueryComponent
   allChecked: boolean = false;
   indeterminate: boolean = true;
+  domains = environment.domain;
   queryNode: QueryNode[] = [
     {
       label: '事件',
@@ -150,7 +152,11 @@ export class ExamineComponent implements OnInit, AfterViewInit {
   previewUrl(url) {
     window.open(url)
   }
-
+  preview(item){
+    let token = JSON.parse(localStorage.getItem('userInfo')).token;    
+    let reserveDate = item.startTime.slice(0,10);
+    window.open(`http://wx.haochengzhang.com/ylbb-activity-memberdetail/?studentId=${ item.studentId }&queryDate=${ reserveDate }&token=${ token }&domain=${ this.domains }&audit=1`);
+ }
   batchStatus(auditStatus) {
     let ids = [];
     this.dataSet.map(res => res.checked && ids.push(res.id));

@@ -1,22 +1,28 @@
 <div class="container">
     <nz-tabset>
-        <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectclass(item.id)"></nz-tab>
+        <nz-tab *ngFor="let item of listCourseType" [(nzTitle)]="item.name" (nzSelect)="selectclass(item.id)"></nz-tab>
+
     </nz-tabset>
-    <ea-query [node]="queryNode" (onSubmit)="querys($event)"></ea-query>
+    <ea-query [node]="queryNode" (onSubmit)="submitQuerys($event); "></ea-query>
     <div class="data-list" #mainScreen>
-        <div class="list" *ngFor="let item of courseList" [ngStyle]="{'margin-left': margin+ 'px', 'margin-right': margin+ 'px'}" (click)="openDetail(item)">
+        <div class="list" *ngFor="let item of courseList"
+            [ngStyle]="{'margin-left': margin+ 'px', 'margin-right': margin+ 'px'}" (click)="openDetail(item)">
             <div class="list-bg" [ngStyle]="{'background-image': 'url('+ item.cover+ ')'}">
-                <div class="icon-top">
-                    <span *ngFor="let data of listCourseType">
-                        <ng-container *ngIf="data.id == item.typeId">
-                                {{ data.name }}
-                        </ng-container>
-                    </span>
-                </div>
+
             </div>
             <div class="list-font">
-                <span>{{ item.name }}</span>
-                <span>适用：{{ item.startMonth }}-{{ item.endMonth }}个月</span>
+                <b *ngIf="item.name.length <= 12">{{ item.name }}</b>
+                <b *ngIf="item.name.length > 12" nz-tooltip [nzTitle]="item.name">{{ item.name }}</b>
+                <div>
+                        <ng-container *ngFor="let data of listCourseType">
+                            <ng-container *ngIf="data.id == item.typeId">
+                                <nz-tag style="text-indent: 0; margin-right:3px;" [nzColor]="data.color ? data.color : 'magenta'"> {{ data.name }}</nz-tag>
+                            </ng-container>
+                        </ng-container>
+                    <nz-tag style="text-indent: 0; margin-bottom: 10px; opacity: 0.5;">
+                        {{ item.startMonth }}-{{ item.endMonth }}个月
+                    </nz-tag>
+                </div>
             </div>
         </div>
         <div class="no-data" *ngIf="!courseList.length">暂无数据</div>
@@ -24,7 +30,7 @@
 
     <div class="page">
         <nz-pagination [(nzPageIndex)]="pageNum" [(nzPageSize)]="pageSize" (nzPageIndexChange)="pageChange()"
-            (nzPageSizeChange)="pageChange()" [(nzTotal)]="totalPage" nzShowSizeChanger></nz-pagination>
+            (nzPageSizeChange)="pagesizeChange()" [(nzTotal)]="totalPage" nzShowSizeChanger></nz-pagination>
     </div>
 
 </div>

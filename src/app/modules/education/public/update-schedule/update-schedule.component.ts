@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NzMessageService, NzDrawerRef , NzDrawerService } from 'ng-zorro-antd';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { FormGroup } from '@angular/forms';
@@ -12,6 +12,7 @@ import { UpdatetimeComponent } from '../updatetime/updatetime.component';
   styleUrls: ['./update-schedule.component.less']
 })
 export class UpdateScheduleComponent implements OnInit {
+  @Input() classId;
   classList: any[] = [];
   editName: string;
   listOfData: any[] = [];
@@ -48,7 +49,7 @@ export class UpdateScheduleComponent implements OnInit {
     }
   }
   getData(){
-    this.http.post('/courseConfig/listCoursePlan').then(res => {
+    this.http.post('/courseConfig/listCoursePlan',{ classId: this.classId }).then(res => {
       res.data.list.map(item=>{
         item.status = item.runningStatus == 0 ? true : false;
       })
@@ -136,7 +137,7 @@ export class UpdateScheduleComponent implements OnInit {
       nzTitle: '时段管理',
       nzBodyStyle: { 'padding-bottom': '53px' },
       nzContent: UpdatetimeComponent,
-      nzContentParams: { id }
+      nzContentParams: { id , classId: this.classId }
     }).afterClose.subscribe(res => {})
   }
   

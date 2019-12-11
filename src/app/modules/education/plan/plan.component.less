@@ -9,8 +9,8 @@ button {
         border-radius: 5px;
         margin: 10px 0 10px 0;
         float: left;
-        border: solid 1px #ccc;
-        box-shadow: 0px 0px 5px #ccc;
+        border: solid 1px #eee;
+        box-shadow: 0px 0px 5px #eee;
         cursor: pointer;
     }
     .list-bg{
@@ -32,13 +32,24 @@ button {
         border-radius: 0px 5px 0;
     }
     .list-font{
-        width: 100%;
+        width: 180px;
         line-height: 30px;
-        text-indent: 10px;
+        margin-top: 10px;
         & span{
             display: block;
         }
         border-bottom: solid 1px #f0f0f0;
+        margin-left: 10px;
+    }
+    .list-font b{
+        width: 180px;
+        display: block;
+        margin: 0 auto;
+        line-height: 30px;
+        height: 30px;
+        overflow: hidden;
+        text-overflow:ellipsis;/* 超出部分显示省略号 */
+        white-space: nowrap;/*规定段落中的文本不进行换行 */
     }
     .list-btn{
         height: 35px;

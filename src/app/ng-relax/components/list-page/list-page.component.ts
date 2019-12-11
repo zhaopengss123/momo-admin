@@ -61,6 +61,7 @@ export class ListPageComponent implements OnInit {
   }
   @Output('requestDataChange') requestDataChange: EventEmitter<any> = new EventEmitter();
   dataChange(e) {
+    this.requestComplate.emit(e);
     this.requestDataChange.emit(e);
   }
 

@@ -20,6 +20,8 @@
           <ng-template #editAction>
             <ng-container *ngIf="item.auditStatus == 1">
                 <a (click)="update(item)">编辑</a>
+                <nz-divider nzType="vertical" *ngIf="item.eventName == '日记'"></nz-divider>
+                <a (click)="preview(item)" *ngIf="item.eventName == '日记'">预览</a>
               <nz-divider nzType="vertical"></nz-divider>
               <label nz-checkbox [(ngModel)]="item.checked"></label>
             </ng-container>

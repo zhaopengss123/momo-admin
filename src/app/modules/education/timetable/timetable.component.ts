@@ -2,12 +2,15 @@ import { HttpService } from './../../../ng-relax/services/http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzDrawerService } from 'ng-zorro-antd';
 import { AdjustmentComponent } from '../public/adjustment/adjustment.component';
+import { DetailComponent } from './../public/detail/detail.component';
+
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
   styleUrls: ['./timetable.component.less']
 })
 export class TimetableComponent implements OnInit {
+
   week: number = 1;
   listClass: any[] = [];
   dateIndex: any = 0;
@@ -23,15 +26,17 @@ export class TimetableComponent implements OnInit {
   classId: number;
   courseDayList: any[] = [];
   listWeek: any[] = [{ status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }];
+  scrollHeight: number = 0;
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
   ) {
   }
   ngOnInit() {
-    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; this.classId = res.data.list[0].id; this.getCourseDayConfig(); });
+    this.scrollHeight = window.innerHeight -300;
+    this.http.post('/message/listClassMessage', {}, false).then(res => { this.listClass = res.data.list; this.classId = res.data.list[0].id; this.getCourseDayConfig();     this.getData();    });
+    
     this.nowDate();
-    this.getData();
   }
   getCourseDayConfig() {
     this.listWeek = [{ status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }];
@@ -41,6 +46,7 @@ export class TimetableComponent implements OnInit {
       endDate: this.endDate
     }, false).then(res => {
       res.data.list.map((item, index) => {
+        if(item.courses){
         item.courses = item.courses.substring(1, item.courses.length - 1);
         item.coursesList = item.courses.split(',');
         let arr = [];
@@ -62,8 +68,12 @@ export class TimetableComponent implements OnInit {
         if (item.configDate == this.endDate) { this.listWeek[6].status = true; }
 
         item.courseList = arr;
+      }else{
+        res.data.list.splice(index,1);
+      }
       })
       this.courseDayList = res.data.list;
+
       this.listWeek.map(item => {
         if (item.status) {
           item.num = 1;
@@ -89,13 +99,14 @@ export class TimetableComponent implements OnInit {
     });
   }
   getData() {
-    this.http.post('/courseConfig/getCourseDayTemplate', {}, false).then(res => {
+    this.http.post('/courseConfig/getCourseDayTemplate', { classId: this.classId }, false).then(res => {
       this.dataList = res.data.list;
     });
   }
   selectClass(id) {
     this.classId = id;
     this.getCourseDayConfig();
+    this.getData();
   }
   nowDate() {
     this.dateIndex = 0;
@@ -108,6 +119,15 @@ export class TimetableComponent implements OnInit {
   prveDate() {
     this.dateIndex--;
     this.datefun(this.dateIndex * 7);
+  }
+  classDetail(info = {}){
+       this.drawer.create({
+        nzWidth: 720,
+        nzTitle: '课程详情',
+        nzContent: DetailComponent,
+        nzContentParams: { info }
+      });
+   
   }
   datefun(index) {
     let now: any = new Date();

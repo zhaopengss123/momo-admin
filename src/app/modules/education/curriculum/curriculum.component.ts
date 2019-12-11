@@ -17,6 +17,7 @@ export class CurriculumComponent implements OnInit {
   @ViewChild('listPage') listPage: ListPageComponent;
 
   @ViewChild('EaTable') table;
+
   listCourseType:any[] = [];
   queryNode: QueryNode[] = [
     {
@@ -98,6 +99,9 @@ openDetail(info = {}){
     nzContent: DetailComponent,
     nzContentParams: { info }
   });
+}
+selects(e){
+  this.table.request(e);
 }
 
 }

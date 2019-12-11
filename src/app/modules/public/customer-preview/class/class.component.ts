@@ -89,6 +89,9 @@ export class ClassComponent implements OnInit {
   }
 
   selectAppoint() {
+    if(this.memberInfo.studentInfo ){
+      this.memberInfo.studentInfo.isEditClass = true;
+    }
     this.drawer.create({
       nzTitle: null,
       nzWidth: 1148,

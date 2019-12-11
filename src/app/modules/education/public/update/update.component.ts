@@ -206,6 +206,9 @@ export class UpdateComponent implements OnInit {
         videoUpload.startAll();
     })
   }
+  deleteVideo(){
+    this.formGroup.patchValue({ vedio: null })
+  }
 
     /* 实现 ControlValueAccessor 接口部分 */
     writeValue(val: any): void {

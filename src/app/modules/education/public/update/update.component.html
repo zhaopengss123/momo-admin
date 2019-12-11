@@ -104,6 +104,7 @@
           <nz-upload
           [nzBeforeUpload]="beforeUpload" 
           [(nzFileList)]="files" 
+          [nzRemove]="deleteVideo"
           [nzShowButton]="files?.length < allowuploadNo">
           <button nz-button [nzLoading]="isLoadingfile">
             <i nz-icon type="upload"></i><span>点击上传文件</span>

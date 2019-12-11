@@ -167,7 +167,7 @@ export class AppointComponent implements OnInit {
   private _getDataNum = 0;
   async getData(type?: 'up'/* ? 上一月 */ | 'down' /* ? 下一月  */) {
     let classInfo = this._classInfo || await this.http.post('/reserve/getClassWithTeacher', { classId: this.studentInfo.classId });
-    if(classInfo.data.list.length && classInfo.data.list[0].teachers){
+    if(classInfo.data.list.length && classInfo.data.list[0].teachers && this.studentInfo.isEditClass){
       classInfo.data.list[0].teachers.map((item,index)=>{
         if(this.studentInfo.teacherId == item.id){
             classInfo.data.list[0].teachers.splice(index,1);
