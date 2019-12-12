@@ -1,6 +1,5 @@
 <div class="container">
   <ea-query-simp #eaQuery [node]="queryNode" (onSubmit)="querySubmit($event)"></ea-query-simp>
-
   <div [style.float]="'right'">
     <nz-button-group>
       <button nz-button nzType="primary"  (click)="batchStatus('2')">通过</button>

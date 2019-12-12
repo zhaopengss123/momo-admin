@@ -25,7 +25,6 @@ export class UpdateComponent implements OnInit {
   ) { 
     for (let i = 0; i < 48; i++) { this.monthList.push(i + 1); }
   }
-
   ngOnInit() {
     this.formGroup = this.fb.group({
       cardTypeId: [],

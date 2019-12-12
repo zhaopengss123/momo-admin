@@ -1,8 +1,7 @@
-import { NzDrawerService, NzMessageService } from 'ng-zorro-antd';
+import { NzDrawerService,  } from 'ng-zorro-antd';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { UpdateScheduleComponent } from '../public/update-schedule/update-schedule.component';
-import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-schedule',
@@ -17,7 +16,6 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private drawer: NzDrawerService,
     private http: HttpService, 
-    private message: NzMessageService,
   ) {
 
   }

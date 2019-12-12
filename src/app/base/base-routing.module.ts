@@ -132,12 +132,6 @@ const routes: Routes = [
           },
         ]
       },
-      // {
-      //   path: 'analysis',
-      //   data: { title: '数据管理' },
-      //   canLoad: [AuthGuardService],
-      //   loadChildren: 'src/app/modules/analysis/analysis.module#AnalysisModule'
-      // },
       {
         path: 'analysis',
         data: { noReuse: true },
