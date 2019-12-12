@@ -1,0 +1,34 @@
+<div class="container">
+  <nz-tabset>
+    <nz-tab *ngFor="let item of listClass" [(nzTitle)]="item.className" (nzSelect)="selectClass(item.id)"></nz-tab>
+  </nz-tabset>
+  <ea-query-simp [node]="queryNode" style="float:left;" (onSubmit)="EaTable.request($event)"></ea-query-simp>
+  <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="/course/queryCourse">
+    <ng-template let-data #EaTableTbodyTr>
+      <td>{{ data.name }}</td>
+      <td>
+        <ng-container *ngFor="let item of listCourseType">
+          {{  item.id ==  data.typeId ? item.name : '' }}
+        </ng-container>
+      </td>
+      <td>{{ data.duration || '--' }}</td>
+      <td>{{ data.startMonth }} - {{ data.endMonth }}</td>
+      <td>{{ data.status == 0 ? '启用' : '停用'  }}</td>
+      <td>{{ data.createTime }}</td>
+      <td>
+        <ng-container>
+          <a (click)="openDetail(data)">课程详情</a>
+        </ng-container>
+        <nz-divider nzType="vertical"></nz-divider>
+        <ng-container>
+          <a (click)="addCustomer(data)">编辑</a>
+        </ng-container>
+        <nz-divider nzType="vertical"></nz-divider>
+        <ng-container>
+          <a (click)="updataStatus(data)">{{ data.status != 0 ? '启用' : '停用'  }}</a>
+        </ng-container>
+      </td>
+    </ng-template>
+  </ea-table>
+</div>
