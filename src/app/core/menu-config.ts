@@ -50,6 +50,19 @@ export const MenuConfig = [
     ]
   },
   {
+    title : '营养保健',
+    brief : '营养',
+    key   : '/home/nutrition',
+    icon  : 'book',
+    children : [
+      {
+        title : '膳食配餐',
+        key   : '/home/nutrition/catering',
+        isLeaf: true
+      }
+    ]
+  },
+  {
     title : '教务管理',
     brief : '教务',
     key   : '/home/education',

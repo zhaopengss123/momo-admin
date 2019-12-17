@@ -36,6 +36,19 @@ const routes: Routes = [
         canLoad: [AuthGuardService],
         loadChildren: 'src/app/modules/reserve/reserve.module#ReserveModule'
       },
+
+      {
+        path: 'nutrition',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'catering',
+            data: { title: '膳食配餐' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/nutrition/catering/catering.module#CateringModule'
+          }
+        ]
+      },
       {
         path: 'setting',
         data: { noReuse: true },
