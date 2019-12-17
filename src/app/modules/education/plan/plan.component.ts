@@ -79,8 +79,14 @@ export class PlanComponent implements OnInit {
         let slen:any = Math.floor(swidth / 200);
         let padd = swidth % 200 ;
         this.margin = padd/slen/2;
-        // this.listWidth = (swidth/5)-20;
-        // this.listWidth = this.listWidth>=200 ?  this.listWidth : 200;
+        if(!swidth){
+          setTimeout(res=>{
+            swidth = Number(this.elementView.nativeElement.offsetWidth);
+            let slen:any = Math.floor(swidth / 200);
+            let padd = swidth % 200 ;
+            this.margin = padd/slen/2;
+          },3000);
+        }
 
       },3000);
     }
