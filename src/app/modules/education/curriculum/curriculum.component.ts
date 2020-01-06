@@ -32,16 +32,22 @@ export class CurriculumComponent implements OnInit {
       type: 'select',
       options: [],
     },
- 
     {
       label: '课程状态',
       key: 'status',
       type: 'select',
       options : [{ name: '启用', id: 0 }, { name: '停用', id: -1 }]
     },
+    {
+      label: '班级',
+      key: 'classId',
+      type: 'select',
+      optionKey   : { label: 'className', value: 'id' },
+      optionsUrl  : '/message/listClassMessage'
+    }
   ];
 
-  tableNode = ['课程名称', '类别', '时长', '适用月龄', '状态', '创建时间' , '操作'];
+  tableNode = ['课程名称', '类别', '时长', '适用月龄','状态', '课时数', '创建时间' , '操作'];
 
   constructor(
     private drawer: NzDrawerService,

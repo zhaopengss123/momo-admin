@@ -19,8 +19,9 @@ export class PreviewComponent implements OnInit {
   constructor(
     private http: HttpService
   ) { }
-
+  
   ngOnInit() {
+    console.log(this.id,this.source);
     this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
       this.memberInfo = res.data;
       this.source && (this.memberInfo.hideBtn = this.source);

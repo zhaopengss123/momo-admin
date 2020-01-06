@@ -88,7 +88,7 @@ export class CateringComponent implements OnInit {
     let token = JSON.parse(localStorage.getItem('userInfo')).token;    
     let className: any = this.listClass.filter((item) => item.id == this.classId);
     let weekName: any = this.cateringList.filter((item) => item.week == this.week);
-    let classNames = encodeURI(encodeURI(className[0].className));
+    let classNames = encodeURI(encodeURI(className[0].classSlogan +' '+ className[0].className));
     let weekNames = encodeURI(encodeURI(weekName[0].name));
 
     window.open(`http://wx.haochengzhang.com/ylbb-activity-recipes/?classId=${ this.classId }&week=${ this.week }&token=${ token }&domain=${ this.domains }&className=${ classNames }&weekName=${ weekNames }`); 

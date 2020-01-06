@@ -17,7 +17,7 @@ import { SelectCardComponent } from '../../select-card/select-card.component';
 export class HeaderComponent implements OnInit {
 
   @Input() memberInfo: any = {};
-
+  
   showReserverBtn: boolean;
 
   constructor(
@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.memberInfo);
   }
 
   /* -------------- 点击预约校验 -------------- */

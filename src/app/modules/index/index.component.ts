@@ -25,6 +25,7 @@ export class IndexComponent implements OnInit {
   getAdjustList = '/message/getAdjustClassStudentList';
   getBirthdayStudentList = '/message/getBirthdayStudentList';
   getVisitList = '/message/getTodayReturnVisitList';
+  tableNode = ['姓名', '班级', '嘱托内容', '关系', '时间', '操作'];
 
   constructor(
     private http: HttpService,

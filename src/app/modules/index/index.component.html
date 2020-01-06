@@ -21,6 +21,29 @@
   </div>
 
   <div class="card" nz-row nzGutter="16">
+
+      <div nz-col nzSpan="24">
+          <div style="height: auto">
+            <h2><span>今日家长嘱托</span></h2>
+            <ea-table #EaTable [timeout]="1000" [thead]="tableNode"  [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" url="/membermanage/clue/noIntentionList">
+              <ng-template let-data #EaTableTbodyTr>
+                <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.nickName }}</a></td>
+                <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.studentName }}</a></td>
+                <td>{{ data.birthday || '--' }}</td>
+                <td>{{ data.sex }}</td>
+                
+                <td>
+                    <div *ngIf="data.lastFollowContent" nz-tooltip [nzTitle]="data.lastFollowContent">
+                      {{ data.lastFollowContent.length > 20 ? data.lastFollowContent.substr(0, 20) + '...' : data.lastFollowContent }}
+                    </div>
+                  </td>
+                  <td><a (click)="preview({id: data.id, source: 'visit'})">{{ data.monthAge }}</a></td>
+               
+              </ng-template>
+            </ea-table>
+          </div>
+        </div>
+
     <div nz-col nzSpan="6">
       <div>
         <h2><i nz-icon nzType="team" [style.color]="'#ff5722'"></i>学籍天数少于{{ info.dayCareRemind }}天<a (click)="more(getLackCardTimeList, '学籍天数少于' + info.dayCareRemind + '天')" *ngIf="dayTimeList.length && dayTimeList.length >= 4">查看更多</a></h2>
@@ -100,7 +123,7 @@
             <ul *ngFor="let item of studentList">
               <li><a (click)="preview({ id: item.id })">{{ item.studentName || '-' }}</a></li>
               <li><a (click)="preview({ id: item.id })">{{ item.nickName || '-' }}</a></li>
-              <li>{{ item.month || '-' }}</li>
+              <li>{{ item.month*12 || '-' }}</li>
               <li><a *ngIf="!item.showPhone" (click)="item.showPhone = true">查看</a>
                 <ng-container *ngIf="item.showPhone">{{ item.mobilePhone }}</ng-container>
               </li>

@@ -55,6 +55,7 @@ export class UpdateComponent implements OnInit {
       lesson	: [],
       cover: [, [Validators.required]],
       vedio: [],
+      times: [, [Validators.required]]
     });
     this.formGroup.patchValue(this.info);
     if(this.info.vedio){

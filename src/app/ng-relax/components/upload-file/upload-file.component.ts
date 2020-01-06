@@ -23,7 +23,7 @@ export class UploadFileComponent implements OnInit {
   private _aliOssClientVideo;
 
   filesChange: any = () => { };
-  filesdetail: any ;
+  filesdetail: any = [];
   @Input() maxLength = 1;
 
   allowuploadNo = 1;
@@ -98,6 +98,9 @@ export class UploadFileComponent implements OnInit {
   }
   deleteFile = () => {
     setTimeout(_ => {
+      if(this.filex && this.filex.length == 0){
+        this.filesdetail = [];
+      }
       this.allowuploadNo = this.allowuploadNo == this.maxLength ? this.maxLength : this.allowuploadNo - 1;
     }, 0)
     return true;
@@ -119,6 +122,7 @@ export class UploadFileComponent implements OnInit {
           });
           this.filex = [...arr];
           this.filesdetail = arr;
+          console.log(this.filesdetail);
           observer.next(true);
           observer.complete();
         }, err => {
