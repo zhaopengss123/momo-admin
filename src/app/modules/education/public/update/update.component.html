@@ -120,7 +120,17 @@
         </nz-upload>
         </nz-form-control>
     </nz-row> 
-  
+    <nz-row [nzGutter]="8">
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>视频教案链接地址</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="vedio" placeholder="请输入视频教案链接地址">
+              <nz-form-explain *ngIf="valid('vedio')">请输入视频教案链接地址</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
   </form>
   
   <div class="drawer-footer">

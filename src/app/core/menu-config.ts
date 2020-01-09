@@ -67,8 +67,30 @@ export const MenuConfig = [
         isLeaf: true
       }
     ]
-  },
-
+  }, 
+  {
+    title : '消息管理',
+    brief : '消息',
+    key   : '/home/message',
+    icon  : 'message',
+    children : [
+      {
+        title : '短信发送', 
+        key   : '/home/message/sendout',
+        isLeaf: true
+      },
+      {
+        title : '模板配置',
+        key   : '/home/message/template',
+        isLeaf: true
+      },
+      {
+        title : '发送日志',
+        key   : '/home/message/sendlog',
+        isLeaf: true
+      }
+    ]
+  },        
   {
     title : '教务管理',
     brief : '教务',
@@ -214,6 +236,16 @@ export const MenuConfig = [
       {
         title : '班级管理',
         key   : '/home/setting/class',
+        isLeaf: true
+      },
+      {
+        title : '在线充值',
+        key   : '/home/setting/payment/pay',
+        isLeaf: true
+      },
+      {
+        title : '充值记录',
+        key   : '/home/setting/payment/record',
         isLeaf: true
       },
       {

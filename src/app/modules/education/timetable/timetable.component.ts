@@ -4,7 +4,7 @@ import { NzDrawerService } from 'ng-zorro-antd';
 import { AdjustmentComponent } from '../public/adjustment/adjustment.component';
 import { DetailComponent } from './../public/detail/detail.component';
 import { environment } from 'src/environments/environment';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
@@ -25,12 +25,15 @@ export class TimetableComponent implements OnInit {
   Saturday: string;
   dataList: any[] = [];
   classId: number;
+  weekDate: any;
   courseDayList: any[] = [];
   listWeek: any[] = [{ status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }, { status: false }];
   scrollHeight: number = 0;
+  s3: any;
   constructor(
     private http: HttpService,
-    private drawer: NzDrawerService
+    private drawer: NzDrawerService,
+    private format: DatePipe,
   ) {
   }
   ngOnInit() {
@@ -109,6 +112,15 @@ export class TimetableComponent implements OnInit {
     this.getCourseDayConfig();
     this.getData();
   }
+  nowDateBack(){
+    this.weekDate = new Date();
+    this.datechange();
+    this.nowDate();
+    setTimeout(res=>{
+      this.weekDate = new Date(this.startDate);
+      this.datechange();
+    },100);
+  }
   nowDate() {
     this.dateIndex = 0;
     this.datefun(0);
@@ -116,10 +128,18 @@ export class TimetableComponent implements OnInit {
   nextDate() {
     this.dateIndex++;
     this.datefun(this.dateIndex * 7);
+    setTimeout(res=>{
+      this.weekDate = new Date(this.startDate);
+      this.datechange();
+    },100);
   }
   prveDate() {
     this.dateIndex--;
     this.datefun(this.dateIndex * 7);
+    setTimeout(res=>{
+      this.weekDate = new Date(this.startDate);
+      this.datechange();
+    },100);
   }
   classDetail(info = {}){
        this.drawer.create({
@@ -131,7 +151,7 @@ export class TimetableComponent implements OnInit {
    
   }
   datefun(index) {
-    let now: any = new Date();
+    let now: any = this.s3 ? new Date(this.s3) : new Date();
     let nowDayOfWeek = now.getDay();
     nowDayOfWeek = nowDayOfWeek == 0 ? 7 : nowDayOfWeek;
     this.startDate = this.showWeekFirstDay(1 - nowDayOfWeek + index);
@@ -166,12 +186,21 @@ export class TimetableComponent implements OnInit {
     });
   }
   showWeekFirstDay(i) {
-    var day3 = new Date();
+    var day3 = this.s3 ? new Date(this.s3) : new Date();
     day3.setTime(day3.getTime() + i * 24 * 60 * 60 * 1000);
     let Month = (day3.getMonth() + 1) < 10 ? '0' + (day3.getMonth() + 1) : (day3.getMonth() + 1);
     let dayDate = (day3.getDate()) < 10 ? '0' + (day3.getDate()) : (day3.getDate());
     var s3 = day3.getFullYear() + "-" + Month + "-" + dayDate;
     return s3;
+  }
+  datechange(){
+    
+    // var d = new Date(this.weekDate);  
+    var day3 = this.weekDate;
+    let Month = (day3.getMonth() + 1) < 10 ? '0' + (day3.getMonth() + 1) : (day3.getMonth() + 1);
+    let dayDate = (day3.getDate()) < 10 ? '0' + (day3.getDate()) : (day3.getDate());
+    this.s3 = day3.getFullYear() + "-" + Month + "-" + dayDate;
+    this.nowDate();
   }
   //打印
   prints() {

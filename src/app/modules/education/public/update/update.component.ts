@@ -207,8 +207,11 @@ export class UpdateComponent implements OnInit {
         videoUpload.startAll();
     })
   }
-  deleteVideo(){
-    this.formGroup.patchValue({ vedio: null })
+  deleteVideo = () =>{
+    setTimeout(_ => {
+      this.files = [];
+      this.formGroup.patchValue({ vedio: null })
+    }, 0)
   }
 
     /* 实现 ControlValueAccessor 接口部分 */

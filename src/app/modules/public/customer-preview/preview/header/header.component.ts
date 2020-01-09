@@ -29,7 +29,6 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.memberInfo);
   }
 
   /* -------------- 点击预约校验 -------------- */

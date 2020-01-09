@@ -9,7 +9,7 @@
     <nz-skeleton [nzActive]="true" [nzLoading]="loading"></nz-skeleton>
   </nz-tab>
   <nz-tab nzTitle="跟踪记录"><ng-template nz-tab>
-    <app-track [studentInfo]="memberInfo.studentInfo"></app-track>
+    <app-track [studentInfo]="memberInfo.studentInfo" [indexId]="indexId"></app-track>
   </ng-template></nz-tab>
   <nz-tab nzTitle="交易记录"><ng-template nz-tab>
     <app-transaction [studentInfo]="memberInfo.studentInfo" [cardList]="memberInfo.cardList"></app-transaction>

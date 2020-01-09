@@ -53,7 +53,6 @@ export class UploadFileComponent implements OnInit {
         filestring.push(res.url);
       })
     }
-
     setTimeout(() => {
       this.allowuploadNo = filestring.length >= this.maxLength ? this.maxLength : filestring.length + 1;
     }, 500);
@@ -88,10 +87,8 @@ export class UploadFileComponent implements OnInit {
       }
     });
   }
-
   ngOnInit() {
   }
-
   beforeUpload = (file: UploadFile): boolean => {
     this._validatorUploadFile(file).subscribe(res => { })
     return false;
@@ -122,7 +119,6 @@ export class UploadFileComponent implements OnInit {
           });
           this.filex = [...arr];
           this.filesdetail = arr;
-          console.log(this.filesdetail);
           observer.next(true);
           observer.complete();
         }, err => {
@@ -133,10 +129,6 @@ export class UploadFileComponent implements OnInit {
       
     })
   }
-
-
-
-
   /* 实现 ControlValueAccessor 接口部分 */
   writeValue(val: any): void {
     if (val) {

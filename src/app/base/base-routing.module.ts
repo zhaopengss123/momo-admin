@@ -65,6 +65,7 @@ const routes: Routes = [
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/setting/notice/notice.module#NoticeModule'
           },
+
           {
             path: 'account',
             data: { title: '账号管理' },
@@ -76,6 +77,24 @@ const routes: Routes = [
             data: { title: '角色管理' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/setting/role/role.module#RoleModule'
+          },
+          {
+            path: 'payment',
+            data: { noReuse: true },
+            children: [
+              {
+                path: 'pay',
+                data: { title: '在线充值' },
+                canLoad: [ AuthGuardService ],
+                loadChildren: 'src/app/modules/setting/payment/pay/pay.module#PayModule'
+              },
+              {
+                path: 'record',
+                data: { title: '充值记录' },
+                canLoad: [AuthGuardService],
+                loadChildren: 'src/app/modules/setting/payment/record/record.module#RecordModule'
+              }
+            ]
           },
           {
             path: 'monitor',
@@ -101,6 +120,30 @@ const routes: Routes = [
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/teacher/teacher.module#TeacherModule'
           }
+        ]
+      },
+      {
+        path: 'message',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'sendout',
+            data: { title: '短信发送' },
+            canLoad: [ AuthGuardService ],
+            loadChildren: 'src/app/modules/message/sendout/sendout.module#SendoutModule'
+          },
+          {
+            path: 'template',
+            data: { title: '模板配置' },
+            canLoad: [ AuthGuardService ],
+            loadChildren: 'src/app/modules/message/template/template.module#TemplateModule'
+          },
+          {
+            path: 'sendlog',
+            data: { title: '发送日志' },
+            canLoad: [ AuthGuardService ],
+            loadChildren: 'src/app/modules/message/sendlog/sendlog.module#SendlogModule'
+          },
         ]
       },
       {

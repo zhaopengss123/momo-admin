@@ -19,7 +19,6 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class ReserveComponent implements OnInit {
 
   @ViewChild('listPage') listPage: ListPageComponent;
-
   domain = environment.domainEs;
   domains = environment.domain;
   queryNode: QueryNode[] = [
@@ -102,7 +101,6 @@ export class ReserveComponent implements OnInit {
     
   }
   getList(e) {
-    console.log(e);
     if(!e[0] || !e[0].reserveDate){ return false; }
     let date = e[0].reserveDate;
     this.http.post('/diary/students', { queryDate: date }).then(res => { this.diaryList = res.data; })
