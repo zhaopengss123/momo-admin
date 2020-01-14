@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { AppState } from 'src/app/core/reducers/reducers-config';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sendout',
@@ -13,84 +14,55 @@ import { AppState } from 'src/app/core/reducers/reducers-config';
 })
 export class SendoutComponent implements OnInit {
 
+  domainEs = environment.domainEs;
+
   queryNode: QueryNode[] = [
     {
-      label: '会员卡号',
-      key: 'cardCode',
-      type: 'input'
+      label: '学员',
+      key: 'studentId',
+      type: 'search',
+      placeholder: '根据学号、姓名、手机号查询',
+      searchUrl: `${this.domainEs}/czg/fullQuery`
     },
     {
-      label: '会员姓名',
-      key: 'name',
-      type: 'input'
-    },
-    {
-      label: '会员小名',
-      key: 'nick',
-      type: 'input'
-    },
-    {
-      label: '手机号',
-      key: 'mobilePhone',
-      type: 'input'
-    },
-    {
-      label: '所属社区',
-      key: 'communityId',
+      label: '班级',
+      key: 'classId',
       type: 'select',
-      optionsUrl: '/member/communityList'
+      optionKey: { label: 'className', value: 'id' },
+      optionsUrl: '/message/listClassMessage'
     },
     {
-      label: '婴儿类型',
-      key: 'babyType',
+      label: '状态',
+      key: 'cardStatus',
       type: 'select',
-      options: [{ name: '婴儿', id: '婴儿' }, { name: '幼儿', id: '幼儿' }]
+      optionKey: { label: 'name', value: 'id' },
+      options: [
+        { name: '待入学', id: 0 },
+        { name: '已入学', id: 1 },
+        { name: '已到店', id: 2 },
+        { name: '未到店', id: 3 },
+        { name: '未体验', id: 4 },
+        { name: '无意向', id: 5 }
+      ],
     },
     {
-      label: '是否办卡',
-      key: 'havacard',
+      label: '学员来源',
+      key: 'memberFromid',
       type: 'select',
-      options: [{ name: '已办卡', id: 1 }, { name: '未办卡', id: 0 }]
-    },
-    {
-      label: '近期消费',
-      key: 'consumeDate',
-      type: 'select',
-      options: [{ name: '1星期内', id: 0 }, { name: '15天内', id: 1 }, { name: '1个月内', id: 2 }, { name: '2个月内', id: 3 }]
-    },
-    {
-      label: '卡过期',
-      key: 'expiredDate',
-      type: 'select',
-      options: [{ name: '1星期内', id: 0 }, { name: '15天内', id: 1 }, { name: '1个月内', id: 2 }, { name: '2个月内', id: 3 }]
-    },
-    {
-      label: '剩余卡次',
-      key: 'times',
-      type: 'select',
-      options: [{ name: '3次以内', id: 3 }, { name: '5次以内', id: 5 }, { name: '10次以内', id: 10 }, { name: '20次以内', id: 20 }]
-    },
-    {
-      label: '卡状态',
-      key: 'status',
-      type: 'select',
-      options: [{ name: '正常', id: 0 }, { name: '停卡', id: 1 }, { name: '过期', id: 2 }]
-    },
-    {
-      label: '卡类型',
-      key: 'cardTypeId',
-      type: 'select',
-      optionsUrl: '/cardTypeManagement/findList'
+      optionKey: { label: 'fromName', value: 'memberFromId' },
+      options: []
     }
   ]
 
   transferList: any[] = [];
 
-  smsBalanceSurplus: number;
+  smsBalanceSurplus: number = 1;
 
   queryLoading: boolean;
 
   brandName: string;
+
+  watchContent: any[] = [];
 
   constructor(
     private http: HttpService,
@@ -101,8 +73,11 @@ export class SendoutComponent implements OnInit {
   ) {
     this.http.post('/smsBalance/balance').then(res => this.smsBalanceSurplus = res.result);
 
-    this.http.post('/common/getStoreSmsTemplate').then(res => this.smsTemplateList = res.result);
-    this.http.post('/smsBalance/balance').then(res => this.smsBalance = res.result);
+    this.http.post('/smsTemplate/list', { paramJson: JSON.stringify({ "pageNum": 1, "pageSize": 1000 }) }).then(res => this.smsTemplateList = res.data.list);
+    // this.http.post('/smsBalance/balance').then(res => this.smsBalance = res.result);
+    this.http.post('/student/getStudentListQueryCondition').then(res => {
+      this.queryNode[3].options = res.data.memberFromList;
+    });
   }
   ngOnInit() {
     // this.store.select('userInfoState').subscribe(res => this.brandName = res.store.shopBrand.brandName || '初之光');
@@ -119,18 +94,43 @@ export class SendoutComponent implements OnInit {
     });
     this.formGroup.get('content').valueChanges.subscribe(val => {
       this.sendNum = this.selectList.length * (val && val.length + (this.brandName.length + 8) > 70 ? Math.ceil((val.length + (this.brandName.length + 8)) / 70) : 1);
+      let watchContent = `【初之光】${val},回复TD退订`;
+      this.watchContent = [];
+      let con = watchContent.length / 70;
+      let mocon = watchContent.length % 70;
+      if (con <= 1) {
+        con = 1; mocon = 0;
+      } else {
+        if (mocon != 0) {
+          con += 1;
+        }
+      }
+      for (var i = 0; i < con; i++) {
+        let text = watchContent.substring(i * 70, i * 70 + 70);
+        if (text) {
+          this.watchContent.push(text);
+        }
+      }
+
+
     });
   }
 
-  query(params = {}) {
+  query(params: any = {}) {
     if (!this.queryLoading) {
       this.queryLoading = true;
-      this.http.post('/smsSend/list', { paramJson: JSON.stringify(params) }, false).then(res => {
-        res.result.list.map(res => res.title = res.name + res.mobilePhone)
-        this.transferList = res.result.list;
+      params.pageSize = 10000;
+      params.pageNum = 1;
+      params.kindergartenId = 1;
+      this.http.post('/student/getStudentList', { paramJson: JSON.stringify(params) }, false).then(res => {
+        res.data.list.map(res => res.title = res.studentName + res.mobilePhone)
+        this.transferList = res.data.list;
         this.queryLoading = false;
         this.selectList = [];
-      }).catch(_ => this.queryLoading = false);
+
+      }).catch(_ => {
+        this.queryLoading = false;
+      });
     }
   }
 

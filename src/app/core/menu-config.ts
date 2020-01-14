@@ -69,23 +69,23 @@ export const MenuConfig = [
     ]
   }, 
   {
-    title : '消息管理',
+    title : '短信消息',
     brief : '消息',
     key   : '/home/message',
     icon  : 'message',
     children : [
       {
-        title : '短信发送', 
+        title : '发送短信', 
         key   : '/home/message/sendout',
         isLeaf: true
       },
       {
-        title : '模板配置',
+        title : '短信模板',
         key   : '/home/message/template',
         isLeaf: true
       },
       {
-        title : '发送日志',
+        title : '发送记录',
         key   : '/home/message/sendlog',
         isLeaf: true
       }
