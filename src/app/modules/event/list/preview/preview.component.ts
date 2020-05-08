@@ -17,7 +17,6 @@ export class PreviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.previewInfo);
     let that = this;
     this.detailData =JSON.parse(JSON.stringify(this.previewInfo));
     if(this.detailData.content){    
@@ -60,7 +59,6 @@ export class PreviewComponent implements OnInit {
   }else{
       that.detailData = this.detailData;
   }
-  console.log(this.arrList);
   }
 
 }

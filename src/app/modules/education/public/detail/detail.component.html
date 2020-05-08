@@ -21,6 +21,11 @@
             <nz-form-label ><b>上课时长</b> </nz-form-label>{{ info.duration }}分钟
           </nz-col>
         </nz-row>
+        <nz-row [nzGutter]="8">
+          <nz-col [nzSpan]="12">
+            <nz-form-label ><b>课时数</b> </nz-form-label>{{ info.times }}
+          </nz-col>
+        </nz-row>
   <nz-row [nzGutter]="8" *ngIf="info.goal">
     <nz-form-label style="font-weight:bold;">课程目标</nz-form-label>
     <nz-form-control>

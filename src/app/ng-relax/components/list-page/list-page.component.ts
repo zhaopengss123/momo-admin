@@ -24,6 +24,10 @@ export class ListPageComponent implements OnInit {
   
   @Input() showPage: boolean = true;
 
+  @Input() eaPageSize: number = 10;
+
+  @Input() nzShowSizeChanger: boolean = true;
+  
   @Input() isParamJson: boolean = true;
 
   @Input() paramsDefault: any = {};

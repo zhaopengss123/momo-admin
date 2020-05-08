@@ -65,6 +65,13 @@
       </nz-col>
     </nz-row>
     <nz-row [nzGutter]="8">
+      <nz-form-label nzRequired>课时数</nz-form-label>
+      <nz-form-control>
+          <nz-input-number [nzMin]="1"  formControlName="times"></nz-input-number>
+          <nz-form-explain *ngIf="valid('times')">请输入课程数</nz-form-explain>
+        </nz-form-control>
+  </nz-row>  
+    <nz-row [nzGutter]="8">
         <nz-form-label nzRequired>课程封面</nz-form-label>
         <nz-form-control>
             <ea-upload-picture  [maxLength]="1" formControlName="cover"  ></ea-upload-picture> 
@@ -79,6 +86,7 @@
             <nz-form-explain *ngIf="valid('goal')">请输入课程目标</nz-form-explain>
           </nz-form-control>
     </nz-row>  
+   
     <nz-row [nzGutter]="8">
         <nz-form-label nzRequired>课程效果</nz-form-label>
         <nz-form-control>
@@ -95,7 +103,7 @@
     <nz-row [nzGutter]="8">
         <nz-form-label>教案</nz-form-label>
         <nz-form-control>
-            <ea-upload-file  [maxLength]="1" formControlName="lesson"  ></ea-upload-file> 
+            <ea-upload-file  [maxLength]="5" formControlName="lesson"  ></ea-upload-file> 
           </nz-form-control>
     </nz-row> 
     <nz-row [nzGutter]="8">
@@ -105,14 +113,21 @@
           [nzBeforeUpload]="beforeUpload" 
           [(nzFileList)]="files" 
           [nzRemove]="deleteVideo"
-          [nzShowButton]="files?.length < allowuploadNo">
+          >
           <button nz-button [nzLoading]="isLoadingfile">
             <i nz-icon type="upload"></i><span>点击上传文件</span>
           </button>
         </nz-upload>
         </nz-form-control>
     </nz-row> 
-  
+    <nz-row [nzGutter]="8">
+      <nz-form-label >视频教案链接地址 <span style="font-size:10px;color:red;">（多个链接请用英文逗号,隔开）</span> </nz-form-label>
+      <nz-form-control>
+          <textarea  nz-input placeholder="请输入视频教案链接地址" formControlName="vedio" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+          <nz-form-explain *ngIf="valid('vedio')">请输入视频教案链接地址</nz-form-explain>
+        </nz-form-control>
+  </nz-row> 
+
   </form>
   
   <div class="drawer-footer">

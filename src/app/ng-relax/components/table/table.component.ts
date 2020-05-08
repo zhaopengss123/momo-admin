@@ -33,6 +33,10 @@ export class TableComponent implements OnInit {
   @Input() allowSpace   : boolean = true;
 
   @Input() showPage     : boolean = true;
+  
+  @Input() nzShowSizeChanger : boolean = true;
+  
+  @Input() eaPageSize: number = 10;
 
   @Input() size         : 'default' | 'small' | 'middle';
 
@@ -85,6 +89,7 @@ export class TableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this._pageInfo.pageSize = this.eaPageSize;
     this._request();
 
   }

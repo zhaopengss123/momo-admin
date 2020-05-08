@@ -4,12 +4,14 @@
     </nz-tabset>
     <div class="top-nav">
         <nz-radio-group [(ngModel)]="week">
+            <label nz-radio-button nzValue="1" (click)="nowDateBack()"><span>本周</span></label>
             <label nz-radio-button nzValue="0" (click)="prveDate()"><span>上周</span></label>
-            <label nz-radio-button nzValue="1" (click)="nowDate()"><span>本周</span></label>
             <label nz-radio-button nzValue="2" (click)="nextDate()"><span>下周</span></label>
         </nz-radio-group>
+        <nz-date-picker style="width:200px; margin-left: 15px;" [(ngModel)]="weekDate" nzFormat="yyyy-MM-dd" (ngModelChange)="datechange()" nzPlaceHolder="选择日期">
+        </nz-date-picker>
         <div style="float:right;">
-            <!-- <button nz-button nzType="primary" style="margin-right:10px;" (click)="print()">打印课表</button> -->
+            <button nz-button nzType="primary" style="margin-right:10px;" (click)="prints()">打印课表</button>
             <button nz-button nzType="primary" (click)="addCustomer()">排课/调整</button>
         </div>
     </div>
@@ -166,7 +168,6 @@
                                     <ng-container *ngIf="xmain.template == data.id">
                                         <ng-container *ngIf="xmain.data">
                                             <a (click)="classDetail(xmain)">
-
                                                 <p style="margin-bottom:5px; margin-top:0;">{{ xmain.data.typeName }}
                                                 </p>
                                                 <p style="margin-bottom:5px; margin-top:0;">《{{ xmain.data.name }}》</p>
@@ -192,7 +193,8 @@
                                     <ng-container *ngIf="xmain.template == data.id">
                                         <ng-container *ngIf="xmain.data">
                                             <a (click)="classDetail(xmain)">
-                                                <p style="margin-bottom:5px; margin-top:0;">{{ xmain.data.typeName }}</p>
+                                                <p style="margin-bottom:5px; margin-top:0;">{{ xmain.data.typeName }}
+                                                </p>
                                                 <p style="margin-bottom:5px; margin-top:0;">《{{ xmain.data.name }}》</p>
                                                 <p style="margin-bottom:5px; margin-top:0;">目标：{{ xmain.data.goal }}</p>
                                                 <p style="margin-bottom:5px; margin-top:0;">收获：{{ xmain.data.gain }}</p>

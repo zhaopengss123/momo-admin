@@ -23,7 +23,7 @@ export class UploadFileComponent implements OnInit {
   private _aliOssClientVideo;
 
   filesChange: any = () => { };
-  filesdetail: any ;
+  filesdetail: any = [];
   @Input() maxLength = 1;
 
   allowuploadNo = 1;
@@ -53,7 +53,6 @@ export class UploadFileComponent implements OnInit {
         filestring.push(res.url);
       })
     }
-
     setTimeout(() => {
       this.allowuploadNo = filestring.length >= this.maxLength ? this.maxLength : filestring.length + 1;
     }, 500);
@@ -88,16 +87,17 @@ export class UploadFileComponent implements OnInit {
       }
     });
   }
-
   ngOnInit() {
   }
-
   beforeUpload = (file: UploadFile): boolean => {
     this._validatorUploadFile(file).subscribe(res => { })
     return false;
   }
   deleteFile = () => {
     setTimeout(_ => {
+      if(this.filex && this.filex.length == 0){
+        this.filesdetail = [];
+      }
       this.allowuploadNo = this.allowuploadNo == this.maxLength ? this.maxLength : this.allowuploadNo - 1;
     }, 0)
     return true;
@@ -129,10 +129,6 @@ export class UploadFileComponent implements OnInit {
       
     })
   }
-
-
-
-
   /* 实现 ControlValueAccessor 接口部分 */
   writeValue(val: any): void {
     if (val) {

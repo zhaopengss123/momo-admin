@@ -21,7 +21,7 @@ enum customerStatus {
 export class TrackComponent implements OnInit, OnChanges {
 
   @Input() studentInfo: any = {};
-
+  @Input() indexId: number;
   formGroup: FormGroup;
   updateFormGroup: FormGroup;
 
@@ -46,25 +46,36 @@ export class TrackComponent implements OnInit, OnChanges {
       res.data.length && this.formGroup.patchValue({ followType: res.data[0].id });
     })
     typeof this.memberStatusList === 'function' && this.memberStatusList();
-    
     typeof this.activityList === 'function' && this.activityList();
     typeof this.classList === 'function' && this.classList();
   }
 
   ngOnInit() {
+    setTimeout(item=>{
+      if(this.indexId){ this.memberStatusList = [{ id: 5 , name: '家长嘱托' }] }else{
+        for(let i = 0; i<this.memberStatusList.length; i++){
+          let item = this.memberStatusList[i];
+          if(item.id == 5){
+            this.memberStatusList.splice(i,1);
+          }
+        }
+      }
+    },300);
     let controls = {
       id: [],
       content: [, [Validators.required]],
-      visitStatusId: [1, [Validators.required]],
+      visitStatusId: [ this.indexId ? 5 : 1, [Validators.required]],
       followType: [, [Validators.required]],
       teacherId: [, [Validators.required]],
-      nextFollowTime: [, [Validators.required]]
+      nextFollowTime: [, [Validators.required]],
+      enjoinId: [this.indexId ? this.indexId : null]
     }
     this.formGroup = this.fb.group(controls);
     this.updateFormGroup = this.fb.group(controls);
 
     this.formGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'formGroup'));
     this.updateFormGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'updateFormGroup'));
+
   }
   ngOnChanges() {
     this.studentInfo.studentId && this.getFollowRecords();
@@ -88,6 +99,11 @@ export class TrackComponent implements OnInit, OnChanges {
       this[group].removeControl('reserveTeacherId');
       this[group].removeControl('reserveDate');
       this[group].removeControl('pitNum');
+    }
+    if(visitStatusId == 3 || visitStatusId == 4 || visitStatusId == 5){
+      this[group].removeControl('nextFollowTime');     
+    }else{
+      this[group].addControl('nextFollowTime', this.fb.control( null, [Validators.required]));
     }
   }
 

@@ -81,7 +81,6 @@ export class ClassComponent implements OnInit {
       this.classList = res.data.list;
       if (this.cardInfo.isteacher) {
         this.formGroup.patchValue({ classId: this.cardInfo.classId });
-        console.log(this.cardInfo.classId);
         this._disabledClass();
       }
     });

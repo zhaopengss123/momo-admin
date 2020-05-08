@@ -63,6 +63,7 @@ export class PlanComponent implements OnInit {
     }else{
       delete data['typeId'];
     }
+    data.status = 0;
     this.http.post('/course/queryCourse', { paramJson: JSON.stringify(data), pageNum: this.pageNum , pageSize: this.pageSize }, false).then(res => { 
       this.courseList = res.data.list;  
       this.totalPage = res.data.totalPage;

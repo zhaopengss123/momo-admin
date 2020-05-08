@@ -20,12 +20,16 @@ export class IndexComponent implements OnInit {
   adjustList: any[] = [];
   studentList: any[] = [];
   visitList: any[] = [];
+  classList:any[] = [];
   getLackCardTimeList = '/message/getLackCardTimeList';
   getOverdueList = '/message/getOverdueList';
   getAdjustList = '/message/getAdjustClassStudentList';
   getBirthdayStudentList = '/message/getBirthdayStudentList';
   getVisitList = '/message/getTodayReturnVisitList';
-
+  tableNode = ['姓名', '班级', '嘱托内容', '关系',  '时间', '状态', '操作'];
+  attendanceTotal:number = 0;
+  attendanceAttend: number = 0;
+  attendanceList:any[] = []
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService
@@ -35,13 +39,25 @@ export class IndexComponent implements OnInit {
     this.http.post(this.getLackCardTimeList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.dayTimeList = res.data.list);
     this.http.post(this.getOverdueList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.overdueList = res.data.list);
     this.http.post(this.getAdjustList, { paramJson: JSON.stringify({pageNum: 1, pageSize: 4}) }).then(res => this.adjustList = res.data.list);
+    this.http.post('/message/getClasses').then(res => this.classList = res.data);
+    this.http.post('/message/getAttendanceStatistics').then(res => {
+      res.data.list.map(item=>{
+        this.attendanceTotal += item.total;
+        this.attendanceAttend += item.attend;
+      })
+      this.attendanceList = res.data.list
+    });
+
     this.http.post(this.getVisitList).then(res => this.visitList = res.data);
     this.getBirthdayList(1);
   }
 
   ngOnInit() {
   }
+  
+  attendance(){
 
+  }
   update() {
     this.drawer.create({
       nzWidth: 720,

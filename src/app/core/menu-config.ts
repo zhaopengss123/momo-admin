@@ -8,19 +8,20 @@ export const MenuConfig = [
     isLeaf: true
   },
   {
-    title : '学员管理',
-    brief : '学员',
-    key   : '/home/customer',
-    icon  : 'user',
-    isLeaf: true
-  },
-  {
     title : '预约管理',
     brief : '预约',
     key   : '/home/reserve',
     icon  : 'desktop',
     isLeaf: true
   },
+  {
+    title : '学员管理',
+    brief : '学员',
+    key   : '/home/customer',
+    icon  : 'user',
+    isLeaf: true
+  },
+
   {
     title : '回访管理',
     brief : '回访',
@@ -50,18 +51,46 @@ export const MenuConfig = [
     ]
   },
   {
-    title : '营养保健',
-    brief : '营养',
-    key   : '/home/nutrition',
-    icon  : 'book',
+    title : '事件管理',
+    brief : '事件',
+    key   : '/home/event',
+    icon  : 'appstore',
     children : [
       {
-        title : '膳食配餐',
-        key   : '/home/nutrition/catering',
+        title : '审核事件',
+        key   : '/home/event/examine',
+        isLeaf: true
+      },
+      {
+        title : '个人事件',
+        key   : '/home/event/list',
         isLeaf: true
       }
     ]
-  },
+  }, 
+  {
+    title : '短信管理',
+    brief : '短信',
+    key   : '/home/message',
+    icon  : 'message',
+    children : [
+      {
+        title : '发送短信', 
+        key   : '/home/message/sendout',
+        isLeaf: true
+      },
+      {
+        title : '短信模板',
+        key   : '/home/message/template',
+        isLeaf: true
+      },
+      {
+        title : '发送记录',
+        key   : '/home/message/sendlog',
+        isLeaf: true
+      }
+    ]
+  },        
   {
     title : '教务管理',
     brief : '教务',
@@ -91,19 +120,14 @@ export const MenuConfig = [
     ]
   },
   {
-    title : '事件管理',
-    brief : '事件',
-    key   : '/home/event',
-    icon  : 'appstore',
+    title : '营养保健',
+    brief : '营养',
+    key   : '/home/nutrition',
+    icon  : 'schedule',
     children : [
       {
-        title : '审核事件',
-        key   : '/home/event/examine',
-        isLeaf: true
-      },
-      {
-        title : '个人事件',
-        key   : '/home/event/list',
+        title : '膳食配餐',
+        key   : '/home/nutrition/catering',
         isLeaf: true
       }
     ]
@@ -190,18 +214,8 @@ export const MenuConfig = [
     icon  : 'setting',
     children : [
       {
-        title : '事件设置',
-        key   : '/home/setting/list',
-        isLeaf: true
-      },
-      {
-        title : '监控管理',
-        key   : '/home/setting/monitor',
-        isLeaf: true
-      },
-      {
-        title : '公告设置',
-        key   : '/home/setting/notice',
+        title : '基础设置',
+        key   : '/home/setting/config',
         isLeaf: true
       },
       {
@@ -215,8 +229,8 @@ export const MenuConfig = [
         isLeaf: true
       },
       {
-        title : '基础设置',
-        key   : '/home/setting/config',
+        title : '员工管理',
+        key   : '/home/setting/teacher',
         isLeaf: true
       },
       {
@@ -224,11 +238,36 @@ export const MenuConfig = [
         key   : '/home/setting/class',
         isLeaf: true
       },
+      // {
+      //   title : '在线充值',
+      //   key   : '/home/setting/payment/pay',
+      //   isLeaf: true
+      // },
+      // {
+      //   title : '充值记录',
+      //   key   : '/home/setting/payment/record',
+      //   isLeaf: true
+      // },
       {
-        title : '老师管理',
-        key   : '/home/setting/teacher',
+        title : '公告设置',
+        key   : '/home/setting/notice',
         isLeaf: true
-      }
+      },
+      {
+        title : '监控管理',
+        key   : '/home/setting/monitor',
+        isLeaf: true
+      },
+      {
+        title : '事件设置',
+        key   : '/home/setting/list',
+        isLeaf: true
+      },
+ 
+   
+
+  
+  
     ]
   },
 ];

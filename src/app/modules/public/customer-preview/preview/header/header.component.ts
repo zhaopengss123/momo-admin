@@ -17,7 +17,7 @@ import { SelectCardComponent } from '../../select-card/select-card.component';
 export class HeaderComponent implements OnInit {
 
   @Input() memberInfo: any = {};
-
+  
   showReserverBtn: boolean;
 
   constructor(
