@@ -69,8 +69,8 @@ export const MenuConfig = [
     ]
   }, 
   {
-    title : '短信消息',
-    brief : '消息',
+    title : '短信管理',
+    brief : '短信',
     key   : '/home/message',
     icon  : 'message',
     children : [
@@ -238,16 +238,16 @@ export const MenuConfig = [
         key   : '/home/setting/class',
         isLeaf: true
       },
-      {
-        title : '在线充值',
-        key   : '/home/setting/payment/pay',
-        isLeaf: true
-      },
-      {
-        title : '充值记录',
-        key   : '/home/setting/payment/record',
-        isLeaf: true
-      },
+      // {
+      //   title : '在线充值',
+      //   key   : '/home/setting/payment/pay',
+      //   isLeaf: true
+      // },
+      // {
+      //   title : '充值记录',
+      //   key   : '/home/setting/payment/record',
+      //   isLeaf: true
+      // },
       {
         title : '公告设置',
         key   : '/home/setting/notice',

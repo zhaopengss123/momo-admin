@@ -24,7 +24,37 @@
 </div>
 
 <div class="card" nz-row nzGutter="16">
-    <div nz-col nzSpan="12">
+
+    
+      <div nz-col [nzSpan]="18" >
+        <div style="height: auto">
+          <h2><span>今日待回访</span></h2>
+          <div class="table">
+            <ol>
+              <li>成长顾问</li>
+              <li>待回访数</li>
+              <li>已回访数</li>
+              <li>预约数</li>
+              <li>无意向</li>
+              <li>持续跟进</li>
+            </ol>
+            <ng-container *ngIf="visitList.length; else elseTemplate">
+              <ul *ngFor="let item of visitList">
+                <li>{{ item.name }}</li>
+                <li>{{ item.unVisitCount }}</li>
+                <li>{{ item.alreadyVisitCount }}</li>
+                <li>{{ item.reservationCount }}</li>
+                <li>{{ item.giveUpCount }}</li>
+                <li>{{ item.keepFollowCount }}</li>
+              </ul>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <nz-empty></nz-empty>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div nz-col  [nzSpan]="6" >
         <div style="height: auto">
           <h2><span>今日出勤</span></h2>
           <div class="table">
@@ -55,35 +85,6 @@
                 </li>
               </ul>
             </ng-container>
-          </div>
-        </div>
-      </div>
-    
-      <div nz-col nzSpan="12">
-        <div style="height: auto">
-          <h2><span>今日待回访</span></h2>
-          <div class="table">
-            <ol>
-              <li>成长顾问</li>
-              <li>待回访数</li>
-              <li>已回访数</li>
-              <li>预约数</li>
-              <li>无意向</li>
-              <li>持续跟进</li>
-            </ol>
-            <ng-container *ngIf="visitList.length; else elseTemplate">
-              <ul *ngFor="let item of visitList">
-                <li>{{ item.name }}</li>
-                <li>{{ item.unVisitCount }}</li>
-                <li>{{ item.alreadyVisitCount }}</li>
-                <li>{{ item.reservationCount }}</li>
-                <li>{{ item.giveUpCount }}</li>
-                <li>{{ item.keepFollowCount }}</li>
-              </ul>
-            </ng-container>
-            <ng-template #elseTemplate>
-              <nz-empty></nz-empty>
-            </ng-template>
           </div>
         </div>
       </div>

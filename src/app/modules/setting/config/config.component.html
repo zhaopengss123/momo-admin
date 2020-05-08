@@ -3,6 +3,7 @@
         <button nz-button nzType="primary" (click)="save()">保存</button>
     </ng-template>
     <form nz-form [formGroup]="formGroup">
+        <h3>园所基本信息</h3>
         <div nz-row nzGutter="8">
             <div nz-col nzSpan="8">
                 <nz-form-item>
@@ -23,8 +24,6 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
-        <div nz-row nzGutter="8">
             <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>园所地址</nz-form-label>
@@ -34,17 +33,20 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div nz-col nzSpan="8">
-                <nz-form-item>
-                    <nz-form-label nzRequired>园所介绍</nz-form-label>
-                    <nz-form-control>
-                        <textarea nz-input formControlName="introduction" name="introduction"
-                            [nzAutosize]="{ minRows: 2, maxRows: 4 }" placeholder="请输入园所介绍"></textarea>
-                        <nz-form-explain *ngIf="valid('introduction')">请输入园所介绍！</nz-form-explain>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
         </div>
+
+        <div nz-row nzGutter="8">
+            <nz-form-item>
+                <nz-form-label nzRequired>园所介绍</nz-form-label>
+                <nz-form-control>
+                    <textarea style="width:700px;" nz-input formControlName="introduction" name="introduction"
+                        [nzAutosize]="{ minRows: 4, maxRows: 6 }" placeholder="请输入园所介绍"></textarea>
+                    <nz-form-explain *ngIf="valid('introduction')">请输入园所介绍！</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <h3>营业时间设置（家长可看监控的时间段）</h3>
+
         <div nz-row nzGutter="8">
             <div nz-col nzSpan="8">
                 <nz-form-item>
@@ -67,6 +69,7 @@
                 </nz-form-item>
             </div>
         </div>
+        <h3>提醒设置（在首页展示提醒）</h3>
         <div nz-row nzGutter="8">
             <div nz-col nzSpan="8">
                 <nz-form-item>
@@ -79,17 +82,15 @@
                 </nz-form-item>
             </div>
             <div nz-col nzSpan="8">
-                    <nz-form-item>
-                        <nz-form-label nzRequired>有效期天数剩余提醒</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input placeholder="请输入有效期天数剩余提醒" formControlName="usefulLifeRemind">
-                            <nz-form-explain *ngIf="valid('usefulLifeRemind')">请输入日托天数剩余提醒！</nz-form-explain>
-                            <nz-form-explain *ngIf="valid('usefulLifeRemind', 'pattern')">请输入正确的日托天数剩余提醒！</nz-form-explain>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-        </div>
-        <div nz-row nzGutter="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired>有效期天数剩余提醒</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="请输入有效期天数剩余提醒" formControlName="usefulLifeRemind">
+                        <nz-form-explain *ngIf="valid('usefulLifeRemind')">请输入日托天数剩余提醒！</nz-form-explain>
+                        <nz-form-explain *ngIf="valid('usefulLifeRemind', 'pattern')">请输入正确的日托天数剩余提醒！</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
             <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>转班或即将毕业剩余天数提醒</nz-form-label>
@@ -100,21 +101,22 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div nz-col nzSpan="8">
-                    <nz-form-item>
-                        <nz-form-label nzRequired>地图标注（经纬度）</nz-form-label>
-                        <nz-form-control>
-                            <nz-input-group nzCompact>
-                                <input type="text" nz-input placeholder="经纬度" formControlName="latAndLon" [readOnly]="true"
-                                    style="width:80%;" />
-                                <button nz-button nzType="primary" style="width: 20%" (click)="selectMarker()">去选择</button>
-                            </nz-input-group>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
         </div>
-
+        <h3>签到设置（家长签到范围）</h3>
         <div nz-row nzGutter="8">
+            <div nz-col nzSpan="8">
+                <nz-form-item>
+                    <nz-form-label nzRequired>地图标注（经纬度）</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group nzCompact>
+                            <input type="text" nz-input placeholder="经纬度" formControlName="latAndLon" [readOnly]="true"
+                                style="width:80%;" />
+                            <button nz-button nzType="primary" style="width: 20%" (click)="selectMarker()">去选择</button>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
             <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label nzRequired>家长签到范围</nz-form-label>
@@ -133,53 +135,53 @@
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
-            </div> 
+            </div>
         </div>
     </form>
 </nz-card>
 
 <nz-card nzTitle="事件审核" style="margin-top: 18px;" [nzExtra]="Title">
-        <ng-template #Title>
-            <button (click)="saveSetting()" nz-button nzType="primary" [nzLoading]="saveSettingLoading">保存</button>
-        </ng-template>
-        <nz-select style="width: 360px;" nzPlaceHolder="请选择事件审核权限" [(ngModel)]="checkType">
-            <nz-option [nzValue]="1" nzLabel="所有记录都需要园长审核后才可以发送给家长"></nz-option>
-            <nz-option [nzValue]="2" nzLabel="部分记录需要园长审核才发送给家长"></nz-option>
-            <nz-option [nzValue]="3" nzLabel="所有记录都不需要园长审核"></nz-option>
-        </nz-select>
-        <nz-alert nzType="info" [ngStyle]="{'margin': '18px 0 18px'}" [nzMessage]="checkType == 1 ? 
+    <ng-template #Title>
+        <button (click)="saveSetting()" nz-button nzType="primary" [nzLoading]="saveSettingLoading">保存</button>
+    </ng-template>
+    <nz-select style="width: 360px;" nzPlaceHolder="请选择事件审核权限" [(ngModel)]="checkType">
+        <nz-option [nzValue]="1" nzLabel="所有记录都需要园长审核后才可以发送给家长"></nz-option>
+        <nz-option [nzValue]="2" nzLabel="部分记录需要园长审核才发送给家长"></nz-option>
+        <nz-option [nzValue]="3" nzLabel="所有记录都不需要园长审核"></nz-option>
+    </nz-select>
+    <nz-alert nzType="info" [ngStyle]="{'margin': '18px 0 18px'}" [nzMessage]="checkType == 1 ? 
         '选择此项后，老师的记录将不会直接发送给家长，需要园长进入“事件”--“个人”页面中，去选择小朋友，点击“审核完毕”按钮，即可发送给家长--在审核过程中，如果发现有错误，园长可以自行修改，或是请老师在APP中修改（老师修改后，园长刷新页面即可看到）。' : checkType == 2 ? 
         '选择此项后，下方选中的老师和小朋友的记录将不会直接发送给家长，需要园长进入“事件”--“个人”页面中，去选择相关的小朋友，一一审核老师的记录，审核通过后，点击“审核完毕”按钮，即可发送给家长--在审核过程中，如果发现有错误，园长可以自行修改，或是请老师在APP中修改（老师修改后，园长刷新页面即可看到）。' : 
         '选择此项后，老师的记录将会直接发给家长'"></nz-alert>
-    
-        <div nz-col [nzSpan]="8" *ngIf="checkType == 1">
+
+    <div nz-col [nzSpan]="8" *ngIf="checkType == 1">
+        <h3>选择辅助审核老师</h3>
+        <nz-checkbox-group [(ngModel)]="userList"></nz-checkbox-group>
+    </div>
+
+    <div *ngIf="checkType == 2" nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="8">
+            <h3>以下勾选的老师的记录需要园长审核</h3>
+            <nz-checkbox-group [(ngModel)]="teacherList"></nz-checkbox-group>
+        </div>
+        <div nz-col [nzSpan]="8">
             <h3>选择辅助审核老师</h3>
             <nz-checkbox-group [(ngModel)]="userList"></nz-checkbox-group>
         </div>
-    
-        <div *ngIf="checkType == 2" nz-row [nzGutter]="16">
-            <div nz-col [nzSpan]="8">
-                <h3>以下勾选的老师的记录需要园长审核</h3>
-                <nz-checkbox-group [(ngModel)]="teacherList"></nz-checkbox-group>
-            </div>
-            <div nz-col [nzSpan]="8">
-                <h3>选择辅助审核老师</h3>
-                <nz-checkbox-group [(ngModel)]="userList"></nz-checkbox-group>
-            </div>
-    
-            <div nz-col [nzSpan]="8">
-                <h3>以下勾选的事件需要园长审核</h3>
-                <nz-checkbox-group [(ngModel)]="eventListSh"></nz-checkbox-group>
-            </div>
-    
-            <div nz-col [nzSpan]="24">
-                <h3>以下勾选的小朋友的记录需要园长审核</h3>
-                <nz-collapse [nzBordered]="false">
-                    <nz-collapse-panel *ngFor="let panel of classChildrenList" [nzHeader]="panel.className">
-                        <nz-checkbox-group [(ngModel)]="panel.students"></nz-checkbox-group>
-                    </nz-collapse-panel>
-                </nz-collapse>
-            </div>
+
+        <div nz-col [nzSpan]="8">
+            <h3>以下勾选的事件需要园长审核</h3>
+            <nz-checkbox-group [(ngModel)]="eventListSh"></nz-checkbox-group>
         </div>
-    
-    </nz-card>
+
+        <div nz-col [nzSpan]="24">
+            <h3>以下勾选的小朋友的记录需要园长审核</h3>
+            <nz-collapse [nzBordered]="false">
+                <nz-collapse-panel *ngFor="let panel of classChildrenList" [nzHeader]="panel.className">
+                    <nz-checkbox-group [(ngModel)]="panel.students"></nz-checkbox-group>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+    </div>
+
+</nz-card>
