@@ -1,10 +1,138 @@
+<div class="header-text">
+  <nz-alert nzType="error" nzMessage="当前阶段：建立信任"></nz-alert>
+  <nz-alert nzType="success" nzMessage="当前阶段：到园参观 "></nz-alert>
+</div>
+<form  nz-form [formGroup]="formGroupTop">
+  <nz-row [nzGutter]="8">
+      <nz-col [nzSpan]="12">
+          <nz-form-item>
+              <nz-form-label [nzSpan]="5">第几个孩子</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择第几个孩子">
+                <nz-option *ngFor="let item of Attribute.multiplebirth.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">生产方式</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择生产方式">
+                <nz-option *ngFor="let item of Attribute.born.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">平时陪护人</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择平时陪护">
+                <nz-option *ngFor="let item of Attribute.carer.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">是否家有保姆</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择是否家有保姆">
+                <nz-option *ngFor="let item of Attribute.babysitter.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">双职工</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择是否双职工">
+                <nz-option *ngFor="let item of Attribute.allworking.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">看护时长</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select formControlName="memberFromId" nzPlaceHolder="请选择看护时长">
+                <nz-option *ngFor="let item of Attribute.nannytime.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col> 
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">家长痛点</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <nz-select style="width:210px;" nzMode="multiple" formControlName="memberFromId" nzPlaceHolder="请选择家长痛点">
+                <nz-option *ngFor="let item of Attribute.problems.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+              </nz-select>
+              <a style="margin-left:10px;" (click)="editList('problems','家长痛点')">编辑家长痛点</a>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">父亲工作</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <input nz-input formControlName="memberFromId" placeholder="请输入父亲工作">
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">母亲工作</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+              <input nz-input formControlName="memberFromId" placeholder="请输入母亲工作">
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+    </nz-row>
+    <button class="save-top" (click)="saveTop('formGroupTop')" [style.margin-top]="'4px'" nz-button nzType="primary" [nzLoading]="saveTopLoading">确认保存</button>
+
+</form>
+
+
 <form nz-form [formGroup]="formGroup">
-  <nz-form-item>
-    <nz-form-control>
-      <textarea nz-input formControlName="content" [nzAutosize]="{ minRows: 3, maxRows: 6 }" placeholder="请输入跟踪记录，必填"></textarea>
-      <nz-form-explain *ngIf="valid('content')">请输入跟进记录！</nz-form-explain>
-    </nz-form-control>
-  </nz-form-item>
+    <div nz-row nzGutter="8">
+    <div nz-col nzSpan="12">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="5" nzRequired>跟进方式</nz-form-label>
+            <nz-form-control [nzSpan]="19">
+            <nz-select formControlName="followType" nzPlaceHolder="跟进方式">
+              <nz-option *ngFor="let item of followTypeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="valid('followType')">请选择跟进方式</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+          <nz-form-item>
+              <nz-form-label [nzSpan]="5" nzRequired>跟进方式</nz-form-label>
+              <nz-form-control [nzSpan]="19">
+                  <nz-date-picker formControlName="nextFollowTime" [nzShowToday]="false" nzFormat="yyyy-MM-dd" nzPlaceHolder="选择下次跟进时间"
+                  [nzDisabledDate]="_disabledDate"></nz-date-picker>
+                <nz-form-explain *ngIf="valid('nextFollowTime')">请选择下次跟进时间</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+    </div>
+
+    <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label [nzSpan]="5" nzRequired>跟进记录</nz-form-label>
+                <nz-form-control [nzSpan]="19">
+                    <textarea nz-input formControlName="content" [nzAutosize]="{ minRows: 3, maxRows: 6 }" placeholder="请输入跟踪记录，必填"></textarea>
+                    <nz-form-explain *ngIf="valid('content')">请输入跟进记录！</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
   <div nz-row nzGutter="8">
     <div nz-col nzSpan="4">
       <nz-form-item>
@@ -16,16 +144,7 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <div nz-col nzSpan="4">
-      <nz-form-item>
-        <nz-form-control>
-          <nz-select formControlName="followType" nzPlaceHolder="跟进方式">
-            <nz-option *ngFor="let item of followTypeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
-          </nz-select>
-          <nz-form-explain *ngIf="valid('followType')">请选择跟进方式</nz-form-explain>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
+
     <div nz-col nzSpan="4">
       <nz-form-item>
         <nz-form-control>

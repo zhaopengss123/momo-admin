@@ -1,0 +1,40 @@
+<div class="main">
+  <button nz-button nzType="dashed" style="width: 100%; " (click)="addClass()"><i class="anticon anticon-plus"></i>添加{{ name }}</button>
+
+  <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
+      <thead>
+          <tr>
+            <th>名称</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of listOfData">
+                <td >
+                    <ng-container *ngIf="!data.edit; else nameInputTpl">
+                        {{ data.name }}
+                      </ng-container>
+                      <ng-template #nameInputTpl>
+                        <input type="text" nz-input [(ngModel)]="data.name" />
+                      </ng-template>
+                </td>
+                <td>
+                    <ng-container *ngIf="!data.edit; else saveTpl">
+                        <a (click)="data.edit = true;">编辑</a>
+                      </ng-container>
+                      <ng-template #saveTpl>
+                        <a (click)="saveEdit(data)">保存</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a (click)="cancel(data)">取消</a>
+                      </ng-template>
+        
+        
+                </td>
+            </tr>
+        </tbody>
+  </nz-table>
+</div>
+
+<!-- <div class="drawer-footer">
+<button nz-button nzType="primary" (click)="save()"></button>
+</div> -->

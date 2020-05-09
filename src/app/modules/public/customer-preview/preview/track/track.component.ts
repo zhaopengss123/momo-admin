@@ -6,7 +6,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { GetList } from 'src/app/ng-relax/decorators/getList.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { AppointComponent } from '../../appoint/appoint.component';
-
+import { UpdateListComponent } from '../../update-list/update-list.component'
 enum customerStatus {
   '持续跟进' = 1,
   '预约活动/体验' = 2,
@@ -24,9 +24,22 @@ export class TrackComponent implements OnInit, OnChanges {
   @Input() indexId: number;
   formGroup: FormGroup;
   updateFormGroup: FormGroup;
+  formGroupTop: FormGroup;
 
   followRecordList: any[] = [];
-
+  Attribute: any = {
+    activity:{},
+    allworking:{},
+    babysitter:{},
+    born:{},
+    carer:{},
+    gift:{},
+    multiplebirth:{},
+    nannytime:{},
+    near:{},
+    problems:{},
+    reason:{},
+  };
   @GetList('/membermanage/returnVisit/getVisitStatus') memberStatusList: any | [];
   followTypeList: any[] = [];
   teacherList: any[] = [];
@@ -48,6 +61,22 @@ export class TrackComponent implements OnInit, OnChanges {
     typeof this.memberStatusList === 'function' && this.memberStatusList();
     typeof this.activityList === 'function' && this.activityList();
     typeof this.classList === 'function' && this.classList();
+    this.http.post('/attribute/getAllAttribute').then(res => {
+      let data = res.data;
+      let dataArr = Object.keys(data);
+      dataArr.map(item => {
+        let itemArr = Object.keys(data[item]);
+        data[item].list = [];
+        itemArr.map(items => {
+          data[item].list.push({
+            name: data[item][items],
+            key: Number(items)
+          });
+        })
+      })
+      this.Attribute = data;
+    });
+
   }
 
   ngOnInit() {
@@ -75,10 +104,26 @@ export class TrackComponent implements OnInit, OnChanges {
 
     this.formGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'formGroup'));
     this.updateFormGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'updateFormGroup'));
+    let controls1={
+      memberFromId: []
+    }
+    this.formGroupTop = this.fb.group(controls1);
 
   }
   ngOnChanges() {
     this.studentInfo.studentId && this.getFollowRecords();
+  }
+  editList(type,name){
+    this.drawer.create({
+      nzTitle: name,
+      nzWidth: 700, 
+      nzClosable: false,
+      nzContent: UpdateListComponent,
+      nzContentParams: { type: type, name: name }
+    }).afterClose.subscribe(res => {
+      if (res) {
+      }
+    })
   }
 
   statusChange(visitStatusId, group) {
@@ -124,6 +169,21 @@ export class TrackComponent implements OnInit, OnChanges {
 
   _disabledDate(current: Date): boolean {
     return current && current.getTime() < Date.now();
+  }
+  saveTopLoading: boolean;
+  saveTop(group){
+    if (this[group].invalid) {
+      Object.values(this[group].controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
+    } else {
+      this.saveTopLoading = true;
+      // this.http.post('/membermanage/returnVisit/saveClubFollowRecord', {
+      //   paramJson: JSON.stringify(this[group].value)
+      // }, true).then(res => {
+      //   this.saveTopLoading = false;
+      //   this.getFollowRecords();
+      //   this.showUpdateRecord = false;
+      // }).catch(err => this.saveTopLoading = false);
+    }
   }
 
   saveLoading: boolean;

@@ -18,15 +18,16 @@ import { LeavingComponent } from './leaving/leaving.component';
 import { DetailedComponent } from './payment/detailed/detailed.component';
 import { AppointComponent } from './appoint/appoint.component';
 import { DelayComponent } from './delay/delay.component';
+import { UpdateListComponent } from './update-list/update-list.component';
 
 @NgModule({
-  declarations: [UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent],
+  declarations: [UpdateComponent, PreviewComponent, InformationComponent, TrackComponent, TransactionComponent, AttendanceComponent, ServiceComponent, JournalComponent, HeaderComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent, UpdateListComponent],
   imports: [
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule
   ],
-  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent],
+  entryComponents: [UpdateComponent, PreviewComponent, PaymentComponent, ClassComponent, LeavingComponent, DetailedComponent, AppointComponent, DelayComponent, SelectCardComponent, UpdateListComponent],
   providers: [ DatePipe ]
 })
 export class CustomerPreviewModule { }
