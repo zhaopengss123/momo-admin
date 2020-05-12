@@ -7,16 +7,20 @@ import { GetList } from 'src/app/ng-relax/decorators/getList.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { AppointComponent } from '../../appoint/appoint.component';
 import { UpdateListComponent } from '../../update-list/update-list.component'
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { withSuffix } from '@ant-design/icons-angular';
+
 enum customerStatus {
   '持续跟进' = 1,
   '预约活动/体验' = 2,
   '移到无意向' = 3
 }
 
+
 @Component({
   selector: 'app-track',
   templateUrl: './track.component.html',
-  styleUrls: ['./track.component.less']
+  styleUrls: ['./track.component.less'],
 })
 export class TrackComponent implements OnInit, OnChanges {
 
@@ -40,6 +44,31 @@ export class TrackComponent implements OnInit, OnChanges {
     problems:{},
     reason:{},
   };
+  stepList: any[] = [{
+    label: '了解情况建立信任',
+    id: 1
+  },{
+    label: '参与活动',
+    id: 2
+  },{
+    label: '赠送礼品',
+    id: 3
+  },{
+    label: '预约参观',
+    id: 4
+  },{
+    label: '到园参观',
+    id: 5
+  },{
+    label: '预约体验',
+    id: 6
+  },{
+    label: '到园体验',
+    id: 7
+  },{
+    label: '逼单转化',
+    id: 8
+  }]
   @GetList('/membermanage/returnVisit/getVisitStatus') memberStatusList: any | [];
   followTypeList: any[] = [];
   teacherList: any[] = [];
@@ -92,26 +121,96 @@ export class TrackComponent implements OnInit, OnChanges {
     },300);
     let controls = {
       id: [],
-      content: [, [Validators.required]],
       visitStatusId: [ this.indexId ? 5 : 1, [Validators.required]],
       followType: [, [Validators.required]],
-      teacherId: [, [Validators.required]],
       nextFollowTime: [, [Validators.required]],
-      enjoinId: [this.indexId ? this.indexId : null]
+      enjoinId: [this.indexId ? this.indexId : null],
+      stepStatus: [1, [Validators.required]],
+      studentId: []
     }
     this.formGroup = this.fb.group(controls);
     this.updateFormGroup = this.fb.group(controls);
 
     this.formGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'formGroup'));
     this.updateFormGroup.controls['visitStatusId'].valueChanges.subscribe(id => this.statusChange(id, 'updateFormGroup'));
+    this.formGroup.controls['followType'].valueChanges.subscribe(id => {
+      if( id == 1 ){
+        this.formGroup.addControl('content',this.fb.control( null, [Validators.required]));
+        this.formGroup.removeControl('wxImage');
+      }else{
+        this.formGroup.addControl('wxImage',this.fb.control( null, [Validators.required]));
+        this.formGroup.removeControl('content');
+      }
+    });
+    this.formGroup.controls['stepStatus'].valueChanges.subscribe(id => {
+      this.formGroup.removeControl('activity');
+      this.formGroup.removeControl('gift');
+      this.formGroup.removeControl('orderDate');
+      this.formGroup.removeControl('arriveDate');
+      this.formGroup.removeControl('receptionTeacher');
+      this.formGroup.removeControl('visitName');
+      this.formGroup.removeControl('point');
+      this.formGroup.removeControl('worry');
+      this.formGroup.removeControl('reserveClassId');
+      this.formGroup.removeControl('experienceDate');
+      this.formGroup.removeControl('nextStoreDate');
+      this.formGroup.removeControl('responsibleTeacher');
+      this.formGroup.removeControl('experienceTime');
+      this.formGroup.removeControl('focus');
+      this.formGroup.removeControl('worry2');
+      this.formGroup.removeControl('babyPerformance');
+      this.formGroup.removeControl('sellingPrice');
+      this.formGroup.removeControl('payWorry');
+      if(id == 2){ this.formGroup.addControl('activity',this.fb.control( null, [Validators.required])); }
+      if(id == 3){ this.formGroup.addControl('gift',this.fb.control( null, [Validators.required])); }
+
+      if(id == 4){ this.formGroup.addControl('orderDate',this.fb.control( null, [Validators.required])); }
+
+      if(id == 5){
+        this.formGroup.addControl('arriveDate',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('receptionTeacher',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('visitName',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('point',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('worry',this.fb.control( null, [Validators.required]));
+      }
+      if(id == 6){
+        this.formGroup.addControl('reserveClassId',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('experienceDate',this.fb.control( null, [Validators.required]));
+      }
+      if(id == 7){
+        this.formGroup.addControl('nextStoreDate',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('responsibleTeacher',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('experienceTime',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('focus',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('worry2',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('babyPerformance',this.fb.control( null, [Validators.required]));
+      }
+      if(id == 8){
+        this.formGroup.addControl('sellingPrice',this.fb.control( null, [Validators.required]));
+        this.formGroup.addControl('payWorry',this.fb.control( null, [Validators.required]));
+      }     
+
+
+    });
+    
     let controls1={
-      memberFromId: []
+      motherJob: [],
+      fatherJob:[],
+      multiplebirth:[],
+      born:[],
+      carer:[],
+      babysitter:[],
+      allworking:[],
+      nannytime:[],
+      problems:[],
+      near: []
     }
     this.formGroupTop = this.fb.group(controls1);
 
   }
   ngOnChanges() {
-    this.studentInfo.studentId && this.getFollowRecords();
+    this.studentInfo.studentId && this.getFollowRecords() 
+    this.studentInfo.studentId && this.getStudentInfoList()
   }
   editList(type,name){
     this.drawer.create({
@@ -126,29 +225,14 @@ export class TrackComponent implements OnInit, OnChanges {
     })
   }
 
+
   statusChange(visitStatusId, group) {
-    /* ------ 根据是否为无意向客户 判断是否有下次跟进时间 ------ */
-    visitStatusId != 3 ? 
-      this[group].addControl('nextFollowTime', this.fb.control(this.showUpdateRecord ? new Date(this.updateFollowRecordData.nextFollowTime) : null, [Validators.required])) : 
-      this[group].removeControl('nextFollowTime');
-    /* ------------ 如果为预约则添加预约相关代码 ------------ */
-    if (visitStatusId == 2) {
-      this[group].addControl('activityId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.activityId : null, [Validators.required]));
-      this[group].addControl('reserveClassId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveClassId : this.studentInfo.classId, [Validators.required]));
-      this[group].addControl('reserveTeacherId', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveTeacherId : null, [Validators.required]));
-      this[group].addControl('reserveDate', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.reserveDate : null, [Validators.required]));
-      this[group].addControl('pitNum', this.fb.control(this.showUpdateRecord ? this.updateFollowRecordData.pitNum : null, [Validators.required]));
-    } else {
-      this[group].removeControl('activityId');
-      this[group].removeControl('reserveClassId');
-      this[group].removeControl('reserveTeacherId');
-      this[group].removeControl('reserveDate');
-      this[group].removeControl('pitNum');
-    }
-    if(visitStatusId == 3 || visitStatusId == 4 || visitStatusId == 5){
-      this[group].removeControl('nextFollowTime');     
-    }else{
-      this[group].addControl('nextFollowTime', this.fb.control( null, [Validators.required]));
+    if(visitStatusId == 1){
+      this[group].addControl('stepStatus', this.fb.control(1, [Validators.required]));
+      this[group].removeControl('reason');
+    }else if(visitStatusId == 3){
+      this[group].removeControl('stepStatus');
+      this[group].addControl('reason', this.fb.control(null, [Validators.required]));
     }
   }
 
@@ -158,6 +242,42 @@ export class TrackComponent implements OnInit, OnChanges {
     this.http.post('/membermanage/returnVisit/getFollowRecords', { paramJson: JSON.stringify({ studentId: this.studentInfo.studentId }) }).then(res => {
       this.followRecordList = res.data;
       this.getFollowRecordsLoading = false;
+    });
+  }
+  getStudentInfoList(){
+    this.http.post('/attribute/getAttributeByStudent', { studentId	: this.studentInfo.studentId  }).then(res => {
+        const list = res.data;
+        let problems = [];
+        list.map(item=>{
+          if(item.attributeName == 'multiplebirth'){
+            this.formGroupTop.patchValue({  multiplebirth: item.id })
+          }
+          if(item.born == 'multiplebirth'){
+            this.formGroupTop.patchValue({  born: item.id })
+          }
+          if(item.attributeName == 'carer'){
+            this.formGroupTop.patchValue({  carer: item.id })
+          }
+          if(item.attributeName == 'babysitter'){
+            this.formGroupTop.patchValue({  babysitter: item.id })
+          }
+          if(item.attributeName == 'allworking'){
+            this.formGroupTop.patchValue({  allworking: item.id })
+          }
+          if(item.attributeName == 'born'){
+            this.formGroupTop.patchValue({  born: item.id })
+          }
+          if(item.attributeName == 'nannytime'){
+            this.formGroupTop.patchValue({  nannytime: item.id })
+          }
+          if(item.attributeName == 'near'){
+            this.formGroupTop.patchValue({  near: item.id })
+          }
+          if(item.attributeName == 'problems'){
+            problems.push(item.id);
+          }
+        })
+        this.formGroupTop.patchValue({  problems: problems })
     });
   }
 
@@ -175,19 +295,20 @@ export class TrackComponent implements OnInit, OnChanges {
     if (this[group].invalid) {
       Object.values(this[group].controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {
+      const from = this.formGroupTop.value;
       this.saveTopLoading = true;
-      // this.http.post('/membermanage/returnVisit/saveClubFollowRecord', {
-      //   paramJson: JSON.stringify(this[group].value)
-      // }, true).then(res => {
-      //   this.saveTopLoading = false;
-      //   this.getFollowRecords();
-      //   this.showUpdateRecord = false;
-      // }).catch(err => this.saveTopLoading = false);
+      this.http.post('/attribute/saveStudentAttribute', {
+        studentId: this.studentInfo.studentId,
+        paramJson: JSON.stringify([ from.near, from.multiplebirth, from.born, from.carer, from.babysitter, from.allworking, from.nannytime, ...from.problems])
+      }, true).then(res => {
+        this.saveTopLoading = false;
+      })
     }
   }
 
   saveLoading: boolean;
   save(group) {
+    console.log(this[group].invalid,this[group]);
     if (this[group].invalid) {
       Object.values(this[group].controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {
@@ -195,8 +316,11 @@ export class TrackComponent implements OnInit, OnChanges {
       this[group].value.nextFollowTime = this.format.transform(this[group].value.nextFollowTime, 'yyyy-MM-dd');
       this.activityList.map(a => a.id === this[group].value.activityId && (this[group].value.activityName = a.activityName));
       this[group].value.studentId = this.studentInfo.studentId;
+      let jsons = this[group].value;
+      let paramJson = JSON.parse(JSON.stringify(this[group].value))
+      paramJson.formContent = jsons;
       this.http.post('/membermanage/returnVisit/saveClubFollowRecord', {
-        paramJson: JSON.stringify(this[group].value)
+        paramJson: JSON.stringify(paramJson)
       }, true).then(res => {
         this.saveLoading = false;
         this.getFollowRecords();

@@ -9,7 +9,7 @@ import { DrawerCreate } from 'src/app/ng-relax/decorators/drawer/create.decorato
 import { FormControl } from '@angular/forms';
 import { PreviewComponent } from '../../../public/customer-preview/preview/preview.component';
 import { NzDrawerService } from 'ng-zorro-antd';
-
+import { UpdateListComponent } from '../update-list/update-list.component';
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
@@ -23,6 +23,19 @@ export class UpdateComponent implements OnInit {
 
   teacherList: any[] = [];
   sourceList: any[] = [];
+  Attribute: any = {
+    activity:{},
+    allworking:{},
+    babysitter:{},
+    born:{},
+    carer:{},
+    gift:{},
+    multiplebirth:{},
+    nannytime:{},
+    near:{},
+    problems:{},
+    reason:{},
+  };
 
   constructor(
     private fb: FormBuilder = new FormBuilder(),
@@ -33,16 +46,43 @@ export class UpdateComponent implements OnInit {
   ) {
     this.http.post('/teacher/getGrowthConsultant', { code: 1004 }).then(res => this.teacherList = res.data);
     this.http.post('/membermanage/returnVisit/getMemberFrom').then(res => this.sourceList = res.data);
-    console.log(323232);
+    this.http.post('/attribute/getAllAttribute').then(res => {
+      let data = res.data;
+      let dataArr = Object.keys(data);
+      dataArr.map(item => {
+        let itemArr = Object.keys(data[item]);
+        data[item].list = [];
+        itemArr.map(items => {
+          data[item].list.push({
+            name: data[item][items],
+            key: Number(items)
+          });
+        })
+      })
+      console.log(data);
+      this.Attribute = data;
+    });
   }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       id: [this.id],
+      birthday: [,[Validators.required]],
       studentName: [, [Validators.required]],
       mobilePhone: [, [Validators.required, Validators.pattern(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/)]],
       followerId: [, [Validators.required]],
-      memberFromId: [, [Validators.required]]
+      memberFromId: [, [Validators.required]],
+      near: [, [Validators.required]],
+      carer: [, [Validators.required]],
+      address: [, [Validators.required]],
+      multiplebirth: [],
+      born: [],
+      babysitter: [],
+      allworking: [],
+      problems: [],
+      nannytime: [],
+      fatherJob: [],
+      motherJob: []
     });
   }
 
@@ -50,6 +90,18 @@ export class UpdateComponent implements OnInit {
 
   @ControlValid() valid: (key, type?) => boolean;
 
+  editList(type,name){
+    this.drawer.create({
+      nzTitle: name,
+      nzWidth: 700, 
+      nzClosable: false,
+      nzContent: UpdateListComponent,
+      nzContentParams: { type: type, name: name }
+    }).afterClose.subscribe(res => {
+      if (res) {
+      }
+    })
+  }
   saveLoading: boolean;
   // @DrawerSave('/membermanage/clue/saveClue') save: () => void;
   save() {
@@ -69,15 +121,29 @@ export class UpdateComponent implements OnInit {
         if (res.result == 1001) {
           this.preview({ id: res.data.id, source: 'visit' })
         }
+        this.saveList(res.data.id,this.formGroup.value);
         this.saveLoading = false;
         this.drawerRef.close(true);
       }).catch(err => {
         if (err.result == 1001) {
           this.preview({ id: err.data.id, source: 'visit' })
         }
+        this.saveList(err.data.id,this.formGroup.value);
         this.saveLoading = false
       });
+
+   
+
     }
+  }
+  saveList(studentId,from){
+    this.http.post('/attribute/saveStudentAttribute', {
+      studentId,
+      paramJson: JSON.stringify([ from.near, from.multiplebirth, from.born, from.carer, from.babysitter, from.allworking, from.nannytime, ...from.problems])
+    }, true).then(res => {
+      this.saveLoading = false;
+  
+    })
   }
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string }) => void;
 
