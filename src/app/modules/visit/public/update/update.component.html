@@ -11,10 +11,33 @@
     </nz-col>
     <nz-col [nzSpan]="12">
       <nz-form-item>
+        <nz-form-label nzRequired>宝宝生日</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="birthday" nzPlaceHolder="请选择宝宝生日" ></nz-date-picker>
+          <nz-form-explain *ngIf="valid('birthday')">请选择宝宝生日！</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row>
+    <nz-row [nzGutter]="8">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
         <nz-form-label nzRequired>家长电话</nz-form-label>
         <nz-form-control>
           <input nz-input formControlName="mobilePhone" placeholder="请输入家长电话" maxlength="11">
           <nz-form-explain *ngIf="valid('mobilePhone') || valid('mobilePhone', 'pattern')">请输入正确的家长电话</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>关系</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="carer" nzPlaceHolder="请选择关系">
+            <nz-option *ngFor="let item of Attribute.carer.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('followerId')">请选择关系</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </nz-col>
@@ -33,14 +56,135 @@
       <nz-form-item>
         <nz-form-label nzRequired>来源</nz-form-label>
         <nz-form-control>
-          <nz-select formControlName="memberFromId" nzPlaceHolder="请选择来源">
+          <nz-select style="width:210px;" formControlName="memberFromId" nzPlaceHolder="请选择来源">
             <nz-option *ngFor="let item of sourceList" [nzLabel]="item.fromName" [nzValue]="item.id"></nz-option>
           </nz-select>
-          <nz-form-explain *ngIf="valid('memberFromId')">请选择来源</nz-form-explain>
+          <a style="margin-left:10px;" (click)="editList('memberFromId','来源')">编辑来源</a>
+          <nz-form-explain *ngIf="valid('memberFromId')" >请选择来源</nz-form-explain>
         </nz-form-control>
       </nz-form-item>
     </nz-col>
+
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>是否住附近</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="near" nzPlaceHolder="请选择是否住附近">
+            <nz-option *ngFor="let item of Attribute.near.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+          </nz-select>
+          <nz-form-explain *ngIf="valid('near')">请选择是否住附近</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>推荐人</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="memberFromId" nzPlaceHolder="请选择推荐人">
+            <nz-option *ngFor="let item of sourceList" [nzLabel]="item.fromName" [nzValue]="item.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+          <nz-form-label nzRequired nzFor="address">联系地址</nz-form-label>
+          <nz-form-control>
+              <textarea nz-input formControlName="address" name="address" [nzAutosize]="{ minRows: 2, maxRows: 4 }" placeholder="请输入联系地址"></textarea>
+              <nz-form-explain *ngIf="valid('address')">请输入联系地址</nz-form-explain>
+          </nz-form-control>
+      </nz-form-item>
+  </div>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>第几个孩子</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="multiplebirth" nzPlaceHolder="请选择第几个孩子">
+          <nz-option *ngFor="let item of Attribute.multiplebirth.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>生产方式</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="born" nzPlaceHolder="请选择生产方式">
+          <nz-option *ngFor="let item of Attribute.born.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>平时陪护人</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="carer" nzPlaceHolder="请选择平时陪护">
+          <nz-option *ngFor="let item of Attribute.carer.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>是否家有保姆</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="babysitter" nzPlaceHolder="请选择是否家有保姆">
+          <nz-option *ngFor="let item of Attribute.babysitter.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>双职工</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="allworking" nzPlaceHolder="请选择是否双职工">
+          <nz-option *ngFor="let item of Attribute.allworking.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12" *ngIf="hiddenNannytime">
+    <nz-form-item>
+      <nz-form-label>看护时长</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="nannytime" nzPlaceHolder="请选择看护时长">
+          <nz-option *ngFor="let item of Attribute.nannytime.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col> 
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>家长痛点</nz-form-label>
+      <nz-form-control>
+        <nz-select style="width:210px;" nzMode="multiple" formControlName="problems" nzPlaceHolder="请选择家长痛点">
+          <nz-option *ngFor="let item of Attribute.problems.list" [nzLabel]="item.name" [nzValue]="item.key"></nz-option>
+        </nz-select>
+        <a style="margin-left:10px;" (click)="editList('problems','家长痛点')">编辑家长痛点</a>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>父亲工作</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="fatherJob" placeholder="请输入父亲工作">
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-form-item>
+      <nz-form-label>母亲工作</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="motherJob" placeholder="请输入母亲工作">
+      </nz-form-control>
+    </nz-form-item>
+  </nz-col>
+
   </nz-row>
+
 </form>
 
 <div class="drawer-footer">

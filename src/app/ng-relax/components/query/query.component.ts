@@ -30,7 +30,6 @@ export class QueryComponent implements OnInit {
   }
 
   @Input() node: QueryNode[] = [];
-
   @Output() onSubmit: EventEmitter<object> = new EventEmitter();
 
   _queryForm: FormGroup;
@@ -48,11 +47,12 @@ export class QueryComponent implements OnInit {
 
   storeId: number;
   ngOnInit() {
-
+    let isSubmit = false;
     this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo.kindergartenId);
     this._queryForm = new FormGroup({});
     this.node.map((res: any, idx) => {
       if (res.isHide) { this._showSlideBtn = true; }
+      if (res.isSubmit){ isSubmit = true };
       if (res.type === 'between') {
         this._queryForm.addControl(res.valueKey[0], new FormControl(res.default ? res.default[0] : null));
         this._queryForm.addControl(res.valueKey[1], new FormControl(res.default ? res.default[1] : null));
@@ -83,8 +83,7 @@ export class QueryComponent implements OnInit {
           this.httpservice.post(res.searchUrl, Object.assign({
             storeId: this.storeId,
             condition,
-            pageNum: 1,
-            pageSize: 10
+    
           }, res.params || {})).then(result => {
             if (result.data) {
               result.data.list.map(d => d.text = d.name.replace(/<\/?[^>]*>/g, ''));
@@ -95,6 +94,9 @@ export class QueryComponent implements OnInit {
       }
       return res;
     });
+    if( isSubmit ){
+      this._submit();
+    }
   }
 
   /* --------------- 重置 --------------- */
@@ -163,6 +165,7 @@ export interface QueryNode {
   format?: string;
   hasOptionsHideBtn?: boolean;
   params?: any;
+  isSubmit?: boolean;
   readonly $subject?: Subject<string>;
 }
 export interface OptionsKey {

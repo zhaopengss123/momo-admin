@@ -59,7 +59,6 @@ export class ClassComponent implements OnInit {
   }
 
   getTeachers(e) {
-    console.log(123456);
     e.map(res => this.http.post('/message/getTeacherListByClass', { classId: res.id }).then(teachers => {
       res.teachers = [];
       teachers.data.map(tc => res.teachers.push(tc.name));

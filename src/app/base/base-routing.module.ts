@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'teacher',
-        data: { title: '老师管理' },
+        data: { title: '员工管理' },
         canLoad: [AuthGuardService],
         loadChildren: 'src/app/modules/teacher/teacher.module#TeacherModule'
       },
@@ -116,7 +116,7 @@ const routes: Routes = [
           },
           {
             path: 'teacher',
-            data: { title: '老师管理' },
+            data: { title: '员工管理' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/teacher/teacher.module#TeacherModule'
           }
@@ -227,14 +227,20 @@ const routes: Routes = [
         data: { noReuse: true },
         children: [
           {
+            path: 'today',
+            data: { title: '今日任务' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/visit/today/today.module#TodayModule'
+          },
+          {
             path: 'stay',
-            data: { title: '待回访' },
+            data: { title: '待跟进' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/stay/stay.module#StayModule'
           },
           {
             path: 'already',
-            data: { title: '已回访' },
+            data: { title: '已跟进' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/already/already.module#AlreadyModule'
           },
@@ -246,7 +252,7 @@ const routes: Routes = [
           },
           {
             path: 'distribution',
-            data: { title: '待分配' },
+            data: { title: '全部客户' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/distribution/distribution.module#DistributionModule'
           }

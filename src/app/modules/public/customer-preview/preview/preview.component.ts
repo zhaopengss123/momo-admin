@@ -13,6 +13,8 @@ export class PreviewComponent implements OnInit {
   @Input() source: string;
 
   @Input() indexId: number;
+
+  @Input() step: number;
   
   memberInfo: any = { studentInfo: {}, parentAccountList: [], cardList: [] };
 
@@ -24,7 +26,9 @@ export class PreviewComponent implements OnInit {
   
   ngOnInit() {
     this.http.post('/student/getNewStudent', { id: this.id }).then(res => {
+      res.data.step = this.step;
       this.memberInfo = res.data;
+      this.memberInfo.studentInfo.step = this.step;;
       this.source && (this.memberInfo.hideBtn = this.source);
       this.loading = false;
     });

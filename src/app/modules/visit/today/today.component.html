@@ -6,7 +6,7 @@
     <button nz-button (click)="import()">导入客户</button>
   </div>
 
-  <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [attribute]="true" url="/membermanage/clue/waitReturnList">
+  <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [attribute]="true"  [paramsInit]="paramsInit" url="/membermanage/clue/waitReturnList">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="preview({id: data.id, source: 'visit', step: data.step})">{{ data.nickName }}</a></td>
       <td><a (click)="preview({id: data.id, source: 'visit', step: data.step})">{{ data.studentName }}</a></td>
