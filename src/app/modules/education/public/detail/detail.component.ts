@@ -9,7 +9,7 @@ import { InformationComponent } from 'src/app/modules/public/customer-preview/pr
 })
 export class DetailComponent implements OnInit {
   @Input() info;
-
+  listArr: any[];
   listCourseType:any[] = [];
   constructor(
     private http: HttpService,
@@ -32,6 +32,8 @@ export class DetailComponent implements OnInit {
     }else{
       this.getTypeName();
     }
+    let lesson:any[] = this.info.lesson && this.info.lesson.split(',') || [];
+    this.listArr = lesson;
 
   }
   getTypeName(){
@@ -46,11 +48,20 @@ export class DetailComponent implements OnInit {
     });
   }
   downloadppt() {
-    let lesson = this.info.lesson;
-    if(lesson){ window.open(lesson) };
+    let lesson:any[] = this.info.lesson.split(',');
+    this.listArr = lesson;
+    lesson && lesson.map(item=>{
+      setTimeout(()=>{
+        window.open(item);
+      },200)
+    })
   }
   openvideo() {
-    let vedio = this.info.vedio;
-    if(vedio){ window.open(vedio) };
+    let vedio:any[] = this.info.vedio.split(',');
+    vedio && vedio.map(item=>{
+      setTimeout(()=>{
+        window.open(item);
+      },200)
+    })
   }
 }

@@ -23,28 +23,34 @@ export const MenuConfig = [
   },
 
   {
-    title : '回访管理',
-    brief : '回访',
+    title : '招生管理',
+    brief : '招生',
     key   : '/home/visit',
     icon  : 'customer-service',
     children : [
       {
-        title : '待回访',
-        key   : '/home/visit/stay',
+        title : '今日任务',
+        key   : '/home/visit/today',
         isLeaf: true
       },
       {
-        title : '已回访',
+        title : '已跟进',
         key   : '/home/visit/already',
         isLeaf: true
       },
+      {
+        title : '待跟进',
+        key   : '/home/visit/stay',
+        isLeaf: true
+      },
+
       {
         title : '无意向',
         key   : '/home/visit/nointention',
         isLeaf: true
       },
       {
-        title : '全部线索',
+        title : '全部客户',
         key   : '/home/visit/distribution',
         isLeaf: true
       }

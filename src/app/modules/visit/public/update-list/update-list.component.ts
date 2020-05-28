@@ -41,6 +41,7 @@ uploadComplate(e) {
   }
 }
 getData(){
+  if(this.type != 'memberFromId'){
   this.http.post('/attribute/getAllAttribute').then(res => {
     let data = res.data;
     let dataArr = Object.keys(data);
@@ -56,6 +57,9 @@ getData(){
     })
     this.listOfData = data[this.type].list;
   });
+}else{
+  
+}
 }
 addClass(){
   let json = {

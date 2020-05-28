@@ -12,12 +12,24 @@
     <div nz-col [nzSpan]="3">入学身高：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.height || '--' }}</div>
     <div nz-col [nzSpan]="3">入学体重：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.weight || '--' }}</div>
     <div nz-col [nzSpan]="3">入学头围：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.headCircumference || '--' }}</div>
+    <div nz-col [nzSpan]="3">过往病史：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.isCases ? memberInfo.studentInfo.cases : '无' }}</div>
+    <div nz-col [nzSpan]="3">过敏史：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.isAllergyHistory ? memberInfo.studentInfo.allergyHistory : '无' }}</div>
+    <div nz-col [nzSpan]="3">需限制活动：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.isLimitActivity ? memberInfo.studentInfo.limitActivity : '无' }}</div>
+    <div nz-col [nzSpan]="3">有慢性病：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.isChronicDisease ? memberInfo.studentInfo.chronicDisease : '无' }}</div>
+    <div nz-col [nzSpan]="3">在接收药物治疗：</div><div nz-col [nzSpan]="3">{{ memberInfo?.studentInfo.isMedication ? memberInfo.studentInfo.medication : '无' }}</div>
+    
+    <div nz-col [nzSpan]="3">第几个孩子：</div><div nz-col [nzSpan]="3">{{ jsonData['multiplebirth'][arrtStudent.multiplebirth] }}</div>
+    <div nz-col [nzSpan]="3">生产方式：</div><div nz-col [nzSpan]="3">{{ jsonData['born'][arrtStudent.born] }}</div>
+    <div nz-col [nzSpan]="3">平时陪护：</div><div nz-col [nzSpan]="3">{{ jsonData['carer'][arrtStudent.carer] }}</div>
+    <div nz-col [nzSpan]="3">家有保姆：</div><div nz-col [nzSpan]="3">{{ jsonData['babysitter'][arrtStudent.babysitter] }}</div>
+    <div nz-col [nzSpan]="3">是否住附近：</div><div nz-col [nzSpan]="3">{{ jsonData['near'][arrtStudent.near] }}</div>
+    <div nz-col [nzSpan]="3">双职工：</div><div nz-col [nzSpan]="3">{{ jsonData['allworking'][arrtStudent.allworking] }}</div>
+    <div nz-col [nzSpan]="3">看护时长：</div><div nz-col [nzSpan]="3">{{ jsonData['nannytime'][arrtStudent.nannytime] }}</div>
+    <div nz-col [nzSpan]="3">家长痛点：</div><div nz-col [nzSpan]="3">{{ jsonData['problems'][arrtStudent.problems] }}</div>
+
+
   </div>
-  <div nz-col [nzSpan]="3">过往病史：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isCases ? memberInfo.studentInfo.cases : '无' }}</div>
-  <div nz-col [nzSpan]="3">过敏史：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isAllergyHistory ? memberInfo.studentInfo.allergyHistory : '无' }}</div>
-  <div nz-col [nzSpan]="3">需限制活动：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isLimitActivity ? memberInfo.studentInfo.limitActivity : '无' }}</div>
-  <div nz-col [nzSpan]="3">有慢性病：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isChronicDisease ? memberInfo.studentInfo.chronicDisease : '无' }}</div>
-  <div nz-col [nzSpan]="3">在接收药物治疗：</div><div nz-col [nzSpan]="21">{{ memberInfo?.studentInfo.isMedication ? memberInfo.studentInfo.medication : '无' }}</div>
+ 
 </div>
 <ea-quote>家庭资料<button nz-button nzType="primary" nzSize="small" nzGhost [style.float]="'right'" (click)="update({ id: memberInfo?.studentInfo.studentId })">新增家长账号</button></ea-quote>
 <ea-table [dataSet]="memberInfo?.parentAccountList" [showPage]="false" [EaTableTbodyTr]="EaTableTbodyTr" [thead]="['姓名', '关系', '联系电话', '身份证号', '单位地址', 'APP账号状态', '默认联系人', '操作']">

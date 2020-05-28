@@ -20,7 +20,7 @@ export class UpdateComponent implements OnInit {
   @Input() id: number;
 
   formGroup: FormGroup;
-
+  hiddenNannytime: boolean = false;
   teacherList: any[] = [];
   sourceList: any[] = [];
   Attribute: any = {
@@ -59,8 +59,17 @@ export class UpdateComponent implements OnInit {
           });
         })
       })
-      console.log(data);
       this.Attribute = data;
+      this.formGroup.controls['babysitter'].valueChanges.subscribe(id => {
+        let item = this.Attribute.babysitter.list.filter(item=> item.key == id );
+        if( item[0].name == '否' ){
+          this.hiddenNannytime = false;
+          this.formGroup.patchValue({ nannytime: this.Attribute.nannytime.list[0].key })
+        }else{
+          this.hiddenNannytime = true;
+          this.formGroup.patchValue({ nannytime: null })
+        }
+      });
     });
   }
 
@@ -109,6 +118,7 @@ export class UpdateComponent implements OnInit {
       Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {
       this.saveLoading = true;
+      
       Object.keys(this.formGroup.value).map(res => {
         if (this.formGroup.value[res] instanceof Date) {
           this.formGroup.value[res] = formatTime(this.formGroup.value[res]);
@@ -137,9 +147,11 @@ export class UpdateComponent implements OnInit {
     }
   }
   saveList(studentId,from){
+    let attributes = [ from.near, from.multiplebirth, from.born, from.carer, from.babysitter, from.allworking, from.nannytime, ...from.problems];
+    let attribute = attributes.filter(d => d);
     this.http.post('/attribute/saveStudentAttribute', {
       studentId,
-      paramJson: JSON.stringify([ from.near, from.multiplebirth, from.born, from.carer, from.babysitter, from.allworking, from.nannytime, ...from.problems])
+      paramJson: JSON.stringify(attribute)
     }, true).then(res => {
       this.saveLoading = false;
   
