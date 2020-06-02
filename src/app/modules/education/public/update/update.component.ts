@@ -5,6 +5,7 @@ import { NzDrawerRef , NzDrawerService , UploadFile } from 'ng-zorro-antd';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
 import { ControlValid } from 'src/app/ng-relax/decorators/form/valid.decorator';
 import { ImportComponent } from '../import/import.component';
+import { AliOssClientService } from 'src/app/ng-relax/services/alioss-client.service';
 import { Observable } from 'rxjs';
 import { Md5 } from "ts-md5";
 declare var PlvVideoUpload:any;
@@ -46,7 +47,8 @@ export class UpdateComponent implements OnInit {
     private fb: FormBuilder = new FormBuilder(),
     private http: HttpService,
     private drawerRef: NzDrawerRef,
-    private drawer: NzDrawerService
+    private drawer: NzDrawerService,
+    private alioss: AliOssClientService
       ) { 
     this.http.post('/course/listCourseType', { code: 1004 }).then(res => this.listCourseType = res.data.list);
     this.http.post('/membermanage/returnVisit/getMemberFrom').then(res => this.sourceList = res.data);
