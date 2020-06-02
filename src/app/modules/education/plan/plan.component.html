@@ -1,6 +1,6 @@
 <div class="container">
     <nz-tabset>
-        <nz-tab *ngFor="let item of listCourseType" [(nzTitle)]="item.name" (nzSelect)="selectclass(item.id)"></nz-tab>
+        <nz-tab *ngFor="let item of filterList" [(nzTitle)]="item.name" (nzSelect)="selectclass(item.id)"></nz-tab>
 
     </nz-tabset>
     <ea-query [node]="queryNode" (onSubmit)="submitQuerys($event); "></ea-query>

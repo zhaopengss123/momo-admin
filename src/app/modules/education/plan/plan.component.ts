@@ -44,16 +44,22 @@ export class PlanComponent implements OnInit {
   listCourseType: any[];
   margin: number;
   listWidth:number;
+  filterList:any[] = [];
   constructor(
     private http: HttpService,
     private drawer: NzDrawerService,
   ) { 
-    this.querys({});
+    
   }
 
   ngOnInit() {
   
-    this.http.post('/course/listCourseType', { }, false).then(res => { res.data.list.unshift({ name: '全部' , id : 0 }); this.listCourseType = res.data.list;  })
+    this.http.post('/course/listCourseType', { }, false).then(res => { 
+      this.listCourseType = res.data.list;
+      this.filterList = this.listCourseType.filter(item=> item.id != 7 && item.id != 10 && item.id != 11);
+      this.typeId = res.data.list[0].id;
+      this.querys({});
+    })
 
   }
   querys(data){
