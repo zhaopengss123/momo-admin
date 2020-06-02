@@ -68,7 +68,8 @@ export class UpdateComponent implements OnInit {
       lesson	: [],
       cover: [, [Validators.required]],
       vedio: [],
-      times: [, [Validators.required]]
+      times: [, [Validators.required]],
+      content:[]
     });
     this.formGroup.patchValue(this.info);
     if(this.info.vedio){
@@ -311,6 +312,33 @@ export class UpdateComponent implements OnInit {
       return hex;
     }
 
+    private _editor;
+  editorCreated(quill) {
+    const toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('image', this._imageHandler.bind(this));
+    this._editor = quill;
+  }
+  
+  private _imageHandler() {
+    const Imageinput = document.createElement('input');
+    Imageinput.setAttribute('type', 'file');
+    Imageinput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/jpg');
+    Imageinput.classList.add('ql-image');
+    Imageinput.addEventListener('change', () => {
+      const file = Imageinput.files[0];
+      let fileType = file.name.split('.')[file.name.split('.').length - 1].toLowerCase();
+      let fileName = new Date().getTime() + `.${fileType}`;
+      this.alioss.getClient().then(res => {
+        res.multipartUpload(fileName, file, {}).then(res => {
+          let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
+          const range = this._editor.getSelection(true);
+          this._editor.insertEmbed(range.index, 'image', imageSrc);
+          this.formGroup.patchValue({ birthday: this._editor.scrollingContainer.innerHTML });
+        })
+      })
+    });
+    Imageinput.click();
+  }
 
 }
 const formatTime = date => {
@@ -323,3 +351,4 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+

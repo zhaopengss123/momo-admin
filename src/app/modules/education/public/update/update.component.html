@@ -100,12 +100,18 @@
             <textarea  nz-input placeholder="请输入上课所需书本名称、教具名称及数量等。" formControlName="realia" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
          </nz-form-control>
     </nz-row> 
-    <nz-row [nzGutter]="8">
+    <!-- <nz-row [nzGutter]="8">
         <nz-form-label>教案</nz-form-label>
         <nz-form-control>
             <ea-upload-file  [maxLength]="5" formControlName="lesson"  ></ea-upload-file> 
           </nz-form-control>
-    </nz-row> 
+    </nz-row>  -->
+    <nz-row [nzGutter]="8">
+      <nz-form-label>教案</nz-form-label>
+      <nz-form-control>
+        <quill-editor formControlName="content" (onEditorCreated)="editorCreated($event)"  placeholder="请输入内容"></quill-editor>
+              </nz-form-control>
+  </nz-row> 
     <nz-row [nzGutter]="8">
         <nz-form-label>视频教案</nz-form-label>
         <nz-form-control>
