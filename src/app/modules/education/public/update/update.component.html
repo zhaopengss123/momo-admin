@@ -106,7 +106,7 @@
             <ea-upload-file  [maxLength]="5" formControlName="lesson"  ></ea-upload-file> 
           </nz-form-control>
     </nz-row>  -->
-    <nz-row [nzGutter]="8">
+    <nz-row [nzGutter]="8"  >
       <nz-form-label>教案</nz-form-label>
       <nz-form-control>
         <quill-editor formControlName="content" (onEditorCreated)="editorCreated($event)"  placeholder="请输入内容"></quill-editor>

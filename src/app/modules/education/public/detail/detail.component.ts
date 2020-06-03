@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { InformationComponent } from 'src/app/modules/public/customer-preview/preview/information/information.component';
+import { LessonDetailComponent } from '../lesson-detail/lesson-detail.component';
+import { NzDrawerRef , NzDrawerService  } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-detail',
@@ -13,6 +14,8 @@ export class DetailComponent implements OnInit {
   listCourseType:any[] = [];
   constructor(
     private http: HttpService,
+    private drawerRef: NzDrawerRef,
+    private drawer: NzDrawerService,
   ) {
 
   }
@@ -47,13 +50,14 @@ export class DetailComponent implements OnInit {
       })
     });
   }
-  downloadppt() {
-    let lesson:any[] = this.info.lesson.split(',');
-    this.listArr = lesson;
-    lesson && lesson.map(item=>{
-      setTimeout(()=>{
-        window.open(item);
-      },200)
+  downloadppt(content) {
+    this.drawer.create({
+      nzWidth: 820,
+      nzTitle: '教案详情',
+      nzBodyStyle: { 'padding-bottom': '53px' },
+      nzContent: LessonDetailComponent,
+      nzContentParams: { content }
+    }).afterClose.subscribe(res => {
     })
   }
   openvideo() {

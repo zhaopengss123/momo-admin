@@ -79,7 +79,7 @@ export class CurriculumComponent implements OnInit {
 //  @DrawerCreate({ title: '新建课程', content: UpdateComponent }) addCustomer: () => void;
   addCustomer(info = {}){
     const drawer = this.drawer.create({
-      nzWidth: 720,
+      nzWidth: 820,
       nzTitle: '课程管理',
       nzContent: UpdateComponent,
       nzMaskClosable: false,

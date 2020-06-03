@@ -6,7 +6,6 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { EducationModule } from '../education.module';
 import { RouterModule } from '@angular/router';
 import { CustomerPreviewModule } from '../../public/customer-preview/customer-preview.module';
-
 @NgModule({
   declarations: [CurriculumComponent],
   imports: [
@@ -18,7 +17,7 @@ import { CustomerPreviewModule } from '../../public/customer-preview/customer-pr
       path: '',
       component: CurriculumComponent
     }]),
-    CustomerPreviewModule,
+    CustomerPreviewModule
   ],
   providers: [ DatePipe ],
 })

@@ -335,7 +335,7 @@ export class UpdateComponent implements OnInit {
           let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
           const range = this._editor.getSelection(true);
           this._editor.insertEmbed(range.index, 'image', imageSrc);
-          this.formGroup.patchValue({ birthday: this._editor.scrollingContainer.innerHTML });
+          this.formGroup.patchValue({ content: this._editor.scrollingContainer.innerHTML });
         })
       })
     });
