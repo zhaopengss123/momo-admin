@@ -12,6 +12,7 @@ import { SelectClassComponent } from './public/select-class/select-class.compone
 import { QuillModule } from 'ngx-quill';
 import { LessonDetailComponent } from './public/lesson-detail/lesson-detail.component';
 import { SafeHtmlPipe } from '../../core/safe-html.pipe';
+// import quillBetterTable from 'node_modules/quill-better-table/dist/quill-better-table.min.js'
 @NgModule({
   declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent, SelectClassComponent, LessonDetailComponent,SafeHtmlPipe],
   imports: [

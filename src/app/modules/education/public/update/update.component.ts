@@ -1,5 +1,5 @@
 import { HttpService } from 'src/app/ng-relax/services/http.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzDrawerRef , NzDrawerService , UploadFile } from 'ng-zorro-antd';
 import { DrawerClose } from 'src/app/ng-relax/decorators/drawer/close.decorator';
@@ -8,6 +8,7 @@ import { ImportComponent } from '../import/import.component';
 import { AliOssClientService } from 'src/app/ng-relax/services/alioss-client.service';
 import { Observable } from 'rxjs';
 import { Md5 } from "ts-md5";
+declare const quillBetterTable;
 declare var PlvVideoUpload:any;
 @Component({
   selector: 'app-update',
@@ -16,7 +17,7 @@ declare var PlvVideoUpload:any;
 })
 
 export class UpdateComponent implements OnInit {
-
+  @ViewChild('wangeditor', null) wangeditor: ElementRef
   @Input() info;
   // PlvVideoUpload : any;
   formGroup: FormGroup;
@@ -317,6 +318,7 @@ export class UpdateComponent implements OnInit {
     private _editor;
   editorCreated(quill) {
     const toolbar = quill.getModule('toolbar');
+    console.log(quill);
     toolbar.addHandler('image', this._imageHandler.bind(this));
     this._editor = quill;
   }
