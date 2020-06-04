@@ -13,7 +13,6 @@ import { reducersConfig } from './core/reducers/reducers-config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppReuseStrategy } from './core/app-reuse-strategy';
-
 registerLocaleData(zh);
 @NgModule({
   declarations: [

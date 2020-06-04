@@ -8,9 +8,10 @@ import { CommonModule ,DatePipe } from '@angular/common';
 import { QuillModule } from 'ngx-quill';
 import { TextUpdateComponent } from './text-update/text-update.component';
 import { EditorModule } from 'src/app/ng-relax/components/editor/editor.module';
+import { SafeHtmlPipes } from '../../../core/safe-html.pipes';
 
 @NgModule({
-  declarations: [ScienceComponent,TextUpdateComponent],
+  declarations: [ScienceComponent,TextUpdateComponent , SafeHtmlPipes],
   imports: [
     CommonModule,
     VisitModule,

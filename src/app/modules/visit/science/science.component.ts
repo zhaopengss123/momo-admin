@@ -37,7 +37,7 @@ export class ScienceComponent implements OnInit {
       optionKey: { label: 'monthOldName', value: 'id' }
     }
   ];
-  tableNode = ['标题', '内容', '分类', '适用月龄', '操作'];
+  tableNode = ['标题' , '分类', '适用月龄', '操作'];
   classList: any[];
   monthList: any[];
   constructor(
@@ -57,5 +57,13 @@ export class ScienceComponent implements OnInit {
       this.queryNode[2].options = res.data;
     });
   }
-  @DrawerCreate({ title: '添加文章', content: TextUpdateComponent }) addCustomer: ({ Info}?) => void;
+  addCustomers({ Info }){
+      this.addCustomer({ Info });
+  }
+  showCustomer({ Info }){
+    let sInfo = JSON.parse(JSON.stringify(Info));
+    sInfo.isReadonly  = true;
+    this.addCustomer({ Info: sInfo });
+  }
+  @DrawerCreate({ title: '文章详情', content: TextUpdateComponent }) addCustomer: ({ Info }?) => void;
 }

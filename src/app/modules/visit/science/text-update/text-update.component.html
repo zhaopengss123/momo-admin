@@ -1,10 +1,10 @@
 <form nz-form [formGroup]="formGroup">
-    <nz-row [nzGutter]="8">
+    <nz-row [nzGutter]="8" *ngIf="!Info.isReadonly">
         <nz-col [nzSpan]="12">
           <nz-form-item>
             <nz-form-label nzRequired>标题</nz-form-label>
             <nz-form-control>
-              <input nz-input formControlName="title" placeholder="请输入标题" >
+              <input nz-input [readonly]="Info.isReadonly" formControlName="title" placeholder="请输入标题" >
               <nz-form-explain *ngIf="valid('title')">请输入标题</nz-form-explain>
             </nz-form-control>
           </nz-form-item>
@@ -13,8 +13,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>分类</nz-form-label>
         <nz-form-control>
-          <nz-select formControlName="classificationId" nzPlaceHolder="请选择分类">
-            <nz-option *ngFor="let item of classList" [nzLabel]="item.classificationName" [nzValue]="item.id"></nz-option>
+          <nz-select [nzDisabled]="Info.isReadonly" formControlName="classificationId" nzPlaceHolder="请选择分类">
+            <nz-option  *ngFor="let item of classList" [nzLabel]="item.classificationName" [nzValue]="item.id"></nz-option>
           </nz-select>
           <nz-form-explain *ngIf="valid('classificationId')">请选择分类</nz-form-explain>
         </nz-form-control>
@@ -24,7 +24,7 @@
         <nz-form-item>
           <nz-form-label nzRequired>适用月龄</nz-form-label>
           <nz-form-control>
-            <nz-select formControlName="monthOldId" nzPlaceHolder="请选择适用月龄">
+            <nz-select [nzDisabled]="Info.isReadonly" formControlName="monthOldId" nzPlaceHolder="请选择适用月龄">
               <nz-option *ngFor="let item of monthList" [nzLabel]="item.monthOldName" [nzValue]="item.id"></nz-option>
             </nz-select>
             <nz-form-explain *ngIf="valid('monthOldId')">请选择适用月龄</nz-form-explain>
@@ -35,21 +35,22 @@
 
   <nz-row [nzGutter]="8">
     <nz-form-item>
-      <nz-form-label nzRequired>内容</nz-form-label>
-      <nz-form-control>
-        <!-- <quill-editor formControlName="textContent" (onEditorCreated)="editorCreated($event)" placeholder="请输入内容"> -->
+      <nz-form-label *ngIf="!Info.isReadonly" nzRequired>内容</nz-form-label>
+      <nz-form-control *ngIf="!Info.isReadonly">
             <ea-editor formControlName="textContent" placeholder="请输入内容"></ea-editor>
 
         <nz-form-explain *ngIf="valid('textContent')">请输入内容</nz-form-explain>
-
       </nz-form-control>
+      <div class="ql-editor" *ngIf="Info.isReadonly" [innerHTML]="Info.textContent | safesHtml">
+
+      </div>
     </nz-form-item>
 
   </nz-row>
 
 </form>
 
-<div class="drawer-footer">
+<div class="drawer-footer" *ngIf="!Info.isReadonly">
   <button nz-button (click)="close()">取消</button>
   <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
 </div>
