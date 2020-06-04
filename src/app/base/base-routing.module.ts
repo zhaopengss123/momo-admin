@@ -255,6 +255,12 @@ const routes: Routes = [
             data: { title: '全部客户' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/distribution/distribution.module#DistributionModule'
+          },
+          {
+            path: 'science',
+            data: { title: '育儿百科' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/visit/science/science.module#ScienceModule'
           }
         ]
       },

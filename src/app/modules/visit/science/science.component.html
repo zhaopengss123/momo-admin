@@ -1,0 +1,25 @@
+<div class="container">
+  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
+
+  <div class="ea-button-group">
+    <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">添加文章</button>
+  </div>
+  <ea-table #EaTable [timeout]="1000" [thead]="tableNode"   [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"  url="http://testes.haochengzhang.com/es/czg/baiKe">
+    <ng-template let-data #EaTableTbodyTr>
+      <td><a (click)="preview({id: data.id, source: 'visit', step: data.step})">{{ data.title }}</a></td>
+      <td [innerHTML]="data.content"></td>
+      <td>
+        <span *ngFor="let item of classList">
+            <ng-container *ngIf="item.id == data.classificationId">{{ item.classificationName }}</ng-container>
+        </span>
+      </td>
+      <td>
+          <span *ngFor="let item of monthList">
+              <ng-container *ngIf="item.id == data.monthOldId">{{ item.monthOldName }}</ng-container>
+          </span>
+      </td>
+      <td><a (click)="addCustomer({Info: data})">编辑</a></td>
+    
+    </ng-template>
+  </ea-table>
+</div>  
