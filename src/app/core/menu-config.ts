@@ -53,6 +53,11 @@ export const MenuConfig = [
         title : '全部客户',
         key   : '/home/visit/distribution',
         isLeaf: true
+      },
+      {
+        title : '育儿百科',
+        key   : '/home/visit/science',
+        isLeaf: true
       }
     ]
   },
