@@ -29,6 +29,7 @@
     "core-js": "^2.5.4",
     "ng-zorro-antd": "^7.2.0",
     "ngx-quill": "^4.6.13",
+    "ngx-wangeditor": "^1.0.1",
     "qrcode": "^1.3.3",
     "quill": "^1.3.6",
     "quill-better-table": "^1.2.8",

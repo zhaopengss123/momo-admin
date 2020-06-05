@@ -50,7 +50,7 @@ export class DetailComponent implements OnInit {
       })
     });
   }
-  downloadppt(content) {
+  openContent(content) {
     this.drawer.create({
       nzWidth: 820,
       nzTitle: '教案详情',
@@ -58,6 +58,14 @@ export class DetailComponent implements OnInit {
       nzContent: LessonDetailComponent,
       nzContentParams: { content }
     }).afterClose.subscribe(res => {
+    })
+  }
+  downloadppt(){
+    let lesson:any[] = this.info.lesson.split(',');
+    lesson && lesson.map(item=>{
+      setTimeout(()=>{
+        window.open(item);
+      },200)
     })
   }
   openvideo() {

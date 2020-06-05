@@ -82,7 +82,7 @@
     <nz-row [nzGutter]="8">
         <nz-form-label nzRequired>课程目标</nz-form-label>
         <nz-form-control>
-            <textarea  nz-input placeholder="请输入课程目标" formControlName="goal" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+            <textarea  nz-input placeholder="请输入课程目标" formControlName="goal" [nzAutosize]="{ minRows: 2, maxRows: 100 }"></textarea>
             <nz-form-explain *ngIf="valid('goal')">请输入课程目标</nz-form-explain>
           </nz-form-control>
     </nz-row>  
@@ -90,27 +90,31 @@
     <nz-row [nzGutter]="8">
         <nz-form-label nzRequired>课程效果</nz-form-label>
         <nz-form-control>
-            <textarea  nz-input placeholder="请输入上课能达成的效果" formControlName="gain" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+            <textarea  nz-input placeholder="请输入上课能达成的效果" formControlName="gain" [nzAutosize]="{ minRows: 2, maxRows: 100 }"></textarea>
             <nz-form-explain *ngIf="valid('gain')">请输入课程效果</nz-form-explain>
           </nz-form-control>
     </nz-row>  
     <nz-row [nzGutter]="8">
         <nz-form-label>教材教具</nz-form-label>
         <nz-form-control>
-            <textarea  nz-input placeholder="请输入上课所需书本名称、教具名称及数量等。" formControlName="realia" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+            <textarea  nz-input placeholder="请输入上课所需书本名称、教具名称及数量等。" formControlName="realia" [nzAutosize]="{ minRows: 2, maxRows: 100 }"></textarea>
          </nz-form-control>
     </nz-row> 
-    <!-- <nz-row [nzGutter]="8">
-        <nz-form-label>教案</nz-form-label>
-        <nz-form-control>
-            <ea-upload-file  [maxLength]="5" formControlName="lesson"  ></ea-upload-file> 
-          </nz-form-control>
-    </nz-row>  -->
+    <nz-row [nzGutter]="8">
+      <nz-form-label>教案url</nz-form-label>
+      <nz-form-control>
+          <ea-upload-file  [maxLength]="5" formControlName="lesson"  ></ea-upload-file> 
+        </nz-form-control>
+  </nz-row> 
     <nz-row [nzGutter]="8"  >
       <nz-form-label>教案</nz-form-label>
       <nz-form-control>
-        <quill-editor formControlName="content" (onEditorCreated)="editorCreated($event)"  placeholder="请输入内容"></quill-editor>
-    
+        <!-- <quill-editor formControlName="content" (onEditorCreated)="editorCreated($event)"  placeholder="请输入内容"></quill-editor> -->
+        <div class="wangeditor-box" >
+          <div id="editorMenu"></div>
+          <div id="editor" style="height:400px;max-height:300px;">
+          </div>
+          </div>
 
               </nz-form-control>
   </nz-row> 

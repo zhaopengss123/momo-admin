@@ -4,7 +4,7 @@
   <div class="ea-button-group">
     <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">添加文章</button>
   </div>
-  <ea-table #EaTable [timeout]="1000" [thead]="tableNode"   [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"  url="http://testes.haochengzhang.com/es/czg/baiKe">
+  <ea-table #EaTable [timeout]="1000" [thead]="tableNode"   [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"  [url]="domainEs + 'czg/baiKe'">
     <ng-template let-data #EaTableTbodyTr>
       <td><a (click)="showCustomer({Info: data})">{{ data.title }}</a></td>
       <td>

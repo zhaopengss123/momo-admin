@@ -48,8 +48,11 @@
     </nz-form-control>
   </nz-row>
   <div class="button" style="margin-top:20px;">
-    <button nz-button nzType="primary" *ngIf="info.content" [nzSize]="size" (click)="downloadppt(info.content)" nzShape="round">
+    <button nz-button nzType="primary" *ngIf="info.content" [nzSize]="size" (click)="openContent(info.content)" nzShape="round">
       查看教案
+    </button>
+    <button style="margin-left:10px;" nz-button nzType="primary" *ngIf="info.lesson" [nzSize]="size" (click)="downloadppt(info.lesson)" nzShape="round">
+      下载PDF教案
     </button>
 
     <button style="margin-left:10px;" *ngIf="info.vedio" nz-button [nzSize]="size" (click)="openvideo()"

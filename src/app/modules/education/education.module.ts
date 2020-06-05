@@ -12,6 +12,8 @@ import { SelectClassComponent } from './public/select-class/select-class.compone
 import { QuillModule } from 'ngx-quill';
 import { LessonDetailComponent } from './public/lesson-detail/lesson-detail.component';
 import { SafeHtmlPipe } from '../../core/safe-html.pipe';
+import { NgxWangEditorModule } from 'ngx-wangeditor';
+
 // import quillBetterTable from 'node_modules/quill-better-table/dist/quill-better-table.min.js'
 @NgModule({
   declarations: [UpdateComponent, ImportComponent, DetailComponent, UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent, SelectClassComponent, LessonDetailComponent,SafeHtmlPipe],
@@ -19,7 +21,11 @@ import { SafeHtmlPipe } from '../../core/safe-html.pipe';
     CommonModule,
     NgRelaxModule,
     NgZorroAntdModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    NgxWangEditorModule.forRoot({
+      // 默认配置项，对全局 wangEditor [参数配置](https://www.kancloud.cn/wangfupeng/wangeditor3/335776)
+      config: {},
+    }),
   ],
   entryComponents: [UpdateComponent, ImportComponent , DetailComponent , UpdateScheduleComponent, UpdatetimeComponent, AdjustmentComponent, SelectClassComponent, LessonDetailComponent],
   providers: [ DatePipe ]

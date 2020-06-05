@@ -8,6 +8,8 @@ import { ImportComponent } from '../import/import.component';
 import { AliOssClientService } from 'src/app/ng-relax/services/alioss-client.service';
 import { Observable } from 'rxjs';
 import { Md5 } from "ts-md5";
+import * as wangEditor from 'node_modules/wangeditor/release/wangEditor.js'
+
 declare const quillBetterTable;
 declare var PlvVideoUpload:any;
 @Component({
@@ -17,27 +19,20 @@ declare var PlvVideoUpload:any;
 })
 
 export class UpdateComponent implements OnInit {
-  @ViewChild('wangeditor', null) wangeditor: ElementRef
+
+  public sign = 'wang_editor';
+
+  private editor: any;
+
+
+
   @Input() info;
   // PlvVideoUpload : any;
   formGroup: FormGroup;
   isLoadingfile: boolean  = false;
   filesChange: any = () => { };
-
+  contentText: string = '';
   @Input() maxLength = 10;
-  files1: any[] = [{
-    uid: 1,
-    url: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4",
-    name: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4"
-  },{
-    uid: 2,
-    url: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4",
-    name: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4"
-  },{
-    uid: 3,
-    url: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4",
-    name: "http://mpv.videocc.net/ee54a08653/0/ee54a086539a3289d9b28a1f65ba2160_1.mp4"
-  }];
   orderNumber: number = 1;
 
   allowuploadNo = 5;
@@ -57,6 +52,23 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    const alioss=  this.alioss;
+    this.editor = new wangEditor('#editorMenu', '#editor');
+    this.editor.customConfig.customUploadImg = function (files, insert) {
+      const file = files[0];
+      let fileType = file.name.split('.')[file.name.split('.').length - 1].toLowerCase();
+      let fileName = new Date().getTime() + `.${fileType}`;
+      alioss.getClient().then(res => {
+        res.multipartUpload(fileName, file, {}).then(res => {
+          let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
+          insert(imageSrc)
+        })
+      })
+    }
+    // 创建编辑器
+    this.editor.create();
+ 
+  
     this.formGroup = this.fb.group({
       id: [],
       name: [, [Validators.required]],
@@ -75,6 +87,9 @@ export class UpdateComponent implements OnInit {
       content:[]
     });
     this.formGroup.patchValue(this.info);
+    if(this.info.content){
+      this.editor.txt.html(decodeURIComponent(this.info.content));
+    }
     if(this.info.vedio){
     let videos = this.info.vedio.split(',');
     let arr = [];
@@ -135,6 +150,7 @@ export class UpdateComponent implements OnInit {
     if (this.formGroup.invalid) {
       Object.values(this.formGroup.controls).map((control: FormControl) => { control.markAsDirty(); control.updateValueAndValidity() });
     } else {
+      this.formGroup.patchValue({ content: this.editor.txt.html() });
       this.saveLoading = true;
       Object.keys(this.formGroup.value).map(res => {
         if (this.formGroup.value[res] instanceof Date) {
@@ -142,6 +158,8 @@ export class UpdateComponent implements OnInit {
         }
       });
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
+      params.content = encodeURIComponent(encodeURIComponent(params.content));
+      console.log(params);
       let urls = this.info.id ? '/course/updateCourse' : '/course/saveCourse';
       this.http.post(urls, {
         paramJson: JSON.stringify(params)
@@ -227,7 +245,6 @@ export class UpdateComponent implements OnInit {
                     })
                     that.formGroup.patchValue({ vedio: video.join(',') });
 
-                    console.log(that.files);
                   });
                 },5000);
             }
@@ -315,34 +332,9 @@ export class UpdateComponent implements OnInit {
       return hex;
     }
 
-    private _editor;
-  editorCreated(quill) {
-    const toolbar = quill.getModule('toolbar');
-    console.log(quill);
-    toolbar.addHandler('image', this._imageHandler.bind(this));
-    this._editor = quill;
-  }
+
   
-  private _imageHandler() {
-    const Imageinput = document.createElement('input');
-    Imageinput.setAttribute('type', 'file');
-    Imageinput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/jpg');
-    Imageinput.classList.add('ql-image');
-    Imageinput.addEventListener('change', () => {
-      const file = Imageinput.files[0];
-      let fileType = file.name.split('.')[file.name.split('.').length - 1].toLowerCase();
-      let fileName = new Date().getTime() + `.${fileType}`;
-      this.alioss.getClient().then(res => {
-        res.multipartUpload(fileName, file, {}).then(res => {
-          let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
-          const range = this._editor.getSelection(true);
-          this._editor.insertEmbed(range.index, 'image', imageSrc);
-          this.formGroup.patchValue({ content: this._editor.scrollingContainer.innerHTML });
-        })
-      })
-    });
-    Imageinput.click();
-  }
+
 
 }
 const formatTime = date => {

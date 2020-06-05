@@ -6,15 +6,17 @@ import { NzDrawerService } from 'ng-zorro-antd';
 import { HttpService } from 'src/app/ng-relax/services/http.service';
 import { TableComponent } from 'src/app/ng-relax/components/table/table.component';
 import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-page.component';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-science',
   templateUrl: './science.component.html',
   styleUrls: ['./science.component.less']
 })
 export class ScienceComponent implements OnInit {
+  domainEs = environment.domainEs ;
 
   @ViewChild('listPage') listPage: ListPageComponent;
-
   @ViewChild('EaTable') table;
 
   queryNode: QueryNode[] = [
@@ -22,7 +24,7 @@ export class ScienceComponent implements OnInit {
       label: '关键词',
       key: 'queryContent',
       type: 'input',
-      placeholder: '根据学号、姓名、手机号查询'
+      placeholder: '请输入关键词'
     },
     {
       label: '分类',
@@ -32,7 +34,7 @@ export class ScienceComponent implements OnInit {
     },
     {
       label: '适用月龄',
-      key: 'memberFromId',
+      key: 'monthOldId',
       type: 'select',
       optionKey: { label: 'monthOldName', value: 'id' }
     }

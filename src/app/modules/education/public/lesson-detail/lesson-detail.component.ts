@@ -10,9 +10,8 @@ export class LessonDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    var test =
-    document.getElementsByTagName('video')[0];
-    test.style.width = "100%";
+    this.content = decodeURIComponent(this.content);
+
   }
 
 }

@@ -54,12 +54,14 @@
               "src/styles.less",
               "./node_modules/quill/dist/quill.core.css",
               "./node_modules/quill/dist/quill.bubble.css",
-              "./node_modules/quill/dist/quill.snow.css"
+              "./node_modules/quill/dist/quill.snow.css",
+              "node_modules/wangeditor/release/wangEditor.css"
             ],
             "scripts": [
               "src/assets/js/aes.js",
               "src/assets/js/md5.js",
-              "./node_modules/quill/dist/quill.min.js"
+              "./node_modules/quill/dist/quill.min.js",
+              "node_modules/wangeditor/release/wangEditor.min.js"
             ]
           },
           "configurations": {
