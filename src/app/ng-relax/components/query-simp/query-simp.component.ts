@@ -74,7 +74,7 @@ export class QuerySimpComponent implements OnInit {
           this.httpservice.post(res.searchUrl, Object.assign({
             storeId: this.storeId,
             condition,
-            pageNum: 1,
+            pageNo: 1,
             pageSize: 10
           }, res.params || {})).then(result => {
             if (result.data) {

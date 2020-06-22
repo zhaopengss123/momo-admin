@@ -88,12 +88,12 @@ saveEdit(data){
     attributeName: this.type,
     attributeValue : data.name,
   }).then(res => {
-    if(res.result == 1000){
+    if(res.returnCode == "SUCCESS"){
       this.message.success('操作成功');
       data.edit = false;
       this.getData();
     }else{
-      this.message.warning(res.message);
+      this.message.warning(res.returnMsg);
     }
   });
 }

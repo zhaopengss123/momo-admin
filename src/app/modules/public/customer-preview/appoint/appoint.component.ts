@@ -116,9 +116,9 @@ export class AppointComponent implements OnInit {
     } : checkedParams;
     this.http.post(`/reserve/${url}`, { 
       paramJson: JSON.stringify(newParams) 
-    }).then(res => this.modal[res.result == 1000 ? 'success' : res.result == 1001 ? 'error' : 'warning']({
+    }).then(res => this.modal[res.returnCode == "SUCCESS" ? 'success' : res.result == 1001 ? 'error' : 'warning']({
       nzMaskClosable: true,
-      nzTitle: res.message,
+      nzTitle: res.returnMsg,
       nzContent: res.data && res.data.list ? res.data.list.join('、') : `确定预约吗`,
       nzOkText: res.result == 1001 ? null : '确定预约',
       nzOnOk: () => {
@@ -225,7 +225,7 @@ export class AppointComponent implements OnInit {
       students.map(s => studentIds.push(s.id));
       studentIds = Array.from(new Set([...studentIds]));
       this.http.post('/student/showStudentCardInfo', { paramJson: JSON.stringify({ studentIds: studentIds.join(',') }) }).then(res => {
-        if (res.result == 1000) {
+        if (res.returnCode == "SUCCESS") {
           let innerHTML = [];
           res.data.list.map(student => {
             innerHTML.push(`<li>

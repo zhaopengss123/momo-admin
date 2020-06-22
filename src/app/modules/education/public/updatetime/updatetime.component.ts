@@ -103,12 +103,12 @@ export class UpdatetimeComponent implements OnInit {
         status: -1
       })
     }).then(res => {
-      if (res.result == 1000) {
+      if (res.returnCode == "SUCCESS") {
         this.message.success('操作成功');
         data.edit = false;
         this.getData(this.modeClassId);
       } else {
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
       }
     });
   }
@@ -147,10 +147,10 @@ export class UpdatetimeComponent implements OnInit {
       this.http.post('/courseConfig/saveCourseDayTemplate', {
         paramJson: JSON.stringify(params)
       }, true).then(res => {
-        if (res.result == 1000) {
+        if (res.returnCode == "SUCCESS") {
           this.drawerRef.close(true);
         } else {
-          this.message.warning(res.message);
+          this.message.warning(res.returnMsg);
         }
       });
     }

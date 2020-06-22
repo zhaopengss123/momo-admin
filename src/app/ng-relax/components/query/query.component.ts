@@ -65,7 +65,7 @@ export class QueryComponent implements OnInit {
           this.http.post<any>(res.optionsUrl, serialize(res.params || {}), {
             headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
           }).subscribe(result => {
-            res.options = (res.options || []).concat(result.data.list || result.data);
+            res.options = (res.options || []).concat(result.result || result.data);
             res.optionsResult && res.optionsResult(res.options);
           })
         }

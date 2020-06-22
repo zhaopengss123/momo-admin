@@ -68,7 +68,7 @@ export class SelectClassComponent implements OnInit {
         status: data.status == 0 ? -1 : 0
       })
     }, true).then(res => {
-      if(res.result == 1000){
+      if(res.returnCode == "SUCCESS"){
         this.table && this.table._request();
     }  
     }).catch();

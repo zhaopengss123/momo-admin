@@ -35,7 +35,9 @@ export class LoginComponent implements OnInit {
     private store: Store<AppState>,
     private modal: NzModalService
   ) {
-    this.store.select('routerState').subscribe(res => this.baseRouter = res);
+    this.store.select('routerState').subscribe(res => {
+      this.baseRouter = res;
+    });
   }
 
   ngOnInit() {
@@ -66,34 +68,37 @@ export class LoginComponent implements OnInit {
 
   /* ----------------------------- 登录 ----------------------------- */
   _submit() {
-    for (let i in this.loginForm.controls) {
-      this.loginForm.controls[i].markAsDirty();
-    }
+    // for (let i in this.loginForm.controls) {
+    //   this.loginForm.controls[i].markAsDirty();
+    // }
 
-    if (this.loginForm.valid) {
-      this._login();
-    }
+    // if (this.loginForm.valid) {
+    //   this._login();
+    // }
+    this._login();
   }
   private _login(): void {
     if (this.loginLoading) { return; }
     this.loginLoading = true;
     /* --------- 根据authCode是否存在,判断是否为免密登录 --------- */
     let params = JSON.parse(JSON.stringify(this.loginForm.value));
-    params.password = hex_md5(params.password).toLocaleUpperCase();
-    this.http.post<any>('/login/auth', serialize({ paramJson: JSON.stringify(params) }), {
+    // params.password = hex_md5(params.password).toLocaleUpperCase();
+    this.http.post<any>('/console/login', serialize({ code:params.userName, pwd: params.password  }), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     }).subscribe(res => {
       this.loginLoading = false;
-      if (res.result == 1000) {
+      if (res.returnCode == 'SUCCESS') {
         /* ------------------ 存储用户名密码及用户信息 ------------------ */
-        window.localStorage.setItem('userInfo', JSON.stringify(res.data));
-        this.store.dispatch({ type: 'setUserInfo', payload: res.data });
+        res.result.menuUrls = "**";
+        res.result.kindergartenId = 1;
+        window.localStorage.setItem('userInfo', JSON.stringify(res.result));
+        this.store.dispatch({ type: 'setUserInfo', payload: res.result });
         if (params.remember) {
           window.localStorage.setItem('userName', JSON.stringify(this.loginForm.value));
         }
         this.router.navigateByUrl('/home/index');
       } else {
-        this.loginError = res.message;
+        this.loginError = res.returnMsg;
       }
     }, err => {
       this.loginLoading = false;

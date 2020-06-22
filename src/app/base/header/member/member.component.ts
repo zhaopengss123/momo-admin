@@ -52,7 +52,7 @@ export class MemberComponent implements OnInit {
     this.http.post(`${this.domain}/czg/fullQuery`, {
       storeId: this.storeId,
       condition,
-      pageNum: 1,
+      pageNo: 1,
       pageSize: 20
     }).then(result => {
       this.loading = false;

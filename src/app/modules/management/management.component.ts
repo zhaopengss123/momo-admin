@@ -76,7 +76,7 @@ export class ManagementComponent implements OnInit {
     }
     if (!this.successRate) {
       this.http.post('/report/query', { paramJson: JSON.stringify(params) }, false).then(res => {
-        if (res.result == 1000) {
+        if (res.returnCode == "SUCCESS") {
           this.ListHeader = res.data.header;
           this.ListContent = res.data.content;
         }

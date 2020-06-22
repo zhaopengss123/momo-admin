@@ -28,14 +28,14 @@ export class SelectCardComponent implements OnInit {
         studentId: this.studentInfo.studentId, buttonName: 'isReserve'
       }),
     }).then(res => {
-      if (res.result == 1000) {
+      if (res.returnCode == "SUCCESS") {
         cardInfo.operation = 'appoint';
         this.modalRef.close(cardInfo);
       } else if (res.result == 1028) {
         this.modalRef.close({ operation: 'update' });
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
       } else {
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
       }
     });
   }

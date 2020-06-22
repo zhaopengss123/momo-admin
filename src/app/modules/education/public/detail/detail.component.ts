@@ -24,10 +24,10 @@ export class DetailComponent implements OnInit {
     if(!this.info.name){
       this.http.post('/course/queryCourse', { 
         paramJson: JSON.stringify({name:this.info.data.name}),
-        pageNum:1,
+        pageNo:1,
         pageSize:10
       }).then(res => {
-          if(res.result == 1000){
+          if(res.returnCode == "SUCCESS"){
             this.info = res.data.list[0];
             this.getTypeName();
           }

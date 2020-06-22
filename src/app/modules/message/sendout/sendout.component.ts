@@ -62,7 +62,7 @@ export class SendoutComponent implements OnInit {
 
   brandName: string;
 
-  watchContent: any[] = ['【初之光】 退订回T'];
+  watchContent: any[] = ['【momo商城】 退订回T'];
 
   constructor(
     private http: HttpService,
@@ -73,15 +73,15 @@ export class SendoutComponent implements OnInit {
   ) {
     this.http.post('/sms/balance').then(res => this.smsBalanceSurplus = res.data);
     
-    this.http.post('/smsTemplate/list', { paramJson: JSON.stringify({ "pageNum": 1, "pageSize": 1000 }) }).then(res => this.smsTemplateList = res.data.list);
+    this.http.post('/smsTemplate/list', { paramJson: JSON.stringify({ "pageNo": 1, "pageSize": 1000 }) }).then(res => this.smsTemplateList = res.data.list);
     // this.http.post('/smsBalance/balance').then(res => this.smsBalance = res.result);
     this.http.post('/student/getStudentListQueryCondition').then(res => {
       this.queryNode[3].options = res.data.memberFromList;
     });
   }
   ngOnInit() {
-    // this.store.select('userInfoState').subscribe(res => this.brandName = res.store.shopBrand.brandName || '初之光');
-    this.brandName = '初之光'
+    // this.store.select('userInfoState').subscribe(res => this.brandName = res.store.shopBrand.brandName || 'momo商城');
+    this.brandName = 'momo商城'
     this.formGroup = this.fb.group({
       mobilePhones: [],
       type: [1],
@@ -94,7 +94,7 @@ export class SendoutComponent implements OnInit {
     });
     this.formGroup.get('content').valueChanges.subscribe(val => {
       this.sendNum = this.selectList.length * (val && val.length + (this.brandName.length + 8) > 70 ? Math.ceil((val.length + (this.brandName.length + 8)) / 70) : 1);
-      let watchContent = `【初之光】${val} 退订回T`;
+      let watchContent = `【momo商城】${val} 退订回T`;
       this.watchContent = [];
       let con = watchContent.length / 70;
       let mocon = watchContent.length % 70;
@@ -120,7 +120,7 @@ export class SendoutComponent implements OnInit {
     if (!this.queryLoading) {
       this.queryLoading = true;
       params.pageSize = 10000;
-      params.pageNum = 1;
+      params.pageNo = 1;
       params.kindergartenId = 1;
       this.http.post('/student/getStudentList', { paramJson: JSON.stringify(params) }, false).then(res => {
         res.data.list.map(res => res.title = res.studentName + res.mobilePhone)

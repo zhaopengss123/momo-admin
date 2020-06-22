@@ -64,10 +64,10 @@ export class TransactionComponent implements OnInit {
           studentId: this.studentInfo.studentId, buttonName: 'isReserve'
         }),
       }).then(res => {
-        if (res.result == 1000) {
+        if (res.returnCode == "SUCCESS") {
           this.appoint({ studentInfo: this.studentInfo, cardInfo});
         } else {
-          this.message.warning(res.message);
+          this.message.warning(res.returnMsg);
         }
       });
     }

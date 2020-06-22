@@ -71,12 +71,12 @@ export class ImportComponent implements OnInit {
         color: data.color
       })
     }).then(res => {
-      if(res.result == 1000){
+      if(res.returnCode == "SUCCESS"){
         this.message.success('操作成功');
         data.edit = false;
         this.getData();
       }else{
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
       }
     });
   }
@@ -87,12 +87,12 @@ export class ImportComponent implements OnInit {
         status: -1
       })
     }).then(res => {
-      if(res.result == 1000){
+      if(res.returnCode == "SUCCESS"){
         this.message.success('操作成功');
         data.edit = false;
         this.getData();
       }else{
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
       }
     });
   }

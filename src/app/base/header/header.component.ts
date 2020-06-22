@@ -47,6 +47,7 @@ export class HeadComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
 
   routeActiveIndex: number;

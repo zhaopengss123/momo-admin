@@ -7,24 +7,24 @@ export const MenuConfig = [
     disabled: true,
     isLeaf: true
   },
-  {
-    title : '预约管理',
-    brief : '预约',
-    key   : '/home/reserve',
-    icon  : 'desktop',
-    isLeaf: true
-  },
-  {
-    title : '学员管理',
-    brief : '学员',
-    key   : '/home/customer',
-    icon  : 'user',
-    isLeaf: true
-  },
+  // {
+  //   title : '预约管理',
+  //   brief : '预约',
+  //   key   : '/home/reserve',
+  //   icon  : 'desktop',
+  //   isLeaf: true
+  // },
+  // {
+  //   title : '学员管理',
+  //   brief : '学员',
+  //   key   : '/home/customer',
+  //   icon  : 'user',
+  //   isLeaf: true
+  // },
 
   {
-    title : '招生管理',
-    brief : '招生',
+    title : '广告管理',
+    brief : '广告',
     key   : '/home/visit',
     icon  : 'customer-service',
     children : [

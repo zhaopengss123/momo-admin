@@ -86,7 +86,7 @@ export class ReservePreviewComponent implements OnInit {
       students.map(s => studentIds.push(s.id))
       studentIds = Array.from(new Set([...studentIds]));
       this.http.post('/student/showStudentCardInfo', { paramJson: JSON.stringify({ studentIds: studentIds.join(',') }) }).then(res => {
-        if (res.result == 1000) {
+        if (res.returnCode == "SUCCESS") {
           let innerHTML = [];
           res.data.list.map(student => {
             innerHTML.push(`<li>

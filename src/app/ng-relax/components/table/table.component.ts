@@ -110,14 +110,14 @@ export class TableComponent implements OnInit {
       JSON.parse(JSON.stringify(this.paramsDefault)),
       this._params,
       this.paramsInit,
-      { pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize }
+      { pageNo: isReset ? 1 : this._pageInfo.pageNo, pageSize: this._pageInfo.pageSize }
     )
     Object.keys(paramJson).map(key => { if (paramJson[key] === '' || paramJson[key] === null) { delete paramJson[key] } });
     let params;
     if (!this.attribute) {
-      params = this.isParamJson ? { paramJson: JSON.stringify(paramJson), pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize } : paramJson;
+      params = this.isParamJson ? { paramJson: JSON.stringify(paramJson), pageNo: isReset ? 1 : this._pageInfo.pageNo, pageSize: this._pageInfo.pageSize } : paramJson;
     } else {
-      params = this.isParamJson ? { attribute: JSON.stringify(attribute), paramJson: JSON.stringify(paramJson), pageNum: isReset ? 1 : this._pageInfo.pageNum, pageSize: this._pageInfo.pageSize } : { paramJson, attribute };
+      params = this.isParamJson ? { attribute: JSON.stringify(attribute), paramJson: JSON.stringify(paramJson), pageNo: isReset ? 1 : this._pageInfo.pageNo, pageSize: this._pageInfo.pageSize } : { paramJson, attribute };
 
     }
     this.paramsInit = {};
@@ -149,10 +149,10 @@ export class TableComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     }).subscribe(res => {
       this._pageInfo.loading = false;
-      if (res.result == 1000) {
-        if (res.data) {
-          
-          let dataSet = res.data.list || res.data;
+      console.log(res);
+      if (res.returnCode == 'SUCCESS') {
+        if (res.result) {
+          let dataSet = res.result.list || res.result;
           dataSet.map(item => {
             item.isJSON = this.isJSON(item.lastFollowContent) || false;
             if(item.isJSON){
@@ -160,10 +160,10 @@ export class TableComponent implements OnInit {
             }
           })
           this.dataSet = dataSet;
-          !res.data.list && (this.showPage = false);
-
-          this._pageInfo.pageNum = res.data.pageNum;
-          this._pageInfo.totalPage = res.data.totalPage;
+          !res.result && (this.showPage = false);
+          res.result && !res.result.list && res.result.pageNo && (this.showPage = false);
+          this._pageInfo.pageNo = res.result.pageNo;
+          this._pageInfo.totalPage = res.result.totalPage;
 
           /* ------------------- 如果存在选择列表则初始数据 ------------------- */
           if (this.checkedItems) {
@@ -174,11 +174,12 @@ export class TableComponent implements OnInit {
             this.ready.emit(this.dataSet);
             this._readyComplate = true;
           }
+          console.log(this.dataSet);
           this.dataChange.emit(this.dataSet);
 
         }
       } else {
-        this.message.warning(res.message || '操作成功');
+        this.message.warning(res.returnMsg || '操作失败');
       }
     }, err => {
       this._pageInfo.loading = false;
@@ -233,7 +234,7 @@ export class PageInfo {
   constructor(
     public loading: boolean = false,
     public totalPage: number = 0,
-    public pageNum: number = 1,
+    public pageNo: number = 1,
     public pageSize: number = 10
   ) { }
 }

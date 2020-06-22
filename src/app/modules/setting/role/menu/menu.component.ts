@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit{
         });
         this.http.post('/settings/role/listMenuListByRoleId', { roleId: this.roleId }, false).then(res => {
           this.loading = false;
-          if (res.result == 1000) {
+          if (res.returnCode == "SUCCESS") {
             if(res.data.beforeUrl){
               this.checkedNodes = res.data.beforeUrl.split(',');
             }
@@ -44,7 +44,7 @@ export class MenuComponent implements OnInit{
         // this.http.post('/settings/role/listMenuListByRoleId', { roleId: this.roleId }, false).then(res => {
         //     this.loading = false;
         //     let beforePath:String;
-        //     if (res.result == 1000) {
+        //     if (res.returnCode == "SUCCESS") {
         //       if(res.data.menuList){
         //         res.data.menuList.forEach(path => {
         //           beforePath = beforePath+","+path.beforePathUrl;
@@ -100,7 +100,7 @@ export class MenuComponent implements OnInit{
             //得到最全的menuId
           // this.http.post('/settings/role/listMenuList', {}, false).then(res => {
           //   this.loading = false;
-          //   if (res.result == 1000) {
+          //   if (res.returnCode == "SUCCESS") {
           //     if(null != res.data){
           //       res.data.forEach(path => {
           //         let checkMenuTem :any = {};

@@ -12,7 +12,8 @@
         <span><i nz-icon [type]="'home'"></i><span>首页</span></span>
       </li>
       <ng-container *ngFor="let item of menuConfig">
-        <ng-container *ngIf="roleAllowPath.indexOf(item.key) > -1 || roleAllowPath.indexOf('**') > -1">
+          <ng-container *ngIf="roleAllowPath.indexOf(item.key) > -1 || roleAllowPath.indexOf('**') > -1">
+
           <ng-container *ngIf="item.isLeaf && item.key != '/home/index'">
             <li [routerLink]="item.key"
               [ngClass]="{ active: (routerState.currentPath.indexOf(item.key) > -1 && item.key != '/home/index') || (routerState.currentPath == '/home/index' && item.key == '/home/index')|| (!routerState.currentMenu && item.key == '/home/index')}">

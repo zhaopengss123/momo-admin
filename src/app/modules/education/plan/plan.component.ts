@@ -31,7 +31,7 @@ export class PlanComponent implements OnInit {
       optionsUrl  : '/message/listClassMessage'
     }
   ];
-  pageNum: number = 1;
+  pageNo: number = 1;
   pageSize: number = 40;
   totalPage: number = 0;
   param: any;
@@ -70,7 +70,7 @@ export class PlanComponent implements OnInit {
       delete data['typeId'];
     }
     data.status = 0;
-    this.http.post('/course/queryCourse', { paramJson: JSON.stringify(data), pageNum: this.pageNum , pageSize: this.pageSize }, false).then(res => { 
+    this.http.post('/course/queryCourse', { paramJson: JSON.stringify(data), pageNo: this.pageNo , pageSize: this.pageSize }, false).then(res => { 
       this.courseList = res.data.list;  
       this.totalPage = res.data.totalPage;
       let swidth: number = Number(this.elementView.nativeElement.offsetWidth);
@@ -106,18 +106,18 @@ export class PlanComponent implements OnInit {
  
   selectclass(id){
     this.typeId = id;
-    this.pageNum = 1;
+    this.pageNo = 1;
     this.querys(this.param);
   }
   submitQuerys(e){
-    this.pageNum = 1;
+    this.pageNo = 1;
     this.querys(e);
   }
   pageChange(){
     this.querys(this.param);
   }
   pagesizeChange(){
-    this.pageNum = 1;
+    this.pageNo = 1;
     this.querys(this.param);
   }
   openDetail(info = {}){

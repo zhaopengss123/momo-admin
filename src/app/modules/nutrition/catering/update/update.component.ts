@@ -92,7 +92,7 @@ export class UpdateComponent implements OnInit {
     this.saveLoading = true;
     this.http.post('/recipe/batchUpdateRecipe', { paramJson: JSON.stringify(this.dataList) },true).then(res => { 
       this.saveLoading = false;
-        if(res.result == 1000){
+        if(res.returnCode == "SUCCESS"){
           this.drawerRef.close(true);
 
         }

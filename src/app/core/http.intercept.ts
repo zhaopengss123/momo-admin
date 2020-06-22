@@ -49,9 +49,9 @@ export class NoopInterceptor implements HttpInterceptor {
 
 }
 export interface YlbbResponse {
-  result    : number;
+  result    : any;
   meg     : string;
   data  : any;
-  code: any;
-  message: any;
+  returnCode: any;
+  returnMsg: any;
 }

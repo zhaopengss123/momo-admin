@@ -28,23 +28,13 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.store.select('routerState').subscribe(res => this.routerState = res);
-
     this.store.select('userInfoState').subscribe(res => {
-      this.roleAllowPath = res.menuUrls;
+      this.roleAllowPath = '**';
     });
   }
 
   routerLink(children: any[]) {
-    if (this.roleAllowPath.indexOf('**') > -1) {
       this.router.navigateByUrl(children[0].key);
-    } else {
-      for (let i = 0; i < children.length; i++) {
-        if (this.roleAllowPath.indexOf(children[i].key) > -1) {
-          this.router.navigateByUrl(children[i].key);
-          break;
-        }
-      }
-    }
   }
 
 }

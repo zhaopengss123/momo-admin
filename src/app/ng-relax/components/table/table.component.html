@@ -10,7 +10,7 @@
   [nzShowPagination]="showPage"
   [nzLoading]="_pageInfo.loading"
   [nzTotal]="_pageInfo.totalPage"
-  [(nzPageIndex)]="_pageInfo.pageNum"
+  [(nzPageIndex)]="_pageInfo.pageNo"
   [(nzPageSize)]="_pageInfo.pageSize"
   (nzPageSizeChange)="_request(true)"
   (nzPageIndexChange)="_request()">

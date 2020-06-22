@@ -331,10 +331,10 @@ export class ListComponent implements OnInit {
         studentId: this.checkedItems[0], buttonName: 'isPay'
       }),
     }).then(res => {
-      if (res.result == 1000) {
+      if (res.returnCode == "SUCCESS") {
         this.payment({ id: this.checkedItems[0] });
       } else {
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
         this.update({ id: this.checkedItems[0], type: 'isPay' });
       }
     });
@@ -346,7 +346,7 @@ export class ListComponent implements OnInit {
       paramJson: JSON.stringify({
         studentId: this.checkedItems[0], buttonName: 'isAdjustClass'
       }),
-    }).then(res => res.result == 1000 ? this.class({ id: this.checkedItems[0] }, res.data[0]) : this.message.warning(res.message));
+    }).then(res => res.returnCode == "SUCCESS" ? this.class({ id: this.checkedItems[0] }, res.data[0]) : this.message.warning(res.returnMsg));
   }
 
   /* -------------- 负责老师校验 -------------- */

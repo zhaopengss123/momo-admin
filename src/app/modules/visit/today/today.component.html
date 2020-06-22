@@ -1,62 +1,27 @@
 <div class="container">
-  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
-
   <div class="ea-button-group">
     <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">新增客户线索</button>
     <button nz-button (click)="import()">导入客户</button>
   </div>
 
-  <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false" [attribute]="true"  [paramsInit]="paramsInit" url="/membermanage/clue/waitReturnList">
+  <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [showPage]="false" [allowSpace]="false" [attribute]="true"  [paramsInit]="paramsInit" url="/console/banner/all">
     <ng-template let-data #EaTableTbodyTr>
-      <td><a (click)="preview({id: data.id, source: 'visit', step: data.step})">{{ data.nickName }}</a></td>
-      <td><a (click)="preview({id: data.id, source: 'visit', step: data.step})">{{ data.studentName }}</a></td>
-      <td>{{ data.birthday || '--' }}</td>
-      <td>{{ data.sex }}</td>
-      <td>{{ data.monthAge }}</td>
-      <td><ng-container *ngIf="!data.showPhone; else elseTemplate"><a (click)="data.showPhone = true">查看</a></ng-container><ng-template #elseTemplate>{{ data.mobilePhone }}</ng-template></td>
-      <td>{{ data.createTime }}</td>
-      <td>{{ data.nextFollowTime || '--' }}</td>
-      <td>{{ data.step == 1 ? '建立联系' : (data.step == 2 ? '建立信任' : data.step == 3 ? '到园参观' : data.step == 4 ? '到园体验' : data.step == 5 ? '逼单转化' : data.step == 6 ? '办卡' : '' )  }}</td>
-      <td>{{ data.problems }}</td>
       <td>
-          <ng-container *ngIf="!data.isJSON">
-          <div *ngIf="data.lastFollowContent" nz-tooltip [nzTitle]="data.lastFollowContent">
-            {{ data.lastFollowContent.length > 20 ? data.lastFollowContent.substr(0, 20) + '...' : data.lastFollowContent }}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="data.isJSON">
-          <div><label>跟进方式：</label><span>{{ data.lastFollowContent.followType == 1 ? '电话' : '微信' }}</span></div>
-          <div><label>客户状态：</label><span>{{ data.visitStatusName }}</span></div>
-            <div *ngIf="data.visitStatusId != 3"><label>客户阶段：</label><span>{{ data.lastFollowContent.followStageId == 5 ? '了解情况建立信任' : data.lastFollowContent.followStageId == 6 ? '参与活动' : data.lastFollowContent.followStageId == 7 ? '赠送礼品' : data.lastFollowContent.followStageId == 8 ? '预约参观' : data.lastFollowContent.followStageId == 9 ? '到园参观' : data.lastFollowContent.followStageId == 10 ? '预约体验' : data.lastFollowContent.followStageId == 11 ? '到园体验' : data.lastFollowContent.followStageId == 12 ? '逼单转化' : '--' }}</span></div>
-            <div  *ngIf="data.lastFollowContent.visitStatusId == 3"><label>无意向原因：</label><span>{{ jsonData['reason'][data.lastFollowContent.reason] }}</span></div>
-              <div  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 6"><label>活动名称：</label><span>{{ jsonData['activity'][data.lastFollowContent.activity] }}</span></div>
-              <div  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 7"><label>礼品名称：</label><span>{{ jsonData['gift'][data.lastFollowContent.gift] }}</span></div>
-              <div  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 8"><label>参观时间：</label><span>{{ data.lastFollowContent.orderDate }}</span></div>
-              <ng-container  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 9">
-                  <div><label>实际到店时间：</label><span>{{ data.lastFollowContent.arriveDate }}</span></div>
-                  <div><label>接待老师：</label><span>{{ data.lastFollowContent.receptionTeacher }}</span></div>
-                  <div><label>参观人：</label><span>{{ data.lastFollowContent.visitName }}</span></div>
-                  <div><label>家长关注重点：</label><span>{{ data.lastFollowContent.point }}</span></div>
-                  <div><label>家长的顾虑：</label><span>{{ data.lastFollowContent.worry }}</span></div>
-              </ng-container>
-              <ng-container  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 10">
-                <div><label>班级：</label><span>{{ classList[data.lastFollowContent.reserveClassId] }}</span></div>
-                <div><label>体验时间：</label><span>{{ data.lastFollowContent.experienceDate }}</span></div>
-            </ng-container>
-            <ng-container  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 11">
-              <div><label>实际到店时间：</label><span>{{ data.lastFollowContent.nextStoreDate }}</span></div>
-              <div><label>负责老师：</label><span>{{ teacherList[data.lastFollowContent.responsibleTeacher] }}</span></div>
-              <div><label>体验时长：</label><span>{{ experienceTimeList[data.lastFollowContent.experienceTime] }}</span></div>
-              <div><label>家长关注重点：</label><span>{{ data.lastFollowContent.focus }}</span></div>
-              <div><label>家长的顾虑：</label><span>{{ data.lastFollowContent.worry2 }}</span></div>
-              <div><label>宝宝当天表现：</label><span>{{data.lastFollowContent.babyPerformance }}</span></div>
-          </ng-container>
-          <ng-container  *ngIf="data.lastFollowContent.visitStatusId == 1 && data.lastFollowContent.followStageId == 12">
-            <div><label>售卖价目：</label><span>{{ data.lastFollowContent.sellingPrice }}</span></div>
-            <div><label>不缴费的顾虑：</label><span>{{ data.lastFollowContent.payWorry }}</span></div>
-        </ng-container>
-          </ng-container>     
-        </td>
+        <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+          [nzSrc]="data.imgUrl" nz-tooltip [nzTitle]="data.imgUrl ? titleTemplate : null"></nz-avatar>
+        <ng-template #titleTemplate>
+          <img [src]="data.imgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+        </ng-template>
+      </td>
+      <td><a (click)="addCustomer({id: data.id, source: 'visit', step: data.step})">{{ data.name }}</a></td>
+      <td>{{ data.createTime || '--' }}</td>
+      <td>{{ data.updateTime }}</td>
+      <td>{{ data.upShelves }}</td>
+      <td>
+        <a  *ngIf="data.upShelves != '上架'" nz-popconfirm nzTitle="确定要上架该商品吗？" (nzOnConfirm)="upShelves(data.id)">上架</a>
+        <a  *ngIf="data.upShelves == '上架'" nz-popconfirm nzTitle="确定要下架该商品吗？" (nzOnConfirm)="downShelves(data.id)">下架</a>
+
+      </td>
     </ng-template>
   </ea-table>
 </div>

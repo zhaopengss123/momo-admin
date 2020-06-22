@@ -35,7 +35,7 @@ export class UpdateComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup.patchValue(this.templateInfo);
-    this.store.select('userInfoState').subscribe(res => this.formGroup.patchValue({ prefix: `【初之光】` }))
+    this.store.select('userInfoState').subscribe(res => this.formGroup.patchValue({ prefix: `【momo商城】` }))
   }
 
   saveLoading: boolean;

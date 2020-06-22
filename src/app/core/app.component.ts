@@ -19,7 +19,7 @@ export class AppComponent {
 
     try {
       let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      if (!userInfo.token) throw "未登录";
+      if (!userInfo.kindergartenId) throw "未登录";
       this.store.dispatch({ type: 'setUserInfo', payload: userInfo });
     } catch (e) {
       this.router.navigateByUrl('/login');

@@ -39,7 +39,7 @@ export class RoleComponent implements OnInit {
       remark: []
     }),
     this.http.get('/settings/role/listRoleType', { }).then(res => {
-      if(res.result == 1000){
+      if(res.returnCode == "SUCCESS"){
         if(res.data && res.data.length){
           this.roleListType = res.data;
         } 

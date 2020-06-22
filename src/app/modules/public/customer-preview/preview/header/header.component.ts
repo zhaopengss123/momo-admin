@@ -72,10 +72,10 @@ export class HeaderComponent implements OnInit {
         studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isPay'
       }),
     }).then(res => {
-      if (res.result == 1000) {
+      if (res.returnCode == "SUCCESS") {
         this.payment({ id: this.memberInfo.studentInfo.studentId });
       } else {
-        this.message.warning(res.message);
+        this.message.warning(res.returnMsg);
         this.update({ id: this.memberInfo.studentInfo.studentId, type: 'isPay' })
       }
     });
@@ -87,7 +87,7 @@ export class HeaderComponent implements OnInit {
       paramJson: JSON.stringify({
         studentId: this.memberInfo.studentInfo.studentId, buttonName: 'isAdjustClass'
       }),
-    }).then(res => res.result == 1000 ? this.class({ id: this.memberInfo.studentInfo.studentId }, res.data[0]) : this.message.warning(res.message));
+    }).then(res => res.returnCode == "SUCCESS" ? this.class({ id: this.memberInfo.studentInfo.studentId }, res.data[0]) : this.message.warning(res.returnMsg));
   }
 
   @DrawerCreate({ title: '学员信息', content: UpdateComponent }) update: ({ id: number, type: string }) => void;

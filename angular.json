@@ -192,5 +192,8 @@
       }
     }
   },
-  "defaultProject": "ylbb-system-kindergarten"
+  "defaultProject": "ylbb-system-kindergarten",
+  "cli": {
+    "analytics": false
+  }
 }

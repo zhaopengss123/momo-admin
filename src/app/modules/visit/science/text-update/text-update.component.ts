@@ -85,7 +85,7 @@ export class TextUpdateComponent implements OnInit {
         monthOldId,
         textContent
       }, true).then(res => {
-          if(res.result == 1000){
+          if(res.returnCode == "SUCCESS"){
             this.drawerRef.close(true)
           }
       }).catch(err => {

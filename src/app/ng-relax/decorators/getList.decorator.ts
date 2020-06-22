@@ -8,7 +8,7 @@ export function GetList(url) {
   return function (target, propertyKey) {
     target[propertyKey] = function () {
       target[propertyKey] = [];
-      this.http.post(url, {}, false).then(res => target[propertyKey] = res.result == 1000 ? (res.data.list || res.data) : []).catch(err => target[propertyKey] = []);
+      this.http.post(url, {}, false).then(res => target[propertyKey] = res.returnCode == "SUCCESS" ? (res.data.list || res.data) : []).catch(err => target[propertyKey] = []);
     }
   }
 }

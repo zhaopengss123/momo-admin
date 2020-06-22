@@ -8,7 +8,7 @@ export const environment = {
   //domain: 'http://39.107.232.95:6014/first_light/kindergarten',
   domainEs: 'http://testes.haochengzhang.com/es/',
   domainPay: '',
-  domain: 'http://service.wislightgroup.com/first_light/kindergarten',
+  domain: 'http://momoadmin.beituokj.com',
   // domainEs: 'http://es.haochengzhang.com/es/',
 };
 
