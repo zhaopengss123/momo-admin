@@ -83,7 +83,7 @@ export class TodayComponent implements OnInit {
   }
   @DrawerCreate({ content: PreviewComponent, width: 960, closable: false }) preview: ({ id: number, source: string, step: any }) => void;
 
-  @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: () => void;
+  @DrawerCreate({ title: '新增客户', content: UpdateComponent }) addCustomer: ({ id: number }) => void;
 
   @DrawerCreate({ title: '导入客户', content: ImportComponent }) import: () => void;
 

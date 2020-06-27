@@ -1,8 +1,11 @@
-import { AliOssClientService } from './../../services/alioss-client.service';
+// import { AliOssClientService } from './../../services/alioss-client.service';
 import { Component, OnInit, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadFile, NzMessageService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { serialize } from 'src/app/core/http.intercept';
+
 @Component({
   selector: 'ea-upload-picture',
   templateUrl: './upload-picture.component.html',
@@ -16,9 +19,9 @@ import { Observable } from 'rxjs';
 export class UploadPictureComponent implements OnInit {
 
 
-  private _aliOssClient
+  // private _aliOssClient
 
-  picturesChange: any = () => {};
+  picturesChange: any = () => { };
 
   @Input() maxLength = 1;
 
@@ -44,8 +47,8 @@ export class UploadPictureComponent implements OnInit {
     let pictureString = []
     if (this._pictures.length) {
       this._pictures.map(res => {
-        pictureString.push(res.url);
-      }) 
+        pictureString.push(res.fileUrl);
+      })
     }
     this.picturesChange(pictureString.join(','));
   }
@@ -55,9 +58,10 @@ export class UploadPictureComponent implements OnInit {
 
   constructor(
     private message: NzMessageService,
-    private aliOssClient: AliOssClientService
+    private http: HttpClient,
+    // private aliOssClient: AliOssClientService
   ) {
-    this.aliOssClient.getClient().then(aliOssClient => this._aliOssClient = aliOssClient);
+    // this.aliOssClient.getClient().then(aliOssClient => this._aliOssClient = aliOssClient);
   }
 
   ngOnInit() {
@@ -102,24 +106,35 @@ export class UploadPictureComponent implements OnInit {
         observer.next(null);
         observer.complete();
       } else {
-        let fileName = new Date().getTime() + `.${fileType}`;
+        let formData: any = new FormData();
+        formData.append('file', file);
+        this.http.post<any>('/console/banner/uploadImg', formData, {
+        }).subscribe(res => {
+          if (res.returnCode == 'SUCCESS') {
+            let imageSrc = res.result.host + res.result.url;
+            let arr = this.pictures || [];
+            arr.push({
+              uid: file.uid,
+              url: imageSrc,
+              fileUrl: res.result.url,
+              status: 'done'
+            });
+            this.pictures = [...arr];
+            observer.next(true);
+            observer.complete();
 
-        this._aliOssClient.multipartUpload(fileName, file, {}).then(res => {
-          let imageSrc = res.url ? res.url : 'http://' + res.bucket + '.oss-cn-beijing.aliyuncs.com/' + res.name;
-          let arr = this.pictures || [];
-          arr.push({
-            uid: file.uid,
-            url: imageSrc,
-            status: 'done'
-          });
-          this.pictures = [...arr];
-          observer.next(true);
-          observer.complete();
+          } else {
+            observer.next(null);
+            observer.complete();
+            this.message.error('图片上传失败，请重新尝试');
+          }
         }, err => {
           observer.next(null);
           observer.complete();
           this.message.error('图片上传失败，请重新尝试');
         })
+
+
       }
     })
   }
