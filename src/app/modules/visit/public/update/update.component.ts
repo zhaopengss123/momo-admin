@@ -16,8 +16,6 @@ export class UpdateComponent implements OnInit {
   @Input() id: number;
 
   formGroup: FormGroup;
-
-
   constructor(
     private fb: FormBuilder = new FormBuilder(),
     private http: HttpService,
@@ -34,12 +32,21 @@ export class UpdateComponent implements OnInit {
       imgUrl: [, [Validators.required]],
       clickUrl: [, [Validators.required]]
     });
+    
+    let controls = {
+      id: [this.id],
+      name: [, [Validators.required]],
+      imgUrl: [, [Validators.required]],
+      clickUrl: [, [Validators.required]],
+      sortId: [, [Validators.required]],
+      upShelves: [, [Validators.required]],
+    }
     if(this.id){
+      this.formGroup = this.fb.group(controls);
       this.http.post(`/console/banner/queryById/${ this.id }`, {
       }, false).then(res => {
         if(res.returnCode == 'SUCCESS'){
           this.formGroup.patchValue(res.result);
-          console.log(this.formGroup)
         }
       }).catch(err => {
         this.saveLoading = false;
@@ -61,13 +68,29 @@ export class UpdateComponent implements OnInit {
       if (!params.id) {
         this.http.post('/console/banner/save', {
           name: params.name,
-          imgUrl: params.imgUrl,
+          imgUrl: params.imgUrl.replace("http://momoimage.beituokj.com",""),
           clickUrl: params.clickUrl
         }, true).then(res => {
           this.saveLoading = false;
           this.drawerRef.close(true);
         }).catch(err => {
           this.saveLoading = false;
+          this.drawerRef.close(true);
+        });
+      }else{
+        this.http.post('/console/banner/updateBanner', {
+          id: params.id,
+          name: params.name,
+          imgUrl: params.imgUrl.replace("http://momoimage.beituokj.com",""),
+          clickUrl: params.clickUrl,
+          sortId: params.sortId,
+          upShelves: params.upShelves
+        }, true).then(res => {
+          this.saveLoading = false;
+          this.drawerRef.close(true);
+        }).catch(err => {
+          this.saveLoading = false;
+          this.drawerRef.close(true);
         });
       }
     }

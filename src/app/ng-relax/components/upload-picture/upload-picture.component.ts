@@ -33,7 +33,7 @@ export class UploadPictureComponent implements OnInit {
       this._pictures = pic.split(',').map((item, idx) => {
         let uploadfile: any = {};
         uploadfile.uid = idx;
-        uploadfile.url = item;
+        uploadfile.url = 'http://momoimage.beituokj.com' +  item;
         uploadfile.status = 'done';
         return uploadfile;
       })
@@ -47,8 +47,8 @@ export class UploadPictureComponent implements OnInit {
     let pictureString = []
     if (this._pictures.length) {
       this._pictures.map(res => {
-        pictureString.push(res.fileUrl);
-      })
+        pictureString.push(res.url);
+      }) 
     }
     this.picturesChange(pictureString.join(','));
   }

@@ -19,18 +19,53 @@
       </nz-form-item>
     </nz-col>
 
+  </nz-row>
+
+  <nz-row [nzGutter]="8">
+
+    <nz-col [nzSpan]="12" *ngIf="id">
+      <nz-form-item>
+        <nz-form-label nzRequired>排序</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="number" formControlName="sortId" placeholder="请输入广告名">
+          <nz-form-explain *ngIf="valid('sortId')">请输入排序</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+
+    <div nz-col nzSpan="12" *ngIf="id">
+      <nz-form-item>
+        <nz-form-label nzRequired >状态</nz-form-label>
+        <nz-form-control >
+          <nz-radio-group formControlName="upShelves">
+            <label nz-radio [nzValue]="1">上架</label>
+            <label nz-radio [nzValue]="0">下架</label>
+          </nz-radio-group>
+          <nz-form-explain *ngIf="valid('upShelves')">请选择状态</nz-form-explain>
+  
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-row>
+  <nz-row [nzGutter]="8">
+
     <div nz-col nzSpan="12">
       <nz-form-item>
           <nz-form-label>广告图片</nz-form-label>
           <nz-form-control>
               <ea-upload-picture formControlName="imgUrl" [maxLength]="1"></ea-upload-picture>
               <nz-form-explain *ngIf="valid('imgUrl')">请选择广告图片</nz-form-explain>
-
           </nz-form-control>
       </nz-form-item>
   </div>
-
   </nz-row>
+
+ 
+
+  
+
+
 
 
 </form>
