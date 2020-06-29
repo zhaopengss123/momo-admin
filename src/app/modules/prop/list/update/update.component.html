@@ -1,0 +1,145 @@
+<form nz-form [formGroup]="formGroup">
+  <nz-row [nzGutter]="8">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>道具名</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="name" placeholder="请输入道具名">
+          <nz-form-explain *ngIf="valid('name')">请输入道具名</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>星光</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="number" formControlName="starlight" placeholder="请输入星光">
+          <nz-form-explain *ngIf="valid('starlight')">请输入星光</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label >固定服务费 </nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="fixedServiceCharge" placeholder="请输入固定服务费">
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label >固定保证金 </nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="fixedCashDeposit" placeholder="请输入固定保证金">
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+
+        <nz-col [nzSpan]="12">
+            <nz-form-item>
+              <nz-form-label >动态服务费 </nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="dynamicServiceCharge" placeholder="请输入固定保证金">
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col [nzSpan]="12">
+              <nz-form-item>
+                <nz-form-label >动态保证金 </nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="dynamicCashDeposit" placeholder="请输入固定保证金">
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+
+    <div nz-col nzSpan="12" >
+        <nz-form-item>
+          <nz-form-label nzRequired>是否特权</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="privilege">
+              <label nz-radio [nzValue]="1">特权</label>
+              <label nz-radio [nzValue]="0">非特权</label>
+            </nz-radio-group>
+            <nz-form-explain *ngIf="valid('privilege')">请选择是否特权</nz-form-explain>
+  
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12" >
+          <nz-form-item>
+            <nz-form-label nzRequired>是否自行上传图片</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="customerImg">
+                <label nz-radio [nzValue]="1">是</label>
+                <label nz-radio [nzValue]="0">否</label>
+              </nz-radio-group>
+              <nz-form-explain *ngIf="valid('customerImg')">请选择是否自行上传图片</nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12" >
+            <nz-form-item>
+              <nz-form-label nzRequired>商品类别</nz-form-label>
+              <nz-form-control>
+                <nz-radio-group formControlName="isSell">
+                  <label nz-radio [nzValue]="2">买</label>
+                  <label nz-radio [nzValue]="1">卖</label>
+                  <label nz-radio [nzValue]="0">通用</label>
+                </nz-radio-group>
+                <nz-form-explain *ngIf="valid('isSell')">请选择商品类别</nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </div> 
+
+          <div nz-col nzSpan="12" >
+              <nz-form-item>
+                <nz-form-label nzRequired>状态</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group formControlName="upShelves">
+                    <label nz-radio [nzValue]="1">上架</label>
+                    <label nz-radio [nzValue]="0">下架</label>
+                  </nz-radio-group>
+                  <nz-form-explain *ngIf="valid('upShelves')">请选择状态</nz-form-explain>
+        
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+
+
+  </nz-row>
+
+  <!-- <nz-row [nzGutter]="8">
+    <nz-col [nzSpan]="12" *ngIf="id">
+      <nz-form-item>
+        <nz-form-label nzRequired>排序</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="number" formControlName="sortId" placeholder="请输入广告名">
+          <nz-form-explain *ngIf="valid('sortId')">请输入排序</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row> -->
+  <nz-row [nzGutter]="8">
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>道具图片</nz-form-label>
+        <nz-form-control>
+          <ea-upload-picture formControlName="imgUrl" [maxLength]="1"></ea-upload-picture>
+          <nz-form-explain *ngIf="valid('imgUrl')">请选择道具图片</nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-row>
+
+</form>
+
+<div class="drawer-footer">
+  <button nz-button (click)="close()">取消</button>
+  <button nz-button nzType="primary" [nzLoading]="saveLoading" (click)="save()">保存</button>
+</div>

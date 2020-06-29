@@ -41,7 +41,7 @@
   </thead>
 
   <tbody>
-    <ng-template ngFor let-data [ngForOf]="dataSet">
+    <ng-template ngFor let-data [ngForOf]="dataSet" let-i="index">
       <tr (click)="isRadio && isChecked(!data.checked, data); clickData.emit(data)" [ngClass]="{'ea-checked': data.checked}">
         <td (click)="$event.stopPropagation()" nzShowCheckbox *ngIf="checked" [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="isChecked($event, data)"></td>
         <td nzShowExpand [(nzExpand)]="data.expand" *ngIf="showExpand"></td>

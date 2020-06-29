@@ -29,17 +29,31 @@ export class UpdateComponent implements OnInit {
     this.formGroup = this.fb.group({
       id: [this.id],
       name: [, [Validators.required]],
-      imgUrl: [, [Validators.required]],
-      clickUrl: []
+      starlight	: [, [Validators.required]],
+      privilege	: [, [Validators.required]],
+      imgUrl	: [, [Validators.required]],
+      customerImg	: [, [Validators.required]],
+      isSell	: [0],
+      upShelves	: [0],
+      fixedServiceCharge: [],
+      fixedCashDeposit: [],
+      dynamicServiceCharge: [],
+      dynamicCashDeposit: [],
     });
     
     let controls = {
       id: [this.id],
       name: [, [Validators.required]],
-      imgUrl: [, [Validators.required]],
-      clickUrl: [],
-      sortId: [, [Validators.required]],
-      upShelves: [, [Validators.required]],
+      starlight	: [, [Validators.required]],
+      privilege	: [, [Validators.required]],
+      imgUrl	: [, [Validators.required]],
+      customerImg	: [, [Validators.required]],
+      isSell	: [, [Validators.required]],
+      upShelves	: [0],
+      fixedServiceCharge: [],
+      fixedCashDeposit: [],
+      dynamicServiceCharge: [],
+      dynamicCashDeposit: [],
     }
     if(this.id){
       this.formGroup = this.fb.group(controls);

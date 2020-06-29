@@ -29,36 +29,25 @@ export const MenuConfig = [
     icon  : 'customer-service',
     children : [
       {
-        title : '今日任务',
+        title : '广告列表',
         key   : '/home/visit/today',
         isLeaf: true
-      },
-      {
-        title : '已跟进',
-        key   : '/home/visit/already',
-        isLeaf: true
-      },
-      {
-        title : '待跟进',
-        key   : '/home/visit/stay',
-        isLeaf: true
-      },
+      }
 
+    ]
+  },
+  {
+    title : '道具管理',
+    brief : '道具',
+    key   : '/home/prop',
+    icon  : 'customer-service',
+    children : [
       {
-        title : '无意向',
-        key   : '/home/visit/nointention',
-        isLeaf: true
-      },
-      {
-        title : '全部客户',
-        key   : '/home/visit/distribution',
-        isLeaf: true
-      },
-      {
-        title : '育儿百科',
-        key   : '/home/visit/science',
+        title : '道具列表',
+        key   : '/home/prop/list',
         isLeaf: true
       }
+
     ]
   },
   {

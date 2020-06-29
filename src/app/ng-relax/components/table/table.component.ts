@@ -149,7 +149,6 @@ export class TableComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     }).subscribe(res => {
       this._pageInfo.loading = false;
-      console.log(res);
       if (res.returnCode == 'SUCCESS') {
         if (res.result) {
           let dataSet = res.result.list || res.result;
@@ -167,14 +166,16 @@ export class TableComponent implements OnInit {
 
           /* ------------------- 如果存在选择列表则初始数据 ------------------- */
           if (this.checkedItems) {
-            this.dataSet.map((res: any) => res.checked = this.checkedItems.indexOf(res[this.checkedKey]) > -1);
+            this.dataSet.map((res,index) => {
+              res.checked = this.checkedItems.indexOf(res[this.checkedKey]) > -1;
+              res.index = index;
+            });
             this.isChecked();
           }
           if (!this._readyComplate) {
             this.ready.emit(this.dataSet);
             this._readyComplate = true;
           }
-          console.log(this.dataSet);
           this.dataChange.emit(this.dataSet);
 
         }

@@ -222,46 +222,29 @@ const routes: Routes = [
         data: { title: '经营分析' },
         canLoad: [AuthGuardService],
         loadChildren: 'src/app/modules/management/management.module#ManagementModule'
-      },      {
+      },      
+      {
         path: 'visit',
         data: { noReuse: true },
         children: [
           {
             path: 'today',
-            data: { title: '今日任务' },
+            data: { title: '广告管理' },
             canLoad: [AuthGuardService],
             loadChildren: 'src/app/modules/visit/today/today.module#TodayModule'
           },
+        ]
+      },
+      {
+        path: 'prop',
+        data: { noReuse: true },
+        children: [
           {
-            path: 'stay',
-            data: { title: '待跟进' },
+            path: 'list',
+            data: { title: '道具管理' },
             canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/stay/stay.module#StayModule'
+            loadChildren: 'src/app/modules/prop/list/list.module#ListModule'
           },
-          {
-            path: 'already',
-            data: { title: '已跟进' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/already/already.module#AlreadyModule'
-          },
-          {
-            path: 'nointention',
-            data: { title: '无意向' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/nointention/nointention.module#NointentionModule'
-          },
-          {
-            path: 'distribution',
-            data: { title: '全部客户' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/distribution/distribution.module#DistributionModule'
-          },
-          {
-            path: 'science',
-            data: { title: '育儿百科' },
-            canLoad: [AuthGuardService],
-            loadChildren: 'src/app/modules/visit/science/science.module#ScienceModule'
-          }
         ]
       },
       {
