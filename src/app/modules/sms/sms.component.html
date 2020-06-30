@@ -1,0 +1,20 @@
+<div class="container">
+  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
+  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="http://sms.jiayue123.cn/sms/query/sendSmsInfo">
+    <ng-template let-data #EaTableTbodyTr> 
+      <td>{{ data.mobile }}</td>
+      <td>{{ data.content }}</td>
+      <td>
+        {{ data.sendType }}
+      </td>
+      <td>{{ data.isTpl  }}</td>
+      <td>{{ data.tplName }}</td>
+      <td>{{ data.smsType }}</td>
+      <td>{{ data.fee }}</td>
+      <td>{{ data.httpCode }}</td>
+      <td>{{ data.systemExplain }}</td>
+      <td>{{ data.createTime }}</td>
+    </ng-template>
+  </ea-table>
+</div>

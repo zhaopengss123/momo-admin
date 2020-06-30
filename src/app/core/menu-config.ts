@@ -76,6 +76,45 @@ export const MenuConfig = [
     ]
   },
   {
+    title : '订单列表',
+    brief : '订单',
+    key   : '/home/order',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '订单列表',
+        key   : '/home/order/list',
+        isLeaf: true
+      }
+    ]
+  },
+  {
+    title : '交易记录',
+    brief : '交易',
+    key   : '/home/business',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '交易记录',
+        key   : '/home/business/list',
+        isLeaf: true
+      }
+    ]
+  },
+  {
+    title : '短信记录',
+    brief : '短信',
+    key   : '/home/sms',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '短信记录',
+        key   : '/home/sms/list',
+        isLeaf: true
+      }
+    ]
+  },
+  {
     title : '事件管理',
     brief : '事件',
     key   : '/home/event',

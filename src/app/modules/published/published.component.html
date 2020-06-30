@@ -1,8 +1,5 @@
 <div class="container">
     <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
-  
-
-  
     <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
       url="/console/release/all">
       <ng-template let-data #EaTableTbodyTr>
@@ -13,17 +10,33 @@
             <img [src]="data.headImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
           </ng-template>
         </td>
-        <td>{{ data.openId }}</td>
-        <td>{{ nickName }}</td>
-        <td>{{ data.sex }}</td>
-        <td>{{ data.country }}</td>
-        <td>{{ data.province  }}</td>
-        <td>{{ data.city }}</td>
+        <td>{{ data.nickName }}</td>
+        <td>{{ data.propsConfigName }}</td>
+        <td>
+          <!-- <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+            [nzSrc]="data.customerImgUrl" nz-tooltip [nzTitle]="data.customerImgUrl ? titleTemplate1 : null"></nz-avatar>
+          <ng-template #titleTemplate1>
+            <img [src]="data.customerImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+          </ng-template> -->
+          <a *ngIf="data.customerImgUrl" [href]="data.customerImgUrl" target="_blank">查看</a>
+        </td>
+        <td>{{ data.titleDescribe  }}</td>
+        <td>{{ data.unitPrice }}</td>
+        <td>{{ data.originalStock }}</td>
+        <td>{{ data.dynamicStock }}</td>
+        <td>{{ data.releaseType }}</td>
+        <td>{{ data.serviceCharge }}</td>
+        <td>{{ data.cashDeposit }}</td>
         <td>{{ data.totalPrice }}</td>
-        <td>{{ data.isUse }}</td>
+        <td>{{ data.payStatus }}</td>
+        <td>{{ data.payTimeOut }}</td>
+        <td>{{ data.payTime }}</td>
+        <td>{{ data.payPrice }}</td>
+        <td>{{ data.releaseStatus }}</td>
+        <td>{{ data.closeName }}</td>
+        <td>{{ data.downShelfTime }}</td>
         <td>{{ data.createTime }}</td>
         <td>{{ data.updateTime }}</td>
-  
       </ng-template>
     </ea-table>
   </div>

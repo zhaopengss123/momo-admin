@@ -1,0 +1,35 @@
+<div class="container">
+  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
+  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="/console/propsOrder/all">
+    <ng-template let-data #EaTableTbodyTr> 
+      <td>
+        <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+          [nzSrc]="data.propsConfigNameImgUrl" nz-tooltip [nzTitle]="data.propsConfigNameImgUrl ? titleTemplate : null"></nz-avatar>
+        <ng-template #titleTemplate>
+          <img [src]="data.propsConfigNameImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+        </ng-template>
+      </td>
+      <td>{{ data.orderNo }}</td>
+      <td>{{ data.propsConfigName }}</td>
+      <td>
+        <a *ngIf="data.customerImgUrl" [href]="data.customerImgUrl" target="_blank">查看</a>
+      </td>
+      <td>{{ data.releaseType  }}</td>
+      <td>{{ data.sellNickName }}</td>
+      <td>{{ data.buyNickName }}</td>
+      <td>{{ data.unitPrice }}</td>
+      <td>{{ data.buyAmount }}</td>
+      <td>{{ data.serviceCharge }}</td>
+      <td>{{ data.cashDeposit }}</td>
+      <td>{{ data.totalPrice }}</td>
+      <td>{{ data.orderStatus == 1 ? '待付款' : data.orderStatus == 3 ? '待发货' : data.orderStatus == 4 ? '已发货' : data.orderStatus == 5 ? '待确认' : data.orderStatus == 6 ? '交易成功' : data.orderStatus == 7 ? '交易关闭' : data.orderStatus == 8 ? '申诉中' : data.orderStatus == 9 ? '申诉成功' : data.orderStatus == 10 ? '申述失败' : '--' }}</td>
+      <td>{{ data.closeName }}</td>
+      <td>{{ data.payStatus }}</td>
+      <td>{{ data.payTimeOut }}</td>
+      <td>{{ data.payTime }}</td>
+      <td>{{ data.payPrice }}</td>
+
+    </ng-template>
+  </ea-table>
+</div>

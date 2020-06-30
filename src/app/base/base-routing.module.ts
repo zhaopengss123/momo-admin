@@ -271,6 +271,42 @@ const routes: Routes = [
           },
         ]
       },
+      {
+        path: 'order',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '订单管理' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/order/order.module#OrderModule'
+          },
+        ]
+      },
+      {
+        path: 'business',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '交易记录' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/business/business.module#BusinessModule'
+          },
+        ]
+      },
+      {
+        path: 'sms',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '短信记录' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/sms/sms.module#SmsModule'
+          },
+        ]
+      },
     ]
   }
 ];

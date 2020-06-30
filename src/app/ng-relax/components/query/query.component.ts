@@ -48,7 +48,7 @@ export class QueryComponent implements OnInit {
   storeId: number;
   ngOnInit() {
     let isSubmit = false;
-    this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo.kindergartenId);
+    this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo ? userInfo.kindergartenId : 1);
     this._queryForm = new FormGroup({});
     this.node.map((res: any, idx) => {
       if (res.isHide) { this._showSlideBtn = true; }

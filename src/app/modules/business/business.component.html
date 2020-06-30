@@ -1,0 +1,35 @@
+<div class="container">
+  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
+  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="/console/transactionLog/all">
+    <ng-template let-data #EaTableTbodyTr> 
+      <td>
+        <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+          [nzSrc]="data.headImgUrl" nz-tooltip [nzTitle]="data.headImgUrl ? titleTemplate : null"></nz-avatar>
+        <ng-template #titleTemplate>
+          <img [src]="data.headImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+        </ng-template>
+      </td>
+      <td>{{ data.nickName }}</td>
+      <td>{{ data.propsConfigName }}</td>
+      <td>
+        {{ data.phone }}
+      </td>
+      <td>{{ data.propsConfigName  }}</td>
+      <td>{{ data.propsOrderOrderNo }}</td>
+      <td>{{ data.withdrawalOrderNo }}</td>
+      <td>{{ data.priceType }}</td>
+      <td>{{ data.originalUserTotalPrice }}</td>
+      <td>{{ data.price }}</td>
+      <td>{{ data.priceFormulaExplainStr }}</td>
+      <td>{{ data.nowUserTotalPrice }}</td>
+      <td>{{ data.transactionType}}</td>
+      <td>{{ data.transactionStatus }}</td>
+      <td>{{ data.transactionExplain }}</td>
+      <td>{{ data.systemExplain }}</td>
+      <td>{{ data.creatTime }}</td>
+      <td>{{ data.updateTime }}</td>
+
+    </ng-template>
+  </ea-table>
+</div>
