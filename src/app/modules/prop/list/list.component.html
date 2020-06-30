@@ -1,6 +1,6 @@
 <div class="container">
     <div class="ea-button-group">
-      <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">添加道具</button>
+      <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer({ id: null})">添加道具</button>
     </div>
   
     <ea-table #EaTable [thead]="tableNode" [EaTableTbodyTr]="EaTableTbodyTr" [showPage]="false" [allowSpace]="false" [attribute]="true"  [paramsInit]="paramsInit" url="/console/props/all">

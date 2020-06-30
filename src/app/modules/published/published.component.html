@@ -1,9 +1,7 @@
 <div class="container">
     <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
   
-    <div class="ea-button-group">
-      <button nz-button [nzType]="'primary'" style="margin-bottom: 16px;" (click)="addCustomer()">添加课程</button>
-    </div>
+
   
     <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
       url="/console/release/all">
