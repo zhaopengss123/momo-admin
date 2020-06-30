@@ -47,7 +47,32 @@ export const MenuConfig = [
         key   : '/home/prop/list',
         isLeaf: true
       }
-
+    ]
+  },
+  {
+    title : '用户',
+    brief : '用户',
+    key   : '/home/member',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '用户列表',
+        key   : '/home/member/list',
+        isLeaf: true
+      }
+    ]
+  },
+  {
+    title : '已发布列表',
+    brief : '发布',
+    key   : '/home/published',
+    icon  : 'customer-service',
+    children : [
+      {
+        title : '已发布列表',
+        key   : '/home/published/list',
+        isLeaf: true
+      }
     ]
   },
   {

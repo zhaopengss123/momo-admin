@@ -24,7 +24,7 @@ export class UploadPictureComponent implements OnInit {
   picturesChange: any = () => { };
 
   @Input() maxLength = 1;
-
+  @Input() imgUrl;
 
   private _pictures
   @Input()
@@ -108,7 +108,7 @@ export class UploadPictureComponent implements OnInit {
       } else {
         let formData: any = new FormData();
         formData.append('file', file);
-        this.http.post<any>('/console/banner/uploadImg', formData, {
+        this.http.post<any>(this.imgUrl, formData, {
         }).subscribe(res => {
           if (res.returnCode == 'SUCCESS') {
             let imageSrc = res.result.host + res.result.url;

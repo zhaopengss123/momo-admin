@@ -55,6 +55,16 @@
               </nz-form-item>
             </nz-col>
 
+            <div nz-col nzSpan="12" *ngIf="id">
+              <nz-form-item>
+                <nz-form-label nzRequired>排序</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="sortId" placeholder="请输入排序">
+                  <nz-form-explain *ngIf="valid('sortId')">请输入排序</nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </div>        
+
 
     <div nz-col nzSpan="12" >
         <nz-form-item>
@@ -111,6 +121,7 @@
 
 
 
+
   </nz-row>
 
   <!-- <nz-row [nzGutter]="8">
@@ -130,7 +141,7 @@
       <nz-form-item>
         <nz-form-label>道具图片</nz-form-label>
         <nz-form-control>
-          <ea-upload-picture formControlName="imgUrl" [maxLength]="1"></ea-upload-picture>
+          <ea-upload-picture formControlName="imgUrl" [maxLength]="1" [imgUrl]="'/console/props/uploadImg'"></ea-upload-picture>
           <nz-form-explain *ngIf="valid('imgUrl')">请选择道具图片</nz-form-explain>
         </nz-form-control>
       </nz-form-item>

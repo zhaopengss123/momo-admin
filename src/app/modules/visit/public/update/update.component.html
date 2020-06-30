@@ -53,7 +53,7 @@
       <nz-form-item>
           <nz-form-label>广告图片</nz-form-label>
           <nz-form-control>
-              <ea-upload-picture formControlName="imgUrl" [maxLength]="1"></ea-upload-picture>
+              <ea-upload-picture formControlName="imgUrl" [maxLength]="1" [imgUrl]="'/console/banner/uploadImg'" ></ea-upload-picture>
               <nz-form-explain *ngIf="valid('imgUrl')">请选择广告图片</nz-form-explain>
           </nz-form-control>
       </nz-form-item>

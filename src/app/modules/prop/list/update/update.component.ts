@@ -54,10 +54,11 @@ export class UpdateComponent implements OnInit {
       fixedCashDeposit: [],
       dynamicServiceCharge: [],
       dynamicCashDeposit: [],
+      sortId:[, [Validators.required]]
     }
     if(this.id){
       this.formGroup = this.fb.group(controls);
-      this.http.post(`/console/banner/queryById/${ this.id }`, {
+      this.http.post(`/console/props/queryById/${ this.id }`, {
       }, false).then(res => {
         if(res.returnCode == 'SUCCESS'){
           this.formGroup.patchValue(res.result);
@@ -80,10 +81,18 @@ export class UpdateComponent implements OnInit {
       this.saveLoading = true;
       let params = JSON.parse(JSON.stringify(this.formGroup.value));
       if (!params.id) {
-        this.http.post('/console/banner/save', {
+        this.http.post('/console/props/save', {
           name: params.name,
           imgUrl: params.imgUrl.replace("http://momoimage.beituokj.com",""),
-          clickUrl: params.clickUrl
+          starlight: params.starlight,
+          privilege: params.privilege,
+          fixedServiceCharge: params.fixedServiceCharge,
+          fixedCashDeposit: params.fixedCashDeposit,
+          dynamicServiceCharge: params.dynamicServiceCharge,
+          dynamicCashDeposit: params.dynamicCashDeposit,
+          customerImg: params.customerImg,
+          isSell: params.isSell,
+          upShelves: params.upShelves
         }, true).then(res => {
           this.saveLoading = false;
           this.drawerRef.close(true);
@@ -92,13 +101,20 @@ export class UpdateComponent implements OnInit {
           this.drawerRef.close(true);
         });
       }else{
-        this.http.post('/console/banner/updateBanner', {
+        this.http.post('/console/props/updateProps', {
           id: params.id,
           name: params.name,
           imgUrl: params.imgUrl.replace("http://momoimage.beituokj.com",""),
-          clickUrl: params.clickUrl,
-          sortId: params.sortId,
-          upShelves: params.upShelves
+          starlight: params.starlight,
+          privilege: params.privilege,
+          fixedServiceCharge: params.fixedServiceCharge,
+          fixedCashDeposit: params.fixedCashDeposit,
+          dynamicServiceCharge: params.dynamicServiceCharge,
+          dynamicCashDeposit: params.dynamicCashDeposit,
+          customerImg: params.customerImg,
+          isSell: params.isSell,
+          upShelves: params.upShelves,
+          sortId: params.sortId
         }, true).then(res => {
           this.saveLoading = false;
           this.drawerRef.close(true);

@@ -236,6 +236,30 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'member',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '用户列表' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/member/member.module#MemberModule'
+          },
+        ]
+      },
+      {
+        path: 'published',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '发布列表' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/published/published.module#PublishedModule'
+          },
+        ]
+      },
+      {
         path: 'prop',
         data: { noReuse: true },
         children: [
