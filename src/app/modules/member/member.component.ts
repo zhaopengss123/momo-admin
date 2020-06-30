@@ -36,7 +36,7 @@ export class MemberComponent implements OnInit {
     }
   ];
 
-  tableNode = ['用户头像', '用户性别', '国家', '省份','城市', '总金额', '可用状态' , '建档时间', '更新时间'];
+  tableNode = ['用户头像','用户名', 'openId','用户性别', '国家', '省份','城市', '总金额', '可用状态' , '建档时间', '更新时间'];
 
   constructor() { }
 
