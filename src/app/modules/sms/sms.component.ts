@@ -14,12 +14,14 @@ export class SmsComponent implements OnInit {
   @ViewChild('listPage') listPage: ListPageComponent;
 
   @ViewChild('EaTable') table;
-
+  paramsDefault ={};
+  smsNumber:number;
   listCourseType:any[] = [];
   queryNode: QueryNode[] = [
     {
       label: '账号',
       key: 'account',
+      default: 'momo001',
       type: 'input',
       placeholder: '请输入账号'
     },
@@ -44,9 +46,23 @@ export class SmsComponent implements OnInit {
 
   tableNode = ['手机号' , '发送内容', '发送类型', '是否模版发送', '模版名' , '短信类型', '计费', '请求状态', '说明', '发送时间  '];
 
-  constructor() { }
+  constructor(
+    private http: HttpService,
+  ) {
+    this.paramsDefault = {
+      account: 'momo001'
+    }
+
+
+   }
 
   ngOnInit() { 
+    this.http.post('http://sms.jiayue123.cn/sms/query/smsNum/momo001',{}, false).then(res => {
+      if(res.returnCode == "SUCCESS"){
+        this.smsNumber = res.result;
+      }
+    })
+
   }
 
 }

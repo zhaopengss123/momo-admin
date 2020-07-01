@@ -1,6 +1,7 @@
 <div class="container">
   <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
-  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+  <h3 style="color: red;">剩余短信条数：{{ smsNumber }}</h3>
+  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [paramsDefault]="paramsDefault" [allowSpace]="false"
     url="http://sms.jiayue123.cn/sms/query/sendSmsInfo">
     <ng-template let-data #EaTableTbodyTr> 
       <td>{{ data.mobile }}</td>
