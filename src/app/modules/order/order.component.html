@@ -33,6 +33,9 @@
       <td>{{ data.payTimeOut }}</td>
       <td>{{ data.payTime }}</td>
       <td>{{ data.payPrice }}</td>
+      <td>{{ data.startAppealTime || '--' }}</td>
+      <td>{{ data.endAppealTime || '--' }}</td>
+      <td>{{ data.appealExplain || '--' }}</td>
       <td>
         <a  *ngIf="data.orderStatus == 8" nz-popconfirm nzTitle="确定要修改状态为申诉结束吗？" (nzOnConfirm)="updateOrderAppeal(data)">申诉结束</a>
       </td>
