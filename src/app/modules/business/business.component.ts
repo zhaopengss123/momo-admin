@@ -47,14 +47,14 @@ export class BusinessComponent implements OnInit {
       type: 'datepicker',
       key: 'startTransactionTime'
     },
-    {
+    { 
       label: '交易结束时间',
       type: 'datepicker',
       key: 'endTransactionTime'
     },
   ];
 
-  tableNode = ['用户头像' , '用户昵称', '手机号', '道具名', '订单号' , '发布道具订单号', '提现订单号', '金额类型', '原始总金额', '金额', '说明公式', '总金额', '交易类型', '交易状态 ', '交易说明', '系统说明', '创建时间  ', '更新时间'];
+  tableNode = ['用户头像' , '用户昵称', '手机号', '道具名', '订单号' , '发布道具订单号', '提现订单号', '金额类型', '原始总金额', '金额', '当前总金额','说明公式',  '交易类型','交易状态 ', '交易说明', '系统说明', '创建时间  ', '更新时间'];
 
   constructor() { }
 

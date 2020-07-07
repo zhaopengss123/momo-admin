@@ -14,16 +14,33 @@
         </ng-template>
       </td>
       <td>{{ data.nickName }}</td>
-      <td>{{ data.openId }}</td>
+      <td>{{ data.phone }}</td>
       <td>{{ data.sex }}</td>
       <td>{{ data.country }}</td>
       <td>{{ data.province  }}</td>
       <td>{{ data.city }}</td>
-      <td>{{ data.totalPrice }}</td>
       <td>{{ data.isUse }}</td>
       <td>{{ data.createTime }}</td>
       <td>{{ data.updateTime }}</td>
-
+      <td>
+        <ng-container *ngIf="!data.edit; else nameInputTpl">
+          {{ data.totalPrice  }}
+        </ng-container>
+        <ng-template #nameInputTpl>
+          <div>现有金额：{{ data.totalPrice  }}</div>
+          <nz-input-group style="width: 200px;" nzAddOnBefore="提现金额"  nzAddOnAfter="元">
+          <input  type="number" nz-input [(ngModel)]="data.reducePrice" />
+        </nz-input-group>
+        </ng-template> 
+      </td>
+      <td>
+        <a  *ngIf="!data.edit" (click)="data.edit = true">修改金额</a>
+        <ng-container *ngIf="data.edit">
+        <a   (click)="savePrice(data)">确定</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a   (click)="data.edit = false">取消</a>
+        </ng-container>
+      </td>
     </ng-template>
   </ea-table>
 </div>

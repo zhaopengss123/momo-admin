@@ -1,6 +1,7 @@
 import { QueryNode } from 'src/app/ng-relax/components/query/query.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListPageComponent } from 'src/app/ng-relax/components/list-page/list-page.component';
+import { HttpService } from 'src/app/ng-relax/services/http.service';
 
 
 @Component({
@@ -36,11 +37,24 @@ export class MemberComponent implements OnInit {
     }
   ];
 
-  tableNode = ['用户头像','用户名', 'openId','用户性别', '国家', '省份','城市', '总金额', '可用状态' , '建档时间', '更新时间'];
+  tableNode = ['用户头像','用户名', '手机号','用户性别', '国家', '省份','城市','可用状态' ,'建档时间', '更新时间','总金额','操作'];
 
-  constructor() { }
+  constructor(
+    private http: HttpService,
+  ) { }
 
   ngOnInit() {
   }
-
+  savePrice(data){ 
+    this.http.post(`/console/user/updateTotal`,{
+      userId : data.id,
+      userOpenId: data.openId,
+      reducePrice: data.reducePrice
+    },true).then(res => {
+      this.table._request();
+      if(res.returnCode == 'SUCCESS'){
+        this.table._request();
+      }
+    })
+  }
 }

@@ -25,7 +25,8 @@ export class HttpService {
       this.http.post<YlbbResponse>(url, serialize(query), {
         headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
       }).subscribe(res => {
-        (auto && res.result) && this.message.create(res.returnCode == "SUCCESS" ? 'success' : 'warning', res.returnMsg || '操作成功' );
+        
+        (auto && res) && this.message.create(res.returnCode == "SUCCESS" ? 'success' : 'warning', res.returnMsg || '操作成功' );
         (auto && res.returnCode != 'SUCCESS') ? reject(res) : resolve(res);
       });
     })

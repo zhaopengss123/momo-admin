@@ -11,19 +11,17 @@
         </ng-template>
       </td>
       <td>{{ data.nickName }}</td>
+      <td>{{ data.phone }}</td>
       <td>{{ data.propsConfigName }}</td>
-      <td>
-        {{ data.phone }}
-      </td>
-      <td>{{ data.propsConfigName  }}</td>
       <td>{{ data.propsOrderOrderNo }}</td>
+      <td>{{ data.releasePropsOrderNo }}</td>
       <td>{{ data.withdrawalOrderNo }}</td>
-      <td>{{ data.priceType }}</td>
+      <td>{{ data.priceType == 1 ? '增加金额' : data.priceType == 0 ? '减少金额' : '--' }}</td>
       <td>{{ data.originalUserTotalPrice }}</td>
       <td>{{ data.price }}</td>
-      <td>{{ data.priceFormulaExplainStr }}</td>
       <td>{{ data.nowUserTotalPrice }}</td>
-      <td>{{ data.transactionType}}</td>
+      <td>{{ data.priceFormulaExplainStr }}</td>
+      <td>{{ data.transactionType == 0 ? '发布道具支付' : data.transactionType == 1 ? '购买发布道具' : data.transactionType == 2 ? '取消订单结算' : data.transactionType == 3 ? '发布道具手动下架结算' : data.transactionType == 3 ? '发布道具手动下架结算' : data.transactionType == 4 ? '超时未支付发布售卖道具已下架 退还此订单保证金' : data.transactionType == 5 ? '超时未支付发布求购道具已下架 退还此订单金额' : data.transactionType == 6 ? '售卖求购道具超时未支付，求购道具已下架，退还此订单保证金售卖求购道具超时未支付，求购道具已下架，退还此订单保证金' : data.transactionType == 7 ? '售卖道具结算' :  data.transactionType == 8 ? '提现' : '--'}}</td>
       <td>{{ data.transactionStatus }}</td>
       <td>{{ data.transactionExplain }}</td>
       <td>{{ data.systemExplain }}</td>

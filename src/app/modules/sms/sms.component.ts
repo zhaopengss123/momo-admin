@@ -23,7 +23,8 @@ export class SmsComponent implements OnInit {
       key: 'account',
       default: 'momo001',
       type: 'input',
-      placeholder: '请输入账号'
+      placeholder: '请输入账号',
+      isHide: true
     },
     {
       label: '手机号',

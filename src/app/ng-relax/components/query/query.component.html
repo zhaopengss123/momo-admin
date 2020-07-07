@@ -7,7 +7,7 @@
           <nz-form-control [nzSpan]="24 - 6 / (control.multiple || 1)">
             <ng-container *ngIf="control.type === 'input'">
               <nz-input-group [nzSuffix]="suffixIconButton">
-                <input [formControlName]="control.key" nz-input [placeholder]="control.placeholder || '请输入' + control.label">
+                <input  [formControlName]="control.key" nz-input [placeholder]="control.placeholder || '请输入' + control.label">
               </nz-input-group>
               <ng-template #suffixIconButton>
                 <i nz-icon type="close-circle" *ngIf="_queryForm.get(control.key) && _queryForm.get(control.key).value" (click)="_clearControlValue(control.key)"></i>

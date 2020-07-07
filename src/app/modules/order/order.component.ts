@@ -67,11 +67,23 @@ export class OrderComponent implements OnInit {
     }
   ];
 
-  tableNode = ['道具图片' , '订单号', '道具名', '用户上传图片', '类型' , '售卖者', '购买者', '单价', '购买数', '服务费', '保证金', '总金额', '订单状态', '说明', '支付状态', '支付超时时间  ', '支付时间  ', '支付金额'];
+  tableNode = [ '订单号', '道具图片' , '道具名', '用户上传图片', '类型' , '售卖者', '购买者', '单价', '购买数', '服务费', '保证金', '总金额', '订单状态', '说明', '支付状态', '支付超时时间  ', '支付时间  ', '支付金额', '操作'];
 
-  constructor() { }
+  constructor(
+    private http: HttpService,
+  ) { }
 
   ngOnInit() { 
+  }
+  updateOrderAppeal(data){
+      this.http.post(`/console/propsOrder/updateOrderAppeal`,{
+        orderId: data.id,
+        orderNo: data.orderNo
+      },true).then(res => {
+        if(res.returnCode == "SUCCESS"){
+          this.table._request();
+        }
+      });
   }
 
 }

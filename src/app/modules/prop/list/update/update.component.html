@@ -41,7 +41,9 @@
             <nz-form-item>
               <nz-form-label >动态服务费 </nz-form-label>
               <nz-form-control>
-                <input nz-input formControlName="dynamicServiceCharge" placeholder="请输入固定保证金">
+                <nz-input-group  nzAddOnAfter="%">
+                <input nz-input type="number" formControlName="dynamicServiceCharge" placeholder="请输入动态服务费">
+              </nz-input-group>
               </nz-form-control>
             </nz-form-item>
           </nz-col>
@@ -50,7 +52,9 @@
               <nz-form-item>
                 <nz-form-label >动态保证金 </nz-form-label>
                 <nz-form-control>
-                  <input nz-input formControlName="dynamicCashDeposit" placeholder="请输入固定保证金">
+                  <nz-input-group  nzAddOnAfter="%">
+                  <input nz-input type="number" formControlName="dynamicCashDeposit" placeholder="请输入动态保证金">
+                  </nz-input-group>
                 </nz-form-control>
               </nz-form-item>
             </nz-col>

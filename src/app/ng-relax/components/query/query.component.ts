@@ -45,13 +45,13 @@ export class QueryComponent implements OnInit {
   ) {
   }
 
-  storeId: number;
+  storeId: number; 
   ngOnInit() {
     let isSubmit = false;
     this.store.select('userInfoState').subscribe(userInfo => this.storeId = userInfo ? userInfo.kindergartenId : 1);
     this._queryForm = new FormGroup({});
     this.node.map((res: any, idx) => {
-      if (res.isHide) { this._showSlideBtn = true; }
+      // if (res.isHide) { this._showSlideBtn = true; }
       if (res.isSubmit){ isSubmit = true };
       if (res.type === 'between') {
         this._queryForm.addControl(res.valueKey[0], new FormControl(res.default ? res.default[0] : null));

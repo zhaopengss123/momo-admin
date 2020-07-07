@@ -12,18 +12,10 @@ import { UpdateComponent } from './update/update.component';
   styleUrls: ['./list.component.less']
 })
 export class ListComponent implements OnInit {
-
   @ViewChild('EaTable') table;
-
-
-  queryNode: QueryNode[] = [
-
-  ];
-
+  queryNode: QueryNode[] = [];
   paramsInit;
   stepList:any[] = [];
-  sortList:any[] = [];
-
   tableNode = ['图片','道具名','类别', '是否特权' , '固定服务费' ,  '固定保证金' , '动态服务费' ,'动态保证金' , '是否用户上传图片' ,'创建时间', '更新时间', '排序','状态',  '操作'];
   constructor(
     private drawer: NzDrawerService,
@@ -31,40 +23,13 @@ export class ListComponent implements OnInit {
     private format: DatePipe,
     private message: NzMessageService
   ) { 
-
-
-    
   }
-
   ngOnInit() {
-    this.getSort();
-  }
-  getSort(){
-    this.http.post(`/console/props/sort`).then(res => {
-      if(res.returnCode == "SUCCESS"){
-        this.sortList = res.result;
-      }else{
-        this.message.error(res.returnMsg)
-      }
-    });
   }
   upShelves(id){
     this.http.post(`/console/props/upShelves/${ id }`).then(res => {
       if(res.returnCode == "SUCCESS"){
         this.message.success('操作成功！');
-        this.table._request();
-      }else{
-        this.message.error(res.returnMsg)
-      }
-    });
-  }
-  //保存排序
-  saveSort(data){
-    this.http.post(`/console/props/updateSort`,{
-      id: data.id,
-      sortId: this.sortList[data.index]
-    },true).then(res => {
-      if(res.returnCode == "SUCCESS"){
         this.table._request();
       }else{
         this.message.error(res.returnMsg)

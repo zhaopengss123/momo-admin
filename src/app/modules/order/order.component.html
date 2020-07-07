@@ -2,7 +2,8 @@
   <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
   <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
     url="/console/propsOrder/all">
-    <ng-template let-data #EaTableTbodyTr> 
+    <ng-template let-data #EaTableTbodyTr>
+      <td>{{ data.orderNo }}</td>
       <td>
         <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
           [nzSrc]="data.propsConfigNameImgUrl" nz-tooltip [nzTitle]="data.propsConfigNameImgUrl ? titleTemplate : null"></nz-avatar>
@@ -10,10 +11,13 @@
           <img [src]="data.propsConfigNameImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
         </ng-template>
       </td>
-      <td>{{ data.orderNo }}</td>
       <td>{{ data.propsConfigName }}</td>
       <td>
-        <a *ngIf="data.customerImgUrl" [href]="data.customerImgUrl" target="_blank">查看</a>
+        <nz-avatar [nzText]="'空'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+        [nzSrc]="data.customerImgUrl" nz-tooltip [nzTitle]="data.customerImgUrl ? titleTemplate1 : null"></nz-avatar>
+      <ng-template #titleTemplate1>
+        <img [src]="data.customerImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+      </ng-template>
       </td>
       <td>{{ data.releaseType  }}</td>
       <td>{{ data.sellNickName }}</td>
@@ -29,7 +33,9 @@
       <td>{{ data.payTimeOut }}</td>
       <td>{{ data.payTime }}</td>
       <td>{{ data.payPrice }}</td>
-
+      <td>
+        <a  *ngIf="data.orderStatus == 8" nz-popconfirm nzTitle="确定要修改状态为申诉结束吗？" (nzOnConfirm)="updateOrderAppeal(data)">申诉结束</a>
+      </td>
     </ng-template>
   </ea-table>
 </div>

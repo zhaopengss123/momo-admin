@@ -23,7 +23,6 @@ export class TodayComponent implements OnInit {
 
   paramsInit;
   stepList:any[] = [];
-  sortList:any[] = [];
 
   tableNode = ['图片','道具名', '创建时间', '更新时间', '排序','状态',  '操作'];
   constructor(
@@ -33,15 +32,10 @@ export class TodayComponent implements OnInit {
     private message: NzMessageService
   ) { 
 
-    this.paramsInit = {
-      startNextFollowTime: this.format.transform(new Date(), 'yyyy-MM-dd'),
-      endNextFollowTime: this.format.transform(new Date(), 'yyyy-MM-dd'),
-    };
     
   }
 
   ngOnInit() {
-      this.getSort();
   }
 
   upShelves(id){
@@ -55,29 +49,7 @@ export class TodayComponent implements OnInit {
       }
     });
   }
-  getSort(){
-    this.http.post(`/console/banner/sort`).then(res => {
-      if(res.returnCode == "SUCCESS"){
-        this.sortList = res.result;
-      }else{
-        this.message.error(res.returnMsg)
-      }
-    });
-  }
-  //保存排序
-  saveSort(data){
-    this.http.post(`/console/banner/updateSort`,{
-      bannerId: data.id,
-      sortId: this.sortList[data.index]
-    },true).then(res => {
-      if(res.returnCode == "SUCCESS"){
-        this.table._request();
-        this.getSort();
-      }else{
-        this.message.error(res.returnMsg)
-      }
-    });
-  }
+
   downShelves(id){
     this.http.post(`/console/banner/downShelves/${ id }`).then(res => {
       if(res.returnCode == "SUCCESS"){

@@ -16,23 +16,10 @@
       <td>{{ data.createTime || '--' }}</td>
       <td>{{ data.updateTime }}</td>
       <td>
-        <ng-container *ngIf="!data.edit; else nameInputTpl">
-          {{ sortList[data.index]  }}
-        </ng-container>
-        <ng-template #nameInputTpl>
-          <input type="text" nz-input [(ngModel)]="sortList[data.index]" />
-        </ng-template> 
-
+          {{ data.sortId }}
       </td>
       <td>{{ data.upShelves }}</td>
       <td>
-          <a  *ngIf="!data.edit" (click)="data.edit = true">调整排序</a>
-          <ng-container *ngIf="data.edit">
-          <a   (click)="saveSort(data)">保存排序</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a   (click)="data.edit = false">取消修改</a>
-          </ng-container>
-          <nz-divider nzType="vertical"></nz-divider>
         <a  *ngIf="data.upShelves != '上架'" nz-popconfirm nzTitle="确定要上架该商品吗？" (nzOnConfirm)="upShelves(data.id)">上架</a>
         <a  *ngIf="data.upShelves == '上架'" nz-popconfirm nzTitle="确定要下架该商品吗？" (nzOnConfirm)="downShelves(data.id)">下架</a>
         

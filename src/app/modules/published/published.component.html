@@ -5,20 +5,19 @@
       <ng-template let-data #EaTableTbodyTr>
         <td>
           <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
-            [nzSrc]="data.headImgUrl" nz-tooltip [nzTitle]="data.headImgUrl ? titleTemplate : null"></nz-avatar>
-          <ng-template #titleTemplate>
+            [nzSrc]="data.headImgUrl" nz-tooltip [nzTitle]="data.headImgUrl ? titleTemplate1 : null"></nz-avatar>
+          <ng-template #titleTemplate1>
             <img [src]="data.headImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
           </ng-template>
         </td>
         <td>{{ data.nickName }}</td>
         <td>{{ data.propsConfigName }}</td>
         <td>
-          <!-- <nz-avatar [nzIcon]="'user'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
-            [nzSrc]="data.customerImgUrl" nz-tooltip [nzTitle]="data.customerImgUrl ? titleTemplate1 : null"></nz-avatar>
-          <ng-template #titleTemplate1>
-            <img [src]="data.customerImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
-          </ng-template> -->
-          <a *ngIf="data.customerImgUrl" [href]="data.customerImgUrl" target="_blank">查看</a>
+          <nz-avatar [nzText]="'空'" [nzOverlayStyle]="{padding: '0 !important'}" nzPlacement="rightBottom"
+          [nzSrc]="data.customerImgUrl" nz-tooltip [nzTitle]="data.customerImgUrl ? titleTemplate : null"></nz-avatar>
+        <ng-template #titleTemplate>
+          <img [src]="data.customerImgUrl" [ngStyle]="{'max-width': '226px', 'max-height': '400px', 'transform': 'scale(1.1)'}">
+        </ng-template>
         </td>
         <td>{{ data.titleDescribe  }}</td>
         <td>{{ data.unitPrice }}</td>
@@ -32,11 +31,12 @@
         <td>{{ data.payTimeOut }}</td>
         <td>{{ data.payTime }}</td>
         <td>{{ data.payPrice }}</td>
-        <td>{{ data.releaseStatus }}</td>
-        <td>{{ data.closeName }}</td>
+        <td>{{ data.releaseStatus == 1 ? '上架' :  data.releaseStatus == 0 ? '下架' :  data.releaseStatus == 2 ? '待付款' :  data.releaseStatus == 3 ? '交易关闭' :  data.releaseStatus == 4 ? '待审核' :  data.releaseStatus == 5 ? '审核通过' :  data.releaseStatus == 6 ? '审核失败' : '--' }}</td>
         <td>{{ data.downShelfTime }}</td>
         <td>{{ data.createTime }}</td>
         <td>{{ data.updateTime }}</td>
+        <td>{{ data.closeName }}</td>
+
       </ng-template>
     </ea-table>
   </div>
