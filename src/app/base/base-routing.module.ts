@@ -104,6 +104,18 @@ const routes: Routes = [
           },
         ]
       },
+      {
+        path: 'refund',
+        data: { noReuse: true },
+        children: [
+          {
+            path: 'list',
+            data: { title: '退款记录' },
+            canLoad: [AuthGuardService],
+            loadChildren: 'src/app/modules/refund/refund.module#RefundModule'
+          },
+        ]
+      },
     ]
   }
 ];

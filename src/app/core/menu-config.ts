@@ -114,4 +114,17 @@ export const MenuConfig = [
       }
     ]
   },
+  {
+    title : '退款记录',
+    brief : '退款',
+    key   : '/home/refund',
+    icon  : 'message',
+    children : [
+      {
+        title : '退款记录',
+        key   : '/home/refund/list',
+        isLeaf: true
+      }
+    ]
+  }
 ];

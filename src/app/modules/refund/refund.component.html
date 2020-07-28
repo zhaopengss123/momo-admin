@@ -1,0 +1,16 @@
+<div class="container">
+  <ea-query [node]="queryNode" (onSubmit)="EaTable.request($event)"></ea-query>
+  <ea-table #EaTable [thead]="tableNode" [isParamJson]="false" [EaTableTbodyTr]="EaTableTbodyTr" [allowSpace]="false"
+    url="/console/refund/all">
+    <ng-template let-data #EaTableTbodyTr>
+      <td>{{ data.transactionId }}</td>
+      <td>{{ data.outTradeNo }}</td>
+      <td>{{ data.outRefundNo }}</td>
+      <td>{{ data.totalFee }}</td>
+      <td>{{ data.refundFee  }}</td>
+      <td>{{ data.refundDesc }}</td>
+      <td>{{ data.resultCode }}</td>
+      <td>{{ data.createTime }}</td>
+    </ng-template>
+  </ea-table>
+</div>
